@@ -1,0 +1,162 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "c25f2ca3",
+   "metadata": {},
+   "source": [
+    "---\n",
+    "title: Macro Cycle\n",
+    "execute:\n",
+    "  echo: true\n",
+    "  warning: false\n",
+    "  error: true\n",
+    "  eval: true\n",
+    "  python: true\n",
+    "---\n",
+    "\n",
+    "## Macro Training Phases"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "066353b7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import sys\n",
+    "import os\n",
+    "\n",
+    "project_root = os.path.abspath(os.path.join(os.getcwd(), \"../../\"))  \n",
+    "os.chdir(project_root)  \n",
+    "\n",
+    "sys.path.append(os.path.join(project_root, \"python_code\"))\n",
+    "from macro_cards.rebuilding import macro_rebuilding"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d832ab96",
+   "metadata": {},
+   "source": [
+    "::: {.row}\n",
+    "\n",
+    "::: {.col-md-6}\n",
+    "::: {.card}\n",
+    "#### Rebuilding"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "de2f0f05",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Title: Rebuilding\n",
+      "\n",
+      "Card ID: 1\n",
+      "\n",
+      "Tags:\n",
+      "- Aerobic\n",
+      "- Base Building\n",
+      "- Recovery\n",
+      "- Foundation\n",
+      "\n",
+      "Level: All levels\n",
+      "\n",
+      "Recommended Duration: 2-3 weeks\n",
+      "\n",
+      "Primary Focus:\n",
+      "- Rebuilding the fitness after a period of reduced training or detraining.\n",
+      "- Restoring lost fitness and building a general endurance foundation for future training.\n",
+      "\n",
+      "Key Benefits / Adaptations:\n",
+      "- Restore aerobic endurance safely and progressively.\n",
+      "- Recondition muscles, tendons, and connective tissue to handle training load.\n",
+      "- Re-establish neuromuscular coordination and economy.\n",
+      "- Rebuild mental confidence and consistency in training.\n",
+      "- Lay a foundation for future volume and intensity progression.\n",
+      "\n",
+      "What will the trainings look like:\n",
+      "- Mostly easy to moderate aerobic sessions, focusing on efficient movement.\n",
+      "- Shorter sessions, focus on technique, cadence, and efficient movement patterns.\n",
+      "- Gradual increase in weekly training volume, introducing higher loads progressively.\n",
+      "- Optional low-impact cross-training to maintain aerobic stimulus without overloading the body.\n",
+      "- No high-intensity sessions; focus is on building endurance capacity, not speed.\n",
+      "\n",
+      "What to expect:\n",
+      "- Sessions may feel easy but controlled, early fatigue is normal as the body adapts.\n",
+      "- Noticeable improvements in endurance, tissue resilience, and confidence.\n",
+      "- Mental benefit: reduces fear of losing general fitness after a break.\n",
+      "\n",
+      "When to choose:\n",
+      "- Athletes returning from injury, illness, or long breaks, seeking structured reintroduction to consistent training.\n",
+      "- Ideal off-season or post-recovery, before more demanding Macro cycles.\n",
+      "\n",
+      "Next Mezzo-Cycle Options:\n",
+      "- Repeat this macro cycle with slightly higher load if needed to further rebuild fitness and confidence.\n",
+      "- Base Endurance Block (restore volume and consolidate aerobic foundation).\n",
+      "- Threshold Development Block (if aerobic base is sufficient and athlete is ready to reintroduce intensity - higher level athletes).\n"
+     ]
+    }
+   ],
+   "source": [
+    "#| echo: false\n",
+    "macro_rebuilding.display_info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7c60424c",
+   "metadata": {},
+   "source": [
+    "[View Details](rebuilding.qmd)\n",
+    ":::\n",
+    ":::\n",
+    "\n",
+    "::: {.col-md-6}\n",
+    "::: {.card}\n",
+    "#### Aerobic Base Development\n",
+    "**Duration:** 3–4 weeks  \n",
+    "**Level:** All levels  \n",
+    "\n",
+    "Aerobic • Volume • Endurance • Foundation  \n",
+    "\n",
+    "Build durable aerobic capacity and volume tolerance.\n",
+    "\n",
+    "[View Details](aerobic-base.qmd)\n",
+    ":::\n",
+    ":::\n",
+    "\n",
+    ":::"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python (Sandbox)",
+   "language": "python",
+   "name": "sandbox",
+   "path": "C:\\Users\\Urh\\AppData\\Roaming\\jupyter\\kernels\\sandbox"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.1"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

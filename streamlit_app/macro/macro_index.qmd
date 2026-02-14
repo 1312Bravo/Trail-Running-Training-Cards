@@ -1,0 +1,53 @@
+---
+title: Macro Cycle
+execute:
+  echo: true
+  warning: false
+  error: true
+  eval: true
+  python: true
+---
+
+## Macro Training Phases
+
+```{python}
+#| echo: false
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.getcwd(), "../../"))  
+os.chdir(project_root)  
+
+sys.path.append(os.path.join(project_root, "python_code"))
+from macro_cards.rebuilding import macro_rebuilding
+```
+
+::: {.row}
+
+::: {.col-md-6}
+::: {.card}
+#### Rebuilding
+```{python}
+#| echo: false
+macro_rebuilding.display_info()
+```
+
+[View Details](rebuilding.qmd)
+:::
+:::
+
+::: {.col-md-6}
+::: {.card}
+#### Aerobic Base Development
+**Duration:** 3–4 weeks  
+**Level:** All levels  
+
+Aerobic • Volume • Endurance • Foundation  
+
+Build durable aerobic capacity and volume tolerance.
+
+[View Details](aerobic-base.qmd)
+:::
+:::
+
+:::

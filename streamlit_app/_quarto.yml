@@ -8,6 +8,8 @@ website:
     left: 
       - text: Home
         href: index.qmd
+      - text: Macro Cycle
+        href: macro/macro_index.qmd
 
 format:
   html:
