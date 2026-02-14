@@ -1,0 +1,19 @@
+project:
+  type: website
+
+website:
+  title: "Trail Running Training Cards"
+  description: "Help yourself train smarter develop some knowledge for trail running."
+  navbar:
+    left: 
+      - text: Home
+        href: index.qmd
+
+format:
+  html:
+    theme: cosmo  
+    css: styles.css
+    code-fold: true
+    code-overflow: wrap
+    highlight-style: github
+    font-awesome: true
