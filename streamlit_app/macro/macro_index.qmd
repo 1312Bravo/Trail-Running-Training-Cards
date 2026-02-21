@@ -39,7 +39,7 @@ macro_rebuilding.display_info()
 ::: {.col-md-6}
 ::: {.card}
 #### Aerobic Base Development
-**Duration:** 3–4 weeks  
+**Duration:** 3-4 weeks  
 **Level:** All levels  
 
 Aerobic • Volume • Endurance • Foundation  

@@ -1,4 +1,4 @@
-from .cards_class import MacroCard
+from .macro_cards_class import MacroCard
 
 macro_aerobic_base = MacroCard(
     title="Aerobic Base Development",
@@ -61,5 +61,3 @@ macro_aerobic_base = MacroCard(
         "Repeat Aerobic Base Development if durability and aerobic foundation require further consolidation before progressing.",
     ]
 )
-
-macro_aerobic_base.display_info()

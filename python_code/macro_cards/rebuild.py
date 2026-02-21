@@ -1,6 +1,6 @@
-from macro_cards.cards_class import MacroCard
+from .macro_cards_class import MacroCard
 
-macro_rebuilding = MacroCard(
+macro_rebuild = MacroCard(
     title="Rebuilding",
     card_id=1,
 
