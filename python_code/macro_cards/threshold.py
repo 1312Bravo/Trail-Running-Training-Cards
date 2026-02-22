@@ -21,6 +21,8 @@ macro_threshold = MacroCard(
         "Raise Functional Threshold / Critical Speed / Critical Power.",
     ],
 
+    primary_focus_summary="Raise sustainable high-aerobic power and improve the ability to maintain strong pace near threshold.",
+
     adaptations=[
         "Lactate system: improved lactate production-clearance balance and buffering capacity.",
         "Metabolic efficiency: greater reliance on aerobic metabolism at higher intensities.",
@@ -53,6 +55,8 @@ macro_threshold = MacroCard(
         "When aerobic base is solid but performance plateaus at steady high efforts.",
         "For endurance events lasting ~30-120 minutes.",
     ],
+
+    when_to_choose_summary="Use after an Aerobic Base block to improve sustainable race pace, typically 8-12 weeks before key competitions.",
 
     next_mezzo_options=[
         "VO₂max Development Block (to raise performance ceiling further).",

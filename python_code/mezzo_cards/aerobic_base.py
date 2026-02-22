@@ -6,12 +6,15 @@ mezzo_aerobic_base_intro = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Intro",
     tags=["Foundation", "Low Intensity"],
+    level="All Levels",
     volume_target="75-85% of peak base volume",
     fatigue_risk="Moderate",
 
     focus=[
         "Stabilize consistent aerobic volume.",
     ],
+
+    focus_summary="Establish consistent aerobic volume to build a solid endurance foundation.",
 
     weekly_structure=[
         "4-5 aerobic sessions.",
@@ -47,6 +50,7 @@ mezzo_base_stabilization = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Stabilization",
     tags=["Consistency", "Low Intensity", "Durability"],
+    level="All Levels",
     volume_target="80-90% of peak base volume",
     fatigue_risk="Moderate",
 
@@ -55,6 +59,8 @@ mezzo_base_stabilization = MezzoCard(
         "Improve aerobic efficiency.",
         "Solidify durability before progression.",
     ],
+
+    focus_summary="Solidify aerobic consistency and efficiency while maintaining manageable weekly load.",
 
     weekly_structure=[
         "4-5 aerobic sessions.",
@@ -94,6 +100,7 @@ mezzo_base_volume_progression = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Build",
     tags=["Volume Increase", "Durability Expansion"],
+    level="All Levels",
     volume_target="90-100% of base volume",
     fatigue_risk="Moderate to High",
 
@@ -101,6 +108,8 @@ mezzo_base_volume_progression = MezzoCard(
         "Increase total weekly aerobic load.",
         "Expand fatigue resistance.",
     ],
+
+    focus_summary="Increase total weekly aerobic load to expand endurance and fatigue resistance.",
 
     weekly_structure=[
         "5 aerobic sessions.",
@@ -139,6 +148,7 @@ mezzo_base_long_emphasis = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Specific Emphasis",
     tags=["Long Session", "Endurance Capacity"],
+    level="All Levels",
     volume_target="95-105% of base volume",
     fatigue_risk="High",
 
@@ -146,6 +156,8 @@ mezzo_base_long_emphasis = MezzoCard(
         "Extend long-duration endurance.",
         "Improve fuel utilization at moderate intensities.",
     ],
+
+    focus_summary="Extend long-duration endurance and improve fuel utilization at moderate intensities.",
 
     weekly_structure=[
         "4-5 aerobic sessions.",
@@ -184,6 +196,7 @@ mezzo_base_tempo_intro = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Bridge",
     tags=["Tempo", "Upper Aerobic", "Transition"],
+    level="All Levels",
     volume_target="90-95% of peak base volume",
     fatigue_risk="Moderate",
 
@@ -191,6 +204,8 @@ mezzo_base_tempo_intro = MezzoCard(
         "Introduce controlled upper aerobic intensity.",
         "Prepare for threshold development.",
     ],
+
+    focus_summary="Introduce controlled upper-aerobic intensity to prepare for Threshold development.",
 
     weekly_structure=[
         "4 aerobic sessions.",
@@ -230,12 +245,15 @@ mezzo_aerobic_base_peak = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Peak",
     tags=["High Volume", "Durability"],
+    level="All Levels",
     volume_target="100% peak base volume",
     fatigue_risk="High",
 
     focus=[
         "Maximize aerobic durability.",
     ],
+
+    focus_summary="Maximize aerobic durability with the highest weekly volume of the macro cycle.",
 
     weekly_structure=[
         "5 aerobic sessions.",
@@ -273,6 +291,7 @@ mezzo_base_deload = MezzoCard(
     parent_macro="Aerobic Base Development",
     week_type="Deload",
     tags=["Recovery", "Regeneration"],
+    level="All Levels",
     volume_target="65-75% of peak base volume",
     fatigue_risk="Low",
 
@@ -280,6 +299,8 @@ mezzo_base_deload = MezzoCard(
         "Reduce accumulated fatigue.",
         "Consolidate aerobic adaptations.",
     ],
+
+    focus_summary="Reduce accumulated fatigue and consolidate aerobic adaptations for recovery.",
 
     weekly_structure=[
         "3-4 short aerobic sessions.",

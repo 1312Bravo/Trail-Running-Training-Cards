@@ -21,6 +21,8 @@ macro_aerobic_base = MacroCard(
         "Increase sustainable steady-state output without crossing into heavy lactate accumulation.",
     ],
 
+    primary_focus_summary="Build aerobic endurance, durability, and efficiency to safely handle higher training volumes.",
+
     adaptations=[
         "Aerobic system: increased mitochondrial density and capillarization, improved oxygen delivery and utilization, enhanced fat oxidation efficiency at moderate intensities.",
         "Muscular endurance: improved fatigue resistance and durability during long steady efforts.",
@@ -54,6 +56,8 @@ macro_aerobic_base = MacroCard(
         "When weekly volume needs to increase safely.",
         "After a long competition phase before reintroducing harder work.",
     ],
+
+    when_to_choose_summary="Use in early or off-season phases to rebuild base fitness and safely increase volume.",
 
     next_mezzo_options=[
         "Threshold Development Block (introduce controlled intensity to build sustainable race pace — natural next step for most athletes).",

@@ -22,6 +22,8 @@ macro_taper = MacroCard(
         "Arrive at race day fresh, sharp, and confident.",
     ],
 
+    primary_focus_summary="Sharpen race-specific speed and economy while reducing fatigue to maximize freshness and performance.",
+
     adaptations=[
         "Neuromuscular sharpness and coordination at race pace.",
         "Improved economy at goal intensity.",
@@ -53,6 +55,8 @@ macro_taper = MacroCard(
         "When peak performance is the priority.",
         "Before championship events or goal races.",
     ],
+
+    when_to_choose_summary="Use 2-4 weeks before a key race to peak after completing higher-intensity blocks.",
 
     next_mezzo_options=[
         "Transition / Recovery Block post-race.",

@@ -1,7 +1,7 @@
 from .macro_cards_class import MacroCard
 
 macro_rebuild = MacroCard(
-    title="Rebuilding",
+    title="Rebuild",
     card_id=1,
 
     tags = [
@@ -18,6 +18,8 @@ macro_rebuild = MacroCard(
         "Rebuilding the fitness after a period of reduced training or detraining.",
         "Restoring lost fitness and building a general endurance foundation for future training.",
     ],
+
+    primary_focus_summary="Safely restore endurance, recondition muscles, and rebuild consistency in training.",
 
     adaptations=[
         "Restore aerobic endurance safely and progressively.",
@@ -45,6 +47,8 @@ macro_rebuild = MacroCard(
         "Athletes returning from injury, illness, or long breaks, seeking structured reintroduction to consistent training.",
         "Ideal off-season or post-recovery, before more demanding Macro cycles.",
     ],
+
+    when_to_choose_summary="Use after injury, illness, or long breaks to reintroduce structured training before higher-intensity blocks.",
 
     next_mezzo_options=[
         "Repeat this macro cycle with slightly higher load if needed to further rebuild fitness and confidence.",

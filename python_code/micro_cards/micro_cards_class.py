@@ -13,7 +13,7 @@ class MicroCard:
             guidance: list | None = None,
             expected_fatigue: str | None = None,
             notes: list | None = None
-    ):
+        ):
 
         self.title = title
         self.card_id = card_id

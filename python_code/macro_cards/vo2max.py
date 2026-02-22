@@ -21,6 +21,8 @@ macro_vo2max = MacroCard(
         "Improve ability to tolerate and repeat high-intensity efforts.",
     ],
 
+    primary_focus_summary="Increase VO₂max and aerobic power to improve high-intensity performance and repeatability of hard efforts.",
+
     adaptations=[
         "Cardiovascular system: increased maximal cardiac output and oxygen delivery.",
         "Mitochondrial stimulation at high intensities.",
@@ -53,6 +55,8 @@ macro_vo2max = MacroCard(
         "When high-end speed/power is a limiter.",
         "For events requiring repeated surges or high-intensity bursts.",
     ],
+
+    when_to_choose_summary="Use after a Threshold block, typically 6-10 weeks before key competitions, to raise the performance ceiling for high-intensity events.",
 
     next_mezzo_options=[
         "Race Preparation & Specificity Block (convert ceiling gains into race execution).",
