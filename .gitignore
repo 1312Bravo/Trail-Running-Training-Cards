@@ -1,1 +1,5 @@
-/.quarto/
+.env
+googleDrive_secrets.json
+__pycache__/
+*.pyc
+training_cards/local_cache/
