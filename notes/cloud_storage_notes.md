@@ -54,6 +54,7 @@ Initial upload:
 
 - `manifest.json`: 1 file
 - `display_config.json`: 1 file
+- `training_cards_library.json`: 1 bundled app-facing file
 - `cards/macro`: 6 files
 - `cards/mezzo`: 9 files
 - `cards/micro`: 9 files
@@ -143,6 +144,7 @@ Run these from the repository root.
 py -m training_cards.scripts.print_cloud_config
 py -m training_cards.scripts.export_cache
 py -m training_cards.scripts.validate_cache
+py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.upload_cache
 py -m training_cards.scripts.export_seed_to_cloud
@@ -153,8 +155,9 @@ Command meanings:
 - `print_cloud_config`: show the configured Drive folder IDs, URL, and local cache path.
 - `export_cache`: export Python seed cards into the ignored local cache.
 - `validate_cache`: validate the local cache against `manifest.json`.
+- `build_bundle`: validate the local cache and write `training_cards_library.json`.
 - `download_cloud_library`: download Drive JSON into local cache and validate it.
-- `upload_cache`: upload local cache files to Drive, updating existing files by name and creating missing files.
+- `upload_cache`: refresh `training_cards_library.json`, then upload local cache files to Drive, updating existing files by name and creating missing files.
 - `export_seed_to_cloud`: export Python seed cards to cache, validate, and upload to Drive.
 
 ## Cloud Folder Shape
@@ -165,6 +168,7 @@ The cloud folder should mirror the local cache shape:
 training_cards_library/
   manifest.json
   display_config.json
+  training_cards_library.json
   cards/
     macro/
       return-to-consistency.json
@@ -234,6 +238,20 @@ Example:
 }
 ```
 
+## Published Bundle
+
+`training_cards_library.json` is the app-facing bundle. It is generated from the validated local cache and contains:
+
+```json
+{
+  "manifest": {},
+  "display_config": {},
+  "cards": []
+}
+```
+
+The Training Platform app can read this one file instead of downloading `manifest.json`, `display_config.json`, and every individual card JSON file. Keep editing and reviewing the individual card JSON files; rebuild and upload the bundle whenever any card, manifest, or display config changes.
+
 ## Local Cache
 
 The local cache is a temporary working copy of the cloud library. It is also what `training_cards/registry.py` loads.
@@ -254,7 +272,8 @@ The local cache should not silently sync both ways. Use explicit steps:
 2. Validate local cache.
 3. Edit or create cards locally.
 4. Validate again.
-5. Upload local cache to cloud.
+5. Rebuild `training_cards_library.json`.
+6. Upload local cache to cloud.
 
 This avoids accidental overwrites when both cloud and local files changed.
 

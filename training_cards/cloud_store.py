@@ -6,10 +6,12 @@ from training_cards.cloud_config import CARD_TYPE_FOLDER_IDS, GOOGLE_DRIVE_LIBRA
 from training_cards.json_store import (
     CARDS_ROOT,
     DISPLAY_CONFIG_FILE_NAME,
+    LIBRARY_BUNDLE_FILE_NAME,
     MANIFEST_FILE_NAME,
     build_display_config,
     export_card_library_to_json,
     load_card_library_from_json,
+    refresh_library_bundle,
     write_json,
 )
 from training_cards.schemas import BaseTrainingCard
@@ -66,7 +68,7 @@ def download_cloud_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRI
             if item.file_or_folder == "file" and item.title.endswith(".json"):
                 client.download_file(item.id, type_dir / item.title)
 
-    load_card_library_from_json(config.local_cache_dir)
+    refresh_library_bundle(config.local_cache_dir)
 
     return config.local_cache_dir
 
@@ -78,11 +80,18 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
 
-    load_card_library_from_json(config.local_cache_dir)
+    refresh_library_bundle(config.local_cache_dir)
     root_items = client.list_folder(config.root_folder_id)
 
     _upsert_file(client, config.local_cache_dir / MANIFEST_FILE_NAME, config.root_folder_id, MANIFEST_FILE_NAME, root_items)
     _upsert_file(client, display_config_path, config.root_folder_id, DISPLAY_CONFIG_FILE_NAME, root_items)
+    _upsert_file(
+        client,
+        config.local_cache_dir / LIBRARY_BUNDLE_FILE_NAME,
+        config.root_folder_id,
+        LIBRARY_BUNDLE_FILE_NAME,
+        root_items,
+    )
 
     cards_dir = config.local_cache_dir / CARDS_ROOT
 
@@ -118,12 +127,16 @@ def _maybe_find_drive_item(items: list[DriveItem], title: str) -> DriveItem | No
 def _clear_cached_json_files(cache_dir: Path) -> None:
     manifest_path = cache_dir / MANIFEST_FILE_NAME
     display_config_path = cache_dir / DISPLAY_CONFIG_FILE_NAME
+    bundle_path = cache_dir / LIBRARY_BUNDLE_FILE_NAME
 
     if manifest_path.exists():
         manifest_path.unlink()
 
     if display_config_path.exists():
         display_config_path.unlink()
+
+    if bundle_path.exists():
+        bundle_path.unlink()
 
     for path in (cache_dir / CARDS_ROOT).glob("*/*.json"):
         path.unlink()

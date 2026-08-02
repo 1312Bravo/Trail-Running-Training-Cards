@@ -8,6 +8,7 @@ from training_cards.schemas import BaseTrainingCard
 
 MANIFEST_FILE_NAME = "manifest.json"
 DISPLAY_CONFIG_FILE_NAME = "display_config.json"
+LIBRARY_BUNDLE_FILE_NAME = "training_cards_library.json"
 LIBRARY_ID = "running_training_cards"
 SCHEMA_VERSION = "1.0.0"
 LIBRARY_VERSION = "0.1.0"
@@ -133,6 +134,21 @@ def build_manifest(cards: list[BaseTrainingCard]) -> dict[str, Any]:
         "cards": card_items,
     }
 
+# Build one complete app-facing bundle from validated card objects.
+def build_library_bundle(
+    cards: list[BaseTrainingCard],
+    manifest: dict[str, Any],
+    display_config: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        "manifest": manifest,
+        "display_config": display_config,
+        "cards": [
+            card_to_dict(card)
+            for card in sorted(cards, key = lambda card: card.id)
+        ],
+    }
+
 # Read a manifest file from a local cloud-library cache.
 def load_manifest(input_dir: Path) -> dict[str, Any]:
     return read_json(input_dir / MANIFEST_FILE_NAME)
@@ -179,6 +195,21 @@ def validate_card_library(cards: list[BaseTrainingCard], manifest: dict[str, Any
     if missing_references:
         raise ValueError(f"Training card library has broken references: {missing_references}")
 
+# Write the app-facing one-file library bundle.
+def write_library_bundle(
+    output_dir: Path,
+    cards: list[BaseTrainingCard],
+    manifest: dict[str, Any] | None = None,
+    display_config: dict[str, Any] | None = None,
+) -> Path:
+    manifest = manifest or build_manifest(cards)
+    display_config = display_config or build_display_config()
+    bundle = build_library_bundle(cards, manifest, display_config)
+    bundle_path = output_dir / LIBRARY_BUNDLE_FILE_NAME
+
+    write_json(bundle_path, bundle)
+    return bundle_path
+
 # Write cards as one JSON file per card, grouped by planning level.
 # This is used for local cache/export now and can support cloud upload later.
 def export_cards_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> None:
@@ -189,10 +220,12 @@ def export_cards_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> Non
 # Write a complete local copy of the cloud-style library: manifest plus cards.
 def export_card_library_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> None:
     manifest = build_manifest(cards)
+    display_config = build_display_config()
 
     write_json(output_dir / MANIFEST_FILE_NAME, manifest)
-    write_json(output_dir / DISPLAY_CONFIG_FILE_NAME, build_display_config())
+    write_json(output_dir / DISPLAY_CONFIG_FILE_NAME, display_config)
     export_cards_to_json(cards, output_dir / CARDS_ROOT)
+    write_library_bundle(output_dir, cards, manifest, display_config)
 
 # Load JSON card files under macro/mezzo/micro/session folders and validate
 # them by rebuilding the dataclass objects.
@@ -214,4 +247,14 @@ def load_card_library_from_json(input_dir: Path) -> list[BaseTrainingCard]:
     validate_card_library(cards, manifest)
 
     return cards
+
+# Validate the local cache, then refresh the app-facing one-file bundle.
+def refresh_library_bundle(input_dir: Path) -> Path:
+    cards = load_card_library_from_json(input_dir)
+    return write_library_bundle(
+        input_dir,
+        cards,
+        load_manifest(input_dir),
+        load_display_config(input_dir),
+    )
 

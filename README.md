@@ -16,6 +16,7 @@ The active card source is Google Drive JSON. The local cache is downloaded into 
 py -m training_cards.scripts.print_cloud_config
 py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.validate_cache
+py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.upload_cache
 ```
 
