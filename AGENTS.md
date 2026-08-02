@@ -13,6 +13,4 @@ This repository contains the standalone Training Cards library.
 
 ## Reusable Skills
 - Use data-science-project-workflow for analysis, evidence notes, or data-backed card review.
-- Use vibecode-app-builder only when changing workflows, docs, future app integration, or project structure.
-- Use developing-with-streamlit only when working on the separate Training Platform Streamlit app.
 - Reusable skill source files live in C:\Users\Urh\Desktop\Urh\Github Repositories\Codex-Instructions\skills\ and installed copies live under C:\Users\Urh\.codex\skills\.

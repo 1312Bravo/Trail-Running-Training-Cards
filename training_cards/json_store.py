@@ -7,6 +7,7 @@ from training_cards.serialization import card_from_dict, card_to_dict
 from training_cards.schemas import BaseTrainingCard
 
 MANIFEST_FILE_NAME = "manifest.json"
+DISPLAY_CONFIG_FILE_NAME = "display_config.json"
 LIBRARY_ID = "running_training_cards"
 SCHEMA_VERSION = "1.0.0"
 LIBRARY_VERSION = "0.1.0"
@@ -19,6 +20,82 @@ CARD_TYPE_FOLDER = {
     "micro": "micro",
     "session": "session",
 }
+
+# Define how consumers should present the card library without owning card meaning.
+def build_display_config() -> dict[str, Any]:
+    return {
+        "display_config_version": "1.0.0",
+        "schema_version": SCHEMA_VERSION,
+        "system_fields": [
+            "id",
+            "slug",
+        ],
+        "preview_fields": [
+            "title",
+            "card_type",
+            "summary",
+            "purpose",
+            "suitable_levels",
+            "tags",
+        ],
+        "preview_field_rules": {
+            "summary": {
+                "max_sentences": 1,
+                "target_words": "12-22",
+                "role": "Concise preview sentence for quick card comparison.",
+            },
+        },
+        "detail_field_order": [
+            "detailed_description",
+            "recommended_duration_weeks",
+            "recommended_duration_days",
+            "typical_duration",
+            "goal_race_context",
+            "when_to_choose",
+            "when_not_to_choose",
+            "expected_adaptations",
+            "training_characteristics",
+            "terrain_demands",
+            "common_mistakes",
+            "warning_signs",
+            "progression_rules",
+            "regression_rules",
+            "workout_parts",
+            "references",
+        ],
+        "field_labels": {
+            "id": "Card ID",
+            "slug": "Slug",
+            "title": "Title",
+            "card_type": "Planning level",
+            "summary": "Summary",
+            "purpose": "Purpose",
+            "suitable_levels": "Suitable for",
+            "tags": "Tags",
+            "detailed_description": "Detailed description",
+            "recommended_duration_weeks": "Recommended duration",
+            "recommended_duration_days": "Recommended duration",
+            "typical_duration": "Typical duration",
+            "goal_race_context": "Goal race context",
+            "when_to_choose": "When to choose",
+            "when_not_to_choose": "When not to choose",
+            "expected_adaptations": "Expected adaptations",
+            "training_characteristics": "Training characteristics",
+            "terrain_demands": "Terrain demands",
+            "common_mistakes": "Common mistakes",
+            "warning_signs": "Warning signs",
+            "progression_rules": "Progression rules",
+            "regression_rules": "Regression rules",
+            "workout_parts": "Workout guide",
+            "references": "Linked cards",
+        },
+        "card_type_labels": {
+            "macro": "Macro phases",
+            "mezzo": "Mezzo blocks",
+            "micro": "Micro weeks",
+            "session": "Sessions",
+        },
+    }
 
 # Write formatted JSON in the same style for manifest and card files.
 def write_json(path: Path, data: dict[str, Any]) -> None:
@@ -60,6 +137,17 @@ def build_manifest(cards: list[BaseTrainingCard]) -> dict[str, Any]:
 def load_manifest(input_dir: Path) -> dict[str, Any]:
     return read_json(input_dir / MANIFEST_FILE_NAME)
 
+# Read display rules from a local cloud-library cache.
+def load_display_config(input_dir: Path) -> dict[str, Any]:
+    return read_json(input_dir / DISPLAY_CONFIG_FILE_NAME)
+
+# Check that display metadata matches the active card schema.
+def validate_display_config(display_config: dict[str, Any], manifest: dict[str, Any]) -> None:
+    if display_config["schema_version"] != manifest["schema_version"]:
+        raise ValueError(
+            "Display config schema_version does not match manifest schema_version."
+        )
+
 # Check the manifest and card objects before the app trusts the library.
 def validate_card_library(cards: list[BaseTrainingCard], manifest: dict[str, Any]) -> None:
     if manifest["library_id"] != LIBRARY_ID:
@@ -100,7 +188,10 @@ def export_cards_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> Non
 
 # Write a complete local copy of the cloud-style library: manifest plus cards.
 def export_card_library_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> None:
-    write_json(output_dir / MANIFEST_FILE_NAME, build_manifest(cards))
+    manifest = build_manifest(cards)
+
+    write_json(output_dir / MANIFEST_FILE_NAME, manifest)
+    write_json(output_dir / DISPLAY_CONFIG_FILE_NAME, build_display_config())
     export_cards_to_json(cards, output_dir / CARDS_ROOT)
 
 # Load JSON card files under macro/mezzo/micro/session folders and validate
@@ -116,8 +207,10 @@ def load_cards_from_json(input_dir: Path) -> list[BaseTrainingCard]:
 # Load a complete local cloud-library cache and validate it against manifest.json.
 def load_card_library_from_json(input_dir: Path) -> list[BaseTrainingCard]:
     manifest = load_manifest(input_dir)
+    display_config = load_display_config(input_dir)
     cards = load_cards_from_json(input_dir / manifest["cards_root"])
 
+    validate_display_config(display_config, manifest)
     validate_card_library(cards, manifest)
 
     return cards

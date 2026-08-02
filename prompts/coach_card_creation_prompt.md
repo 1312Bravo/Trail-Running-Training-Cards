@@ -78,6 +78,8 @@ Cards will later be shown in the Training Platform app with two levels of detail
 
 The schema and card content should support this preview/detail structure without duplicating the same text across many fields.
 
+Use `summary` as the preview-safe card sentence. It should be one concise sentence, usually 12-22 words, written for quick comparison. Do not use `summary` for long context, coaching rationale, or repeated detail.
+
 The detail view may include a longer `detailed_description` field. This should be used for readable in-depth coaching context, not a longer version of the preview.
 
 Session cards should include a structured workout guide when enough information is available. Use practical parts such as warm-up, main set, recovery, cooldown, and optional notes. Give duration and RPE guidance on a 1-10 scale, but keep ranges adaptable rather than falsely precise.

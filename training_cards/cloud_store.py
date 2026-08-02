@@ -5,9 +5,12 @@ from pathlib import Path
 from training_cards.cloud_config import CARD_TYPE_FOLDER_IDS, GOOGLE_DRIVE_LIBRARY, GoogleDriveLibraryConfig
 from training_cards.json_store import (
     CARDS_ROOT,
+    DISPLAY_CONFIG_FILE_NAME,
     MANIFEST_FILE_NAME,
+    build_display_config,
     export_card_library_to_json,
     load_card_library_from_json,
+    write_json,
 )
 from training_cards.schemas import BaseTrainingCard
 from training_cards.seed_registry import ALL_SEED_CARDS
@@ -47,6 +50,14 @@ def download_cloud_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRI
     manifest = _find_drive_item(client.list_folder(config.root_folder_id), MANIFEST_FILE_NAME)
     client.download_file(manifest.id, config.local_cache_dir / MANIFEST_FILE_NAME)
 
+    root_items = client.list_folder(config.root_folder_id)
+    display_config = _maybe_find_drive_item(root_items, DISPLAY_CONFIG_FILE_NAME)
+
+    if display_config is None:
+        write_json(config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME, build_display_config())
+    else:
+        client.download_file(display_config.id, config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME)
+
     for card_type, folder_id in CARD_TYPE_FOLDER_IDS.items():
         type_dir = cards_dir / card_type
         type_dir.mkdir(parents = True, exist_ok = True)
@@ -62,10 +73,16 @@ def download_cloud_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRI
 
 # Upload local cache files to Drive, updating existing files and creating missing ones.
 def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
+    display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
+
+    if not display_config_path.exists():
+        write_json(display_config_path, build_display_config())
+
     load_card_library_from_json(config.local_cache_dir)
     root_items = client.list_folder(config.root_folder_id)
 
     _upsert_file(client, config.local_cache_dir / MANIFEST_FILE_NAME, config.root_folder_id, MANIFEST_FILE_NAME, root_items)
+    _upsert_file(client, display_config_path, config.root_folder_id, DISPLAY_CONFIG_FILE_NAME, root_items)
 
     cards_dir = config.local_cache_dir / CARDS_ROOT
 
@@ -89,13 +106,24 @@ def _find_drive_item(items: list[DriveItem], title: str) -> DriveItem:
 
     raise FileNotFoundError(f"Google Drive item not found: {title}")
 
+def _maybe_find_drive_item(items: list[DriveItem], title: str) -> DriveItem | None:
+    for item in items:
+        if item.title == title:
+            return item
+
+    return None
+
 
 # Remove old local JSON before downloading a fresh cloud copy.
 def _clear_cached_json_files(cache_dir: Path) -> None:
     manifest_path = cache_dir / MANIFEST_FILE_NAME
+    display_config_path = cache_dir / DISPLAY_CONFIG_FILE_NAME
 
     if manifest_path.exists():
         manifest_path.unlink()
+
+    if display_config_path.exists():
+        display_config_path.unlink()
 
     for path in (cache_dir / CARDS_ROOT).glob("*/*.json"):
         path.unlink()

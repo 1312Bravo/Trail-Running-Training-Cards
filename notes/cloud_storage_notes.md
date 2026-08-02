@@ -53,6 +53,7 @@ Folder IDs:
 Initial upload:
 
 - `manifest.json`: 1 file
+- `display_config.json`: 1 file
 - `cards/macro`: 6 files
 - `cards/mezzo`: 9 files
 - `cards/micro`: 9 files
@@ -163,6 +164,7 @@ The cloud folder should mirror the local cache shape:
 ```text
 training_cards_library/
   manifest.json
+  display_config.json
   cards/
     macro/
       return-to-consistency.json
@@ -175,6 +177,27 @@ training_cards_library/
 Card file names use `slug`.
 
 Card relationships use `id`.
+
+## Display Config
+
+`display_config.json` belongs to the Training Cards project because it describes card meaning and card display intent.
+
+It answers:
+
+- Which fields should appear in the card preview?
+- Which fields should appear first in the detail view?
+- What labels should consumers use for card fields?
+- What labels should consumers use for each card type?
+- Which fields are system fields that should be loaded but not necessarily shown?
+
+The Training Platform app should read this file from Google Drive instead of owning Training Cards field order, preview choices, labels, or authoring rules.
+
+Current preview rule:
+
+- `summary` is the preview-safe sentence.
+- `summary` should usually be one sentence and 12-22 words.
+- Longer coaching context belongs in `detailed_description`.
+- `id` and `slug` are system fields; the app should load them for routing and linking, even if it does not show them in the preview.
 
 ## Manifest
 
@@ -244,9 +267,11 @@ Later, the Training Platform app should load from cloud JSON.
 Recommended app behavior:
 
 - Download/read `manifest.json`.
+- Download/read `display_config.json`.
 - Check `schema_version`.
 - Read the card files listed in the manifest.
 - Validate each card with the Python schemas.
+- Use `display_config.json` for preview fields, detail field order, field labels, and card type labels.
 - Check `card_count`, duplicate IDs, duplicate slugs, missing files, and broken references.
 - Use validated cards inside the app.
 
