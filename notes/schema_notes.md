@@ -24,9 +24,22 @@ BaseTrainingCard
   SessionCard
 ```
 
-`BaseTrainingCard` contains fields that every training card should have, such as identity, purpose, race context, terrain demands, progression rules, regression rules, warning signs, and structured card references.
+`BaseTrainingCard` contains the fields that every card should have:
 
-`MacroCard`, `MezzoCard`, `MicroCard`, and `SessionCard` inherit all base fields and then add fields that only make sense at their own planning level.
+- identity: `id`, `slug`, `title`, `card_type`
+- audience: `suitable_levels`
+- preview: `summary`
+- coaching purpose: `purpose`
+- race/context fit: `goal_race_context`
+- load description: `training_profile`
+- likely outcomes: `expected_adaptations`
+- caution flags: `watchouts`
+- progression: `progression_rules`
+- regression: `regression_rules`
+- overflow context: `additional_information`
+- graph links: `references`
+
+`MacroCard`, `MezzoCard`, `MicroCard`, and `SessionCard` inherit the shared base fields and add only the fields that belong at their own planning level.
 
 ## Card Levels
 
@@ -39,29 +52,30 @@ The current planning levels are:
 
 This structure may change later if real card creation shows that another layer is needed.
 
-## Why Context Fields Matter
+## Why These Shared Fields Exist
 
-Trail-running card placement depends on race distance, expected duration, vertical gain, terrain difficulty, athlete readiness, durability, and time until the goal race.
+The shared fields are designed to answer the main coaching questions without overlapping too much:
 
-Because of that, the schema avoids rigid fields like `typical_place_in_season`. Instead, cards use context-aware fields such as:
+- `goal_race_context` tells us where the card belongs in the bigger race or preparation picture.
+- `training_profile` tells us what kind of stress the card creates.
+- `expected_adaptations` tells us what the athlete should gain from it.
+- `watchouts` tells us what can go wrong or when it is not a good fit.
+- `additional_information` gives us a home for useful extra context that does not fit cleanly anywhere else.
 
-- `goal_race_context`
-- `timing_guidance`
-- `placement_guidance`
+That keeps the cards tight without forcing important coaching detail to disappear.
 
 ## Why The Schema Is Kept Lean
 
-Fields should not force repeated writing. The schema currently avoids separate fields for athlete readiness, training stressors, and coach notes because those ideas can usually be expressed through:
+Fields should not force repeated writing. The schema deliberately avoids separate fields for ideas that can already be expressed clearly through the shared structure above.
 
-- `when_to_choose`
-- `when_not_to_choose`
-- `training_characteristics`
-- `terrain_demands`
-- `warning_signs`
-- `progression_rules`
-- `regression_rules`
+For example:
 
-The schema also avoids separate goal/focus fields such as `primary_focus`, `phase_goal`, and `block_goal` because those ideas should usually be clear from `summary`, `purpose`, `training_characteristics`, and `expected_adaptations`.
+- `goal_race_context` replaces the old need for a separate `when_to_choose` field.
+- `training_profile` replaces separate load, terrain, and stress fields.
+- `watchouts` replaces separate `when_not_to_choose`, `common_mistakes`, and `warning_signs` fields.
+- `additional_information` replaces the old catch-all detailed description field while keeping the same coaching purpose.
+
+The schema also avoids separate goal/focus fields such as `primary_focus`, `phase_goal`, and `block_goal` because those ideas should usually be clear from `summary`, `purpose`, `training_profile`, and `expected_adaptations`.
 
 ## Current Design Rule
 
@@ -71,8 +85,8 @@ Add fields only when they support a real coaching decision, comparison, recommen
 
 Cards are expected to support two app views later:
 
-- Preview: quick comparison using concise fields such as title, summary, purpose, suitable levels, duration, and key context.
-- Detail view: deeper coaching information such as detailed description, when to choose, when not to choose, adaptations, terrain demands, mistakes, warning signs, progression, regression, and sequencing.
+- Preview: quick comparison using concise fields such as title, summary, purpose, suitable levels, and key context.
+- Detail view: deeper coaching information such as additional information, race context, training profile, expected adaptations, watchouts, progression, regression, and sequencing.
 
 Card content should be written so the preview is useful without making the detail view repetitive.
 

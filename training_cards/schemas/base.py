@@ -18,18 +18,14 @@ class BaseTrainingCard:
     suitable_levels: list[TrainingLevel]
     summary: str
     purpose: str
-    detailed_description: str = ""
     tags: list[str] = field(default_factory=list)
     goal_race_context: list[str] = field(default_factory=list)
-    when_to_choose: list[str] = field(default_factory=list)
-    when_not_to_choose: list[str] = field(default_factory=list)
+    training_profile: list[str] = field(default_factory=list)
     expected_adaptations: list[str] = field(default_factory=list)
-    training_characteristics: list[str] = field(default_factory=list)
-    terrain_demands: list[str] = field(default_factory=list)
-    common_mistakes: list[str] = field(default_factory=list)
-    warning_signs: list[str] = field(default_factory=list)
+    watchouts: list[str] = field(default_factory=list)
     progression_rules: list[str] = field(default_factory=list)
     regression_rules: list[str] = field(default_factory=list)
+    additional_information: str = ""
     references: list[CardReference] = field(default_factory=list)
 
     # Keep validation light: only reject cards that cannot be identified,

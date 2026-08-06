@@ -58,6 +58,32 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
     card_data.setdefault("slug", card_data["id"].replace("_", "-"))
     card_data["card_type"] = card_type
     card_data["suitable_levels"] = [TrainingLevel(level) for level in card_data["suitable_levels"]]
+
+    legacy_goal_context = card_data.pop("when_to_choose", [])
+    legacy_training_profile = card_data.pop("training_characteristics", [])
+    legacy_terrain_demands = card_data.pop("terrain_demands", [])
+    legacy_watchouts = card_data.pop("when_not_to_choose", [])
+    legacy_common_mistakes = card_data.pop("common_mistakes", [])
+    legacy_warning_signs = card_data.pop("warning_signs", [])
+    legacy_description = card_data.pop("detailed_description", "")
+
+    if not card_data.get("additional_information"):
+        card_data["additional_information"] = legacy_description
+    elif legacy_description:
+        card_data["additional_information"] = (
+            card_data["additional_information"].rstrip()
+            + "\n\n"
+            + legacy_description.lstrip()
+        )
+
+    card_data["goal_race_context"] = list(card_data.get("goal_race_context", [])) + list(legacy_goal_context)
+    card_data["training_profile"] = list(card_data.get("training_profile", [])) + list(legacy_training_profile) + list(legacy_terrain_demands)
+    card_data["watchouts"] = (
+        list(card_data.get("watchouts", []))
+        + list(legacy_watchouts)
+        + list(legacy_common_mistakes)
+        + list(legacy_warning_signs)
+    )
     card_data["references"] = [
         CardReference(
             card_id = reference["card_id"],
@@ -67,6 +93,9 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
         for reference in card_data.get("references", [])
     ]
     if card_type == CardType.SESSION:
+        legacy_intensity_guidance = card_data.pop("intensity_guidance", [])
+        legacy_execution_notes = card_data.pop("execution_notes", [])
+        legacy_recovery_requirements = card_data.pop("recovery_requirements", [])
         card_data["workout_parts"] = [
             SessionPart(
                 name = part["name"],
@@ -77,6 +106,20 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
             )
             for part in card_data.get("workout_parts", [])
         ]
+        session_notes = []
+        if legacy_intensity_guidance:
+            session_notes.append("Intensity guidance: " + "; ".join(legacy_intensity_guidance))
+        if legacy_execution_notes:
+            session_notes.append("Execution notes: " + "; ".join(legacy_execution_notes))
+        if legacy_recovery_requirements:
+            session_notes.append("Recovery requirements: " + "; ".join(legacy_recovery_requirements))
+        if session_notes:
+            card_data["additional_information"] = (
+                (card_data.get("additional_information", "").rstrip() + "\n\n" if card_data.get("additional_information") else "")
+                + "\n".join(session_notes)
+            )
+    else:
+        card_data.pop("workout_parts", None)
 
     card_class = CARD_CLASS_BY_TYPE[card_type]
 

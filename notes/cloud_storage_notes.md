@@ -200,7 +200,7 @@ Current preview rule:
 
 - `summary` is the preview-safe sentence.
 - `summary` should usually be one sentence and 12-22 words.
-- Longer coaching context belongs in `detailed_description`.
+- Longer coaching context belongs in `additional_information`.
 - `id` and `slug` are system fields; the app should load them for routing and linking, even if it does not show them in the preview.
 
 ## Manifest

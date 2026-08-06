@@ -36,9 +36,6 @@ class SessionCard(BaseTrainingCard):
     session_family: str = ""
     typical_duration: str = ""
     workout_parts: list[SessionPart] = field(default_factory=list)
-    intensity_guidance: list[str] = field(default_factory=list)
-    execution_notes: list[str] = field(default_factory=list)
-    recovery_requirements: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         BaseTrainingCard.__post_init__(self)
