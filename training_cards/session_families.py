@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from training_cards.schemas import SessionFamily
+from training_cards.schemas.session_family import SessionFamily
 
 # ----------------------------------------------------------
 # Session Family Registry
