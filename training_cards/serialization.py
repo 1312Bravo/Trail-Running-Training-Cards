@@ -11,9 +11,11 @@ from training_cards.schemas import (
     MezzoCard,
     MicroCard,
     SessionCard,
+    SessionFamily,
     SessionPart,
     TrainingLevel,
 )
+from training_cards.session_families import get_session_family
 
 CARD_CLASS_BY_TYPE = {
     CardType.MACRO: MacroCard,
@@ -96,6 +98,11 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
         legacy_intensity_guidance = card_data.pop("intensity_guidance", [])
         legacy_execution_notes = card_data.pop("execution_notes", [])
         legacy_recovery_requirements = card_data.pop("recovery_requirements", [])
+        session_family = card_data.get("session_family")
+        if isinstance(session_family, str):
+            card_data["session_family"] = get_session_family(session_family)
+        elif isinstance(session_family, dict):
+            card_data["session_family"] = SessionFamily(**session_family)
         card_data["workout_parts"] = [
             SessionPart(
                 name = part["name"],

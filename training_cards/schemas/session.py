@@ -4,6 +4,30 @@ from .base import BaseTrainingCard
 from .enums import CardType
 
 # ----------------------------------------------------------
+# Session Family Definition
+# ----------------------------------------------------------
+# Session families group related workouts into searchable coaching labels.
+
+@dataclass(slots=True)
+class SessionFamily:
+    id: str
+    slug: str
+    title: str
+    summary: str
+    description: str = ""
+    tags: list[str] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        if not self.id.strip():
+            raise ValueError("Session family id cannot be empty.")
+        if not self.slug.strip():
+            raise ValueError("Session family slug cannot be empty.")
+        if not self.title.strip():
+            raise ValueError("Session family title cannot be empty.")
+        if not self.summary.strip():
+            raise ValueError("Session family summary cannot be empty.")
+
+# ----------------------------------------------------------
 # Session Workout Structure
 # ----------------------------------------------------------
 # Session parts make workouts exportable/readable as warm-up, main set,
@@ -31,9 +55,9 @@ class SessionPart:
 # Session cards are individual workout patterns that can be reused across
 # many different micro weeks.
 
-@dataclass(slots=True)
+@dataclass(slots=True, kw_only=True)
 class SessionCard(BaseTrainingCard):
-    session_family: str = ""
+    session_family: SessionFamily
     typical_duration: str = ""
     workout_parts: list[SessionPart] = field(default_factory=list)
 

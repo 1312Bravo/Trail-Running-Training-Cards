@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import HILL_POWER_SESSION_FAMILY
 
 short_hill_repeats = SessionCard(
     id = 'session_009',
@@ -43,7 +44,7 @@ short_hill_repeats = SessionCard(
             ]
         )
     ],
-    session_family = 'hill_power',
+    session_family = HILL_POWER_SESSION_FAMILY,
     typical_duration = '6-15 short repetitions',
     workout_parts = [
         SessionPart(

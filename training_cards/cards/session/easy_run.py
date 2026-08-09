@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import EASY_SESSION_FAMILY
 
 easy_run = SessionCard(
     id = 'session_001',
@@ -48,7 +49,7 @@ easy_run = SessionCard(
             ]
         )
     ],
-    session_family = 'easy',
+    session_family = EASY_SESSION_FAMILY,
     typical_duration = '20-90 minutes',
     workout_parts = [
         SessionPart(

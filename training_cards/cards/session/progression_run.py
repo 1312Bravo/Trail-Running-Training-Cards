@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import CONTROLLED_QUALITY_SESSION_FAMILY
 
 progression_run = SessionCard(
     id = 'session_004',
@@ -42,7 +43,7 @@ progression_run = SessionCard(
             ]
         )
     ],
-    session_family = 'controlled_quality',
+    session_family = CONTROLLED_QUALITY_SESSION_FAMILY,
     typical_duration = '30-90 minutes',
     workout_parts = [
         SessionPart(

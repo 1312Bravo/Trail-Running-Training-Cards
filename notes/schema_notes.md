@@ -41,6 +41,8 @@ BaseTrainingCard
 
 `MacroCard`, `MezzoCard`, `MicroCard`, and `SessionCard` inherit the shared base fields and add only the fields that belong at their own planning level.
 
+`SessionFamily` is a separate object used by `SessionCard` to define the reusable workout-family taxonomy. This keeps family labels searchable and consistent without turning them into a full training card.
+
 ## Card Levels
 
 The current planning levels are:
@@ -141,3 +143,15 @@ Each `SessionPart` should describe:
 
 RPE uses a 1-10 scale. Durations should usually be adaptable ranges, not overly precise prescriptions.
 
+## Session Family Objects
+
+`SessionFamily` should be treated as its own definition object, not as a plain text label.
+
+It is useful when we want:
+
+- stable family identities
+- easier search and filtering
+- clearer definitions for repeated workout families
+- a place for family-level summary and description text
+
+The session card should point to the family object directly, so the family can be reused across many sessions without copying the meaning into every card.

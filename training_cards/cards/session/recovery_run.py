@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import RECOVERY_SESSION_FAMILY
 
 recovery_run = SessionCard(
     id = 'session_002',
@@ -39,7 +40,7 @@ recovery_run = SessionCard(
             ]
         )
     ],
-    session_family = 'recovery',
+    session_family = RECOVERY_SESSION_FAMILY,
     typical_duration = '10-45 minutes',
     workout_parts = [
         SessionPart(

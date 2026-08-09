@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import ENDURANCE_SESSION_FAMILY
 
 long_run = SessionCard(
     id = 'session_003',
@@ -47,7 +48,7 @@ long_run = SessionCard(
             ]
         )
     ],
-    session_family = 'endurance',
+    session_family = ENDURANCE_SESSION_FAMILY,
     typical_duration = '60 minutes to several hours, depending on athlete and goal',
     workout_parts = [
         SessionPart(

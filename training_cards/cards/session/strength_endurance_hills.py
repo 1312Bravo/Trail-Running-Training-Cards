@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import STRENGTH_ENDURANCE_SESSION_FAMILY
 
 strength_endurance_hills = SessionCard(
     id = 'session_010',
@@ -49,7 +50,7 @@ strength_endurance_hills = SessionCard(
             ]
         )
     ],
-    session_family = 'strength_endurance',
+    session_family = STRENGTH_ENDURANCE_SESSION_FAMILY,
     typical_duration = '10-40 minutes total uphill work',
     workout_parts = [
         SessionPart(

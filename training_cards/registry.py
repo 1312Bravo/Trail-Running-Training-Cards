@@ -43,6 +43,20 @@ def get_cards_by_tag(tag: str) -> list[BaseTrainingCard]:
     return [card for card in ALL_CARDS if tag in card.tags]
 
 
+# Return session cards that belong to one named family.
+def get_cards_by_session_family(family_id_or_slug: str) -> list[BaseTrainingCard]:
+    return [
+        card
+        for card in ALL_CARDS
+        if card.card_type == CardType.SESSION
+        and getattr(card, "session_family", None) is not None
+        and (
+            card.session_family.id == family_id_or_slug
+            or card.session_family.slug == family_id_or_slug
+        )
+    ]
+
+
 # Follow all structured references from one card to the actual card objects.
 def get_referenced_cards(card: BaseTrainingCard) -> list[BaseTrainingCard]:
     return [CARD_BY_ID[reference.card_id] for reference in card.references]

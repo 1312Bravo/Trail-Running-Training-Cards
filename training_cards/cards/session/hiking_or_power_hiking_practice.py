@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import TRAIL_SPECIFIC_SESSION_FAMILY
 
 hiking_or_power_hiking_practice = SessionCard(
     id = 'session_013',
@@ -48,7 +49,7 @@ hiking_or_power_hiking_practice = SessionCard(
             ]
         )
     ],
-    session_family = 'trail_specific',
+    session_family = TRAIL_SPECIFIC_SESSION_FAMILY,
     typical_duration = '20-90 minutes within a run or hike-run session',
     workout_parts = [
         SessionPart(

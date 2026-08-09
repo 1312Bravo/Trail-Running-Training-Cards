@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import AEROBIC_POWER_SESSION_FAMILY
 
 aerobic_power_intervals = SessionCard(
     id = 'session_008',
@@ -48,7 +49,7 @@ aerobic_power_intervals = SessionCard(
             ]
         )
     ],
-    session_family = 'aerobic_power',
+    session_family = AEROBIC_POWER_SESSION_FAMILY,
     typical_duration = '10-30 minutes total quality work',
     workout_parts = [
         SessionPart(

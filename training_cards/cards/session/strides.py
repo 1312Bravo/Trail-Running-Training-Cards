@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import NEUROMUSCULAR_SESSION_FAMILY
 
 strides = SessionCard(
     id = 'session_011',
@@ -47,7 +48,7 @@ strides = SessionCard(
             ]
         )
     ],
-    session_family = 'neuromuscular',
+    session_family = NEUROMUSCULAR_SESSION_FAMILY,
     typical_duration = '4-10 short efforts',
     workout_parts = [
         SessionPart(

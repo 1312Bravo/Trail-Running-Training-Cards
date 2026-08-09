@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import TRAIL_SPECIFIC_SESSION_FAMILY
 
 downhill_conditioning_run = SessionCard(
     id = 'session_014',
@@ -51,7 +52,7 @@ downhill_conditioning_run = SessionCard(
             ]
         )
     ],
-    session_family = 'trail_specific',
+    session_family = TRAIL_SPECIFIC_SESSION_FAMILY,
     typical_duration = 'Short controlled downhill segments within an easy run',
     workout_parts = [
         SessionPart(

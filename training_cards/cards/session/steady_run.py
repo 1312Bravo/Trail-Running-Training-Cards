@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import STEADY_SESSION_FAMILY
 
 steady_run = SessionCard(
     id = 'session_005',
@@ -39,7 +40,7 @@ steady_run = SessionCard(
             ]
         )
     ],
-    session_family = 'steady',
+    session_family = STEADY_SESSION_FAMILY,
     typical_duration = '30-90 minutes',
     workout_parts = [
         SessionPart(

@@ -10,9 +10,9 @@ MANIFEST_FILE_NAME = "manifest.json"
 DISPLAY_CONFIG_FILE_NAME = "display_config.json"
 LIBRARY_BUNDLE_FILE_NAME = "training_cards_library.json"
 LIBRARY_ID = "running_training_cards"
-SCHEMA_VERSION = "1.0.0"
-LIBRARY_VERSION = "0.1.0"
-LAST_UPDATED = "2026-08-06"
+SCHEMA_VERSION = "1.1.0"
+LIBRARY_VERSION = "0.2.0"
+LAST_UPDATED = "2026-08-09"
 CARDS_ROOT = "cards"
 
 CARD_TYPE_FOLDER = {
@@ -25,7 +25,7 @@ CARD_TYPE_FOLDER = {
 # Define how consumers should present the card library without owning card meaning.
 def build_display_config() -> dict[str, Any]:
     return {
-        "display_config_version": "1.0.0",
+        "display_config_version": "1.1.0",
         "schema_version": SCHEMA_VERSION,
         "system_fields": [
             "id",

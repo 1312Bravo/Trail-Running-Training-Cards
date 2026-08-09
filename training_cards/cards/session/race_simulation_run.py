@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import RACE_PRACTICE_SESSION_FAMILY
 
 race_simulation_run = SessionCard(
     id = 'session_012',
@@ -49,7 +50,7 @@ race_simulation_run = SessionCard(
             ]
         )
     ],
-    session_family = 'race_practice',
+    session_family = RACE_PRACTICE_SESSION_FAMILY,
     typical_duration = 'Varies by goal and athlete level',
     workout_parts = [
         SessionPart(

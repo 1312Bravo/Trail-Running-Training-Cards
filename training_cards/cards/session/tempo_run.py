@@ -1,4 +1,5 @@
 from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.session_families import THRESHOLD_SESSION_FAMILY
 
 tempo_run = SessionCard(
     id = 'session_006',
@@ -42,7 +43,7 @@ tempo_run = SessionCard(
             ]
         )
     ],
-    session_family = 'threshold',
+    session_family = THRESHOLD_SESSION_FAMILY,
     typical_duration = '20-60 minutes of quality work, adjusted by level',
     workout_parts = [
         SessionPart(
