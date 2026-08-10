@@ -94,6 +94,26 @@ means:
 - the field is a list of strings
 - the default value is a new empty list for each object
 
+## What `__post_init__()` Does
+
+`__post_init__()` runs right after a dataclass object is created. It is the place where the class can check that the data is actually valid, not just typed correctly.
+
+In this project, that matters because we do not want broken cards to quietly exist. The `__post_init__()` method checks the important minimums, such as:
+
+- the card has an `id`
+- the card has a `slug`
+- the card has a `title`
+- the card has at least one training level
+- the card has a `summary`
+- the card has a `purpose`
+
+So the pattern is:
+
+- the dataclass defines the shape
+- `__post_init__()` checks the shape is usable
+
+That is why `__post_init__()` is a good fit for schema objects like these.
+
 ## What Should Feel Required In `BaseTrainingCard`
 
 For the current design, the important required fields in `BaseTrainingCard` make sense as:
