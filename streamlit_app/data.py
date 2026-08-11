@@ -1,0 +1,73 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+import streamlit as st
+
+from training_cards.json_store import load_card_library_from_json, load_display_config
+from training_cards.schemas import CardType
+
+from streamlit_app.config import TYPE_ORDER
+
+
+# ----------------------------------------------------------
+# Cached Library Loading
+# ----------------------------------------------------------
+# The UI reads from the validated local JSON cache rather than reaching into
+# the live sync layer directly.
+
+@st.cache_data(show_spinner=False)
+def load_library(cache_dir: Path) -> tuple[list[Any], dict[str, Any]]:
+    cards = load_card_library_from_json(cache_dir)
+    display_config = load_display_config(cache_dir)
+    return cards, display_config
+
+
+# ----------------------------------------------------------
+# Filtering and Lookup
+# ----------------------------------------------------------
+# These helpers keep the Streamlit page logic small and deterministic.
+
+def card_type_label(card_type: CardType, display_config: dict[str, Any]) -> str:
+    labels = display_config.get("card_type_labels", {})
+    return labels.get(str(card_type), str(card_type).title())
+
+
+def card_matches_search(card: Any, query: str) -> bool:
+    if not query:
+        return True
+
+    haystack = " ".join(
+        [
+            card.title,
+            card.slug,
+            card.summary,
+            card.purpose,
+            " ".join(card.tags),
+            " ".join(str(level) for level in card.suitable_levels),
+            getattr(card, "additional_information", "") or "",
+        ]
+    ).lower()
+    return query.lower() in haystack
+
+
+def filtered_cards(cards: list[Any], selected_type: str, search_query: str) -> list[Any]:
+    result = [card for card in cards if card_matches_search(card, search_query)]
+    if selected_type != "all":
+        result = [card for card in result if str(card.card_type) == selected_type]
+    return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
+
+
+def card_counts(cards: list[Any]) -> dict[str, int]:
+    return {
+        "All": len(cards),
+        "Macro": sum(1 for card in cards if str(card.card_type) == "macro"),
+        "Mezzo": sum(1 for card in cards if str(card.card_type) == "mezzo"),
+        "Micro": sum(1 for card in cards if str(card.card_type) == "micro"),
+        "Session": sum(1 for card in cards if str(card.card_type) == "session"),
+    }
+
+
+def card_index(cards: list[Any]) -> dict[str, Any]:
+    return {card.id: card for card in cards}

@@ -18,6 +18,19 @@ py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.validate_cache
 py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.upload_cache
+streamlit run streamlit_app/app.py
+```
+
+For the Streamlit UI, install the app-specific dependency file:
+
+```powershell
+py -m pip install -r streamlit_app\requirements.txt
+```
+
+Or from inside `streamlit_app\`:
+
+```cmd
+run_streamlit.cmd
 ```
 
 See `notes/cloud_storage_notes.md`, `notes/schema_notes.md`, and `notes/evidence_sources.md` for details.
