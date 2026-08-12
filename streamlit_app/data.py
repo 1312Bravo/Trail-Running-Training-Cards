@@ -31,7 +31,13 @@ def load_library(cache_dir: Path) -> tuple[list[Any], dict[str, Any]]:
 
 def card_type_label(card_type: CardType, display_config: dict[str, Any]) -> str:
     labels = display_config.get("card_type_labels", {})
-    return labels.get(str(card_type), str(card_type).title())
+    fallback = {
+        CardType.MACRO: "Macro",
+        CardType.MEZZO: "Mezzo",
+        CardType.MICRO: "Micro",
+        CardType.SESSION: "Session",
+    }
+    return fallback.get(card_type, labels.get(str(card_type), str(card_type).title()))
 
 
 def card_matches_search(card: Any, query: str) -> bool:
@@ -52,10 +58,17 @@ def card_matches_search(card: Any, query: str) -> bool:
     return query.lower() in haystack
 
 
-def filtered_cards(cards: list[Any], selected_type: str, search_query: str) -> list[Any]:
+def filtered_cards(
+    cards: list[Any],
+    selected_type: str,
+    search_query: str,
+    tag_filter: str | None = None,
+) -> list[Any]:
     result = [card for card in cards if card_matches_search(card, search_query)]
     if selected_type != "all":
         result = [card for card in result if str(card.card_type) == selected_type]
+    if tag_filter:
+        result = [card for card in result if tag_filter in card.tags]
     return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
 
 

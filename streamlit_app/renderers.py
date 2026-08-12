@@ -6,7 +6,7 @@ from typing import Any
 
 import streamlit as st
 
-from streamlit_app.config import DETAIL_SKIP_FIELDS, PREVIEW_FIELDS
+from streamlit_app.config import DETAIL_SKIP_FIELDS
 from streamlit_app.data import card_type_label
 
 
@@ -20,138 +20,147 @@ def css() -> None:
     st.markdown(
         """
         <style>
+        header[data-testid="stHeader"],
+        div[data-testid="stToolbar"],
+        div[data-testid="stDecoration"] {
+            background: #ffffff !important;
+        }
         .stApp {
-            background:
-                radial-gradient(circle at top left, rgba(182, 194, 167, 0.22), transparent 28%),
-                radial-gradient(circle at top right, rgba(210, 158, 108, 0.16), transparent 24%),
-                linear-gradient(180deg, #f6f3ec 0%, #f2ede4 46%, #ece5d8 100%);
-            color: #1f2a24;
+            background: #f6f6f6;
+            color: #5a5a5a;
         }
         .block-container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            max-width: 1300px;
+            padding-top: 2.4rem;
+            padding-bottom: 1.2rem;
+            max-width: 1180px;
         }
-        .hero {
-            background: linear-gradient(135deg, rgba(28, 46, 37, 0.96), rgba(49, 71, 59, 0.92));
-            color: #f7f2e8;
-            border-radius: 28px;
-            padding: 2rem 2rem 1.5rem 2rem;
-            box-shadow: 0 18px 45px rgba(30, 40, 34, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+        .app-heading {
+            margin-bottom: 1.1rem;
         }
-        .hero h1 {
-            margin: 0;
-            font-size: 2.5rem;
-            line-height: 1.05;
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.95rem;
+            margin: 2rem 0 0.4rem 0;
+            padding-top: 1rem;
+            border-top: 1px solid #dedede;
+            color: #686868;
+            font-size: 0.86rem;
         }
-        .hero p {
-            margin-bottom: 0;
-            color: rgba(247, 242, 232, 0.88);
-            font-size: 1.02rem;
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: #5f5f5f !important;
+            text-decoration: none !important;
         }
-        .section-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(31, 42, 36, 0.65);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .contact-link:hover {
+            color: #333333 !important;
+            text-decoration: underline !important;
+            text-underline-offset: 0.2em;
         }
-        .card-shell {
-            background: rgba(255, 255, 255, 0.78);
-            border: 1px solid rgba(65, 82, 70, 0.14);
-            border-radius: 22px;
-            padding: 1rem 1rem 0.85rem 1rem;
-            box-shadow: 0 10px 25px rgba(50, 57, 49, 0.08);
-            height: 100%;
+        .contact-icon {
+            width: 15px;
+            height: 15px;
+            color: #666666;
+        }
+        .page-title {
+            margin: 0 0 0.2rem 0;
+            font-size: 1.65rem;
+            line-height: 1.1;
+            font-weight: 500;
+            color: #5a5a5a;
+        }
+        .count-line {
+            margin: 0 0 0.85rem 0;
+            color: #777777;
+            font-size: 0.84rem;
+            line-height: 1.4;
         }
         .card-title {
             margin: 0 0 0.15rem 0;
-            font-size: 1.05rem;
-            color: #16221d;
-            font-weight: 700;
+            font-size: 1rem;
+            color: #444444;
+            font-weight: 600;
         }
-        .card-subtitle {
-            margin: 0 0 0.5rem 0;
-            color: rgba(22, 34, 29, 0.72);
-            font-size: 0.88rem;
+        .card-type-line {
+            margin: 0 0 0.55rem 0;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #777777;
+            font-weight: 600;
         }
         .summary {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #24332c;
+            font-size: 0.92rem;
+            line-height: 1.45;
+            color: #4b4b4b;
             margin-bottom: 0.8rem;
+        }
+        .preview-meta {
+            margin: 0.2rem 0 0.6rem 0;
+            color: #555555;
+            font-size: 0.83rem;
+            line-height: 1.35;
+        }
+        .preview-meta-row {
+            margin-bottom: 0.25rem;
+        }
+        .preview-meta-label {
+            color: #777777;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 0.35rem;
+        }
+        .preview-tags {
+            margin-top: 0.4rem;
+        }
+        .preview-tags-title {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #777777;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
         }
         .pill-row {
             display: flex;
             flex-wrap: wrap;
             gap: 0.35rem;
-            margin: 0.45rem 0 0.7rem 0;
+            margin: 0.25rem 0 0.9rem 0;
         }
         .pill {
             display: inline-block;
             border-radius: 999px;
             padding: 0.24rem 0.7rem;
-            font-size: 0.76rem;
-            font-weight: 700;
-            line-height: 1.2;
-            border: 1px solid transparent;
-            white-space: nowrap;
-        }
-        .pill-type {
-            background: rgba(42, 65, 52, 0.1);
-            color: #264435;
-            border-color: rgba(42, 65, 52, 0.16);
-        }
-        .pill-level {
-            background: rgba(211, 161, 102, 0.16);
-            color: #7b4f20;
-            border-color: rgba(211, 161, 102, 0.2);
-        }
-        .pill-tag {
-            background: rgba(78, 108, 89, 0.12);
-            color: #355545;
-            border-color: rgba(78, 108, 89, 0.16);
-        }
-        .detail-hero {
-            background: rgba(255, 255, 255, 0.82);
-            border-radius: 26px;
-            border: 1px solid rgba(65, 82, 70, 0.14);
-            padding: 1.25rem 1.3rem;
-            box-shadow: 0 10px 25px rgba(50, 57, 49, 0.07);
-        }
-        .detail-callout {
-            background: linear-gradient(135deg, rgba(36, 58, 47, 0.95), rgba(53, 82, 65, 0.92));
-            color: #f7f2e8;
-            border-radius: 20px;
-            padding: 1rem 1.05rem;
-            margin: 0.75rem 0 1rem 0;
-        }
-        .detail-callout .label {
             font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            opacity: 0.72;
-            margin-bottom: 0.25rem;
-            font-weight: 700;
+            font-weight: 600;
+            line-height: 1.2;
+            border: 1px solid #cfcfcf;
+            white-space: nowrap;
+            background: #f7f7f7;
+            color: #555555;
         }
-        .detail-callout .value {
-            font-size: 1rem;
-            line-height: 1.55;
+        div[data-testid="stVerticalBlockBorderWrapper"] {
+            background: #ffffff;
+            border: 1px solid #c9c9c9 !important;
+            border-radius: 8px !important;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
         }
         .field-label {
-            font-size: 0.76rem;
-            letter-spacing: 0.12em;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: rgba(31, 42, 36, 0.65);
-            font-weight: 700;
+            color: #777777;
+            font-weight: 600;
             margin-bottom: 0.3rem;
         }
         .field-box {
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid rgba(65, 82, 70, 0.11);
-            border-radius: 18px;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 12px;
             padding: 0.9rem 1rem;
             margin-bottom: 0.9rem;
         }
@@ -163,37 +172,83 @@ def css() -> None:
             margin-bottom: 0.28rem;
         }
         .small-note {
-            color: rgba(31, 42, 36, 0.68);
+            color: #666666;
             font-size: 0.9rem;
         }
         .stButton > button {
-            border-radius: 999px;
-            border: 1px solid rgba(36, 58, 47, 0.22);
-            background: linear-gradient(135deg, #274233, #355845);
-            color: white;
-            font-weight: 700;
-            padding: 0.45rem 1rem;
+            border-radius: 0;
+            border: none;
+            background: transparent;
+            color: #666666;
+            font-weight: 500;
+            padding: 0;
+            font-size: 0.85rem;
+            text-decoration: underline;
+            text-underline-offset: 0.18em;
+            width: auto;
         }
         .stButton > button:hover {
-            border-color: rgba(36, 58, 47, 0.34);
-            background: linear-gradient(135deg, #1f3529, #2d4a3a);
-            color: white;
+            border: none;
+            background: transparent;
+            color: #444444;
+        }
+        .stButton[data-testid="stButton"] {
+            margin-bottom: 0.1rem;
+        }
+        .stTextInput input,
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+            background-color: #ffffff !important;
+            border: 1px solid #2f2f2f !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            min-height: 3rem;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"],
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] * {
+            background-color: #ffffff !important;
+            color: #666666 !important;
+        }
+        div[data-testid="stSelectbox"] svg {
+            fill: #666666 !important;
+            color: #666666 !important;
+        }
+        .stTextInput input {
+            color: #666666 !important;
+            border: 1px solid #2f2f2f !important;
+            border-radius: 8px !important;
+        }
+        .stTextInput input::placeholder {
+            color: #9a9a9a !important;
+        }
+        label,
+        .stTextInput label,
+        .stSelectbox label,
+        div[data-testid="stWidgetLabel"] {
+            color: #777777 !important;
         }
         table {
             width: 100%;
             border-collapse: collapse;
         }
         th, td {
-            border-bottom: 1px solid rgba(65, 82, 70, 0.12);
+            border-bottom: 1px solid #e5e5e5;
             padding: 0.55rem 0.45rem;
             vertical-align: top;
         }
         th {
             text-align: left;
-            color: rgba(31, 42, 36, 0.72);
-            font-size: 0.78rem;
+            color: #666666;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
+        }
+        div[data-testid="stDialog"] div[role="dialog"] {
+            width: min(94vw, 1120px) !important;
+            max-width: min(94vw, 1120px) !important;
+        }
+        div[data-testid="stDialog"] div[role="dialog"] > div {
+            max-height: 88vh;
+            overflow-y: auto;
         }
         </style>
         """,
@@ -218,10 +273,32 @@ def chip_html(values: list[Any], class_name: str) -> str:
     if not values:
         return ""
     chips = "".join(
-        f'<span class="pill {class_name}">{escape(as_text(value).replace("_", " ").title())}</span>'
+        f'<span class="pill {class_name}">{escape(as_text(value))}</span>'
         for value in values
     )
     return f'<div class="pill-row">{chips}</div>'
+
+
+def render_contact_footer() -> None:
+    st.markdown(
+        """
+        <div class="contact-row">
+            <a class="contact-link" href="mailto:pecek.urh@gmail.com">
+                <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm-.4 4.25-7.07 4.42a1 1 0 0 1-1.06 0L4.4 8.25 5.46 6.55 12 10.64l6.54-4.09 1.06 1.7Z"/>
+                </svg>
+                <span>pecek.urh@gmail.com</span>
+            </a>
+            <a class="contact-link" href="https://github.com/1312Bravo/Trail-Running-Training-Cards" target="_blank">
+                <svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.9 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/>
+                </svg>
+                <span>GitHub</span>
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def format_scalar(value: Any) -> str:
@@ -240,26 +317,62 @@ def format_scalar(value: Any) -> str:
 # The preview card is intentionally compact so the browser can scan quickly.
 
 def render_preview_card(card: Any, display_config: dict[str, Any], key_prefix: str) -> None:
-    with st.container():
+    field_labels = display_config.get("field_labels", {})
+    preview_fields = display_config.get("preview_fields", [])
+
+    with st.container(border=True):
+        st.markdown(f'<div class="card-title">{escape(card.title)}</div>', unsafe_allow_html=True)
         st.markdown(
-            f"""
-            <div class="card-shell">
-                <div class="card-title">{escape(card.title)}</div>
-                <div class="card-subtitle">{escape(card.slug)}</div>
-                {chip_html([card_type_label(card.card_type, display_config)], "pill-type")}
-                <div class="summary">{escape(card.summary)}</div>
-                {chip_html(card.suitable_levels, "pill-level")}
-                {chip_html(card.tags, "pill-tag")}
-            </div>
-            """,
+            f'<div class="card-type-line">{escape(card_type_label(card.card_type, display_config))}</div>',
             unsafe_allow_html=True,
         )
-        st.button(
-            "Open card",
-            key=f"open_{key_prefix}_{card.id}",
-            use_container_width=True,
-            on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
-        )
+        for field in preview_fields:
+            if field in {"title", "card_type"}:
+                continue
+            value = getattr(card, field, None)
+            if field == "summary" and value:
+                st.markdown(f'<div class="summary">{escape(value)}</div>', unsafe_allow_html=True)
+                continue
+            if field == "purpose" and value:
+                st.markdown(
+                    f"""
+                    <div class="preview-meta">
+                        <div class="preview-meta-row"><span class="preview-meta-label">Purpose</span>{escape(value)}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                continue
+            if field == "suitable_levels" and value:
+                st.markdown(
+                    f"""
+                    <div class="preview-meta">
+                        <div class="preview-meta-row"><span class="preview-meta-label">{escape(field_labels.get(field, "Suitable for"))}</span>{escape(", ".join(str(level) for level in value))}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                continue
+            if field == "tags" and value:
+                st.markdown(
+                    f"""
+                    <div class="preview-tags">
+                        <div class="preview-tags-title">{escape(field_labels.get(field, "Tags"))}</div>
+                        {chip_html(value, "pill-tag")}
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                continue
+
+        open_cols = st.columns([10, 2])
+        with open_cols[1]:
+            st.button(
+                "Open card",
+                key=f"open_{key_prefix}_{card.id}",
+                use_container_width=False,
+                on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
+            )
 
 
 # ----------------------------------------------------------
@@ -384,91 +497,69 @@ def render_field(field_name: str, label: str, value: Any) -> None:
 def render_detail(card: Any, display_config: dict[str, Any], card_by_id: dict[str, Any]) -> None:
     field_labels = display_config.get("field_labels", {})
     detail_order = display_config.get("detail_field_order", [])
-    preview_fields = set(PREVIEW_FIELDS)
+    preview_fields = display_config.get("preview_fields", [])
 
-    st.markdown('<div class="detail-hero">', unsafe_allow_html=True)
-    header_cols = st.columns([3, 1])
-    with header_cols[0]:
-        st.markdown(f"## {card.title}")
-        st.caption(f"{card.card_type} card | {card.slug}")
-    with header_cols[1]:
-        if st.button("Clear selection", use_container_width=True):
-            st.session_state.active_card_id = None
+    with st.container(border=True):
+        header_cols = st.columns([5, 1])
+        with header_cols[0]:
+            st.markdown(f"### {card.title}")
+            st.caption(f"{card.slug}")
+        with header_cols[1]:
+            if st.button("Close", use_container_width=True):
+                st.session_state.active_card_id = None
+                st.rerun()
 
-    st.markdown(
-        f"""
-        <div class="detail-callout">
-            <div class="label">Preview sentence</div>
-            <div class="value">{escape(card.summary)}</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+        if card.purpose:
+            st.markdown(
+                f"""
+                <div class="field-box">
+                    <div class="field-label">Purpose</div>
+                    <div>{escape(card.purpose)}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
-    quick_cols = st.columns(3)
-    with quick_cols[0]:
-        st.metric("Planning level", card_type_label(card.card_type, display_config))
-    with quick_cols[1]:
-        st.metric("Suitable for", ", ".join(str(level) for level in card.suitable_levels))
-    with quick_cols[2]:
-        st.metric("Tags", str(len(card.tags)))
+        for field in preview_fields:
+            if field in DETAIL_SKIP_FIELDS:
+                continue
+            value = getattr(card, field, None)
+            if field == "references":
+                rendered = render_reference_list(card, card_by_id)
+                if rendered:
+                    st.markdown(
+                        f"""
+                        <div class="field-box">
+                            <div class="field-label">{escape(field_labels.get(field, "Linked cards"))}</div>
+                            {rendered}
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                continue
+            render_field(field, field_labels.get(field, field), value)
 
-    st.markdown(chip_html(card.suitable_levels, "pill-level"), unsafe_allow_html=True)
-    st.markdown(chip_html(card.tags, "pill-tag"), unsafe_allow_html=True)
-
-    if card.purpose:
-        st.markdown(
-            f"""
-            <div class="field-box">
-                <div class="field-label">Purpose</div>
-                <div>{escape(card.purpose)}</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    for field in preview_fields:
-        if field in DETAIL_SKIP_FIELDS:
-            continue
-        value = getattr(card, field, None)
-        if field == "references":
-            rendered = render_reference_list(card, card_by_id)
-            if rendered:
-                st.markdown(
-                    f"""
-                    <div class="field-box">
-                        <div class="field-label">{escape(field_labels.get(field, "Linked cards"))}</div>
-                        {rendered}
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-            continue
-        render_field(field, field_labels.get(field, field), value)
-
-    for field in detail_order:
-        if field in preview_fields or field in DETAIL_SKIP_FIELDS:
-            continue
-        value = getattr(card, field, None)
-        if field == "workout_parts" and value:
-            st.markdown(render_workout_parts(value), unsafe_allow_html=True)
-            continue
-        if field == "references":
-            rendered = render_reference_list(card, card_by_id)
-            if rendered:
-                st.markdown(
-                    f"""
-                    <div class="field-box">
-                        <div class="field-label">{escape(field_labels.get(field, "Linked cards"))}</div>
-                        {rendered}
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-            continue
-        render_field(field, field_labels.get(field, field), value)
-
-    st.markdown("</div>", unsafe_allow_html=True)
+        for field in detail_order:
+            if field in preview_fields or field in DETAIL_SKIP_FIELDS:
+                continue
+            value = getattr(card, field, None)
+            if field == "workout_parts" and value:
+                st.markdown(render_workout_parts(value), unsafe_allow_html=True)
+                continue
+            if field == "references":
+                rendered = render_reference_list(card, card_by_id)
+                if rendered:
+                    st.markdown(
+                        f"""
+                        <div class="field-box">
+                            <div class="field-label">{escape(field_labels.get(field, "Linked cards"))}</div>
+                            {rendered}
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                continue
+            render_field(field, field_labels.get(field, field), value)
 
 
 # ----------------------------------------------------------
@@ -481,4 +572,4 @@ def render_grid(cards: list[Any], display_config: dict[str, Any], key_prefix: st
     cols = st.columns(2)
     for index, card in enumerate(cards):
         with cols[index % 2]:
-            render_preview_card(card, display_config, key_prefix)
+            render_preview_card(card, display_config, f"{key_prefix}_{index}")

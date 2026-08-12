@@ -9,8 +9,7 @@ from training_cards.schemas import CardType
 # Keep the top-level UI labels in one place so the page shell stays easy to
 # change without touching the rendering code.
 
-APP_TITLE = "Trail Running Training Cards"
-APP_SUBTITLE = "A clean browser for macro, mezzo, micro, and session cards."
+APP_TITLE = "Run & Train with Deck of Cards"
 
 # ----------------------------------------------------------
 # Card Ordering and Preview
@@ -29,4 +28,4 @@ PREVIEW_FIELDS = ["title", "card_type", "summary", "purpose", "suitable_levels",
 
 DETAIL_SKIP_FIELDS = {"title", "card_type", "summary", "purpose", "suitable_levels", "tags"}
 
-SEARCH_PLACEHOLDER = "Try: aerobic, taper, long run, recovery..."
+SEARCH_PLACEHOLDER = "Search cards"
