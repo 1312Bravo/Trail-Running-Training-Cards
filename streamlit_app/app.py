@@ -28,9 +28,12 @@ def init_state() -> None:
     st.session_state.setdefault("card_scope", "all")
 
 
-@st.dialog("Card", width="large", on_dismiss=clear_active_card)
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
-    render_detail(card, display_config, card_by_id)
+    @st.dialog(card.title, width="large", on_dismiss=clear_active_card)
+    def dialog_content() -> None:
+        render_detail(card, display_config, card_by_id, show_header=False)
+
+    dialog_content()
 
 
 # ----------------------------------------------------------
@@ -39,7 +42,7 @@ def open_card_dialog(card: object, display_config: dict[str, object], card_by_id
 # Keep the page composition here so the render helpers remain reusable.
 
 def main() -> None:
-    st.set_page_config(page_title=APP_TITLE, page_icon="◼", layout="wide")
+    st.set_page_config(page_title=APP_TITLE, page_icon=":material/style:", layout="wide")
     css()
     init_state()
 
@@ -66,22 +69,17 @@ def main() -> None:
 
     counts = card_counts(cards)
     count_line = " · ".join(f"{label} {count}" for label, count in counts.items())
-    st.markdown(
-        f"""
-        <div class="app-heading">
-            <h1 class="page-title">{APP_TITLE}</h1>
-            <div class="count-line">{count_line}</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.title(APP_TITLE)
+    st.caption(count_line)
 
-    controls = st.columns([1, 2])
+    controls = st.columns([1, 1], vertical_alignment="bottom")
     with controls[0]:
-        chosen_scope = st.selectbox(
+        chosen_scope = st.segmented_control(
             "Block",
             scope_labels,
-            index=scope_labels.index(current_scope_label),
+            default=current_scope_label,
+            selection_mode="single",
+            width="stretch",
         )
     with controls[1]:
         st.session_state.search_query = st.text_input(
@@ -89,7 +87,7 @@ def main() -> None:
             value=st.session_state.search_query,
             placeholder=SEARCH_PLACEHOLDER,
         )
-    st.session_state.card_scope = scope_to_value[chosen_scope]
+    st.session_state.card_scope = scope_to_value[chosen_scope or "All"]
 
     cards_for_view = filtered_cards(
         cards,

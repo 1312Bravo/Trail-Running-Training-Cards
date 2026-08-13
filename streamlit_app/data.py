@@ -62,13 +62,10 @@ def filtered_cards(
     cards: list[Any],
     selected_type: str,
     search_query: str,
-    tag_filter: str | None = None,
 ) -> list[Any]:
     result = [card for card in cards if card_matches_search(card, search_query)]
     if selected_type != "all":
         result = [card for card in result if str(card.card_type) == selected_type]
-    if tag_filter:
-        result = [card for card in result if tag_filter in card.tags]
     return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
 
 
