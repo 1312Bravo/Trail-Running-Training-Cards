@@ -16,7 +16,24 @@ from streamlit_app.data import card_type_label
 # styling while we rebuild the UI from a stable native Streamlit baseline.
 
 def css() -> None:
-    return None
+    st.html(
+        """
+        <style>
+        [class*="st-key-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #8f98a3;
+        }
+        [class*="st-key-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #9aa58f;
+        }
+        [class*="st-key-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #b0a27e;
+        }
+        [class*="st-key-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #9b8f9f;
+        }
+        </style>
+        """
+    )
 
 
 # ----------------------------------------------------------
@@ -38,20 +55,50 @@ def as_list_text(values: list[Any]) -> str:
     return ", ".join(as_text(value) for value in values)
 
 
+def format_field_value(field_name: str, value: Any) -> str:
+    text = as_text(value)
+    if field_name == "recommended_duration_weeks" and text:
+        return f"{text} weeks"
+    if field_name == "recommended_duration_days" and text:
+        return f"{text} days"
+    return text
+
+
 def field_label(field_name: str, display_config: dict[str, Any]) -> str:
     labels = display_config.get("field_labels", {})
     return labels.get(field_name, field_name.replace("_", " ").title())
 
 
 # ----------------------------------------------------------
-# Footer
+# Contact Links
 # ----------------------------------------------------------
 
-def render_contact_footer() -> None:
-    st.caption(
-        ":material/mail: pecek.urh@gmail.com  |  "
-        ":material/code: [GitHub](https://github.com/1312Bravo/Trail-Running-Training-Cards)"
-    )
+def render_contact_links() -> None:
+    with st.container(horizontal=True, horizontal_alignment="right"):
+        st.link_button(
+            "Mail",
+            "mailto:pecek.urh@gmail.com",
+            icon=":material/mail:",
+            type="tertiary",
+            width="content",
+        )
+        st.link_button(
+            "GitHub",
+            "https://github.com/1312Bravo/Trail-Running-Training-Cards",
+            icon=":material/code:",
+            type="tertiary",
+            width="content",
+        )
+
+
+def card_type_badge_color(card: Any) -> str:
+    colors = {
+        "macro": "blue",
+        "mezzo": "green",
+        "micro": "orange",
+        "session": "violet",
+    }
+    return colors.get(str(card.card_type), "gray")
 
 
 # ----------------------------------------------------------
@@ -70,18 +117,27 @@ def render_preview_field(card: Any, field_name: str, display_config: dict[str, A
     label = field_label(field_name, display_config)
     if field_name == "summary":
         st.write(value)
+    elif field_name == "tags" and isinstance(value, list):
+        st.caption(label)
+        with st.container(horizontal=True):
+            for tag in value:
+                st.badge(as_text(tag), color="gray")
     elif isinstance(value, list):
-        st.caption(f"{label}: {as_list_text(value)}")
+        st.markdown(f"**{label}:** {as_list_text(value)}")
     else:
-        st.caption(f"{label}: {as_text(value)}")
+        st.markdown(f"**{label}:** {as_text(value)}")
 
 
 def render_preview_card(card: Any, display_config: dict[str, Any], key_prefix: str) -> None:
     preview_fields = display_config.get("preview_fields", [])
+    card_type_key = str(card.card_type).replace("_", "-")
 
-    with st.container(border=True, key=f"card_{key_prefix}_{card.id}"):
+    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=350):
         st.markdown(f"**{card.title}**")
-        st.caption(card_type_label(card.card_type, display_config))
+        st.badge(
+            card_type_label(card.card_type, display_config),
+            color=card_type_badge_color(card),
+        )
 
         for field_name in preview_fields:
             if field_name in {"title", "card_type"}:
@@ -106,12 +162,15 @@ def render_reference_list(card: Any, card_by_id: dict[str, Any]) -> None:
     if not card.references:
         return
 
-    st.markdown("**References**")
-    for reference in card.references:
-        linked = card_by_id.get(reference.card_id)
-        linked_title = linked.title if linked else reference.card_id
-        tags = f" ({as_list_text(reference.tags)})" if reference.tags else ""
-        st.write(f"- {as_text(reference.relationship)}: {linked_title}{tags}")
+    with st.container(border=True):
+        st.markdown("**References**")
+        items = []
+        for reference in card.references:
+            linked = card_by_id.get(reference.card_id)
+            linked_title = linked.title if linked else reference.card_id
+            tags = f" ({as_list_text(reference.tags)})" if reference.tags else ""
+            items.append(f"- {as_text(reference.relationship)}: {linked_title}{tags}")
+        st.markdown("\n".join(items))
 
 
 def render_workout_parts(parts: list[Any]) -> None:
@@ -139,14 +198,15 @@ def render_dataclass_value(field_name: str, value: Any, display_config: dict[str
         return False
 
     family = asdict(value)
-    st.markdown(f"**{field_label(field_name, display_config)}**")
-    st.write(family.get("title", ""))
-    if family.get("summary"):
-        st.caption(family["summary"])
-    if family.get("description"):
-        st.write(family["description"])
-    if family.get("tags"):
-        st.caption(f"Tags: {as_list_text(family['tags'])}")
+    with st.container(border=True):
+        st.markdown(f"**{field_label(field_name, display_config)}**")
+        st.write(family.get("title", ""))
+        if family.get("summary"):
+            st.caption(family["summary"])
+        if family.get("description"):
+            st.write(family["description"])
+        if family.get("tags"):
+            st.caption(f"Tags: {as_list_text(family['tags'])}")
     return True
 
 
@@ -161,12 +221,12 @@ def render_field(field_name: str, value: Any, display_config: dict[str, Any]) ->
         return
 
     label = field_label(field_name, display_config)
-    st.markdown(f"**{label}**")
-    if isinstance(value, list):
-        for item in value:
-            st.write(f"- {as_text(item)}")
-    else:
-        st.write(as_text(value))
+    with st.container(border=True):
+        st.markdown(f"**{label}**")
+        if isinstance(value, list):
+            st.markdown("\n".join(f"- {as_text(item)}" for item in value))
+        else:
+            st.write(format_field_value(field_name, value))
 
 
 def render_detail(
@@ -181,11 +241,6 @@ def render_detail(
     if show_header:
         st.subheader(card.title)
         st.caption(card_type_label(card.card_type, display_config))
-
-    with st.container(horizontal_alignment="right"):
-        if st.button("Close", type="tertiary", width="content"):
-            st.session_state.active_card_id = None
-            st.rerun()
 
     for field_name in preview_fields:
         if field_name in DETAIL_SKIP_FIELDS:

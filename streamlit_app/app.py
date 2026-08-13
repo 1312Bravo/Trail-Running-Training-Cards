@@ -6,7 +6,7 @@ from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 
 from streamlit_app.config import APP_TITLE, SEARCH_PLACEHOLDER
 from streamlit_app.data import card_counts, card_index, filtered_cards, load_library
-from streamlit_app.renderers import css, render_contact_footer, render_detail, render_grid
+from streamlit_app.renderers import css, render_contact_links, render_detail, render_grid
 
 
 # ----------------------------------------------------------
@@ -25,11 +25,11 @@ def clear_active_card() -> None:
 def init_state() -> None:
     st.session_state.setdefault("search_query", "")
     st.session_state.setdefault("active_card_id", None)
-    st.session_state.setdefault("card_scope", "all")
+    st.session_state.setdefault("card_scope_label", "All")
 
 
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
-    @st.dialog(card.title, width="large", on_dismiss=clear_active_card)
+    @st.dialog(card.title, width="medium", on_dismiss=clear_active_card)
     def dialog_content() -> None:
         render_detail(card, display_config, card_by_id, show_header=False)
 
@@ -62,22 +62,21 @@ def main() -> None:
 
     scope_labels = ["All", "Macro", "Mezzo", "Micro", "Session"]
     scope_to_value = {label: label.lower() for label in scope_labels}
-    current_scope_label = next(
-        (label for label, value in scope_to_value.items() if value == st.session_state.card_scope),
-        "All",
-    )
-
     counts = card_counts(cards)
     count_line = " · ".join(f"{label} {count}" for label, count in counts.items())
-    st.title(APP_TITLE)
-    st.caption(count_line)
+    header_cols = st.columns([2, 1], vertical_alignment="center")
+    with header_cols[0]:
+        st.title(APP_TITLE)
+        st.caption(count_line)
+    with header_cols[1]:
+        render_contact_links()
 
     controls = st.columns([1, 1], vertical_alignment="bottom")
     with controls[0]:
         chosen_scope = st.segmented_control(
             "Block",
             scope_labels,
-            default=current_scope_label,
+            key="card_scope_label",
             selection_mode="single",
             width="stretch",
         )
@@ -102,8 +101,6 @@ def main() -> None:
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:
         open_card_dialog(active_card, display_config, card_by_id)
-
-    render_contact_footer()
 
 
 if __name__ == "__main__":
