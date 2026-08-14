@@ -44,28 +44,35 @@ def card_matches_search(card: Any, query: str) -> bool:
     if not query:
         return True
 
+    card_type = getattr(card.card_type, "value", str(card.card_type))
     haystack = " ".join(
         [
             card.title,
             card.slug,
+            card_type,
             card.summary,
             card.purpose,
             " ".join(card.tags),
+            " ".join(tag.replace("_", " ") for tag in card.tags),
             " ".join(str(level) for level in card.suitable_levels),
             getattr(card, "additional_information", "") or "",
         ]
     ).lower()
-    return query.lower() in haystack
+    normalized_query = query.lower().replace("_", " ")
+    return query.lower() in haystack or normalized_query in haystack
 
 
 def filtered_cards(
     cards: list[Any],
     selected_type: str,
     search_query: str,
+    tag_filters: list[str] | None = None,
 ) -> list[Any]:
     result = [card for card in cards if card_matches_search(card, search_query)]
     if selected_type != "all":
         result = [card for card in result if str(card.card_type) == selected_type]
+    if tag_filters:
+        result = [card for card in result if all(tag in card.tags for tag in tag_filters)]
     return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
 
 

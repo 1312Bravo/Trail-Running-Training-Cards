@@ -6,7 +6,7 @@ from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 
 from streamlit_app.config import APP_TITLE, SEARCH_PLACEHOLDER
 from streamlit_app.data import card_counts, card_index, filtered_cards, load_library
-from streamlit_app.renderers import css, render_contact_links, render_detail, render_grid
+from streamlit_app.renderers import css, display_text, render_contact_links, render_detail, render_grid
 
 
 # ----------------------------------------------------------
@@ -22,10 +22,19 @@ def clear_active_card() -> None:
     st.session_state.active_card_id = None
 
 
+def remove_tag_filter(tag: str) -> None:
+    st.session_state.tag_filters = [
+        selected_tag
+        for selected_tag in st.session_state.tag_filters
+        if selected_tag != tag
+    ]
+
+
 def init_state() -> None:
     st.session_state.setdefault("search_query", "")
     st.session_state.setdefault("active_card_id", None)
-    st.session_state.setdefault("card_scope_label", "All")
+    st.session_state.setdefault("card_scope_label", None)
+    st.session_state.setdefault("tag_filters", [])
 
 
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
@@ -60,8 +69,10 @@ def main() -> None:
 
     card_by_id = card_index(cards)
 
-    scope_labels = ["All", "Macro", "Mezzo", "Micro", "Session"]
+    scope_labels = ["Macro", "Mezzo", "Micro", "Session"]
     scope_to_value = {label: label.lower() for label in scope_labels}
+    if st.session_state.card_scope_label not in scope_labels:
+        st.session_state.card_scope_label = None
     counts = card_counts(cards)
     count_line = " · ".join(f"{label} {count}" for label, count in counts.items())
     header_cols = st.columns([2, 1], vertical_alignment="center")
@@ -71,32 +82,51 @@ def main() -> None:
     with header_cols[1]:
         render_contact_links()
 
-    controls = st.columns([1, 1], vertical_alignment="bottom")
-    with controls[0]:
-        chosen_scope = st.segmented_control(
-            "Block",
-            scope_labels,
-            key="card_scope_label",
-            selection_mode="single",
-            width="stretch",
-        )
+    controls = st.columns([0.16, 1.2, 0.08, 0.58, 0.16], vertical_alignment="center")
     with controls[1]:
-        st.session_state.search_query = st.text_input(
-            "Search",
-            value=st.session_state.search_query,
-            placeholder=SEARCH_PLACEHOLDER,
-        )
-    st.session_state.card_scope = scope_to_value[chosen_scope or "All"]
+        with st.container(horizontal_alignment="center"):
+            chosen_scope = st.segmented_control(
+                "Block",
+                scope_labels,
+                key="card_scope_label",
+                selection_mode="single",
+                width="stretch",
+                label_visibility="collapsed",
+            )
+    with controls[3]:
+        with st.container(horizontal_alignment="center"):
+            st.session_state.search_query = st.text_input(
+                "Search",
+                value=st.session_state.search_query,
+                placeholder=SEARCH_PLACEHOLDER,
+                help="Searches across titles, block types, summary, purpose, levels, tags, and notes.",
+                width="stretch",
+                label_visibility="collapsed",
+            )
+    st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
+    if st.session_state.tag_filters:
+        st.caption("Tag filters")
+        with st.container(horizontal=True):
+            for tag in st.session_state.tag_filters:
+                st.button(
+                    f"{display_text(tag)} ×",
+                    key=f"selected_tag_{tag}",
+                    type="secondary",
+                    width="content",
+                    on_click=remove_tag_filter,
+                    args=(tag,),
+                )
 
     cards_for_view = filtered_cards(
         cards,
         st.session_state.card_scope,
         st.session_state.search_query,
+        tag_filters=st.session_state.tag_filters,
     )
     if cards_for_view:
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
     else:
-        st.info("No cards match the current filters.")
+        st.caption("No cards match the current filters.")
 
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:
