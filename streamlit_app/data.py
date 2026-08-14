@@ -76,6 +76,35 @@ def filtered_cards(
     return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
 
 
+def cards_of_type(cards: list[Any], card_type: str) -> list[Any]:
+    return sorted(
+        [card for card in cards if str(card.card_type) == card_type],
+        key=lambda card: card.title,
+    )
+
+
+def related_child_cards(cards: list[Any], parent_card: Any, child_type: str) -> list[Any]:
+    card_by_id = card_index(cards)
+    related_ids = set()
+
+    for reference in parent_card.references:
+        child = card_by_id.get(reference.card_id)
+        if str(reference.relationship) == "child" and child and str(child.card_type) == child_type:
+            related_ids.add(child.id)
+
+    for card in cards:
+        if str(card.card_type) != child_type:
+            continue
+        for reference in card.references:
+            if str(reference.relationship) == "parent" and reference.card_id == parent_card.id:
+                related_ids.add(card.id)
+
+    return sorted(
+        [card_by_id[card_id] for card_id in related_ids if card_id in card_by_id],
+        key=lambda card: card.title,
+    )
+
+
 def card_counts(cards: list[Any]) -> dict[str, int]:
     return {
         "All": len(cards),

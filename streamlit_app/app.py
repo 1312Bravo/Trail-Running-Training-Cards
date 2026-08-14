@@ -1,12 +1,30 @@
 from __future__ import annotations
 
+from typing import Any
+
 import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 
 from streamlit_app.config import APP_TITLE, SEARCH_PLACEHOLDER
-from streamlit_app.data import card_counts, card_index, filtered_cards, load_library
+from streamlit_app.data import (
+    card_counts,
+    card_index,
+    cards_of_type,
+    filtered_cards,
+    load_library,
+    related_child_cards,
+)
 from streamlit_app.renderers import css, display_text, render_contact_links, render_detail, render_grid
+
+
+APP_MODES = ["Browse cards", "Build pathway"]
+PATHWAY_STEPS = [
+    ("macro", "Macro"),
+    ("mezzo", "Mezzo"),
+    ("micro", "Micro"),
+    ("session", "Session"),
+]
 
 
 # ----------------------------------------------------------
@@ -22,6 +40,30 @@ def clear_active_card() -> None:
     st.session_state.active_card_id = None
 
 
+def state_key_for_level(level: str) -> str:
+    return f"pathway_{level}_id"
+
+
+def select_pathway_card(level: str, card_id: str) -> None:
+    levels = [step_level for step_level, _ in PATHWAY_STEPS]
+    selected_index = levels.index(level)
+    st.session_state[state_key_for_level(level)] = card_id
+    for later_level in levels[selected_index + 1:]:
+        st.session_state[state_key_for_level(later_level)] = None
+
+
+def clear_pathway_from(level: str) -> None:
+    levels = [step_level for step_level, _ in PATHWAY_STEPS]
+    selected_index = levels.index(level)
+    for later_level in levels[selected_index:]:
+        st.session_state[state_key_for_level(later_level)] = None
+
+
+def clear_pathway() -> None:
+    for level, _ in PATHWAY_STEPS:
+        st.session_state[state_key_for_level(level)] = None
+
+
 def remove_tag_filter(tag: str) -> None:
     st.session_state.tag_filters = [
         selected_tag
@@ -33,8 +75,11 @@ def remove_tag_filter(tag: str) -> None:
 def init_state() -> None:
     st.session_state.setdefault("search_query", "")
     st.session_state.setdefault("active_card_id", None)
+    st.session_state.setdefault("app_mode", APP_MODES[0])
     st.session_state.setdefault("card_scope_label", None)
     st.session_state.setdefault("tag_filters", [])
+    for level, _ in PATHWAY_STEPS:
+        st.session_state.setdefault(state_key_for_level(level), None)
 
 
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
@@ -46,41 +91,14 @@ def open_card_dialog(card: object, display_config: dict[str, object], card_by_id
 
 
 # ----------------------------------------------------------
-# Page Shell
+# Browse Mode
 # ----------------------------------------------------------
-# Keep the page composition here so the render helpers remain reusable.
 
-def main() -> None:
-    st.set_page_config(page_title=APP_TITLE, page_icon=":material/style:", layout="wide")
-    css()
-    init_state()
-
-    cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
-
-    try:
-        cards, display_config = load_library(cache_dir)
-    except Exception as error:
-        st.error(
-            "The local card cache could not be loaded. "
-            "Run `py -m training_cards.scripts.download_cloud_library` and `py -m training_cards.scripts.validate_cache`."
-        )
-        st.exception(error)
-        return
-
-    card_by_id = card_index(cards)
-
+def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> None:
     scope_labels = ["Macro", "Mezzo", "Micro", "Session"]
     scope_to_value = {label: label.lower() for label in scope_labels}
     if st.session_state.card_scope_label not in scope_labels:
         st.session_state.card_scope_label = None
-    counts = card_counts(cards)
-    count_line = " · ".join(f"{label} {count}" for label, count in counts.items())
-    header_cols = st.columns([2, 1], vertical_alignment="center")
-    with header_cols[0]:
-        st.title(APP_TITLE)
-        st.caption(count_line)
-    with header_cols[1]:
-        render_contact_links()
 
     controls = st.columns([0.16, 1.2, 0.08, 0.58, 0.16], vertical_alignment="center")
     with controls[1]:
@@ -127,6 +145,154 @@ def main() -> None:
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
     else:
         st.caption("No cards match the current filters.")
+
+
+# ----------------------------------------------------------
+# Pathway Mode
+# ----------------------------------------------------------
+
+def selected_pathway_cards(card_by_id: dict[str, Any]) -> dict[str, Any | None]:
+    return {
+        level: card_by_id.get(st.session_state.get(state_key_for_level(level)))
+        for level, _ in PATHWAY_STEPS
+    }
+
+
+def next_pathway_step(selected_cards: dict[str, Any | None]) -> tuple[str, str] | None:
+    for level, label in PATHWAY_STEPS:
+        if selected_cards[level] is None:
+            return level, label
+    return None
+
+
+def pathway_candidates(cards: list[Any], selected_cards: dict[str, Any | None]) -> tuple[str, str, list[Any]]:
+    next_step = next_pathway_step(selected_cards)
+    if not next_step:
+        return "", "", []
+
+    next_level, next_label = next_step
+    step_index = [level for level, _ in PATHWAY_STEPS].index(next_level)
+    if step_index == 0:
+        return next_level, next_label, cards_of_type(cards, next_level)
+
+    previous_level = PATHWAY_STEPS[step_index - 1][0]
+    previous_card = selected_cards[previous_level]
+    if previous_card is None:
+        return next_level, next_label, []
+    return next_level, next_label, related_child_cards(cards, previous_card, next_level)
+
+
+def render_pathway_selection(selected_cards: dict[str, Any | None], display_config: dict[str, Any]) -> None:
+    with st.container(border=True, key="pathway-selection"):
+        top_cols = st.columns([1, 0.12], vertical_alignment="center")
+        with top_cols[0]:
+            st.caption("Selected pathway")
+        with top_cols[1]:
+            st.button("Clear", key="clear_pathway", width="stretch", on_click=clear_pathway)
+
+        cols = st.columns(4, gap="small")
+        for index, (level, label) in enumerate(PATHWAY_STEPS):
+            card = selected_cards[level]
+            with cols[index]:
+                with st.container(border=True, height=145):
+                    st.caption(label)
+                    if card is None:
+                        st.caption("Not selected")
+                        continue
+                    st.markdown(f"**{card.title}**")
+                    st.badge(label)
+                    with st.container(horizontal=True):
+                        st.button(
+                            "Open",
+                            key=f"pathway_open_{level}",
+                            width="content",
+                            on_click=set_active_card,
+                            args=(card.id,),
+                        )
+                        st.button(
+                            "Change",
+                            key=f"pathway_change_{level}",
+                            width="content",
+                            on_click=clear_pathway_from,
+                            args=(level,),
+                        )
+
+
+def render_build_pathway(
+    cards: list[Any],
+    display_config: dict[str, Any],
+    card_by_id: dict[str, Any],
+) -> None:
+    selected_cards = selected_pathway_cards(card_by_id)
+    render_pathway_selection(selected_cards, display_config)
+
+    next_level, next_label, candidates = pathway_candidates(cards, selected_cards)
+    if not next_level:
+        st.caption("Pathway complete. Use Open on any selected card to inspect details, or Change to revise one step.")
+        return
+
+    st.caption(f"Choose {next_label.lower()}")
+    if candidates:
+        render_grid(
+            candidates,
+            display_config,
+            key_prefix=f"pathway_{next_level}",
+            select_label="Select",
+            on_select=select_pathway_card,
+            select_level=next_level,
+        )
+    else:
+        st.caption(f"No related {next_label.lower()} cards are linked to the current selection.")
+
+
+# ----------------------------------------------------------
+# Page Shell
+# ----------------------------------------------------------
+# Keep the page composition here so the render helpers remain reusable.
+
+def main() -> None:
+    st.set_page_config(page_title=APP_TITLE, page_icon=":material/style:", layout="wide")
+    css()
+    init_state()
+
+    cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
+
+    try:
+        cards, display_config = load_library(cache_dir)
+    except Exception as error:
+        st.error(
+            "The local card cache could not be loaded. "
+            "Run `py -m training_cards.scripts.download_cloud_library` and `py -m training_cards.scripts.validate_cache`."
+        )
+        st.exception(error)
+        return
+
+    card_by_id = card_index(cards)
+
+    counts = card_counts(cards)
+    count_line = " · ".join(f"{label} {count}" for label, count in counts.items())
+    header_cols = st.columns([2, 1], vertical_alignment="center")
+    with header_cols[0]:
+        st.title(APP_TITLE)
+        st.caption(count_line)
+    with header_cols[1]:
+        render_contact_links()
+
+    mode_cols = st.columns([0.34, 0.32, 0.34])
+    with mode_cols[1]:
+        st.segmented_control(
+            "Mode",
+            APP_MODES,
+            key="app_mode",
+            selection_mode="single",
+            width="stretch",
+            label_visibility="collapsed",
+        )
+
+    if st.session_state.app_mode == "Build pathway":
+        render_build_pathway(cards, display_config, card_by_id)
+    else:
+        render_browse_cards(cards, display_config)
 
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:

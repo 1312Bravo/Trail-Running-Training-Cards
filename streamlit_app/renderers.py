@@ -97,6 +97,23 @@ def css() -> None:
             font-size: 0.8rem;
             box-shadow: none;
         }
+        [class*="st-key-select_"] button {
+            border: 1px solid #222222;
+            background: #222222;
+            color: #ffffff;
+            font-weight: 600;
+            min-height: 1.8rem;
+            padding: 0.12rem 0.55rem;
+            font-size: 0.8rem;
+            box-shadow: none;
+        }
+        [class*="st-key-pathway-selection"] {
+            position: sticky;
+            top: 0;
+            z-index: 4;
+            background: #ffffff;
+            padding-bottom: 0.4rem;
+        }
         .preview-card-title {
             font-size: 1.16rem;
             font-weight: 750;
@@ -277,7 +294,14 @@ def render_preview_field(card: Any, field_name: str, display_config: dict[str, A
         )
 
 
-def render_preview_card(card: Any, display_config: dict[str, Any], key_prefix: str) -> None:
+def render_preview_card(
+    card: Any,
+    display_config: dict[str, Any],
+    key_prefix: str,
+    select_label: str | None = None,
+    on_select: Any | None = None,
+    select_args: tuple[Any, ...] = (),
+) -> None:
     preview_fields = display_config.get("preview_fields", [])
     ordered_preview_fields = [
         field_name
@@ -289,13 +313,23 @@ def render_preview_card(card: Any, display_config: dict[str, Any], key_prefix: s
     with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=400):
         with st.container(key=f"open-action-{key_prefix}-{card.id}", horizontal=True, horizontal_alignment="distribute"):
             st.html(f'<div class="preview-card-title">{escape(card.title)}</div>')
-            st.button(
-                "Open card",
-                key=f"open_{key_prefix}_{card.id}",
-                type="secondary",
-                width="content",
-                on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
-            )
+            with st.container(horizontal=True):
+                if select_label and on_select:
+                    st.button(
+                        select_label,
+                        key=f"select_{key_prefix}_{card.id}",
+                        type="secondary",
+                        width="content",
+                        on_click=on_select,
+                        args=select_args,
+                    )
+                st.button(
+                    "Open card",
+                    key=f"open_{key_prefix}_{card.id}",
+                    type="secondary",
+                    width="content",
+                    on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
+                )
         st.badge(
             card_type_label(card.card_type, display_config),
             color=card_type_badge_color(card),
@@ -420,7 +454,14 @@ def render_detail(
 # Grid Layout
 # ----------------------------------------------------------
 
-def render_grid(cards: list[Any], display_config: dict[str, Any], key_prefix: str) -> None:
+def render_grid(
+    cards: list[Any],
+    display_config: dict[str, Any],
+    key_prefix: str,
+    select_label: str | None = None,
+    on_select: Any | None = None,
+    select_level: str | None = None,
+) -> None:
     cards_per_row = 2
     for row_start in range(0, len(cards), cards_per_row):
         cols = st.columns([0.18, 1, 0.28, 1, 0.18], gap="small")
@@ -428,4 +469,12 @@ def render_grid(cards: list[Any], display_config: dict[str, Any], key_prefix: st
         for offset, card in enumerate(row_cards):
             index = row_start + offset
             with cols[1 + offset * 2]:
-                render_preview_card(card, display_config, f"{key_prefix}_{index}")
+                select_args = (select_level, card.id) if select_level else ()
+                render_preview_card(
+                    card,
+                    display_config,
+                    f"{key_prefix}_{index}",
+                    select_label=select_label,
+                    on_select=on_select,
+                    select_args=select_args,
+                )
