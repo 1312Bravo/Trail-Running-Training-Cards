@@ -61,11 +61,15 @@ def css() -> None:
             text-underline-offset: 0.18rem;
         }
         [class*="st-key-tag_"],
-        [class*="st-key-selected_tag_"] {
+        [class*="st-key-selected_tag_"],
+        [class*="st-key-pathway_search_terms_"],
+        [class*="st-key-today_search_terms_"] {
             margin: 0 !important;
         }
         [class*="st-key-tag_"] button,
-        [class*="st-key-selected_tag_"] button {
+        [class*="st-key-selected_tag_"] button,
+        [class*="st-key-pathway_search_terms_"] button,
+        [class*="st-key-today_search_terms_"] button {
             min-height: 1.65rem;
             padding: 0.1rem 0.45rem;
             background: #ffffff;
@@ -87,7 +91,8 @@ def css() -> None:
             background: #ffffff;
             padding-bottom: 0.25rem;
         }
-        [class*="st-key-open_"] button {
+        [class*="st-key-open_"] button,
+        [class*="st-key-select_"] button {
             border: 1px solid #777777;
             background: #f2f2f2;
             color: #111111;
@@ -97,14 +102,15 @@ def css() -> None:
             font-size: 0.8rem;
             box-shadow: none;
         }
-        [class*="st-key-select_"] button {
-            border: 1px solid #222222;
-            background: #222222;
-            color: #ffffff;
-            font-weight: 600;
-            min-height: 1.8rem;
-            padding: 0.12rem 0.55rem;
-            font-size: 0.8rem;
+        [class*="st-key-pathway_open_"] button,
+        [class*="st-key-pathway_change_"] button {
+            border: 1px solid #c8c8c8;
+            background: #ffffff;
+            color: #222222;
+            font-weight: 400;
+            min-height: 1.55rem;
+            padding: 0.05rem 0.4rem;
+            font-size: 0.78rem;
             box-shadow: none;
         }
         [class*="st-key-pathway-selection"] {
@@ -154,6 +160,21 @@ def css() -> None:
         }
         [class*="st-key-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
             border-left: 4px solid #9b8f9f;
+        }
+        [class*="st-key-pathway-card-"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border: 1px solid #222222 !important;
+        }
+        [class*="st-key-pathway-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #8f98a3 !important;
+        }
+        [class*="st-key-pathway-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #9aa58f !important;
+        }
+        [class*="st-key-pathway-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #b0a27e !important;
+        }
+        [class*="st-key-pathway-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border-left: 4px solid #9b8f9f !important;
         }
         </style>
         """
@@ -299,6 +320,7 @@ def render_preview_card(
     display_config: dict[str, Any],
     key_prefix: str,
     select_label: str | None = None,
+    open_label: str = "Open card",
     on_select: Any | None = None,
     select_args: tuple[Any, ...] = (),
 ) -> None:
@@ -311,9 +333,15 @@ def render_preview_card(
     card_type_key = str(card.card_type).replace("_", "-")
 
     with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=400):
-        with st.container(key=f"open-action-{key_prefix}-{card.id}", horizontal=True, horizontal_alignment="distribute"):
+        header_cols = st.columns([1, 0.38], vertical_alignment="top")
+        with header_cols[0]:
             st.html(f'<div class="preview-card-title">{escape(card.title)}</div>')
-            with st.container(horizontal=True):
+        with header_cols[1]:
+            with st.container(
+                key=f"open-action-{key_prefix}-{card.id}",
+                horizontal=True,
+                horizontal_alignment="right",
+            ):
                 if select_label and on_select:
                     st.button(
                         select_label,
@@ -324,7 +352,7 @@ def render_preview_card(
                         args=select_args,
                     )
                 st.button(
-                    "Open card",
+                    open_label,
                     key=f"open_{key_prefix}_{card.id}",
                     type="secondary",
                     width="content",
@@ -459,6 +487,7 @@ def render_grid(
     display_config: dict[str, Any],
     key_prefix: str,
     select_label: str | None = None,
+    open_label: str = "Open card",
     on_select: Any | None = None,
     select_level: str | None = None,
 ) -> None:
@@ -475,6 +504,7 @@ def render_grid(
                     display_config,
                     f"{key_prefix}_{index}",
                     select_label=select_label,
+                    open_label=open_label,
                     on_select=on_select,
                     select_args=select_args,
                 )

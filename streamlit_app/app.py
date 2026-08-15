@@ -8,6 +8,7 @@ from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 
 from streamlit_app.config import APP_TITLE, SEARCH_PLACEHOLDER
 from streamlit_app.data import (
+    card_matches_search,
     card_counts,
     card_index,
     cards_of_type,
@@ -18,7 +19,7 @@ from streamlit_app.data import (
 from streamlit_app.renderers import css, display_text, render_contact_links, render_detail, render_grid
 
 
-APP_MODES = ["Browse cards", "Build pathway"]
+APP_MODES = ["Browse cards", "Build pathway", "Today session"]
 PATHWAY_STEPS = [
     ("macro", "Macro"),
     ("mezzo", "Mezzo"),
@@ -48,6 +49,8 @@ def select_pathway_card(level: str, card_id: str) -> None:
     levels = [step_level for step_level, _ in PATHWAY_STEPS]
     selected_index = levels.index(level)
     st.session_state[state_key_for_level(level)] = card_id
+    st.session_state.pathway_search_terms = []
+    st.session_state.pathway_search_input = ""
     for later_level in levels[selected_index + 1:]:
         st.session_state[state_key_for_level(later_level)] = None
 
@@ -55,13 +58,57 @@ def select_pathway_card(level: str, card_id: str) -> None:
 def clear_pathway_from(level: str) -> None:
     levels = [step_level for step_level, _ in PATHWAY_STEPS]
     selected_index = levels.index(level)
+    st.session_state.pathway_search_terms = []
+    st.session_state.pathway_search_input = ""
     for later_level in levels[selected_index:]:
         st.session_state[state_key_for_level(later_level)] = None
 
 
 def clear_pathway() -> None:
+    st.session_state.pathway_search_terms = []
+    st.session_state.pathway_search_input = ""
     for level, _ in PATHWAY_STEPS:
         st.session_state[state_key_for_level(level)] = None
+
+
+def add_search_term(input_key: str, terms_key: str) -> None:
+    term = st.session_state.get(input_key, "").strip()
+    if not term:
+        return
+
+    current_terms = list(st.session_state.get(terms_key, []))
+    if term not in current_terms:
+        current_terms.append(term)
+    st.session_state[terms_key] = current_terms
+    st.session_state[input_key] = ""
+
+
+def remove_search_term(terms_key: str, term: str) -> None:
+    st.session_state[terms_key] = [
+        current_term
+        for current_term in st.session_state.get(terms_key, [])
+        if current_term != term
+    ]
+
+
+def cards_matching_terms(cards: list[Any], terms: list[str]) -> list[Any]:
+    if not terms:
+        return cards
+    return [
+        card
+        for card in cards
+        if all(card_matches_search(card, term) for term in terms)
+    ]
+
+
+def cards_matching_tags(cards: list[Any], tags: list[str]) -> list[Any]:
+    if not tags:
+        return cards
+    return [
+        card
+        for card in cards
+        if all(tag in card.tags for tag in tags)
+    ]
 
 
 def remove_tag_filter(tag: str) -> None:
@@ -74,6 +121,10 @@ def remove_tag_filter(tag: str) -> None:
 
 def init_state() -> None:
     st.session_state.setdefault("search_query", "")
+    st.session_state.setdefault("pathway_search_input", "")
+    st.session_state.setdefault("pathway_search_terms", [])
+    st.session_state.setdefault("today_search_input", "")
+    st.session_state.setdefault("today_search_terms", [])
     st.session_state.setdefault("active_card_id", None)
     st.session_state.setdefault("app_mode", APP_MODES[0])
     st.session_state.setdefault("card_scope_label", None)
@@ -122,18 +173,7 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 label_visibility="collapsed",
             )
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
-    if st.session_state.tag_filters:
-        st.caption("Tag filters")
-        with st.container(horizontal=True):
-            for tag in st.session_state.tag_filters:
-                st.button(
-                    f"{display_text(tag)} ×",
-                    key=f"selected_tag_{tag}",
-                    type="secondary",
-                    width="content",
-                    on_click=remove_tag_filter,
-                    args=(tag,),
-                )
+    render_active_tag_filters()
 
     cards_for_view = filtered_cards(
         cards,
@@ -145,6 +185,40 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
     else:
         st.caption("No cards match the current filters.")
+
+
+def render_search_terms(terms_key: str) -> None:
+    terms = st.session_state.get(terms_key, [])
+    if not terms:
+        return
+
+    with st.container(horizontal=True):
+        for term in terms:
+            st.button(
+                f"{term} ×",
+                key=f"{terms_key}_{term}",
+                type="secondary",
+                width="content",
+                on_click=remove_search_term,
+                args=(terms_key, term),
+            )
+
+
+def render_active_tag_filters() -> None:
+    if not st.session_state.tag_filters:
+        return
+
+    st.caption("Tag filters")
+    with st.container(horizontal=True):
+        for tag in st.session_state.tag_filters:
+            st.button(
+                f"{display_text(tag)} ×",
+                key=f"selected_tag_{tag}",
+                type="secondary",
+                width="content",
+                on_click=remove_tag_filter,
+                args=(tag,),
+            )
 
 
 # ----------------------------------------------------------
@@ -194,23 +268,22 @@ def render_pathway_selection(selected_cards: dict[str, Any | None], display_conf
         for index, (level, label) in enumerate(PATHWAY_STEPS):
             card = selected_cards[level]
             with cols[index]:
-                with st.container(border=True, height=145):
+                with st.container(border=True, height=135, key=f"pathway-card-{level}"):
                     st.caption(label)
                     if card is None:
                         st.caption("Not selected")
                         continue
                     st.markdown(f"**{card.title}**")
-                    st.badge(label)
                     with st.container(horizontal=True):
                         st.button(
-                            "Open",
+                            "Open card",
                             key=f"pathway_open_{level}",
                             width="content",
                             on_click=set_active_card,
                             args=(card.id,),
                         )
                         st.button(
-                            "Change",
+                            "Remove",
                             key=f"pathway_change_{level}",
                             width="content",
                             on_click=clear_pathway_from,
@@ -228,13 +301,45 @@ def render_build_pathway(
 
     next_level, next_label, candidates = pathway_candidates(cards, selected_cards)
     if not next_level:
-        st.caption("Pathway complete. Use Open on any selected card to inspect details, or Change to revise one step.")
+        st.caption("Pathway complete. Use Open card on any selected card to inspect details, or Remove to revise one step.")
+        pathway_cards = [
+            selected_cards[level]
+            for level, _ in PATHWAY_STEPS
+            if selected_cards[level] is not None
+        ]
+        if pathway_cards:
+            st.caption("Chosen pathway cards")
+            render_grid(
+                pathway_cards,
+                display_config,
+                key_prefix="completed_pathway",
+            )
         return
 
-    st.caption(f"Choose {next_label.lower()}")
-    if candidates:
+    step_cols = st.columns([0.18, 1, 0.28, 1, 0.18], gap="small", vertical_alignment="center")
+    with step_cols[1]:
+        st.caption(f"Choose {next_label.lower()}")
+    with step_cols[3]:
+        st.text_input(
+            "Search current cards",
+            key="pathway_search_input",
+            placeholder=f"Search {next_label.lower()} cards",
+            help="Searches only the cards available for the current pathway step, including tags.",
+            label_visibility="collapsed",
+            width="stretch",
+            on_change=add_search_term,
+            args=("pathway_search_input", "pathway_search_terms"),
+        )
+    render_search_terms("pathway_search_terms")
+    render_active_tag_filters()
+
+    visible_candidates = cards_matching_tags(
+        cards_matching_terms(candidates, st.session_state.pathway_search_terms),
+        st.session_state.tag_filters,
+    )
+    if visible_candidates:
         render_grid(
-            candidates,
+            visible_candidates,
             display_config,
             key_prefix=f"pathway_{next_level}",
             select_label="Select",
@@ -242,7 +347,46 @@ def render_build_pathway(
             select_level=next_level,
         )
     else:
-        st.caption(f"No related {next_label.lower()} cards are linked to the current selection.")
+        st.caption(f"No {next_label.lower()} cards match the current pathway search.")
+
+
+# ----------------------------------------------------------
+# Today Session Mode
+# ----------------------------------------------------------
+
+def render_today_session(cards: list[Any], display_config: dict[str, Any]) -> None:
+    session_cards = cards_of_type(cards, "session")
+
+    cols = st.columns([0.18, 1, 0.28, 1, 0.18], gap="small", vertical_alignment="center")
+    with cols[1]:
+        st.caption("Quick choose for today")
+    with cols[3]:
+        st.text_input(
+            "Search session cards",
+            key="today_search_input",
+            placeholder="Search today's session",
+            help="Add one or more search terms. Terms combine with AND.",
+            label_visibility="collapsed",
+            width="stretch",
+            on_change=add_search_term,
+            args=("today_search_input", "today_search_terms"),
+        )
+    render_search_terms("today_search_terms")
+    render_active_tag_filters()
+
+    visible_sessions = cards_matching_tags(
+        cards_matching_terms(session_cards, st.session_state.today_search_terms),
+        st.session_state.tag_filters,
+    )
+
+    if visible_sessions:
+        render_grid(
+            visible_sessions,
+            display_config,
+            key_prefix="today_session",
+        )
+    else:
+        st.caption("No session cards match the current search.")
 
 
 # ----------------------------------------------------------
@@ -278,7 +422,7 @@ def main() -> None:
     with header_cols[1]:
         render_contact_links()
 
-    mode_cols = st.columns([0.34, 0.32, 0.34])
+    mode_cols = st.columns([0.31, 0.38, 0.31])
     with mode_cols[1]:
         st.segmented_control(
             "Mode",
@@ -291,6 +435,8 @@ def main() -> None:
 
     if st.session_state.app_mode == "Build pathway":
         render_build_pathway(cards, display_config, card_by_id)
+    elif st.session_state.app_mode == "Today session":
+        render_today_session(cards, display_config)
     else:
         render_browse_cards(cards, display_config)
 
