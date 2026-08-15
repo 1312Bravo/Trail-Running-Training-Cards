@@ -6,6 +6,7 @@ from typing import Any
 import streamlit as st
 
 from training_cards.json_store import load_card_library_from_json, load_display_config
+from training_cards.pathway import build_pathway_index
 from training_cards.schemas import CardType
 
 from streamlit_app.config import TYPE_ORDER
@@ -77,32 +78,11 @@ def filtered_cards(
 
 
 def cards_of_type(cards: list[Any], card_type: str) -> list[Any]:
-    return sorted(
-        [card for card in cards if str(card.card_type) == card_type],
-        key=lambda card: card.title,
-    )
+    return build_pathway_index(cards).cards_of_type(card_type)
 
 
 def related_child_cards(cards: list[Any], parent_card: Any, child_type: str) -> list[Any]:
-    card_by_id = card_index(cards)
-    related_ids = set()
-
-    for reference in parent_card.references:
-        child = card_by_id.get(reference.card_id)
-        if str(reference.relationship) == "child" and child and str(child.card_type) == child_type:
-            related_ids.add(child.id)
-
-    for card in cards:
-        if str(card.card_type) != child_type:
-            continue
-        for reference in card.references:
-            if str(reference.relationship) == "parent" and reference.card_id == parent_card.id:
-                related_ids.add(card.id)
-
-    return sorted(
-        [card_by_id[card_id] for card_id in related_ids if card_id in card_by_id],
-        key=lambda card: card.title,
-    )
+    return build_pathway_index(cards).children(parent_card.id, child_type)
 
 
 def card_counts(cards: list[Any]) -> dict[str, int]:
