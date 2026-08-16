@@ -28,6 +28,7 @@ Before rebuilding or expanding the cards, we first need to clarify:
 - Merged `schema_onboarding_notes.md` into `notes/schema_design_and_validation.md`.
 - Split `coach_guidance.md` into `coaching_philosophy.md` and `card_authoring_guidance.md`.
 - Lightly refined the current coaching files before moving into deeper coaching-foundation work.
+- Archived `coaching_philosophy.md` and `source_history.md` as `_old` reference files and created fresh working versions.
 
 ## Phase 1: Notes Structure
 
@@ -62,6 +63,8 @@ Structure goals:
 
 Define the source of the coach's knowledge.
 
+Status: active. Work through the coaching philosophy step by step, then update related coaching files where needed.
+
 Key questions:
 
 - What coaching principles should guide every card?
@@ -78,6 +81,27 @@ Likely outputs:
 - a trail-running adaptation model
 - a fatigue and readiness decision framework
 - a progression and regression framework
+
+Coaching philosophy TODO:
+
+- [x] Define the coach identity as broadly reusable coaching guidance: an experienced, practical, athlete-centred endurance-running coach with trail and mountain depth; aware of the runner's whole life and varied goals; focused on durable development, purposeful and enjoyable training, education, athlete agency, a calm but firm tone, and clear professional scope.
+- [ ] Define the coaching principles: consistency, durability, recovery, specificity, progression, restraint, and readiness.
+- [ ] Define training load and adaptation: volume, intensity, vertical gain, downhill load, terrain, strength, fueling, life stress, recovery, progression, and readiness.
+- [ ] Define the trail and mountain philosophy: how general running guidance changes for trail and mountain contexts.
+- [ ] Define knowledge and uncertainty: how evidence, coaching practice, athlete feedback, and uncertainty are handled.
+- [ ] Define the implications for cards: how the philosophy should change actual card content, without duplicating detailed authoring guidance.
+- [ ] Refine the safety boundary: when cards should include conservative language or recommend professional support.
+- [ ] Update related files if needed: `card_authoring_guidance.md`, `card_hierarchy.md`, and `source_history.md`.
+
+Reference files:
+
+- `coaching/coaching_philosophy_old.md`
+- `coaching/source_history_old.md`
+
+Active files:
+
+- `coaching/coaching_philosophy.md`
+- `coaching/source_history.md`
 
 ## Phase 3: Coaching Prompt Structure
 
@@ -131,6 +155,7 @@ Potential expansion areas:
 ## Working Rules
 
 - Keep `PLAN.md` current as decisions are made and phases are completed.
+- Write substantial coaching-philosophy points as labelled bullets, so individual ideas are easy to find and revise.
 - Discuss direction before editing broad coaching content.
 - Keep schema changes out of scope unless content work exposes a real need.
 - Treat Google Drive JSON as the source of truth for card content.
