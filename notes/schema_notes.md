@@ -116,6 +116,37 @@ CardReference(
 
 Use reference tags for structured context. Put longer explanations in the card content itself.
 
+## Pathway Index And Relaxed Validation
+
+`training_cards/pathway.py` turns the flat card list into a reusable pathway index for macro -> mezzo -> micro -> session browsing.
+
+The index is intentionally not a separate source of truth. It only reads the existing `references` fields from the JSON-backed card objects.
+
+Current pathway behavior:
+
+- child links can be found from explicit `child` references on a parent card
+- child links can also be inferred from matching `parent` references on the child card
+- parent lookup works in the opposite direction for the same reason
+- cards are sorted by planning level and title for stable app display
+
+Validation is deliberately relaxed about coverage, but strict about hierarchy meaning:
+
+- broken references are errors
+- hierarchy jumps are errors for `parent` and `child` references
+- duplicate references and self-references are warnings
+- orphan cards are allowed because the library is still growing
+- cards do not need to be connected both above and below to be valid
+
+Use `training_cards/scripts/validate_cache.py` for the normal quick cache validation. It should fail only when the cached library has real errors.
+
+Use `training_cards/scripts/report_reachability.py` when we want to inspect pathway coverage. It reports card counts, reference warnings, macro reachability, and orphan cards without treating incomplete coverage as a failure.
+
+Publish/export flows also run pathway validation automatically:
+
+- seed-card export validates before writing the local cache
+- cache upload validates before rebuilding the bundle and uploading to Google Drive
+- the Streamlit app can still read the current cache while we are cleaning pathway issues
+
 ## Registry
 
 Use `training_cards/registry.py` as the central access point for cards.

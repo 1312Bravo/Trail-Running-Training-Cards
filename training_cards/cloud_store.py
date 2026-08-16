@@ -14,6 +14,7 @@ from training_cards.json_store import (
     refresh_library_bundle,
     write_json,
 )
+from training_cards.pathway import validate_pathway_publish_ready
 from training_cards.schemas import BaseTrainingCard
 from training_cards.seed_registry import ALL_SEED_CARDS
 
@@ -32,6 +33,7 @@ def get_cloud_library_url(config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRAR
 
 # Export the current Python seed cards into the ignored local cloud cache.
 def export_seed_library_to_cache(config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> Path:
+    validate_pathway_publish_ready(ALL_SEED_CARDS)
     export_card_library_to_json(ALL_SEED_CARDS, config.local_cache_dir)
     return config.local_cache_dir
 
@@ -80,6 +82,7 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
 
+    validate_pathway_publish_ready(load_cached_cloud_library(config))
     refresh_library_bundle(config.local_cache_dir)
     root_items = client.list_folder(config.root_folder_id)
 
