@@ -3,7 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Iterable
 
-from training_cards.schemas import BaseTrainingCard, CardRelationship
+from training_cards.schemas import (
+    BaseTrainingCard,
+    CardRelationship,
+)
 
 
 PATHWAY_CARD_TYPES = ("macro", "mezzo", "micro", "session")

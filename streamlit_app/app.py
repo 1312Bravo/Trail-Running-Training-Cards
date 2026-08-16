@@ -6,7 +6,10 @@ import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 
-from streamlit_app.config import APP_TITLE, SEARCH_PLACEHOLDER
+from streamlit_app.config import (
+    APP_TITLE,
+    SEARCH_PLACEHOLDER,
+)
 from streamlit_app.data import (
     card_matches_search,
     card_counts,
@@ -16,7 +19,13 @@ from streamlit_app.data import (
     load_library,
     related_child_cards,
 )
-from streamlit_app.renderers import css, display_text, render_contact_links, render_detail, render_grid
+from streamlit_app.renderers import (
+    css,
+    display_text,
+    render_contact_links,
+    render_detail,
+    render_grid,
+)
 
 
 APP_MODES = ["Browse cards", "Build pathway", "Today session"]

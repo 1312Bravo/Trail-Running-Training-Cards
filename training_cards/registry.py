@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.json_store import load_card_library_from_json
-from training_cards.schemas import BaseTrainingCard, CardType
+from training_cards.schemas import (
+    BaseTrainingCard,
+    CardType,
+)
 
 # ----------------------------------------------------------
 # Active Card Registry

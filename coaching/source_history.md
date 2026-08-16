@@ -1,6 +1,32 @@
-# Coach Knowledge Sources
+# Source History
 
-These notes track where the training-card coaching knowledge comes from and how each source is used. The cards should stay practical and concise, but this file keeps the reasoning traceable for later reporting.
+These notes track where the training-card coaching knowledge comes from and how each source shaped the library. The cards should stay practical and concise, but this file keeps the reasoning traceable for card creation, review, and later reporting.
+
+This is not only an evidence bibliography. It is the source history behind the coach's guidance: research, widely accepted coaching practice, trail and mountain-running demands, athlete-readiness judgment, and lessons that emerge while rebuilding the cards.
+
+## How This File Is Used
+
+Use this file when a card needs:
+
+- evidence-aware coaching rationale
+- clearer explanation of training stress
+- trail or mountain-running adaptation
+- progression, regression, or fatigue-management logic
+- a check against overconfident or overly narrow claims
+
+Card text should still be concise. The deeper reasoning belongs here so cards can stay usable.
+
+## Knowledge Layers
+
+The coach should draw from several kinds of knowledge:
+
+- research evidence and review papers
+- practical endurance-coaching conventions
+- trail and mountain-running demands
+- athlete response, readiness, fatigue, and injury-risk signals
+- card-library experience as the system grows
+
+Use stronger language when evidence and practice agree. Use more cautious language when guidance depends heavily on athlete context, terrain, or uncertain transfer.
 
 ## Periodization Structure
 

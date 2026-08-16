@@ -3,7 +3,10 @@ import json
 from pathlib import Path
 from typing import Any
 
-from training_cards.serialization import card_from_dict, card_to_dict
+from training_cards.serialization import (
+    card_from_dict,
+    card_to_dict,
+)
 from training_cards.schemas import BaseTrainingCard
 
 MANIFEST_FILE_NAME = "manifest.json"

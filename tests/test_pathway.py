@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import unittest
 
-from training_cards.pathway import build_pathway_index, validate_pathway_publish_ready
+from training_cards.pathway import (
+    build_pathway_index,
+    validate_pathway_publish_ready,
+)
 from training_cards.schemas import (
     CardReference,
     CardRelationship,

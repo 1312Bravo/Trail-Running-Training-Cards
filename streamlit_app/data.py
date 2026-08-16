@@ -5,7 +5,10 @@ from typing import Any
 
 import streamlit as st
 
-from training_cards.json_store import load_card_library_from_json, load_display_config
+from training_cards.json_store import (
+    load_card_library_from_json,
+    load_display_config,
+)
 from training_cards.pathway import build_pathway_index
 from training_cards.schemas import CardType
 

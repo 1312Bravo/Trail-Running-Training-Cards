@@ -2,7 +2,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-from training_cards.cloud_config import CARD_TYPE_FOLDER_IDS, GOOGLE_DRIVE_LIBRARY, GoogleDriveLibraryConfig
+from training_cards.cloud_config import (
+    CARD_TYPE_FOLDER_IDS,
+    GOOGLE_DRIVE_LIBRARY,
+    GoogleDriveLibraryConfig,
+)
 from training_cards.json_store import (
     CARDS_ROOT,
     DISPLAY_CONFIG_FILE_NAME,
