@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MacroCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MacroCard,
+    TrainingLevel,
+)
 
 peak_and_taper = MacroCard(
     id = 'macro_005',

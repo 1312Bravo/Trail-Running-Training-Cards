@@ -1,4 +1,4 @@
-# Training Card Object Definitions
+# Schema Onboarding Notes
 
 This note explains the basic meaning of the training-card classes and how to think about their fields.
 

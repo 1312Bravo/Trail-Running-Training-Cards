@@ -1,6 +1,6 @@
-# Evidence And Coaching Sources
+# Coach Knowledge Sources
 
-These notes track where the training-card ideas come from and how each source is used. The cards should stay practical and concise, but this file keeps the reasoning traceable for later reporting.
+These notes track where the training-card coaching knowledge comes from and how each source is used. The cards should stay practical and concise, but this file keeps the reasoning traceable for later reporting.
 
 ## Periodization Structure
 

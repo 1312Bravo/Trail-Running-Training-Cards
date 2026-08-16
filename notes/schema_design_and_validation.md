@@ -1,13 +1,13 @@
-# Training Card Schema Notes
+# Schema Design And Validation
 
-These notes explain the current card-class structure and the reasoning behind it.
+These notes explain the current card-class structure, reference model, validation behavior, and reasoning behind them.
 
 ## Coach Prompt
 
 Before changing schemas or creating cards, consult:
 
 ```text
-prompts/coach_card_creation_prompt.md
+coaching/coach_card_creation_prompt.md
 ```
 
 The prompt is the coaching standard for this folder. It should guide both the card content and the schema design.

@@ -47,7 +47,16 @@ def transform_file(path: Path, family_import: str, family_value: str) -> bool:
 
     import_line = f"from training_cards.session_families import {family_import}"
     if import_line not in updated:
-        marker = "from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel\n"
+        marker = (
+            "from training_cards.schemas import (\n"
+            "    CardRelationship,\n"
+            "    CardReference,\n"
+            "    CardType,\n"
+            "    SessionCard,\n"
+            "    SessionPart,\n"
+            "    TrainingLevel,\n"
+            ")\n"
+        )
         replacement = marker + import_line + "\n"
         if marker not in updated:
             raise ValueError(f"Expected schema import line in {path.name}")

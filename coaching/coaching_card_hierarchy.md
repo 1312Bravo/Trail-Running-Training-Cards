@@ -1,6 +1,6 @@
-# Coach Perspective Notes For Training Cards
+# Coaching Card Hierarchy
 
-This note explains the card types from a coach's point of view. The goal is to make each class feel like a real coaching tool, not just a data structure.
+This note explains the card hierarchy from a coach's point of view. The goal is to make each card level feel like a real coaching tool, not just a data structure.
 
 The basic idea is simple: a training plan is made of layers, and each layer has a different job. The card system mirrors that coaching reality so the library stays practical instead of abstract.
 

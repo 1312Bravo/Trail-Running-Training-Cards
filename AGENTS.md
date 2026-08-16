@@ -7,7 +7,7 @@ This repository contains the standalone Training Cards library.
 - Treat Google Drive JSON as the source of truth for card content.
 - Use training_cards/local_cache/ only as a temporary downloaded working copy.
 - Run validation after editing JSON or syncing with Drive.
-- Consult prompts/coach_card_creation_prompt.md before changing card content, schemas, or coaching logic.
+- Consult coaching/coach_card_creation_prompt.md before changing card content, schemas, or coaching logic.
 - Keep code readable and avoid unnecessary abstraction.
 - Preserve secrets and local cache files out of git.
 

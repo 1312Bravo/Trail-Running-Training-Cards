@@ -1,6 +1,6 @@
-# Training Card Cloud Storage Notes
+# Cloud Library Storage Workflow
 
-These notes describe the intended storage model for the training-card library.
+These notes describe the storage and sync workflow for the training-card cloud library.
 
 ## Direction
 

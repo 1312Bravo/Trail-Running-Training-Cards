@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MicroCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MicroCard,
+    TrainingLevel,
+)
 
 recovery_week = MicroCard(
     id = 'micro_001',

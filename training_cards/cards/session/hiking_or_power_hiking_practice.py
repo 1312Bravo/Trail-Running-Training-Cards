@@ -1,4 +1,11 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    SessionCard,
+    SessionPart,
+    TrainingLevel,
+)
 from training_cards.session_families import TRAIL_SPECIFIC_SESSION_FAMILY
 
 hiking_or_power_hiking_practice = SessionCard(

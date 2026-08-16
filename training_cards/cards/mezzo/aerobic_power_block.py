@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MezzoCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MezzoCard,
+    TrainingLevel,
+)
 
 aerobic_power_block = MezzoCard(
     id = 'mezzo_005',

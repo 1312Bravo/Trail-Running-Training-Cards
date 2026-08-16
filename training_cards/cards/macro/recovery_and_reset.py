@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MacroCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MacroCard,
+    TrainingLevel,
+)
 
 recovery_and_reset = MacroCard(
     id = 'macro_006',
