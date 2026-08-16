@@ -1,12 +1,13 @@
 # Card Authoring Guidance
 
-This note explains how to write and review training cards once the coach perspective, hierarchy, and source history are understood.
+This note explains how to write and review training cards once the shared coaching foundation, selected philosophy profile, hierarchy, and relevant source history are understood.
 
 Use this file with:
 
-- `coaching/coaching_philosophy.md`
+- `coaching/coaching_foundation.md`
 - `coaching/card_hierarchy.md`
-- `coaching/source_history.md`
+- `coaching/philosophies/<profile>/philosophy.md`
+- `coaching/philosophies/<profile>/source_history.md`
 
 Treat the current schema as the working container for card content. Do not redesign the schema during normal card writing; only flag a schema limitation when the coaching content truly cannot be expressed with the current fields.
 
@@ -15,8 +16,9 @@ Treat the current schema as the working container for card content. Do not redes
 Before writing or rebuilding a card, check:
 
 - the intended card level in `coaching/card_hierarchy.md`
-- the coach voice and principles in `coaching/coaching_philosophy.md`
-- any relevant source history in `coaching/source_history.md`
+- the shared coach identity and standards in `coaching/coaching_foundation.md`
+- the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
+- any relevant source history in `coaching/philosophies/<profile>/source_history.md`
 - whether the card should be broad and reusable or more specific inside the details only
 
 ## Card Quality Standard

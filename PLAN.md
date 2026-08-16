@@ -29,6 +29,7 @@ Before rebuilding or expanding the cards, we first need to clarify:
 - Split `coach_guidance.md` into `coaching_philosophy.md` and `card_authoring_guidance.md`.
 - Lightly refined the current coaching files before moving into deeper coaching-foundation work.
 - Archived `coaching_philosophy.md` and `source_history.md` as `_old` reference files and created fresh working versions.
+- Established a shared coaching foundation and a folder-per-philosophy structure; preserved the active foundation and source-history scaffold through file moves rather than content rewrites.
 
 ## Phase 1: Notes Structure
 
@@ -36,11 +37,14 @@ Create a cleaner notes and coaching-folder structure from the audit.
 
 Status: completed for now. The `coaching/` folder will stay intentionally small, with a few larger files instead of many narrow files.
 
-Current coaching files:
+Current coaching structure:
 
-- `coaching/coaching_philosophy.md`: coach identity, principles, source posture, specificity rules, and safety boundary.
+- `coaching/coaching_foundation.md`: shared coach identity and standards that apply across every philosophy profile.
+- `coaching/philosophies/<profile>/philosophy.md`: a complete, internally consistent coaching approach.
+- `coaching/philosophies/<profile>/source_history.md`: sources, rationale, and evidence history for that specific philosophy.
+- `coaching/philosophies/_template/philosophy.md`: provisional topic structure for future philosophy profiles.
+- `coaching/philosophies/_template/source_history.md`: preserved source-history scaffold for creating future profile histories.
 - `coaching/card_authoring_guidance.md`: practical guidance for writing, reviewing, structuring, and displaying cards.
-- `coaching/source_history.md`: where the coach's knowledge came from, including evidence, practice, trail demands, readiness, fatigue, and lessons learned while rebuilding cards.
 - `coaching/card_hierarchy.md`: coach-facing explanation of macro, mezzo, micro, and session layers.
 
 Proposed structure from the audit:
@@ -61,37 +65,34 @@ Structure goals:
 
 ## Phase 2: Coaching Knowledge Foundation
 
-Define the source of the coach's knowledge.
+Define the shared coaching foundation, then establish philosophy-specific coaching approaches and their source history.
 
-Status: active. Work through the coaching philosophy step by step, then update related coaching files where needed.
+Status: active. Keep the coach identity and responsible-guidance standards shared; define training models, knowledge stance, and source history inside individual philosophy profiles.
 
 Key questions:
 
-- What coaching principles should guide every card?
-- What evidence sources and best practices should inform the library?
-- How should practical coaching experience be represented?
+- What standards must apply across every coaching philosophy?
+- What complete coaching philosophy should be defined first?
+- How should each philosophy represent its own sources, evidence, coaching practice, and uncertainty?
 - How should athlete readiness, fatigue, injury history, and recovery influence card choice?
 - How should trail and mountain demands change otherwise general running guidance?
 - How should the library handle uncertainty, adaptation, and individual differences?
 
 Likely outputs:
 
-- clearer coaching principles
-- explicit evidence and practice standards
-- a trail-running adaptation model
-- a fatigue and readiness decision framework
-- a progression and regression framework
+- a clear shared coaching foundation
+- one or more explicit philosophy profiles
+- philosophy-specific source histories
+- philosophy-specific trail-running adaptation, fatigue/readiness, and progression/regression frameworks
 
-Coaching philosophy TODO:
+Coaching foundation and philosophy-profile TODO:
 
 - [x] Define the coach identity as broadly reusable coaching guidance: an experienced, practical, athlete-centred endurance-running coach with trail and mountain depth; aware of the runner's whole life and varied goals; focused on durable development, purposeful and enjoyable training, education, athlete agency, a calm but firm tone, and clear professional scope.
-- [ ] Define the coaching principles: consistency, durability, recovery, specificity, progression, restraint, and readiness.
-- [ ] Define training load and adaptation: volume, intensity, vertical gain, downhill load, terrain, strength, fueling, life stress, recovery, progression, and readiness.
-- [ ] Define the trail and mountain philosophy: how general running guidance changes for trail and mountain contexts.
-- [ ] Define knowledge and uncertainty: how evidence, coaching practice, athlete feedback, and uncertainty are handled.
-- [ ] Define the implications for cards: how the philosophy should change actual card content, without duplicating detailed authoring guidance.
-- [ ] Refine the safety boundary: when cards should include conservative language or recommend professional support.
-- [ ] Update related files if needed: `card_authoring_guidance.md`, `card_hierarchy.md`, and `source_history.md`.
+- [ ] Decide which additional standards genuinely belong in the shared foundation; the provisional topic headings now live in the philosophy template.
+- [ ] Decide the first complete coaching philosophy profile.
+- [ ] Define that profile's principles, training load and adaptation model, trail and mountain approach, knowledge and decision-making stance, and practical implications.
+- [ ] Create and maintain a source history inside each philosophy profile.
+- [ ] Update related files if needed: `card_authoring_guidance.md` and `card_hierarchy.md`.
 
 Reference files:
 
@@ -100,8 +101,8 @@ Reference files:
 
 Active files:
 
-- `coaching/coaching_philosophy.md`
-- `coaching/source_history.md`
+- `coaching/coaching_foundation.md`
+- `coaching/philosophies/_template/source_history.md`
 
 ## Phase 3: Coaching Prompt Structure
 
@@ -109,7 +110,7 @@ Update the prompts after the note structure and coaching foundation are clearer.
 
 Possible prompt work:
 
-- improve `coaching/coaching_philosophy.md`
+- improve `coaching/coaching_foundation.md`
 - improve `coaching/card_authoring_guidance.md`
 - separate card creation guidance from card review guidance if useful
 - make the prompt clearer about field purpose and coaching voice
@@ -167,15 +168,11 @@ Potential expansion areas:
 
 ## Immediate Next Step
 
-Start Phase 2 by expanding `coaching/coaching_philosophy.md` and `coaching/source_history.md` into the coaching foundation.
+Complete the shared standards in `coaching/coaching_foundation.md`, then decide and define the first philosophy profile.
 
-For now, do not create separate files for:
+For now, keep each philosophy profile focused on these two files:
 
-- coaching principles
-- training stress model
-- trail and mountain adaptations
-- progression and regression framework
-- card quality review
-- card creation workflow
+- `philosophy.md`
+- `source_history.md`
 
-Fold those topics into the larger coaching files first. Split them out later only if the files become too large or hard to navigate.
+Keep related topics inside that profile's `philosophy.md` first. Split them out later only if the profile becomes too large or hard to navigate.
