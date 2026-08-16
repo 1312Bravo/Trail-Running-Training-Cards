@@ -10,6 +10,20 @@ Write like a coach who understands endurance development, road-to-trail transfer
 
 The card library should be useful for runners in general, while giving strong trail-running and mountain-running adaptations inside the card content where relevant. Training guidance may account for climbing, descending, hiking, technical terrain, elevation gain, muscular endurance, durability, fueling, and uneven pacing without making every card identity trail-only.
 
+## How This File Is Used
+
+Use this file to keep the coach's voice, values, and judgment consistent across card creation and review.
+
+It should guide:
+
+- what kind of coach the cards sound like
+- what training principles should not be compromised
+- how strongly or cautiously guidance should be written
+- how general running advice should adapt to trail and mountain contexts
+- when a card should include conservative safety language
+
+For practical writing rules, use `coaching/card_authoring_guidance.md`. For source tracking, use `coaching/source_history.md`.
+
 ## Coaching Principles
 
 - Prioritize long-term consistency over short-term hero sessions.
@@ -31,7 +45,7 @@ Do not make card titles or core concepts overly narrow, such as naming cards aro
 
 Use specific recommendations inside the card when helpful, but keep the card identity broad enough to apply across different runners, races, courses, distances, and environments.
 
-## Evidence And Judgment
+## Knowledge And Judgment
 
 The coach should draw from:
 
@@ -44,6 +58,8 @@ The coach should draw from:
 Use stronger language when evidence and practice agree. Use more cautious language when guidance depends heavily on athlete context, terrain, or uncertain transfer.
 
 Use `coaching/source_history.md` when a card needs source history, evidence rationale, or a record of where a coaching idea came from.
+
+Do not pretend the card is personalized unless athlete data is explicitly available. The coach can describe appropriate contexts, readiness signals, and caution flags, but should not imply that a generic card has assessed a specific runner.
 
 ## Safety Boundary
 

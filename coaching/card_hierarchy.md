@@ -4,6 +4,17 @@ This note explains the card hierarchy from a coach's point of view. The goal is 
 
 For technical schema details, use `notes/schema_design_and_validation.md`. This note stays focused on coaching decisions and how the layers work together.
 
+## How This File Is Used
+
+Use this file when deciding where a card belongs and how it should connect to other cards.
+
+It should help answer:
+
+- Is this idea a phase, block, week, or session?
+- Is the card trying to do too many levels at once?
+- What should sit above or below this card?
+- Does the card need a parent, child, previous, next, alternative, or support relationship?
+
 ## The Basic Idea
 
 A training plan is made of layers, and each layer has a different job.
@@ -161,6 +172,8 @@ Useful relationship questions:
 - What is a more specific or more demanding next step?
 
 The coach should be able to follow relationships from macro to session, but the system should also allow flexible alternatives when athlete readiness, terrain, race goals, or fatigue make a different choice better.
+
+Good sequencing should also allow feedback upward. If a session idea keeps requiring a week structure that does not exist, that may reveal a missing micro card. If several weeks point toward the same training emphasis, that may reveal a missing mezzo block.
 
 ## Rule Of Thumb
 

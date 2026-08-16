@@ -10,6 +10,15 @@ Use this file with:
 
 Treat the current schema as the working container for card content. Do not redesign the schema during normal card writing; only flag a schema limitation when the coaching content truly cannot be expressed with the current fields.
 
+## Before Writing
+
+Before writing or rebuilding a card, check:
+
+- the intended card level in `coaching/card_hierarchy.md`
+- the coach voice and principles in `coaching/coaching_philosophy.md`
+- any relevant source history in `coaching/source_history.md`
+- whether the card should be broad and reusable or more specific inside the details only
+
 ## Card Quality Standard
 
 Each card should answer these questions clearly:
@@ -48,6 +57,18 @@ A good card should make it easy to understand:
 - Avoid pretending the card is personalized unless athlete data is explicitly provided.
 - Favor practical, research-aware coaching guidance over long explanations. Include detail when it changes the training decision.
 - When current best practice or evidence is likely to matter, check reliable sources before finalizing detailed card content.
+
+## Field Discipline
+
+- `summary`: one preview-safe sentence for quick comparison.
+- `purpose`: the coaching job of the card.
+- `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
+- `training_profile`: the actual stress pattern, feel, terrain, and loading demand.
+- `expected_adaptations`: what the athlete should gain from the card.
+- `watchouts`: when not to use the card and common mistakes.
+- `progression_rules`: how to build when the card is working.
+- `regression_rules`: how to simplify when readiness or recovery is not there.
+- `additional_information`: deeper coaching context that does not repeat the preview.
 
 ## Creation Workflow
 

@@ -27,6 +27,7 @@ Before rebuilding or expanding the cards, we first need to clarify:
 - Kept technical and project notes in `notes/`.
 - Merged `schema_onboarding_notes.md` into `notes/schema_design_and_validation.md`.
 - Split `coach_guidance.md` into `coaching_philosophy.md` and `card_authoring_guidance.md`.
+- Lightly refined the current coaching files before moving into deeper coaching-foundation work.
 
 ## Phase 1: Notes Structure
 
@@ -141,7 +142,7 @@ Potential expansion areas:
 
 ## Immediate Next Step
 
-Start Phase 2 by expanding `coaching/source_history.md` into the coaching foundation.
+Start Phase 2 by expanding `coaching/coaching_philosophy.md` and `coaching/source_history.md` into the coaching foundation.
 
 For now, do not create separate files for:
 
