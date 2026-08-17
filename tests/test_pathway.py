@@ -62,6 +62,46 @@ class PathwayIndexTests(unittest.TestCase):
 
         validate_pathway_publish_ready(cards)
 
+    def test_sequence_and_alternative_references_must_stay_at_the_same_level(self) -> None:
+        cards = [
+            _macro(
+                "macro_001",
+                references=[
+                    CardReference(
+                        card_id="mezzo_001",
+                        relationship=CardRelationship.NEXT,
+                    ),
+                    CardReference(
+                        card_id="mezzo_002",
+                        relationship=CardRelationship.ALTERNATIVE,
+                    ),
+                ],
+            ),
+            _mezzo("mezzo_001"),
+            _mezzo("mezzo_002"),
+        ]
+
+        issues = build_pathway_index(cards).validate_relaxed()
+
+        self.assertEqual(["error", "error"], [issue.severity for issue in issues])
+        self.assertIn("same planning level", issues[0].message)
+
+    def test_support_references_can_cross_planning_levels(self) -> None:
+        cards = [
+            _macro(
+                "macro_001",
+                references=[
+                    CardReference(
+                        card_id="session_001",
+                        relationship=CardRelationship.SUPPORT,
+                    )
+                ],
+            ),
+            _session("session_001"),
+        ]
+
+        validate_pathway_publish_ready(cards)
+
     def test_reachability_counts_full_pathway(self) -> None:
         cards = [
             _macro("macro_001", references=[_child("mezzo_001")]),

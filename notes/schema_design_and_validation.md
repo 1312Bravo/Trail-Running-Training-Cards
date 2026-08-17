@@ -7,8 +7,9 @@ These notes explain the current card-class structure, reference model, validatio
 Before changing schemas or creating cards, consult:
 
 ```text
-coaching/coaching_philosophy.md
+coaching/coaching_foundation.md
 coaching/card_authoring_guidance.md
+coaching/philosophies/<profile>/philosophy.md
 ```
 
 The prompt is the coaching standard for this folder. It should guide both the card content and the schema design.
@@ -30,6 +31,7 @@ BaseTrainingCard
 - identity: `id`, `slug`, `title`, `card_type`
 - audience: `suitable_levels`
 - preview: `summary`
+- coaching-philosophy provenance: `philosophy_profile_ids`
 - coaching purpose: `purpose`
 - race/context fit: `goal_race_context`
 - load description: `training_profile`
@@ -41,6 +43,14 @@ BaseTrainingCard
 - graph links: `references`
 
 `MacroCard`, `MezzoCard`, `MicroCard`, and `SessionCard` inherit the shared base fields and add only the fields that belong at their own planning level.
+
+## Coaching Philosophy Profile IDs
+
+`philosophy_profile_ids` records which coaching philosophy profiles materially shaped a card. It is a list because a card can draw from more than one profile.
+
+- Use `common` when a card is shaped only by the shared coaching foundation.
+- For every other value, use the philosophy directory name under `coaching/philosophies/` exactly.
+- The field is visible in the card preview and detail view, searchable, and available as a Browse-mode filter.
 
 `SessionFamily` is a separate object used by `SessionCard` to define the reusable workout-family taxonomy. This keeps family labels searchable and consistent without turning them into a full training card.
 
@@ -234,6 +244,16 @@ CardReference(
 ```
 
 Use reference tags for structured context. Put longer explanations in the card content itself.
+
+## Relationship Contract
+
+The `relationship` value has strict structural meaning:
+
+- `parent` and `child` must connect exactly adjacent planning levels.
+- `previous`, `next`, and `alternative` must connect cards at the same planning level.
+- `support` may connect any levels, but it must not be interpreted as a pathway parent or child.
+
+For `support`, read `source -> target` as: the target materially supports or contextualises the source. Tags explain the reason for a link but do not change the controlled relationship value.
 
 ## Pathway Index And Relaxed Validation
 

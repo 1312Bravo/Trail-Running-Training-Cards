@@ -327,7 +327,7 @@ def render_preview_card(
     preview_fields = display_config.get("preview_fields", [])
     ordered_preview_fields = [
         field_name
-        for field_name in ["summary", "purpose", "suitable_levels", "goal_race_context", "training_profile", "tags"]
+        for field_name in ["summary", "purpose", "suitable_levels", "goal_race_context", "training_profile", "philosophy_profile_ids", "tags"]
         if field_name in preview_fields
     ]
     card_type_key = str(card.card_type).replace("_", "-")

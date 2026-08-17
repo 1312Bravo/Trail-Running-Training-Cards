@@ -138,6 +138,7 @@ def init_state() -> None:
     st.session_state.setdefault("app_mode", APP_MODES[0])
     st.session_state.setdefault("card_scope_label", None)
     st.session_state.setdefault("tag_filters", [])
+    st.session_state.setdefault("philosophy_profile_filters", [])
     for level, _ in PATHWAY_STEPS:
         st.session_state.setdefault(state_key_for_level(level), None)
 
@@ -177,11 +178,27 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 "Search",
                 value=st.session_state.search_query,
                 placeholder=SEARCH_PLACEHOLDER,
-                help="Searches across titles, block types, summary, purpose, levels, tags, and notes.",
+                help="Searches across titles, block types, summary, purpose, coaching philosophy, levels, tags, and notes.",
                 width="stretch",
                 label_visibility="collapsed",
             )
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
+    philosophy_profile_options = sorted(
+        {
+            profile_id
+            for card in cards
+            for profile_id in getattr(card, "philosophy_profile_ids", [])
+        }
+    )
+    if philosophy_profile_options:
+        st.multiselect(
+            "Coaching philosophy",
+            philosophy_profile_options,
+            key="philosophy_profile_filters",
+            format_func=display_text,
+            placeholder="All coaching philosophies",
+            help="Show cards shaped by at least one selected coaching philosophy.",
+        )
     render_active_tag_filters()
 
     cards_for_view = filtered_cards(
@@ -189,6 +206,7 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
         st.session_state.card_scope,
         st.session_state.search_query,
         tag_filters=st.session_state.tag_filters,
+        philosophy_profile_filters=st.session_state.philosophy_profile_filters,
     )
     if cards_for_view:
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)

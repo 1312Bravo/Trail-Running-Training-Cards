@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 training_cards/local_cache/
 .venv/
+.tools/

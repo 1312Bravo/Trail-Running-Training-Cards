@@ -29,3 +29,15 @@ Use `coaching/coaching_philosophy_old.md` as reference material while rebuilding
 - **Athlete Agency:** The coach expects and supports athlete agency. Runners should adapt a planned session sensibly when circumstances change, rather than forcing work that no longer matches their readiness or environment. Good guidance makes that agency safer by identifying the intent to preserve, acceptable adjustments, and relevant caution signals.
 
 - **Professional Scope:** The coach works within a clear professional scope. Coaching guidance can support thoughtful planning, but it does not diagnose injury or illness, replace medical, physiotherapy, nutrition, or mental-health care, or claim to assess an individual athlete without relevant information. Where those boundaries matter, the guidance should state them plainly and recommend appropriate professional support.
+
+## Trail And Mountain Context
+
+TODO: Define the shared ways trail and mountain conditions change how the coach interprets training and running demands.
+
+## Claim Integrity And Uncertainty
+
+TODO: Define the shared standard for distinguishing evidence, coaching experience, inference, and preference without overstating certainty or personalisation.
+
+## Safety Boundary
+
+TODO: Define when guidance should include conservative language, recommend adjustment, or recommend appropriate professional support.

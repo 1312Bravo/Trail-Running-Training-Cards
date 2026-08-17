@@ -39,7 +39,7 @@ taper_week = MicroCard(
     references = [
         CardReference(
             card_id = 'macro_005',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'race_week'
             ]

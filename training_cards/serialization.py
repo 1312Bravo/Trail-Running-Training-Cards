@@ -4,6 +4,7 @@ from typing import Any
 
 from training_cards.schemas import (
     BaseTrainingCard,
+    COMMON_PHILOSOPHY_PROFILE_ID,
     CardReference,
     CardRelationship,
     CardType,
@@ -58,6 +59,7 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
     card_type = CardType(card_data["card_type"])
 
     card_data.setdefault("slug", card_data["id"].replace("_", "-"))
+    card_data.setdefault("philosophy_profile_ids", [COMMON_PHILOSOPHY_PROFILE_ID])
     card_data["card_type"] = card_type
     card_data["suitable_levels"] = [TrainingLevel(level) for level in card_data["suitable_levels"]]
 

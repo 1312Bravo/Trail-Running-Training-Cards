@@ -58,14 +58,14 @@ peak_and_taper = MacroCard(
         ),
         CardReference(
             card_id = 'mezzo_009',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'fatigue_management'
             ]
         ),
         CardReference(
             card_id = 'micro_009',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'race_week'
             ]

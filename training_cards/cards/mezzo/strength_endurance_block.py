@@ -74,7 +74,7 @@ strength_endurance_block = MezzoCard(
         ),
         CardReference(
             card_id = 'session_010',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'key_session'
             ]

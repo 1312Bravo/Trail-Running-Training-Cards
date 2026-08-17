@@ -51,7 +51,7 @@ strength_endurance_hills = SessionCard(
         ),
         CardReference(
             card_id = 'mezzo_003',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'core_session'
             ]

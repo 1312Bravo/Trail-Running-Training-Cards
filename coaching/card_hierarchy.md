@@ -56,6 +56,19 @@ Every card should help a coach decide:
 
 The shared fields are there to support coaching judgment, comparison, display, and linking. They should not become filler. If a field does not help the coach choose, adapt, sequence, or explain the card, it probably needs less text.
 
+## Relationship Contract
+
+Every relationship describes the target card in relation to the source card. Use the most specific relationship that is true; tags add context, but do not change the relationship's meaning.
+
+- **Parent:** The target is exactly one planning level above the source and directly contains its planning role. For example, a micro week can have a mezzo block parent.
+- **Child:** The target is exactly one planning level below the source and directly implements its planning role. For example, a mezzo block can have a micro week child.
+- **Previous:** The target is a usual preceding option at the same planning level.
+- **Next:** The target is a usual following option at the same planning level.
+- **Alternative:** The target is an interchangeable option at the same planning level and for a similar coaching decision.
+- **Support:** The target materially supports or contextualises the source card, but is not its direct structural parent, child, or sequence step. Support can cross planning levels.
+
+Read `source --support--> target` as: the target usefully supports or contextualises the source. Add reciprocal support references only when both card detail views need the connection. A support relationship must not be used to create or imply a pathway hierarchy.
+
 ## Macro Cards
 
 Macro cards describe the broad training phase.

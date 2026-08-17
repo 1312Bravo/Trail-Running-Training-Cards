@@ -66,7 +66,7 @@ aerobic_power_block = MezzoCard(
         ),
         CardReference(
             card_id = 'session_008',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'key_session'
             ]

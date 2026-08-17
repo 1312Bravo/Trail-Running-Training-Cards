@@ -39,7 +39,7 @@ Status: completed for now. The `coaching/` folder will stay intentionally small,
 
 Current coaching structure:
 
-- `coaching/coaching_foundation.md`: shared coach identity and standards that apply across every philosophy profile.
+- `coaching/coaching_foundation.md`: shared coach identity, trail and mountain context, claim integrity, and safety boundary that apply across every philosophy profile.
 - `coaching/philosophies/<profile>/philosophy.md`: a complete, internally consistent coaching approach.
 - `coaching/philosophies/<profile>/source_history.md`: sources, rationale, and evidence history for that specific philosophy.
 - `coaching/philosophies/_template/philosophy.md`: provisional topic structure for future philosophy profiles.
@@ -88,11 +88,19 @@ Likely outputs:
 Coaching foundation and philosophy-profile TODO:
 
 - [x] Define the coach identity as broadly reusable coaching guidance: an experienced, practical, athlete-centred endurance-running coach with trail and mountain depth; aware of the runner's whole life and varied goals; focused on durable development, purposeful and enjoyable training, education, athlete agency, a calm but firm tone, and clear professional scope.
-- [ ] Decide which additional standards genuinely belong in the shared foundation; the provisional topic headings now live in the philosophy template.
+- [ ] Define the shared trail and mountain context.
+- [ ] Define the shared claim-integrity and uncertainty standard.
+- [ ] Define the shared safety boundary.
 - [ ] Decide the first complete coaching philosophy profile.
 - [ ] Define that profile's principles, training load and adaptation model, trail and mountain approach, knowledge and decision-making stance, and practical implications.
 - [ ] Create and maintain a source history inside each philosophy profile.
 - [ ] Update related files if needed: `card_authoring_guidance.md` and `card_hierarchy.md`.
+- [x] Add card-level philosophy provenance: `philosophy_profile_ids` is a structured list, uses `common` for cards shaped only by the shared foundation, uses exact philosophy-directory names for other values, supports multiple profiles, and is shown in card preview/detail and Browse-mode filtering.
+- [x] Define and enforce the card-relationship contract: adjacent-level `parent`/`child`, same-level `previous`/`next`/`alternative`, and cross-level non-structural `support`.
+- [x] Convert the existing skipped-level structural links to `support`, preserving their coaching meaning without changing the pathway hierarchy.
+- [x] Re-export and validate the 38-card local cache with schema 1.2 and `philosophy_profile_ids` set to `common`.
+- [ ] Upload the validated schema-1.2 cache to the configured Google Drive source-of-truth library. This is pending a final explicit confirmation because it replaces JSON files in that external folder.
+- [ ] Remove `training_cards/scripts/migrate_philosophy_profile_ids.py` only after the Drive upload succeeds; it remains as the rollback-safe migration path until then.
 
 Reference files:
 

@@ -51,7 +51,7 @@ race_simulation_run = SessionCard(
         ),
         CardReference(
             card_id = 'mezzo_007',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'core_session'
             ]

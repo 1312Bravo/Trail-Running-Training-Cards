@@ -127,6 +127,18 @@ class PathwayIndex:
                     issue = self._validate_pathway_direction(card, target, reference.relationship)
                     if issue:
                         issues.append(issue)
+                elif reference.relationship in {
+                    CardRelationship.PREVIOUS,
+                    CardRelationship.NEXT,
+                    CardRelationship.ALTERNATIVE,
+                }:
+                    issue = self._validate_same_level_relationship(
+                        card,
+                        target,
+                        reference.relationship,
+                    )
+                    if issue:
+                        issues.append(issue)
 
         return issues
 
@@ -197,6 +209,24 @@ class PathwayIndex:
             ),
         )
 
+    def _validate_same_level_relationship(
+        self,
+        source: BaseTrainingCard,
+        target: BaseTrainingCard,
+        relationship: CardRelationship,
+    ) -> GraphIssue | None:
+        if source.card_type == target.card_type:
+            return None
+
+        return GraphIssue(
+            "error",
+            source.id,
+            (
+                f"{relationship} reference to {target.id} must stay within the same "
+                f"planning level, not {source.card_type} to {target.card_type}."
+            ),
+        )
+
     def _sort_cards(self, cards: Iterable[BaseTrainingCard]) -> list[BaseTrainingCard]:
         return sorted(cards, key=lambda card: (PATHWAY_CARD_TYPES.index(str(card.card_type)), card.title))
 
@@ -212,7 +242,7 @@ def build_pathway_index(cards: Iterable[BaseTrainingCard]) -> PathwayIndex:
 
 
 def validate_pathway_publish_ready(cards: Iterable[BaseTrainingCard]) -> None:
-    """Raise when parent/child references are not safe to publish."""
+    """Raise when card relationships violate the publish-ready contract."""
     issues = build_pathway_index(cards).validate_relaxed()
     errors = [issue for issue in issues if issue.severity == "error"]
 

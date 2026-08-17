@@ -19,6 +19,7 @@ Before writing or rebuilding a card, check:
 - the shared coach identity and standards in `coaching/coaching_foundation.md`
 - the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
 - any relevant source history in `coaching/philosophies/<profile>/source_history.md`
+- the `philosophy_profile_ids` value: use `common` when only the shared foundation shaped the card; otherwise use the exact directory names of every philosophy profile that materially shaped it
 - whether the card should be broad and reusable or more specific inside the details only
 
 ## Card Quality Standard
@@ -63,6 +64,7 @@ A good card should make it easy to understand:
 ## Field Discipline
 
 - `summary`: one preview-safe sentence for quick comparison.
+- `philosophy_profile_ids`: structured coaching-philosophy provenance. `common` is the reserved shared-foundation value; every other value must match a directory name under `coaching/philosophies/` exactly.
 - `purpose`: the coaching job of the card.
 - `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
 - `training_profile`: the actual stress pattern, feel, terrain, and loading demand.
@@ -100,6 +102,8 @@ Session cards should include a structured workout guide when enough information 
 ## Card Relationships
 
 Cards should be connected with structured references rather than loose string lists or deep nested folders. Keep card files grouped by planning level, and use references to describe hierarchy, sequencing, alternatives, and support relationships.
+
+Use `parent` and `child` only for directly adjacent planning levels. Use `previous`, `next`, and `alternative` only between cards at the same planning level. Use `support` for a meaningful cross-level connection that is not part of the direct Macro -> Mezzo -> Micro -> Session pathway.
 
 Use short tags on references when useful. Do not turn references into long explanations; longer reasoning belongs in the card content.
 

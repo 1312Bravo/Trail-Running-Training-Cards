@@ -50,7 +50,7 @@ aerobic_power_intervals = SessionCard(
         ),
         CardReference(
             card_id = 'mezzo_005',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'core_session'
             ]

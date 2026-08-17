@@ -72,7 +72,7 @@ fueling_practice_block = MezzoCard(
         ),
         CardReference(
             card_id = 'session_003',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'practice_session'
             ]

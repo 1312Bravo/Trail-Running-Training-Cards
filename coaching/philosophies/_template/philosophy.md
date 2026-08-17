@@ -10,18 +10,14 @@ TODO: Define the core principles that guide coaching decisions.
 
 TODO: Define how the coach judges applied stress, recovery, progression, and the adaptation sought.
 
-## Trail And Mountain Philosophy
+## Trail And Mountain Application
 
-TODO: Define how general running guidance changes for trail and mountain contexts.
+TODO: Define how this philosophy specifically trains for trail and mountain demands.
 
-## Knowledge And Uncertainty
+## Knowledge And Decision-Making
 
-TODO: Define how evidence, coaching practice, athlete feedback, and uncertainty are handled.
+TODO: Define how this philosophy uses research, coaching practice, athlete feedback, metrics, experimentation, and uncertainty to make decisions.
 
 ## Implications For Cards
 
 TODO: Define how this philosophy should change actual card content. Keep this section a concise bridge to `card_authoring_guidance.md`, rather than duplicating its detailed instructions.
-
-## Safety Boundary
-
-TODO: Define when guidance should include conservative language or recommend professional support.

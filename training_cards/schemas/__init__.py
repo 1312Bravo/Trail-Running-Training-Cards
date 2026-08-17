@@ -1,4 +1,4 @@
-from .base import BaseTrainingCard
+from .base import BaseTrainingCard, COMMON_PHILOSOPHY_PROFILE_ID
 from .enums import CardRelationship, CardType, TrainingLevel
 from .macro import MacroCard
 from .mezzo import MezzoCard
@@ -9,6 +9,7 @@ from .session_family import SessionFamily
 
 __all__ = [
     "BaseTrainingCard",
+    "COMMON_PHILOSOPHY_PROFILE_ID",
     "CardReference",
     "CardRelationship",
     "CardType",

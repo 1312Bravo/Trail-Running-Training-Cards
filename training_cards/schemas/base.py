@@ -3,6 +3,8 @@ from dataclasses import dataclass, field
 from .enums import CardType, TrainingLevel
 from .references import CardReference
 
+COMMON_PHILOSOPHY_PROFILE_ID = "common"
+
 # ----------------------------------------------------------
 # Shared Card Fields
 # ----------------------------------------------------------
@@ -19,6 +21,9 @@ class BaseTrainingCard:
     summary: str
     purpose: str
     tags: list[str] = field(default_factory=list)
+    philosophy_profile_ids: list[str] = field(
+        default_factory=lambda: [COMMON_PHILOSOPHY_PROFILE_ID]
+    )
     goal_race_context: list[str] = field(default_factory=list)
     training_profile: list[str] = field(default_factory=list)
     expected_adaptations: list[str] = field(default_factory=list)
@@ -43,4 +48,13 @@ class BaseTrainingCard:
             raise ValueError("Training card summary cannot be empty.")
         if not self.purpose.strip():
             raise ValueError("Training card purpose cannot be empty.")
+        if not self.philosophy_profile_ids:
+            raise ValueError("Training card philosophy_profile_ids cannot be empty.")
+        if any(
+            not isinstance(profile_id, str) or not profile_id.strip()
+            for profile_id in self.philosophy_profile_ids
+        ):
+            raise ValueError("Training card philosophy_profile_ids must contain non-empty strings.")
+        if len(self.philosophy_profile_ids) != len(set(self.philosophy_profile_ids)):
+            raise ValueError("Training card philosophy_profile_ids cannot contain duplicates.")
 

@@ -73,7 +73,7 @@ threshold_development_block = MezzoCard(
         ),
         CardReference(
             card_id = 'session_007',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'key_session'
             ]
