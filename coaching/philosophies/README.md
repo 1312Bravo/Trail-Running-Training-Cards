@@ -15,6 +15,7 @@ Profiles are not official material from, endorsements by, or claims to represent
 
 Each profile folder should contain:
 
+- `summary.md`: a short, practical overview of the coaching system and its main emphases.
 - `philosophy.md`: our structured interpretation of that coaching system.
 - `sources.md`: the sources used for that interpretation, with relevant notes, limits, and updates.
 
@@ -42,5 +43,5 @@ The profile-folder name is the stable profile ID used in card data. For example,
 1. Choose one named coaching system or team with enough accessible source material to interpret responsibly.
 2. Create a lowercase, underscore-separated folder name that can serve as a stable card profile ID.
 3. Copy the template and identify the source material before writing broad claims.
-4. Write the interpretation in `philosophy.md` and record supporting material in `sources.md`.
+4. Write the interpretation in `philosophy.md`, distil it in `summary.md`, and record supporting material in `sources.md`.
 5. Review the profile against the shared coaching foundation before using its ID on cards.

@@ -7,7 +7,7 @@ Every system below is currently **planned**. A system becomes active only after 
 ## CTS
 
 **Profile ID:** `cts`  
-**Status:** Planned
+**Status:** In development
 **Primary resource:** [CTS Ultrarunning](https://trainright.com/ultrarunning/)
 
 CTS is an endurance-coaching system with a substantial ultrarunning body of work, including material associated with Jason Koop. Its profile will examine how CTS interprets event demands, workload, long-range planning, intensity, and practical trail-running prescription.
