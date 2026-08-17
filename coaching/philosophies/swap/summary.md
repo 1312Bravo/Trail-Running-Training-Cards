@@ -2,27 +2,28 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of Some Work, All Play (SWAP), associated with David and Megan Roche. It is not an official SWAP document and does not yet make `swap` active for card authoring.
+**In development.** This is our documented interpretation of Some Work, All Play (SWAP), associated with David and Megan Roche. It is not official SWAP material and does not yet make `swap` active for card authoring.
 
 ## In Brief
 
-SWAP combines science-informed endurance coaching with a strong commitment to joy, long-term fulfilment, and unconditional athlete support. Its published philosophy emphasises running economy, speed development, fatigue resistance, and the idea that consistent adventurous training should support a sustainable life in the sport.
+SWAP combines science-informed endurance coaching with long-term fulfilment, unconditional support, joyful adventure, running economy, speed development, and curiosity about fatigue resistance. It treats engagement and health as part of durable performance development, not as an alternative to purposeful training.
 
 ## Main Emphases
 
-- Apply science and training theory to long-term growth rather than short-term punishment.
-- Develop running economy and speed so stronger running becomes easier over time.
-- Treat fatigue resistance as a meaningful part of late-race performance.
-- Put joy, support, inclusion, and long-term fulfilment alongside performance.
-- Allow coaching thinking to evolve when new evidence changes the interpretation.
+- Keep the whole person and long-term consistency inside the training decision.
+- Develop economy and speed as appropriate, transferable running skills.
+- Treat fatigue resistance as a useful performance question rather than a reason to seek exhaustion.
+- Combine science, coach experience, and athlete response, and revise thinking when evidence changes.
+- Use trail adventure and athlete agency purposefully, with clear session boundaries.
+- Protect fueling, recovery, and sustainable engagement as part of the training process.
 
 ## What It Does Not Mean
 
-- It does not mean enjoyment replaces purposeful training or honest recovery decisions.
-- It does not mean every athlete needs the same speed-oriented programme.
-- It does not mean emerging fatigue-resistance ideas are settled universal prescriptions.
+- It does not make enjoyable training unstructured or undemanding.
+- It does not make every athlete a candidate for the same speed-oriented work.
+- It does not treat emerging ideas about fatigue resistance or downhill training as settled protocols.
 
 ## Related Files
 
-- Read `philosophy.md` for the detailed interpretation.
-- Read `sources.md` for the current official source record.
+- `philosophy.md`: full interpretation, boundaries, and card implications.
+- `sources.md`: current public source record and direct-review requirements.

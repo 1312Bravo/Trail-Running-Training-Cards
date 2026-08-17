@@ -2,29 +2,30 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of Evoke Endurance and its Uphill Athlete lineage, principally associated with Scott Johnston. It is not an official Evoke Endurance document and does not yet make `evoke_endurance` active for card authoring.
+**In development.** This is our documented interpretation of Evoke Endurance and its shared Uphill Athlete lineage, principally associated with Scott Johnston. It is not official Evoke material and does not yet make `evoke_endurance` active for card authoring.
 
 ## In Brief
 
-Evoke Endurance is a mountain-endurance system built around a large aerobic base, then layered strength and muscular endurance, followed by more event-specific utilisation work. It treats recovery as the process that turns training stress into improved performance.
+Evoke is a mountain-endurance system built around a layered sequence: establish a substantial aerobic capacity, build sufficient strength reserve, add muscular endurance, and then use those capacities in increasingly event-specific work. It distinguishes the capacity a runner possesses from their ability to use it on the actual objective.
 
-The system is especially oriented toward long mountain objectives where sustained uphill movement, local muscular endurance, and the ability to use existing capacity under specific conditions are limiting. It is not trail-only coaching, but its mountain application is central rather than incidental.
+The profile is especially useful where sustained climbing, repeated local force, long mountain duration, and threshold-informed intensity control materially change the card. It remains running-first and uses mountain specificity only when it serves the athlete's goal.
 
 ## Main Emphases
 
-- Build aerobic capacity below the athlete's aerobic threshold before relying heavily on high-intensity work.
-- Layer muscular endurance on top of aerobic capacity instead of replacing aerobic volume with harder work.
-- Distinguish capacity training from later utilisation training that combines capacities more specifically for the goal.
-- Sequence strength, endurance, muscular endurance, and specific work so each is supported by the prior phase.
-- Use recovery, athlete feedback, and individual differences to set the dose and timing of training.
+- Build a large, individualised aerobic base before relying heavily on high-intensity work.
+- Use thresholds and field data to guide intensity, while retaining terrain-aware judgement.
+- Build strength reserve and layer muscular endurance without replacing aerobic volume.
+- Distinguish capacity training from later utilisation and event-rehearsal work.
+- Treat recovery, local muscular cost, and athlete response as evidence about the correct dose.
+- Describe the intended movement stimulus and give honest alternatives when mountain access is limited.
 
 ## What It Does Not Mean
 
-- It does not mean that every athlete needs the same threshold test, weighted uphill workout, or muscular-endurance block.
-- It does not mean high-intensity work is forbidden; it is placed deliberately and does not substitute for aerobic development.
-- It does not mean all running cards should become mountaineering plans.
+- It does not mean every athlete needs the same threshold test, weighted uphill workout, or muscular-endurance block.
+- It does not mean high intensity is forbidden; it must earn its place and not replace the base.
+- It does not make every running card a mountain or mountaineering card.
 
 ## Related Files
 
-- Read `philosophy.md` for the detailed interpretation.
-- Read `sources.md` for the Evoke and Uphill Athlete source record.
+- `philosophy.md`: full interpretation, boundaries, trail application, and card implications.
+- `sources.md`: reviewed source record and outstanding source-review work.

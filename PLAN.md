@@ -41,9 +41,9 @@ Current coaching structure:
 
 - `coaching/coaching_foundation.md`: shared coach identity, trail and mountain context, claim integrity, and safety boundary that apply across every philosophy profile.
 - `coaching/philosophies/<profile>/philosophy.md`: a complete, internally consistent coaching approach.
-- `coaching/philosophies/<profile>/source_history.md`: sources, rationale, and evidence history for that specific philosophy.
+- `coaching/philosophies/<profile>/sources.md`: reviewed sources, interpretation boundaries, and outstanding evidence work for that specific philosophy.
 - `coaching/philosophies/_template/philosophy.md`: provisional topic structure for future philosophy profiles.
-- `coaching/philosophies/_template/source_history.md`: preserved source-history scaffold for creating future profile histories.
+- `coaching/philosophies/_template/sources.md`: source-record scaffold for creating future profile histories.
 - `coaching/card_authoring_guidance.md`: practical guidance for writing, reviewing, structuring, and displaying cards.
 - `coaching/card_hierarchy.md`: coach-facing explanation of macro, mezzo, micro, and session layers.
 
@@ -100,7 +100,9 @@ Coaching foundation and philosophy-profile TODO:
 - [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `sharman_ultra`; keep it in development pending a deeper primary-source base.
 - [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `80_20_endurance`; keep it in development pending primary-book review.
 - [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `lydiard`; keep it in development pending primary-source review.
-- [ ] Create and maintain a `sources.md` record inside each philosophy profile.
+- [x] Expand all current system profiles into long-form interpretations with comparable structure: coaching principles, training load and adaptation, trail and mountain application, knowledge and decision-making, card implications, and current limits. The profiles remain in development until direct primary material is reviewed.
+- [x] Expand each current profile's `summary.md` and `sources.md` alongside the long-form philosophy, separating reviewed material from direct-source work still required.
+- [x] Create and maintain a `sources.md` record inside each philosophy profile.
 - [x] Define philosophy profiles as documented, source-grounded interpretations of named coaching systems or teams; add `coaching/philosophies/README.md` to set folder structure, source standards, profile-ID rules, and the `common` boundary.
 - [x] Catalogue the planned coaching systems in `coaching/philosophies/coaching_systems.md`, with primary official resource links: `cts`, `evoke_endurance` (including the Uphill Athlete lineage), `swap`, `sharman_ultra`, `80_20_endurance`, and `lydiard`.
 - [x] Align the `_template/` filenames and contents with the documented `summary.md`, `philosophy.md`, and `sources.md` structure.
@@ -120,7 +122,7 @@ Reference files:
 Active files:
 
 - `coaching/coaching_foundation.md`
-- `coaching/philosophies/_template/source_history.md`
+- `coaching/philosophies/_template/sources.md`
 
 ## Phase 3: Coaching Prompt Structure
 
@@ -174,7 +176,7 @@ Potential expansion areas:
 ## Working Rules
 
 - Keep `PLAN.md` current as decisions are made and phases are completed.
-- Write substantial coaching-philosophy points as labelled bullets, so individual ideas are easy to find and revise.
+- Write substantial coaching-philosophy points under clear mini-section headings with explanatory paragraphs, so individual ideas are easy to find and revise without becoming fragmented bullets.
 - Discuss direction before editing broad coaching content.
 - Keep schema changes out of scope unless content work exposes a real need.
 - Treat Google Drive JSON as the source of truth for card content.
@@ -186,11 +188,12 @@ Potential expansion areas:
 
 ## Immediate Next Step
 
-Complete the shared standards in `coaching/coaching_foundation.md`, then decide and define the first philosophy profile.
+Review and refine the long-form profiles against direct source material, beginning with CTS and then Evoke, 80/20, and Lydiard. Keep all current profiles in development and leave cards set to `common` until a profile's distinctive reasoning is deliberately used and reviewed.
 
-For now, keep each philosophy profile focused on these two files:
+Each profile now uses three files:
 
+- `summary.md`
 - `philosophy.md`
-- `source_history.md`
+- `sources.md`
 
 Keep related topics inside that profile's `philosophy.md` first. Split them out later only if the profile becomes too large or hard to navigate.
