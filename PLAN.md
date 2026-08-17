@@ -93,7 +93,10 @@ Coaching foundation and philosophy-profile TODO:
 - [x] Define the shared safety boundary for plan authoring: plans are general guidance, should be built conservatively, need cautions only when directly relevant, and do not replace professional care.
 - [ ] Decide the first complete coaching philosophy profile.
 - [ ] Define that profile's principles, training load and adaptation model, trail and mountain approach, knowledge and decision-making stance, and practical implications.
-- [ ] Create and maintain a source history inside each philosophy profile.
+- [ ] Create and maintain a `sources.md` record inside each philosophy profile.
+- [x] Define philosophy profiles as documented, source-grounded interpretations of named coaching systems or teams; add `coaching/philosophies/README.md` to set folder structure, source standards, profile-ID rules, and the `common` boundary.
+- [x] Catalogue the planned coaching systems in `coaching/philosophies/coaching_systems.md`, with primary official resource links: `cts`, `evoke_endurance` (including the Uphill Athlete lineage), `swap`, `sharman_ultra`, `80_20_endurance`, and `lydiard`.
+- [ ] Align the `_template/` filenames and contents with the documented `philosophy.md` and `sources.md` structure.
 - [ ] Update related files if needed: `card_authoring_guidance.md` and `card_hierarchy.md`.
 - [x] Add card-level philosophy provenance: `philosophy_profile_ids` is a structured list, uses `common` for cards shaped only by the shared foundation, uses exact philosophy-directory names for other values, supports multiple profiles, and is shown in card preview/detail and Browse-mode filtering.
 - [x] Define and enforce the card-relationship contract: adjacent-level `parent`/`child`, same-level `previous`/`next`/`alternative`, and cross-level non-structural `support`.
