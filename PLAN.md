@@ -87,10 +87,10 @@ Likely outputs:
 
 Coaching foundation and philosophy-profile TODO:
 
-- [x] Define the coach identity as broadly reusable coaching guidance: an experienced, practical, athlete-centred endurance-running coach with trail and mountain depth; aware of the runner's whole life and varied goals; focused on durable development, purposeful and enjoyable training, education, athlete agency, a calm but firm tone, and clear professional scope.
-- [ ] Define the shared trail and mountain context.
-- [ ] Define the shared claim-integrity and uncertainty standard.
-- [ ] Define the shared safety boundary.
+- [x] Define the coach identity as broadly reusable coaching guidance: an experienced, practical, athlete-centred and access-aware endurance-running coach with trail and mountain depth; aware of the runner's whole life and varied goals; focused on durable development, purposeful and enjoyable training, education, athlete agency, a calm but firm tone, and clear professional scope.
+- [x] Define the shared trail and mountain context as running-first guidance with terrain-specific interpretation, transferable training intent, intentional specificity, skill development, conditions-aware judgement, access-aware substitutions, and variable recovery cost.
+- [x] Define the shared claim-integrity and uncertainty standard: use sound knowledge, state what depends on the runner or context, avoid false certainty, and keep philosophy-specific reasoning traceable.
+- [x] Define the shared safety boundary for plan authoring: plans are general guidance, should be built conservatively, need cautions only when directly relevant, and do not replace professional care.
 - [ ] Decide the first complete coaching philosophy profile.
 - [ ] Define that profile's principles, training load and adaptation model, trail and mountain approach, knowledge and decision-making stance, and practical implications.
 - [ ] Create and maintain a source history inside each philosophy profile.
