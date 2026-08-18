@@ -23,10 +23,11 @@ Use `_template/` when creating a new profile. Refine the template as we learn wh
 
 ## Profile IDs And Cards
 
-The profile-folder name is the stable profile ID used in card data. For example, a future `cts/` folder would use `cts` in `philosophy_profile_ids`.
+The profile-folder name is the stable profile ID used in card data. `training_cards/philosophy_profiles.py` is the canonical registry of those IDs and their display names.
 
 - Use `common` for cards based only on `coaching/coaching_foundation.md`.
 - Use one or more profile-folder IDs when a card is shaped by specific philosophy profiles.
+- Do not combine `common` with named profile IDs.
 - A profile ID must exactly match its directory name.
 - Do not create a profile ID until its folder and source record exist.
 

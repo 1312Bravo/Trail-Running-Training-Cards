@@ -2,7 +2,7 @@
 
 ## Scope And Status
 
-This is our documented interpretation of the Lydiard Method as presented by the Lydiard Foundation. It is not an official Lydiard document and does not claim that a historical Lydiard schedule transfers unchanged to a modern trail runner. The profile is **in development** and needs review against primary Lydiard books and course material before it labels cards.
+This is our documented interpretation of the Lydiard Method as presented by the Lydiard Foundation. It is not an official Lydiard document and does not claim that a historical Lydiard schedule transfers unchanged to a modern trail runner. The profile is available for card authoring; primary books and course material remain necessary for exact historical prescriptions.
 
 Lydiard is a general running framework rather than an original trail-running system. Its value here is its durable logic of aerobic preparation, athlete-developed judgement, recovery-led adjustment, and sequential preparation. Trail and mountain content must be added as a transparent adaptation rather than attributed to Lydiard without source support.
 

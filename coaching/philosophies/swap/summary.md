@@ -2,7 +2,7 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of Some Work, All Play (SWAP), associated with David and Megan Roche. It is not official SWAP material and does not yet make `swap` active for card authoring.
+**Available for card authoring.** This is our documented interpretation of Some Work, All Play (SWAP), associated with David and Megan Roche. It is not official SWAP material; source limits still apply to exact prescriptions.
 
 ## In Brief
 

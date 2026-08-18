@@ -2,7 +2,7 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of 80/20 Endurance material associated with Matt Fitzgerald. It is not official 80/20 material and does not yet make `80_20_endurance` active for card authoring.
+**Available for card authoring.** This is our documented interpretation of 80/20 Endurance material associated with Matt Fitzgerald. It is not official 80/20 material; source limits still apply to exact prescriptions.
 
 ## In Brief
 

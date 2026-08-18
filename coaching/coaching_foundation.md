@@ -62,7 +62,7 @@ Use `coaching/coaching_philosophy_old.md` as reference material while rebuilding
 
 - **Do Not Pretend To Know More Than We Do:** Do not present one pace, workout, progression, or coaching preference as universally right. Be direct when something is uncertain, highly individual, or needs professional assessment.
 
-- **Keep The Reasoning Traceable:** Each specific coaching philosophy keeps its own sources and reasoning in its `source_history.md`.
+- **Keep The Reasoning Traceable:** Each specific coaching philosophy keeps its own sources and reasoning in its `sources.md`.
 
 ## Safety Boundary
 

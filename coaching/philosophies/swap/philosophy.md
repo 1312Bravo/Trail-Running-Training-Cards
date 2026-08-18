@@ -2,7 +2,7 @@
 
 ## Scope And Status
 
-This file is our documented interpretation of the published Some Work, All Play (SWAP) philosophy associated with David and Megan Roche. It is not an official SWAP document, and it does not reproduce their book, podcasts, articles, or individual coaching plans. The profile is **in development**: the public material clearly establishes SWAP's values and broad priorities, but does not yet give us a complete written proprietary training system.
+This file is our documented interpretation of the published Some Work, All Play (SWAP) philosophy associated with David and Megan Roche. It is not an official SWAP document, and it does not reproduce their book, podcasts, articles, or individual coaching plans. The profile is available for card authoring: the public material clearly establishes SWAP's values and broad priorities, while exact proprietary workout structures remain outside the documented source base.
 
 This is therefore a deliberately bounded interpretation. It describes the distinctive coaching reasoning that SWAP makes public and records where a future review of primary material is needed before we claim a precise workout progression, load rule, or protocol.
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of the Lydiard Method as presented by the Lydiard Foundation. It is not official Lydiard material and does not yet make `lydiard` active for card authoring.
+**Available for card authoring.** This is our documented interpretation of the Lydiard Method as presented by the Lydiard Foundation. It is not official Lydiard material; source limits still apply to exact prescriptions.
 
 ## In Brief
 

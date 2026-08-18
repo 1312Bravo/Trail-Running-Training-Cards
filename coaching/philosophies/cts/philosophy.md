@@ -4,7 +4,7 @@
 
 This file is our documented interpretation of CTS ultrarunning coaching material, especially work associated with Jason Koop. It is not an official CTS document and does not claim to describe every CTS coach, service, or current training plan.
 
-The profile is **in development**. It establishes the decision logic that appears consistently in the available source material. Exact workout prescriptions, numerical ranges, and claims that require a closer reading of primary books remain subject to review before being adopted into cards.
+The profile is available for card authoring. It establishes the decision logic that appears consistently in the available source material. Exact workout prescriptions, numerical ranges, and claims that require a closer reading of primary books remain subject to review before being adopted into cards.
 
 ## Philosophy In Brief
 

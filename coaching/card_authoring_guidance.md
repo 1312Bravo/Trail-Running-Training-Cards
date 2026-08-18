@@ -7,7 +7,7 @@ Use this file with:
 - `coaching/coaching_foundation.md`
 - `coaching/card_hierarchy.md`
 - `coaching/philosophies/<profile>/philosophy.md`
-- `coaching/philosophies/<profile>/source_history.md`
+- `coaching/philosophies/<profile>/sources.md`
 
 Treat the current schema as the working container for card content. Do not redesign the schema during normal card writing; only flag a schema limitation when the coaching content truly cannot be expressed with the current fields.
 
@@ -18,7 +18,7 @@ Before writing or rebuilding a card, check:
 - the intended card level in `coaching/card_hierarchy.md`
 - the shared coach identity and standards in `coaching/coaching_foundation.md`
 - the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
-- any relevant source history in `coaching/philosophies/<profile>/source_history.md`
+- any relevant source record in `coaching/philosophies/<profile>/sources.md`
 - the `philosophy_profile_ids` value: use `common` when only the shared foundation shaped the card; otherwise use the exact directory names of every philosophy profile that materially shaped it
 - whether the card should be broad and reusable or more specific inside the details only
 
@@ -64,7 +64,7 @@ A good card should make it easy to understand:
 ## Field Discipline
 
 - `summary`: one preview-safe sentence for quick comparison.
-- `philosophy_profile_ids`: structured coaching-philosophy provenance. `common` is the reserved shared-foundation value; every other value must match a directory name under `coaching/philosophies/` exactly.
+- `philosophy_profile_ids`: structured coaching-philosophy provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. `common` is the reserved shared-foundation value and cannot be combined with named profiles; every named ID matches a directory under `coaching/philosophies/` exactly.
 - `purpose`: the coaching job of the card.
 - `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
 - `training_profile`: the actual stress pattern, feel, terrain, and loading demand.

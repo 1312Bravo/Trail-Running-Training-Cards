@@ -7,6 +7,7 @@ from typing import Any
 
 import streamlit as st
 
+from training_cards.philosophy_profiles import philosophy_profile_display_name
 from streamlit_app.data import card_type_label
 
 
@@ -298,6 +299,17 @@ def render_preview_field(card: Any, field_name: str, display_config: dict[str, A
         st.html(f'<p class="preview-summary">{escape(as_text(value))}</p>')
     elif field_name == "tags" and isinstance(value, list):
         render_tag_buttons(value, f"preview_{card.id}")
+    elif field_name == "philosophy_profile_ids" and isinstance(value, list):
+        rendered_value = ", ".join(
+            philosophy_profile_display_name(profile_id)
+            for profile_id in value
+        )
+        st.html(
+            '<p class="preview-field">'
+            f'<span class="preview-field-label">{escape(label)}:</span> '
+            f'{escape(rendered_value)}'
+            '</p>'
+        )
     elif isinstance(value, list):
         rendered_value = ", ".join(display_text(item) for item in value)
         st.html(
@@ -436,6 +448,13 @@ def render_field(field_name: str, value: Any, display_config: dict[str, Any]) ->
         st.markdown(f"**{label}**")
         if field_name == "tags" and isinstance(value, list):
             render_tag_buttons(value, "detail")
+        elif field_name == "philosophy_profile_ids" and isinstance(value, list):
+            st.markdown(
+                "\n".join(
+                    f"- {philosophy_profile_display_name(profile_id)}"
+                    for profile_id in value
+                )
+            )
         elif isinstance(value, list):
             st.markdown("\n".join(f"- {as_text(item)}" for item in value))
         else:

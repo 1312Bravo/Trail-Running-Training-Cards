@@ -2,7 +2,7 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of Evoke Endurance and its shared Uphill Athlete lineage, principally associated with Scott Johnston. It is not official Evoke material and does not yet make `evoke_endurance` active for card authoring.
+**Available for card authoring.** This is our documented interpretation of Evoke Endurance and its shared Uphill Athlete lineage, principally associated with Scott Johnston. It is not official Evoke material; source limits still apply to exact prescriptions.
 
 ## In Brief
 

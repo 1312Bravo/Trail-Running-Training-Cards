@@ -94,13 +94,13 @@ Coaching foundation and philosophy-profile TODO:
 - [x] Select `cts` as the first complete coaching philosophy profile.
 - [x] Create and expand the long-form `cts` interpretation, using mini-section headings with explanatory paragraphs for each substantive principle, plus section-level framing, practical application, boundaries, training load and adaptation model, trail and mountain approach, knowledge and decision-making stance, limits, and card implications.
 - [x] Add `cts/summary.md` as a short, practical entry point derived from the detailed CTS interpretation; make `summary.md` part of the documented profile structure.
-- [ ] Review and refine the CTS profile against the user's source material before treating it as active for card authoring.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `evoke_endurance`; keep it in development pending source review.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `swap`; keep it in development pending a deeper primary-source base.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `sharman_ultra`; keep it in development pending a deeper primary-source base.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `80_20_endurance`; keep it in development pending primary-book review.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `lydiard`; keep it in development pending primary-source review.
-- [x] Expand all current system profiles into long-form interpretations with comparable structure: coaching principles, training load and adaptation, trail and mountain application, knowledge and decision-making, card implications, and current limits. The profiles remain in development until direct primary material is reviewed.
+- [ ] Review and refine the CTS profile against the user's source material before using exact protocol details that need direct primary-source confirmation.
+- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `evoke_endurance`; it is available for card authoring, with direct-source review still required for exact protocols.
+- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `swap`; it is available for card authoring, with a deeper primary-source base still needed for exact workout structures.
+- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `sharman_ultra`; it is available for card authoring, with a deeper primary-source base still needed for exact workout structures.
+- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `80_20_endurance`; it is available for card authoring, with primary-book review still required for exact protocols.
+- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `lydiard`; it is available for card authoring, with primary-source review still required for exact historical prescriptions.
+- [x] Expand all current system profiles into long-form interpretations with comparable structure: coaching principles, training load and adaptation, trail and mountain application, knowledge and decision-making, card implications, and current limits. All current profiles are available for card authoring; their source boundaries remain explicit.
 - [x] Expand each current profile's `summary.md` and `sources.md` alongside the long-form philosophy, separating reviewed material from direct-source work still required.
 - [x] Create and maintain a `sources.md` record inside each philosophy profile.
 - [x] Define philosophy profiles as documented, source-grounded interpretations of named coaching systems or teams; add `coaching/philosophies/README.md` to set folder structure, source standards, profile-ID rules, and the `common` boundary.
@@ -108,11 +108,12 @@ Coaching foundation and philosophy-profile TODO:
 - [x] Align the `_template/` filenames and contents with the documented `summary.md`, `philosophy.md`, and `sources.md` structure.
 - [ ] Update related files if needed: `card_authoring_guidance.md` and `card_hierarchy.md`.
 - [x] Add card-level philosophy provenance: `philosophy_profile_ids` is a structured list, uses `common` for cards shaped only by the shared foundation, uses exact philosophy-directory names for other values, supports multiple profiles, and is shown in card preview/detail and Browse-mode filtering.
+- [x] Create `training_cards/philosophy_profiles.py` as the single local registry of valid profile IDs and display names. Use it in card validation and Streamlit rendering/filtering; cards store only stable IDs, and `common` cannot be combined with named profiles.
 - [x] Define and enforce the card-relationship contract: adjacent-level `parent`/`child`, same-level `previous`/`next`/`alternative`, and cross-level non-structural `support`.
 - [x] Convert the existing skipped-level structural links to `support`, preserving their coaching meaning without changing the pathway hierarchy.
 - [x] Re-export and validate the 38-card local cache with schema 1.2 and `philosophy_profile_ids` set to `common`.
-- [ ] Upload the validated schema-1.2 cache to the configured Google Drive source-of-truth library. This is pending a final explicit confirmation because it replaces JSON files in that external folder.
-- [ ] Remove `training_cards/scripts/migrate_philosophy_profile_ids.py` only after the Drive upload succeeds; it remains as the rollback-safe migration path until then.
+- [x] Publish the validated schema-1.2 replacement library to Google Drive and configure it as the source of truth.
+- [x] Remove the obsolete one-off migration scripts after the verified replacement cutover.
 
 Reference files:
 
@@ -138,7 +139,7 @@ Possible prompt work:
 
 ## Phase 4: Card Rebuild Plan
 
-After the coaching foundation and notes structure are clearer, plan the card rebuild.
+Status: completed. The 44-card library is the configured and validated source of truth; the former active contents and pre-rebuild archive have been permanently removed.
 
 Goals:
 
@@ -156,6 +157,25 @@ Likely rebuild order:
 3. Micro week cards
 4. Session workout cards
 5. Session family support content
+
+Rebuild and cutover workflow:
+
+- [x] Define the archive-and-swap rebuild workflow in `notes/card_library_rebuild_workflow.md`.
+- [x] Freeze the current active Google Drive library immediately before rebuild work begins.
+- [x] Create and independently verify dated local and Google Drive archives of the current library.
+- [x] Build the complete replacement library in a clean local staging location, with deliberate philosophy-profile provenance on every card.
+- [x] Validate and content-review the full staged replacement before any cloud change.
+- [x] Add explicit Drive archive, replacement-upload, verification, and cutover tooling. Do not change ordinary `upload_cache` into a deletion command.
+- [x] Create, upload, download, and validate a new replacement Drive library folder.
+- [x] Switch `training_cards/cloud_config.py` to the verified replacement library.
+- [x] Refresh the active local cache from the replacement; permanently delete the dated Drive archive after the rebuild is accepted.
+- [x] Permanently remove the former Drive `manifest.json` and `cards` folder from the shared container using the Drive-owner account. Only the verified replacement and dated archive remain.
+
+Replacement-library scope for this rebuild:
+
+- [x] Define the first replacement-library scope: 6 macro phases, 9 mezzo blocks, 9 micro weeks, and 20 session cards. This preserves a complete planning pathway while expanding the session layer from 14 to 20 cards.
+- [x] Author the replacement card set as a new library, not as edits to the previous generic cards.
+- [x] Use `common` only for genuinely shared-foundation cards. Give every named profile a strong, visible role in at least one macro, mezzo, micro, and/or session card: `cts` for event-demand and long-range specificity; `evoke_endurance` for aerobic capacity, strength reserve, and muscular endurance; `80_20_endurance` for intensity distribution and execution; `lydiard` for base-first sequence and response-led regulation; `swap` for economy, speed, fatigue resistance, and sustainable engagement; and `sharman_ultra` for individual adaptation and practical ultra execution.
 
 ## Phase 5: Card Expansion
 
@@ -188,7 +208,7 @@ Potential expansion areas:
 
 ## Immediate Next Step
 
-Review and refine the long-form profiles against direct source material, beginning with CTS and then Evoke, 80/20, and Lydiard. Keep all current profiles in development and leave cards set to `common` until a profile's distinctive reasoning is deliberately used and reviewed.
+Review the rebuilt cards for coaching quality and expand the library from the new philosophy-grounded baseline. New cards may use any registered philosophy profile when its distinctive reasoning materially shapes the card; use `common` only for shared-foundation-only cards.
 
 Each profile now uses three files:
 

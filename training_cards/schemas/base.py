@@ -1,9 +1,13 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
+
+from training_cards.philosophy_profiles import (
+    COMMON_PHILOSOPHY_PROFILE_ID,
+    validate_philosophy_profile_ids,
+)
+
 from .enums import CardType, TrainingLevel
 from .references import CardReference
-
-COMMON_PHILOSOPHY_PROFILE_ID = "common"
 
 # ----------------------------------------------------------
 # Shared Card Fields
@@ -57,4 +61,5 @@ class BaseTrainingCard:
             raise ValueError("Training card philosophy_profile_ids must contain non-empty strings.")
         if len(self.philosophy_profile_ids) != len(set(self.philosophy_profile_ids)):
             raise ValueError("Training card philosophy_profile_ids cannot contain duplicates.")
+        validate_philosophy_profile_ids(self.philosophy_profile_ids)
 

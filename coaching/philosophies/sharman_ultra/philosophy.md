@@ -2,7 +2,7 @@
 
 ## Scope And Status
 
-This file is our documented interpretation of Sharman Ultra Coaching's published coaching description and coach information. It is not an official Sharman Ultra document and does not reproduce its plans, future book, articles, or coaching communication. The profile is **in development** because the public source base defines the team's coaching stance more clearly than its exact workout model.
+This file is our documented interpretation of Sharman Ultra Coaching's published coaching description and coach information. It is not an official Sharman Ultra document and does not reproduce its plans, future book, articles, or coaching communication. The profile is available for card authoring, while its public source base still defines the team's coaching stance more clearly than its exact workout model.
 
 Sharman Ultra describes a shared methodology adapted to each athlete, drawing on established endurance sources and practical ultrarunning experience. This profile treats that as an integrative coaching system. It does not attribute every detail of Lydiard, Noakes, Pfitzinger, NASM, or USATF to Sharman Ultra merely because the team names them as influences.
 

@@ -83,3 +83,35 @@ class GoogleDriveClient:
             media_body = media,
             fields = "id",
         ).execute()
+
+    # Create a folder under an explicit Drive parent.
+    def create_folder(self, folder_name: str, parent_folder_id: str) -> str:
+        response = self.service.files().create(
+            body={
+                "name": folder_name,
+                "mimeType": "application/vnd.google-apps.folder",
+                "parents": [parent_folder_id],
+            },
+            fields="id",
+        ).execute()
+        return response["id"]
+
+    # Return the first parent so a replacement library can be created beside it.
+    def get_parent_folder_id(self, file_id: str) -> str | None:
+        response = self.service.files().get(fileId=file_id, fields="parents").execute()
+        parents = response.get("parents", [])
+        if not parents:
+            return None
+        return parents[0]
+
+    # Permanently remove a Drive file or folder. Folder contents are removed too.
+    def delete_file(self, file_id: str) -> None:
+        self.service.files().delete(fileId=file_id).execute()
+
+    # Rename a Drive item without changing its ID or parent location.
+    def rename_file(self, file_id: str, file_name: str) -> None:
+        self.service.files().update(
+            fileId=file_id,
+            body={"name": file_name},
+            fields="id,name",
+        ).execute()

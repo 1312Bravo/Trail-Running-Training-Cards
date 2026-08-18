@@ -2,7 +2,7 @@
 
 ## Scope And Status
 
-This file is our documented interpretation of 80/20 Endurance's published running-training approach. It is not an official 80/20 document and does not reproduce its books, plans, zone calculations, or workout library. The profile is **in development** and should not label cards until its primary-book sources have been reviewed.
+This file is our documented interpretation of 80/20 Endurance's published running-training approach. It is not an official 80/20 document and does not reproduce its books, plans, zone calculations, or workout library. The profile is available for card authoring; its source limits still apply to exact zones, plan structures, and numerical prescriptions.
 
 80/20 is primarily a general endurance-running framework. Trail and mountain use should apply its intensity and load logic to the actual course without turning it into a claim that all terrain can be managed through a watch zone alone.
 

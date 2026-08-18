@@ -2,7 +2,7 @@
 
 ## Status
 
-**In development.** This is our summary of CTS ultrarunning coaching material, especially work associated with Jason Koop. It is not an official CTS document and does not yet make `cts` active for card authoring.
+**Available for card authoring.** This is our summary of CTS ultrarunning coaching material, especially work associated with Jason Koop. It is not an official CTS document; source limits still apply to exact prescriptions.
 
 ## In Brief
 

@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from training_cards.cloud_config import (
-    CARD_TYPE_FOLDER_IDS,
     GOOGLE_DRIVE_LIBRARY,
     GoogleDriveLibraryConfig,
 )
@@ -48,7 +47,12 @@ def load_cached_cloud_library(config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LI
 
 
 # Download the Drive library into local cache through a concrete Drive client.
-def download_cloud_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> Path:
+def download_cloud_library(
+    client,
+    config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY,
+    *,
+    validate_download: bool = True,
+) -> Path:
     config.local_cache_dir.mkdir(parents = True, exist_ok = True)
     _clear_cached_json_files(config.local_cache_dir)
 
@@ -66,7 +70,7 @@ def download_cloud_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRI
     else:
         client.download_file(display_config.id, config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME)
 
-    for card_type, folder_id in CARD_TYPE_FOLDER_IDS.items():
+    for card_type, folder_id in config.card_type_folder_ids.items():
         type_dir = cards_dir / card_type
         type_dir.mkdir(parents = True, exist_ok = True)
 
@@ -74,7 +78,8 @@ def download_cloud_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRI
             if item.file_or_folder == "file" and item.title.endswith(".json"):
                 client.download_file(item.id, type_dir / item.title)
 
-    refresh_library_bundle(config.local_cache_dir)
+    if validate_download:
+        refresh_library_bundle(config.local_cache_dir)
 
     return config.local_cache_dir
 
@@ -102,7 +107,7 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
 
     cards_dir = config.local_cache_dir / CARDS_ROOT
 
-    for card_type, folder_id in CARD_TYPE_FOLDER_IDS.items():
+    for card_type, folder_id in config.card_type_folder_ids.items():
         folder_items = client.list_folder(folder_id)
 
         for path in sorted((cards_dir / card_type).glob("*.json")):

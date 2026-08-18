@@ -10,6 +10,7 @@ from training_cards.json_store import (
     load_display_config,
 )
 from training_cards.pathway import build_pathway_index
+from training_cards.philosophy_profiles import philosophy_profile_display_name
 from training_cards.schemas import CardType
 
 from streamlit_app.config import TYPE_ORDER
@@ -57,6 +58,10 @@ def card_matches_search(card: Any, query: str) -> bool:
             card.summary,
             card.purpose,
             " ".join(getattr(card, "philosophy_profile_ids", [])),
+            " ".join(
+                philosophy_profile_display_name(profile_id)
+                for profile_id in getattr(card, "philosophy_profile_ids", [])
+            ),
             " ".join(
                 profile_id.replace("_", " ").replace("-", " ")
                 for profile_id in getattr(card, "philosophy_profile_ids", [])

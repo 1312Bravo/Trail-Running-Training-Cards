@@ -2,7 +2,7 @@
 
 ## Status
 
-**In development.** This is our documented interpretation of Sharman Ultra Coaching, associated with Ian Sharman. It is not official Sharman Ultra material and does not yet make `sharman_ultra` active for card authoring.
+**Available for card authoring.** This is our documented interpretation of Sharman Ultra Coaching, associated with Ian Sharman. It is not official Sharman Ultra material; source limits still apply to exact prescriptions.
 
 ## In Brief
 

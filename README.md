@@ -33,4 +33,4 @@ Or from inside `streamlit_app\`:
 run_streamlit.cmd
 ```
 
-See `notes/cloud_storage_notes.md`, `notes/schema_notes.md`, and `notes/evidence_sources.md` for details.
+See `notes/cloud_library_storage_workflow.md`, `notes/card_library_rebuild_workflow.md`, and `notes/schema_design_and_validation.md` for details.

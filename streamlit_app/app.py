@@ -5,6 +5,10 @@ from typing import Any
 import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
+from training_cards.philosophy_profiles import (
+    PHILOSOPHY_PROFILES,
+    philosophy_profile_display_name,
+)
 
 from streamlit_app.config import (
     APP_TITLE,
@@ -183,19 +187,13 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 label_visibility="collapsed",
             )
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
-    philosophy_profile_options = sorted(
-        {
-            profile_id
-            for card in cards
-            for profile_id in getattr(card, "philosophy_profile_ids", [])
-        }
-    )
+    philosophy_profile_options = list(PHILOSOPHY_PROFILES)
     if philosophy_profile_options:
         st.multiselect(
             "Coaching philosophy",
             philosophy_profile_options,
             key="philosophy_profile_filters",
-            format_func=display_text,
+            format_func=philosophy_profile_display_name,
             placeholder="All coaching philosophies",
             help="Show cards shaped by at least one selected coaching philosophy.",
         )

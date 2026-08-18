@@ -2,7 +2,7 @@
 
 ## Scope And Status
 
-This is our documented interpretation of Evoke Endurance's published mountain-endurance method and its shared Uphill Athlete lineage. It is not an official Evoke document, a substitute for the underlying books, or a licence to reproduce exact programmes. The profile is **in development**: it is sufficiently detailed to guide future review, but should not label cards until it has been checked against the relevant source material.
+This is our documented interpretation of Evoke Endurance's published mountain-endurance method and its shared Uphill Athlete lineage. It is not an official Evoke document, a substitute for the underlying books, or a licence to reproduce exact programmes. The profile is available for card authoring; its source limits still apply to exact protocols and numerical prescriptions.
 
 Evoke's work covers mountain runners alongside mountaineers, ski mountaineers, and other endurance athletes. This profile extracts the parts that transfer to running while preserving the shared rule that running comes first and trail or mountain demands modify the prescription when they materially matter.
 
