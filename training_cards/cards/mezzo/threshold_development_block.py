@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MezzoCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MezzoCard,
+    TrainingLevel,
+)
 
 threshold_development_block = MezzoCard(
     id = 'mezzo_004',
@@ -67,7 +73,7 @@ threshold_development_block = MezzoCard(
         ),
         CardReference(
             card_id = 'session_007',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'key_session'
             ]

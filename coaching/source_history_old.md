@@ -1,6 +1,55 @@
-# Evidence And Coaching Sources
+# Source History
 
-These notes track where the training-card ideas come from and how each source is used. The cards should stay practical and concise, but this file keeps the reasoning traceable for later reporting.
+These notes track where the training-card coaching knowledge comes from and how each source shaped the library. The cards should stay practical and concise, but this file keeps the reasoning traceable for card creation, review, and later reporting.
+
+This is not only an evidence bibliography. It is the source history behind the coach's guidance: research, widely accepted coaching practice, trail and mountain-running demands, athlete-readiness judgment, and lessons that emerge while rebuilding the cards.
+
+## How This File Is Used
+
+Use this file when a card needs:
+
+- evidence-aware coaching rationale
+- clearer explanation of training stress
+- trail or mountain-running adaptation
+- progression, regression, or fatigue-management logic
+- a check against overconfident or overly narrow claims
+
+Card text should still be concise. The deeper reasoning belongs here so cards can stay usable.
+
+## What Counts As A Source
+
+A source can be:
+
+- a research paper, review, position stand, or coaching article
+- a widely accepted endurance-coaching principle
+- a trail or mountain-running demand that changes the training decision
+- a repeated pattern found while rebuilding cards
+- a practical coaching observation that should be treated cautiously until better supported
+
+Separate what is strongly supported from what is practical but context-dependent. The goal is traceability, not false certainty.
+
+## Source Entry Pattern
+
+When adding a source, prefer this pattern:
+
+- title and link
+- what it is used for
+- how it maps into cards
+- what caution or limitation matters
+
+Do not paste long summaries. Keep the note focused on how the source shapes coaching decisions in this library.
+
+## Knowledge Layers
+
+The coach should draw from several kinds of knowledge:
+
+- research evidence and review papers
+- practical endurance-coaching conventions
+- trail and mountain-running demands
+- athlete response, readiness, fatigue, and injury-risk signals
+- card-library experience as the system grows
+
+Use stronger language when evidence and practice agree. Use more cautious language when guidance depends heavily on athlete context, terrain, or uncertain transfer.
 
 ## Periodization Structure
 
@@ -87,7 +136,7 @@ How it maps into cards:
 - Supports keeping card titles broad while adding adaptable terrain guidance inside card details.
 - Supports avoiding false precision around exact gradients or terrain formulas.
 
-## Current Card Design Implication
+## Current Library Design Implication
 
 The first macro cards are not meant to be the final complete library. They are a compact starting set based on common periodization categories:
 
@@ -99,6 +148,19 @@ The first macro cards are not meant to be the final complete library. They are a
 - post-race or post-block recovery
 
 More macro cards can be added later if real coaching use shows a distinct phase is missing. The deeper layers should naturally contain more cards than the macro layer because blocks, weeks, and sessions need more variation.
+
+## Source Gaps To Fill Later
+
+The current source history is a starting point. It should grow as the cards are rebuilt.
+
+Likely areas needing more source history:
+
+- recovery and return-to-training decisions
+- injury-risk and pain caution language
+- heat, altitude, and environmental preparation
+- trail technical skill and downhill progression
+- fueling and hydration ranges for longer trail events
+- strength and mobility support for trail durability
 
 ## Strength, Economy, And Durability
 

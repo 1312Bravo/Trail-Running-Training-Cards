@@ -1,4 +1,11 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    SessionCard,
+    SessionPart,
+    TrainingLevel,
+)
 from training_cards.session_families import ENDURANCE_SESSION_FAMILY
 
 long_run = SessionCard(

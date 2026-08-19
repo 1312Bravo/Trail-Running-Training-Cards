@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MacroCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MacroCard,
+    TrainingLevel,
+)
 
 race_specific_preparation = MacroCard(
     id = 'macro_004',

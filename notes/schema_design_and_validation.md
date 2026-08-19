@@ -1,13 +1,15 @@
-# Training Card Schema Notes
+# Schema Design And Validation
 
-These notes explain the current card-class structure and the reasoning behind it.
+These notes explain the current card-class structure, reference model, validation behavior, and reasoning behind them.
 
-## Coach Prompt
+## Coaching Guidance
 
 Before changing schemas or creating cards, consult:
 
 ```text
-prompts/coach_card_creation_prompt.md
+coaching/coaching_foundation.md
+coaching/card_authoring_guidance.md
+coaching/philosophies/<profile>/philosophy.md
 ```
 
 The prompt is the coaching standard for this folder. It should guide both the card content and the schema design.
@@ -29,6 +31,7 @@ BaseTrainingCard
 - identity: `id`, `slug`, `title`, `card_type`
 - audience: `suitable_levels`
 - preview: `summary`
+- coaching-philosophy provenance: `philosophy_profile_ids`
 - coaching purpose: `purpose`
 - race/context fit: `goal_race_context`
 - load description: `training_profile`
@@ -40,6 +43,16 @@ BaseTrainingCard
 - graph links: `references`
 
 `MacroCard`, `MezzoCard`, `MicroCard`, and `SessionCard` inherit the shared base fields and add only the fields that belong at their own planning level.
+
+## Coaching Philosophy Profile IDs
+
+`philosophy_profile_ids` records which coaching philosophy profiles materially shaped a card. It is a list because a card can draw from more than one profile.
+
+- Use `common` when a card is shaped only by the shared coaching foundation.
+- For every other value, use the philosophy directory name under `coaching/philosophies/` exactly.
+- The allowed IDs and their display names are defined once in `training_cards/philosophy_profiles.py` and enforced when cards are created or loaded.
+- `common` cannot be combined with named profiles; a card using more than one philosophy uses only named profile IDs.
+- The field is visible in the card preview and detail view, searchable, and available as a Browse-mode filter.
 
 `SessionFamily` is a separate object used by `SessionCard` to define the reusable workout-family taxonomy. This keeps family labels searchable and consistent without turning them into a full training card.
 
@@ -53,6 +66,124 @@ The current planning levels are:
 - Session card: a specific workout or session pattern inside a micro week.
 
 This structure may change later if real card creation shows that another layer is needed.
+
+## How To Read The Schema Classes
+
+The classes in `training_cards.schemas` are not mainly about behavior. They are definitions.
+
+Each class says:
+
+- what a valid card looks like
+- what fields it can have
+- which fields belong to all cards
+- which fields only belong to one card level
+
+In that sense, each class is more like a schema or contract than a traditional object with many methods.
+
+## How To Read Field Definitions
+
+A line like this:
+
+```python
+title: str
+```
+
+is a type-annotated field definition. In a dataclass, that is the normal way to define data.
+
+It means:
+
+- this field exists
+- its intended type is `str`
+- it will be part of the object when the dataclass is created
+
+The annotation alone does not enforce everything. The dataclass and validation code make the shape useful in practice.
+
+## Required And Optional Fields
+
+In a dataclass, a field is usually required if it has no default value.
+
+Example:
+
+```python
+id: str
+summary: str
+tags: list[str] = field(default_factory=list)
+```
+
+Here:
+
+- `id` is required
+- `summary` is required
+- `tags` is optional, because it gets an automatic empty list if nothing is provided
+
+So the rule is simple:
+
+- no default means the caller must supply a value
+- a default means the object can be created without supplying that value
+
+`field(default_factory=list)` is used for list fields so each object gets its own fresh list. Without it, multiple objects could accidentally share the same mutable list.
+
+## Current Required Fields
+
+For the current design, the important required fields in `BaseTrainingCard` are:
+
+- `id`
+- `slug`
+- `title`
+- `card_type`
+- `suitable_levels`
+- `summary`
+- `purpose`
+
+Those fields make a card identifiable and meaningful.
+
+The other base fields are optional because they add useful coaching detail but are not needed to recognize the card:
+
+- `tags`
+- `goal_race_context`
+- `training_profile`
+- `expected_adaptations`
+- `watchouts`
+- `progression_rules`
+- `regression_rules`
+- `additional_information`
+- `references`
+
+For level-specific classes:
+
+- `MacroCard` requires the base fields and `card_type = macro`; `recommended_duration_weeks` and `timing_guidance` can stay optional.
+- `MezzoCard` requires the base fields and `card_type = mezzo`; `recommended_duration_weeks` and `placement_guidance` can stay optional.
+- `MicroCard` requires the base fields and `card_type = micro`; week structure, key sessions, load pattern, placement guidance, and recovery requirements can stay optional.
+- `SessionCard` requires the base fields, `card_type = session`, and `session_family`; `typical_duration` and `workout_parts` can stay optional.
+- `SessionFamily` requires `id`, `slug`, `title`, and `summary`; `description` and `tags` can stay optional.
+- `SessionPart` requires `name`, `duration`, and `rpe`; `instructions` and `terrain_notes` can stay optional.
+
+## Validation Hooks
+
+`__post_init__()` runs right after a dataclass object is created. It is the place where the class checks that the data is actually valid, not just typed correctly.
+
+In this project, `__post_init__()` rejects cards that are missing the minimum fields needed to identify, display, or understand them. The pattern is:
+
+- the dataclass defines the shape
+- `__post_init__()` checks that the shape is usable
+
+## Controlled Values
+
+Predetermined values are useful when a field should have a controlled meaning rather than arbitrary wording.
+
+Good places for controlled values:
+
+- `card_type`
+- `suitable_levels`
+- `relationship` in `CardReference`
+
+Good candidates for future controlled values:
+
+- `session_family` values through the family object
+- `load_pattern`
+- repeated sub-fields if the library starts using the same phrases too often
+
+Do not turn descriptive coaching fields into fixed vocabularies too early. Fields like `summary`, `purpose`, and `additional_information` should stay flexible because they are coach-language fields, not code labels.
 
 ## Why These Shared Fields Exist
 
@@ -115,6 +246,16 @@ CardReference(
 ```
 
 Use reference tags for structured context. Put longer explanations in the card content itself.
+
+## Relationship Contract
+
+The `relationship` value has strict structural meaning:
+
+- `parent` and `child` must connect exactly adjacent planning levels.
+- `previous`, `next`, and `alternative` must connect cards at the same planning level.
+- `support` may connect any levels, but it must not be interpreted as a pathway parent or child.
+
+For `support`, read `source -> target` as: the target materially supports or contextualises the source. Tags explain the reason for a link but do not change the controlled relationship value.
 
 ## Pathway Index And Relaxed Validation
 

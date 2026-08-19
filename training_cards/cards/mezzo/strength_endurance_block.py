@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MezzoCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MezzoCard,
+    TrainingLevel,
+)
 
 strength_endurance_block = MezzoCard(
     id = 'mezzo_003',
@@ -68,7 +74,7 @@ strength_endurance_block = MezzoCard(
         ),
         CardReference(
             card_id = 'session_010',
-            relationship = CardRelationship.CHILD,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'key_session'
             ]

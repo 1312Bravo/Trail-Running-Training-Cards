@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MicroCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MicroCard,
+    TrainingLevel,
+)
 
 taper_week = MicroCard(
     id = 'micro_009',
@@ -33,7 +39,7 @@ taper_week = MicroCard(
     references = [
         CardReference(
             card_id = 'macro_005',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'race_week'
             ]

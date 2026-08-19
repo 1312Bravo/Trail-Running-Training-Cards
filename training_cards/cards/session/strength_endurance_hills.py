@@ -1,4 +1,11 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    SessionCard,
+    SessionPart,
+    TrainingLevel,
+)
 from training_cards.session_families import STRENGTH_ENDURANCE_SESSION_FAMILY
 
 strength_endurance_hills = SessionCard(
@@ -44,7 +51,7 @@ strength_endurance_hills = SessionCard(
         ),
         CardReference(
             card_id = 'mezzo_003',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'core_session'
             ]

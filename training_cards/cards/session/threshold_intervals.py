@@ -1,4 +1,11 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    SessionCard,
+    SessionPart,
+    TrainingLevel,
+)
 from training_cards.session_families import THRESHOLD_SESSION_FAMILY
 
 threshold_intervals = SessionCard(
@@ -44,7 +51,7 @@ threshold_intervals = SessionCard(
         ),
         CardReference(
             card_id = 'mezzo_004',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'core_session'
             ]

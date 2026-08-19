@@ -1,4 +1,11 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, SessionCard, SessionPart, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    SessionCard,
+    SessionPart,
+    TrainingLevel,
+)
 from training_cards.session_families import RACE_PRACTICE_SESSION_FAMILY
 
 race_simulation_run = SessionCard(
@@ -44,7 +51,7 @@ race_simulation_run = SessionCard(
         ),
         CardReference(
             card_id = 'mezzo_007',
-            relationship = CardRelationship.PARENT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'core_session'
             ]

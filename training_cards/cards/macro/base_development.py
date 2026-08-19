@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MacroCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MacroCard,
+    TrainingLevel,
+)
 
 base_development = MacroCard(
     id = 'macro_002',

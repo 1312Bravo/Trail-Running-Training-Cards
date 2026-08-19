@@ -5,7 +5,7 @@ from pathlib import Path
 # ----------------------------------------------------------
 # Cloud Library Location
 # ----------------------------------------------------------
-# These IDs point to the first Google Drive JSON library upload.
+# These IDs point to the verified replacement Google Drive JSON library.
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
 DEFAULT_LOCAL_CACHE_DIR = PACKAGE_ROOT / "local_cache" / "cloud_library"
@@ -23,21 +23,25 @@ class GoogleDriveLibraryConfig:
     session_folder_id: str
     local_cache_dir: Path = DEFAULT_LOCAL_CACHE_DIR
 
+    @property
+    def card_type_folder_ids(self) -> dict[str, str]:
+        return {
+            "macro": self.macro_folder_id,
+            "mezzo": self.mezzo_folder_id,
+            "micro": self.micro_folder_id,
+            "session": self.session_folder_id,
+        }
+
 
 GOOGLE_DRIVE_LIBRARY = GoogleDriveLibraryConfig(
     library_name = "training_cards_library",
-    root_folder_id = "1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV",
-    root_folder_url = "https://drive.google.com/drive/folders/1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV",
-    cards_folder_id = "16f6LwjbETatKN4pK42jvkrOovvhZsNWy",
-    macro_folder_id = "17gVX2WAvKE5PcgkD9ln8q6kLi-3RTRad",
-    mezzo_folder_id = "1MiZJr7_FSOQB-_Ssf_gzDmaFoEsUD9DP",
-    micro_folder_id = "18adUB4YRfQ9WJo_9aoBp9EdBkmiCgsWG",
-    session_folder_id = "1daSKUCE1odlMtEubTt8xHtY5DU7Hqy8a",
+    root_folder_id = "1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I",
+    root_folder_url = "https://drive.google.com/drive/folders/1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I",
+    cards_folder_id = "1QrIiVVeC8JjH-tKNGcYu3WoaY8kxI5aQ",
+    macro_folder_id = "1vH4gK24aPDoVtcHo4OCfLHfs3Pe2xcCb",
+    mezzo_folder_id = "1WUyxrzpaPR8DBQaRMPiTEFoWgyRIAbV8",
+    micro_folder_id = "1QK7BJ6Ss31qLv-1i17iavl9HpXFILlyx",
+    session_folder_id = "11GMo7Dzo1_MzkkA32tV9iqQcnNJKSYl-",
 )
 
-CARD_TYPE_FOLDER_IDS = {
-    "macro": GOOGLE_DRIVE_LIBRARY.macro_folder_id,
-    "mezzo": GOOGLE_DRIVE_LIBRARY.mezzo_folder_id,
-    "micro": GOOGLE_DRIVE_LIBRARY.micro_folder_id,
-    "session": GOOGLE_DRIVE_LIBRARY.session_folder_id,
-}
+CARD_TYPE_FOLDER_IDS = GOOGLE_DRIVE_LIBRARY.card_type_folder_ids

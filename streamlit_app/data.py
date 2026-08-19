@@ -5,8 +5,12 @@ from typing import Any
 
 import streamlit as st
 
-from training_cards.json_store import load_card_library_from_json, load_display_config
+from training_cards.json_store import (
+    load_card_library_from_json,
+    load_display_config,
+)
 from training_cards.pathway import build_pathway_index
+from training_cards.philosophy_profiles import philosophy_profile_display_name
 from training_cards.schemas import CardType
 
 from streamlit_app.config import TYPE_ORDER
@@ -53,6 +57,15 @@ def card_matches_search(card: Any, query: str) -> bool:
             card_type,
             card.summary,
             card.purpose,
+            " ".join(getattr(card, "philosophy_profile_ids", [])),
+            " ".join(
+                philosophy_profile_display_name(profile_id)
+                for profile_id in getattr(card, "philosophy_profile_ids", [])
+            ),
+            " ".join(
+                profile_id.replace("_", " ").replace("-", " ")
+                for profile_id in getattr(card, "philosophy_profile_ids", [])
+            ),
             " ".join(card.tags),
             " ".join(tag.replace("_", " ") for tag in card.tags),
             " ".join(str(level) for level in card.suitable_levels),
@@ -68,12 +81,22 @@ def filtered_cards(
     selected_type: str,
     search_query: str,
     tag_filters: list[str] | None = None,
+    philosophy_profile_filters: list[str] | None = None,
 ) -> list[Any]:
     result = [card for card in cards if card_matches_search(card, search_query)]
     if selected_type != "all":
         result = [card for card in result if str(card.card_type) == selected_type]
     if tag_filters:
         result = [card for card in result if all(tag in card.tags for tag in tag_filters)]
+    if philosophy_profile_filters:
+        result = [
+            card
+            for card in result
+            if any(
+                profile_id in getattr(card, "philosophy_profile_ids", [])
+                for profile_id in philosophy_profile_filters
+            )
+        ]
     return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
 
 

@@ -1,6 +1,6 @@
-# Training Card Cloud Storage Notes
+# Cloud Library Storage Workflow
 
-These notes describe the intended storage model for the training-card library.
+These notes describe the storage and sync workflow for the training-card cloud library.
 
 ## Direction
 
@@ -15,6 +15,8 @@ Python should be the tooling layer around that library:
 - Upload the updated JSON library back to cloud storage.
 
 The Training Platform app should eventually load cards from cloud JSON, validate them with the Python schemas, and then use the validated card objects in the app.
+
+For a full replacement of the card library, use `notes/card_library_rebuild_workflow.md`. The normal upload workflow only adds or updates files and must not be used to clear obsolete cards from Google Drive.
 
 ## Recommended Cloud Location
 
@@ -34,23 +36,23 @@ A database such as Supabase can wait until the app needs in-app editing, multi-u
 
 ## Current Google Drive Library
 
-Created on 2026-08-01.
+Rebuilt and cut over on 2026-08-18.
 
 ```text
 training_cards_library
-https://drive.google.com/drive/folders/1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV
+https://drive.google.com/drive/folders/1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I
 ```
 
 Folder IDs:
 
-- Root library folder: `1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV`
-- `cards`: `16f6LwjbETatKN4pK42jvkrOovvhZsNWy`
-- `cards/macro`: `17gVX2WAvKE5PcgkD9ln8q6kLi-3RTRad`
-- `cards/mezzo`: `1MiZJr7_FSOQB-_Ssf_gzDmaFoEsUD9DP`
-- `cards/micro`: `18adUB4YRfQ9WJo_9aoBp9EdBkmiCgsWG`
-- `cards/session`: `1daSKUCE1odlMtEubTt8xHtY5DU7Hqy8a`
+- Root library folder: `1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I`
+- `cards`: `1QrIiVVeC8JjH-tKNGcYu3WoaY8kxI5aQ`
+- `cards/macro`: `1vH4gK24aPDoVtcHo4OCfLHfs3Pe2xcCb`
+- `cards/mezzo`: `1WUyxrzpaPR8DBQaRMPiTEFoWgyRIAbV8`
+- `cards/micro`: `1QK7BJ6Ss31qLv-1i17iavl9HpXFILlyx`
+- `cards/session`: `11GMo7Dzo1_MzkkA32tV9iqQcnNJKSYl-`
 
-Initial upload:
+Current library contents:
 
 - `manifest.json`: 1 file
 - `display_config.json`: 1 file
@@ -58,7 +60,7 @@ Initial upload:
 - `cards/macro`: 6 files
 - `cards/mezzo`: 9 files
 - `cards/micro`: 9 files
-- `cards/session`: 14 files
+- `cards/session`: 20 files
 
 ## Python Cloud Reference
 
@@ -126,6 +128,8 @@ The Google Drive folder must be shared with the service-account email before loc
 - `download_file(file_id, output_path)`
 - `upload_file(local_path, folder_id, file_name, mime_type)`
 - `update_file(file_id, local_path, mime_type)`
+- `create_folder(folder_name, parent_folder_id)`
+- `delete_file(file_id)`
 
 The current implementation is `GoogleDriveClient`. This loose shape still lets us later connect another implementation if needed:
 

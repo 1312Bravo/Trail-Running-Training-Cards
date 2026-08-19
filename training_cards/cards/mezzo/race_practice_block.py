@@ -1,4 +1,10 @@
-from training_cards.schemas import CardRelationship, CardReference, CardType, MezzoCard, TrainingLevel
+from training_cards.schemas import (
+    CardRelationship,
+    CardReference,
+    CardType,
+    MezzoCard,
+    TrainingLevel,
+)
 
 race_practice_block = MezzoCard(
     id = 'mezzo_007',
@@ -45,7 +51,7 @@ race_practice_block = MezzoCard(
         ),
         CardReference(
             card_id = 'macro_005',
-            relationship = CardRelationship.NEXT,
+            relationship = CardRelationship.SUPPORT,
             tags = [
                 'natural_sequence'
             ]

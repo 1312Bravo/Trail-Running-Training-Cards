@@ -5,8 +5,15 @@ from typing import Any
 import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
+from training_cards.philosophy_profiles import (
+    PHILOSOPHY_PROFILES,
+    philosophy_profile_display_name,
+)
 
-from streamlit_app.config import APP_TITLE, SEARCH_PLACEHOLDER
+from streamlit_app.config import (
+    APP_TITLE,
+    SEARCH_PLACEHOLDER,
+)
 from streamlit_app.data import (
     card_matches_search,
     card_counts,
@@ -16,7 +23,13 @@ from streamlit_app.data import (
     load_library,
     related_child_cards,
 )
-from streamlit_app.renderers import css, display_text, render_contact_links, render_detail, render_grid
+from streamlit_app.renderers import (
+    css,
+    display_text,
+    render_contact_links,
+    render_detail,
+    render_grid,
+)
 
 
 APP_MODES = ["Browse cards", "Build pathway", "Today session"]
@@ -129,6 +142,7 @@ def init_state() -> None:
     st.session_state.setdefault("app_mode", APP_MODES[0])
     st.session_state.setdefault("card_scope_label", None)
     st.session_state.setdefault("tag_filters", [])
+    st.session_state.setdefault("philosophy_profile_filters", [])
     for level, _ in PATHWAY_STEPS:
         st.session_state.setdefault(state_key_for_level(level), None)
 
@@ -168,11 +182,21 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 "Search",
                 value=st.session_state.search_query,
                 placeholder=SEARCH_PLACEHOLDER,
-                help="Searches across titles, block types, summary, purpose, levels, tags, and notes.",
+                help="Searches across titles, block types, summary, purpose, coaching philosophy, levels, tags, and notes.",
                 width="stretch",
                 label_visibility="collapsed",
             )
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
+    philosophy_profile_options = list(PHILOSOPHY_PROFILES)
+    if philosophy_profile_options:
+        st.multiselect(
+            "Coaching philosophy",
+            philosophy_profile_options,
+            key="philosophy_profile_filters",
+            format_func=philosophy_profile_display_name,
+            placeholder="All coaching philosophies",
+            help="Show cards shaped by at least one selected coaching philosophy.",
+        )
     render_active_tag_filters()
 
     cards_for_view = filtered_cards(
@@ -180,6 +204,7 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
         st.session_state.card_scope,
         st.session_state.search_query,
         tag_filters=st.session_state.tag_filters,
+        philosophy_profile_filters=st.session_state.philosophy_profile_filters,
     )
     if cards_for_view:
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
