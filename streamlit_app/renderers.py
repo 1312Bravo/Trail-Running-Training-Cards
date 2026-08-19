@@ -61,6 +61,18 @@ def css() -> None:
             text-decoration: underline;
             text-underline-offset: 0.18rem;
         }
+        [class*="st-key-philosophy-"] h1 {
+            margin: 0 0 0.8rem;
+            font-size: 1.35rem;
+        }
+        [class*="st-key-philosophy-"] h2 {
+            margin: 1rem 0 0.45rem;
+            font-size: 1rem;
+        }
+        [class*="st-key-philosophy-"] p,
+        [class*="st-key-philosophy-"] li {
+            color: #555555;
+        }
         [class*="st-key-tag_"],
         [class*="st-key-selected_tag_"],
         [class*="st-key-pathway_search_terms_"],

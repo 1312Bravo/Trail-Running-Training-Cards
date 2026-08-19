@@ -6,6 +6,7 @@ import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.philosophy_profiles import (
+    COMMON_PHILOSOPHY_PROFILE_ID,
     PHILOSOPHY_PROFILES,
     philosophy_profile_display_name,
 )
@@ -23,6 +24,11 @@ from streamlit_app.data import (
     load_library,
     related_child_cards,
 )
+from streamlit_app.philosophies import (
+    load_app_summary,
+    load_detailed_note,
+    load_reviewed_source_bullets,
+)
 from streamlit_app.renderers import (
     css,
     display_text,
@@ -32,7 +38,13 @@ from streamlit_app.renderers import (
 )
 
 
-APP_MODES = ["Browse cards", "Build pathway", "Today session"]
+APP_MODES = [
+    "Browse cards",
+    "Build pathway",
+    "Today session",
+    "Coaching philosophies",
+]
+PHILOSOPHY_SUMMARY_HEIGHT = 380
 PATHWAY_STEPS = [
     ("macro", "Macro"),
     ("mezzo", "Mezzo"),
@@ -47,11 +59,39 @@ PATHWAY_STEPS = [
 # The app only needs a search query and the currently opened card.
 
 def set_active_card(card_id: str) -> None:
+    st.session_state.active_philosophy_profile_id = None
+    st.session_state.active_philosophy_sources_profile_id = None
     st.session_state.active_card_id = card_id
 
 
 def clear_active_card() -> None:
     st.session_state.active_card_id = None
+
+
+def set_active_philosophy(profile_id: str) -> None:
+    st.session_state.active_card_id = None
+    st.session_state.active_philosophy_sources_profile_id = None
+    st.session_state.active_philosophy_profile_id = profile_id
+
+
+def clear_active_philosophy() -> None:
+    st.session_state.active_philosophy_profile_id = None
+
+
+def set_active_philosophy_sources(profile_id: str) -> None:
+    st.session_state.active_card_id = None
+    st.session_state.active_philosophy_profile_id = None
+    st.session_state.active_philosophy_sources_profile_id = profile_id
+
+
+def clear_active_philosophy_sources() -> None:
+    st.session_state.active_philosophy_sources_profile_id = None
+
+
+def browse_philosophy_cards(profile_id: str) -> None:
+    st.session_state.app_mode = "Browse cards"
+    st.session_state.card_scope_label = None
+    st.session_state.philosophy_profile_filters = [profile_id]
 
 
 def state_key_for_level(level: str) -> str:
@@ -139,6 +179,8 @@ def init_state() -> None:
     st.session_state.setdefault("today_search_input", "")
     st.session_state.setdefault("today_search_terms", [])
     st.session_state.setdefault("active_card_id", None)
+    st.session_state.setdefault("active_philosophy_profile_id", None)
+    st.session_state.setdefault("active_philosophy_sources_profile_id", None)
     st.session_state.setdefault("app_mode", APP_MODES[0])
     st.session_state.setdefault("card_scope_label", None)
     st.session_state.setdefault("tag_filters", [])
@@ -151,6 +193,33 @@ def open_card_dialog(card: object, display_config: dict[str, object], card_by_id
     @st.dialog(card.title, width="medium", on_dismiss=clear_active_card)
     def dialog_content() -> None:
         render_detail(card, display_config, card_by_id, show_header=False)
+
+    dialog_content()
+
+
+def open_philosophy_dialog(profile_id: str) -> None:
+    profile_name = philosophy_profile_display_name(profile_id)
+
+    @st.dialog(f"{profile_name} philosophy", width="large", on_dismiss=clear_active_philosophy)
+    def dialog_content() -> None:
+        st.markdown(load_detailed_note(profile_id))
+
+    dialog_content()
+
+
+def open_philosophy_sources_dialog(profile_id: str) -> None:
+    profile_name = philosophy_profile_display_name(profile_id)
+
+    @st.dialog(
+        f"{profile_name} reviewed sources",
+        width="large",
+        on_dismiss=clear_active_philosophy_sources,
+    )
+    def dialog_content() -> None:
+        st.caption(
+            "Reviewed official material used to inform this library's interpretation."
+        )
+        st.markdown(load_reviewed_source_bullets(profile_id))
 
     dialog_content()
 
@@ -210,6 +279,67 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
     else:
         st.caption("No cards match the current filters.")
+
+
+# ----------------------------------------------------------
+# Coaching Philosophies Mode
+# ----------------------------------------------------------
+
+def render_coaching_philosophies(cards: list[Any]) -> None:
+    st.caption(
+        "The shared foundation and named profiles explain the coaching reasoning that shapes this card library."
+    )
+    profile_ids = list(PHILOSOPHY_PROFILES)
+
+    for row_start in range(0, len(profile_ids), 2):
+        cols = st.columns([0.12, 1, 0.18, 1, 0.12], gap="small")
+        for offset, profile_id in enumerate(profile_ids[row_start: row_start + 2]):
+            with cols[1 + offset * 2]:
+                with st.container(border=True, key=f"philosophy-{profile_id}"):
+                    with st.container(
+                        height=PHILOSOPHY_SUMMARY_HEIGHT,
+                        border=False,
+                        key=f"philosophy-summary-{profile_id}",
+                    ):
+                        st.markdown(load_app_summary(profile_id))
+                    st.divider()
+                    card_count = sum(
+                        profile_id in getattr(card, "philosophy_profile_ids", [])
+                        for card in cards
+                    )
+                    st.caption(f"{card_count} cards in this profile")
+                    action_count = (
+                        2 if profile_id == COMMON_PHILOSOPHY_PROFILE_ID else 3
+                    )
+                    actions = st.columns(action_count)
+                    with actions[0]:
+                        st.button(
+                            "Show cards",
+                            key=f"philosophy_show_cards_{profile_id}",
+                            type="secondary",
+                            width="stretch",
+                            on_click=browse_philosophy_cards,
+                            args=(profile_id,),
+                        )
+                    with actions[1]:
+                        st.button(
+                            "Read full philosophy",
+                            key=f"philosophy_read_{profile_id}",
+                            type="secondary",
+                            width="stretch",
+                            on_click=set_active_philosophy,
+                            args=(profile_id,),
+                        )
+                    if profile_id != COMMON_PHILOSOPHY_PROFILE_ID:
+                        with actions[2]:
+                            st.button(
+                                "View sources",
+                                key=f"philosophy_sources_{profile_id}",
+                                type="secondary",
+                                width="stretch",
+                                on_click=set_active_philosophy_sources,
+                                args=(profile_id,),
+                            )
 
 
 def render_search_terms(terms_key: str) -> None:
@@ -447,7 +577,7 @@ def main() -> None:
     with header_cols[1]:
         render_contact_links()
 
-    mode_cols = st.columns([0.31, 0.38, 0.31])
+    mode_cols = st.columns([0.13, 0.74, 0.13])
     with mode_cols[1]:
         st.segmented_control(
             "Mode",
@@ -462,12 +592,24 @@ def main() -> None:
         render_build_pathway(cards, display_config, card_by_id)
     elif st.session_state.app_mode == "Today session":
         render_today_session(cards, display_config)
+    elif st.session_state.app_mode == "Coaching philosophies":
+        render_coaching_philosophies(cards)
     else:
         render_browse_cards(cards, display_config)
 
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:
         open_card_dialog(active_card, display_config, card_by_id)
+
+    active_philosophy_profile_id = st.session_state.active_philosophy_profile_id
+    if active_philosophy_profile_id:
+        open_philosophy_dialog(active_philosophy_profile_id)
+
+    active_philosophy_sources_profile_id = (
+        st.session_state.active_philosophy_sources_profile_id
+    )
+    if active_philosophy_sources_profile_id:
+        open_philosophy_sources_dialog(active_philosophy_sources_profile_id)
 
 
 if __name__ == "__main__":
