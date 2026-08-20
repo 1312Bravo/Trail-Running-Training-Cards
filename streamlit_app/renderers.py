@@ -36,21 +36,78 @@ def css() -> None:
     st.html(
         """
         <style>
+        :root {
+            --paper: #ffffff;
+            --surface: #ffffff;
+            --ink: #252525;
+            --muted-ink: #737373;
+            --line: #d6d6d6;
+            --strong-line: #4d4d4d;
+            --soft-surface: #f7f7f7;
+        }
+        [data-testid="stAppViewContainer"],
+        .stApp {
+            background: var(--paper);
+            color: var(--ink);
+        }
+        [data-testid="stHeader"] {
+            background: transparent;
+        }
+        [data-testid="stMainBlockContainer"],
+        .block-container {
+            max-width: 92rem;
+            padding-top: 2.75rem;
+            padding-bottom: 4rem;
+        }
+        h1 {
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2.25rem, 4vw, 3.35rem);
+            font-weight: 600;
+            letter-spacing: -0.045em;
+            line-height: 1.02;
+        }
+        [data-testid="stCaptionContainer"] {
+            color: var(--muted-ink);
+        }
+        [data-testid="stButton"] > button {
+            min-height: 2rem;
+            border: 1px solid #bfc0b8;
+            background: var(--surface);
+            color: var(--ink);
+            box-shadow: none;
+            transition: background 160ms ease, border-color 160ms ease;
+        }
+        [data-testid="stButton"] > button:hover {
+            border-color: var(--strong-line);
+            background: var(--soft-surface);
+            color: var(--ink);
+        }
+        [data-testid="stTextInput"] input,
+        [data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+            background: var(--surface);
+        }
+        [data-testid="stSegmentedControl"] {
+            background: var(--surface);
+        }
+        [data-testid="stDivider"] {
+            border-color: var(--line);
+        }
         .contact-links {
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            align-items: flex-start;
-            gap: 0.35rem;
-            margin-top: 0.2rem;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0.4rem;
+            margin-top: 0;
         }
         .contact-links a {
             display: inline-flex;
             align-items: center;
             gap: 0.45rem;
-            color: inherit;
+            color: var(--ink);
             text-decoration: none;
-            font-size: 1.06rem;
+            font-size: 0.98rem;
         }
         .contact-icon {
             width: 1.12rem;
@@ -63,7 +120,11 @@ def css() -> None:
         }
         [class*="st-key-philosophy-"] h1 {
             margin: 0 0 0.8rem;
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
             font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
         [class*="st-key-philosophy-"] h2 {
             margin: 1rem 0 0.45rem;
@@ -85,30 +146,30 @@ def css() -> None:
         [class*="st-key-today_search_terms_"] button {
             min-height: 1.65rem;
             padding: 0.1rem 0.45rem;
-            background: #ffffff;
-            border: 1px solid #c8c8c8;
-            color: #222222;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            color: var(--ink);
             box-shadow: none;
             font-size: 0.86rem;
             font-weight: 400;
         }
         [class*="st-key-selected_tag_"] button {
-            background: #f7f7f7;
-            border-color: #a8a8a8;
+            background: #e9ece4;
+            border-color: #8b9585;
             font-weight: 600;
         }
         [class*="st-key-open-action"] {
             position: sticky;
             top: 0;
             z-index: 2;
-            background: #ffffff;
+            background: var(--paper);
             padding-bottom: 0.25rem;
         }
         [class*="st-key-open_"] button,
         [class*="st-key-select_"] button {
-            border: 1px solid #777777;
-            background: #f2f2f2;
-            color: #111111;
+            border: 1px solid #aeb0a7;
+            background: var(--soft-surface);
+            color: var(--ink);
             font-weight: 600;
             min-height: 1.8rem;
             padding: 0.12rem 0.55rem;
@@ -117,9 +178,9 @@ def css() -> None:
         }
         [class*="st-key-pathway_open_"] button,
         [class*="st-key-pathway_change_"] button {
-            border: 1px solid #c8c8c8;
-            background: #ffffff;
-            color: #222222;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--ink);
             font-weight: 400;
             min-height: 1.55rem;
             padding: 0.05rem 0.4rem;
@@ -130,29 +191,32 @@ def css() -> None:
             position: sticky;
             top: 0;
             z-index: 4;
-            background: #ffffff;
+            background: var(--paper);
             padding-bottom: 0.4rem;
         }
         .preview-card-title {
-            font-size: 1.16rem;
-            font-weight: 750;
-            letter-spacing: -0.01em;
-            line-height: 1.2;
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            line-height: 1.14;
         }
         .preview-summary {
             margin: 1rem 0 1.1rem;
-            color: #111111;
-            font-size: 1rem;
-            line-height: 1.55;
+            color: var(--ink);
+            font-size: 1.02rem;
+            line-height: 1.58;
         }
         .preview-field {
             margin: 0.65rem 0;
-            color: #8a8a8a;
+            color: var(--ink);
             line-height: 1.45;
         }
         .preview-field-label {
-            color: #222222;
+            color: var(--muted-ink);
             font-weight: 400;
+            font-size: 0.9em;
         }
         .preview-tags-title {
             margin: 1rem 0 0.25rem;
@@ -160,34 +224,39 @@ def css() -> None:
             font-weight: 400;
         }
         [class*="st-key-card-"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border: 1px solid #222222 !important;
+            background: var(--surface);
+            border: 1px solid var(--strong-line) !important;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgb(40 41 35 / 5%);
         }
         [class*="st-key-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #8f98a3;
+            border-left: 4px solid #788796;
         }
         [class*="st-key-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #9aa58f;
+            border-left: 4px solid #7f8d72;
         }
         [class*="st-key-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #b0a27e;
+            border-left: 4px solid #a78a59;
         }
         [class*="st-key-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #9b8f9f;
+            border-left: 4px solid #8c7780;
         }
         [class*="st-key-pathway-card-"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border: 1px solid #222222 !important;
+            background: var(--surface);
+            border: 1px solid var(--strong-line) !important;
+            border-radius: 8px;
         }
         [class*="st-key-pathway-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #8f98a3 !important;
+            border-left: 4px solid #788796 !important;
         }
         [class*="st-key-pathway-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #9aa58f !important;
+            border-left: 4px solid #7f8d72 !important;
         }
         [class*="st-key-pathway-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #b0a27e !important;
+            border-left: 4px solid #a78a59 !important;
         }
         [class*="st-key-pathway-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #9b8f9f !important;
+            border-left: 4px solid #8c7780 !important;
         }
         </style>
         """
@@ -382,6 +451,7 @@ def render_preview_card(
                     width="content",
                     on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
                 )
+
         st.badge(
             card_type_label(card.card_type, display_config),
             color=card_type_badge_color(card),

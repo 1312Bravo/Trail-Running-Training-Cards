@@ -59,3 +59,10 @@ Add a Coaching philosophies area to the Streamlit app so the new philosophy prof
 - Added a Coaching philosophies app mode with profile summaries, card counts, and direct links into Browse cards.
 - Added a large dialog for reading the detailed coaching note behind each profile.
 - Added a source dialog for each named profile, limited to reviewed official material and its links.
+
+## Visual Refinement
+
+- [x] Establish a restrained light-theme palette and shared component styling.
+- [x] Give the page header and card titles an editorial type hierarchy.
+- [x] Unify buttons, inputs, tags, dividers, and card surfaces around the same spacing and border language.
+- [ ] Review the visual baseline in the running app and iterate from screenshots.

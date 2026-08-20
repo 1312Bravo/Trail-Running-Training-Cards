@@ -1,11 +1,11 @@
 [theme]
 base = "light"
-primaryColor = "#333333"
+primaryColor = "#4d554b"
 backgroundColor = "#ffffff"
 secondaryBackgroundColor = "#f7f7f7"
-textColor = "#222222"
-linkColor = "#333333"
+textColor = "#252525"
+linkColor = "#394136"
 borderColor = "#d6d6d6"
-baseRadius = "8px"
-buttonRadius = "8px"
+baseRadius = "10px"
+buttonRadius = "6px"
 showWidgetBorder = true
