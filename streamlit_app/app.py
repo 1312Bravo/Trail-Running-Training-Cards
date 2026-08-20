@@ -203,9 +203,9 @@ def init_state() -> None:
 
 
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
-    @st.dialog(card.title, width="medium", on_dismiss=clear_active_card)
+    @st.dialog(" ", width="medium", on_dismiss=clear_active_card)
     def dialog_content() -> None:
-        render_detail(card, display_config, card_by_id, show_header=False)
+        render_detail(card, display_config, card_by_id, show_header=True)
 
     dialog_content()
 

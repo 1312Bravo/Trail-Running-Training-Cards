@@ -8,6 +8,7 @@ from typing import Any
 import streamlit as st
 
 from training_cards.philosophy_profiles import philosophy_profile_display_name
+from streamlit_app.config import DETAIL_FIELD_LABEL_OVERRIDES, DETAIL_SECTION_ORDER
 from streamlit_app.data import card_type_label
 
 
@@ -17,13 +18,48 @@ MAIL_ICON_SVG = """
 </svg>
 """
 
-DETAIL_HIDDEN_FIELDS = {"id", "slug", "title"}
+DETAIL_HIDDEN_FIELDS = {"id", "slug", "title", "card_type"}
 
 GITHUB_ICON_SVG = """
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <path fill="currentColor" d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.3 11.3 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.9 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5Z"/>
 </svg>
 """
+
+CARD_TYPE_ICONS = {
+    "macro": """
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="m3 18 6-9 4 6 2-3 6 6" />
+            <path d="M3 20h18" />
+        </svg>
+    """,
+    "mezzo": """
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M3 17c3-5 6-5 9 0 3-4 5-4 9 0" />
+            <path d="M3 20h18" />
+        </svg>
+    """,
+    "micro": """
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 19c5 0 1-8 7-8s2-6 7-6" />
+            <circle cx="5" cy="19" r="1.4" />
+            <circle cx="19" cy="5" r="1.4" />
+        </svg>
+    """,
+    "session": """
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="13" r="7" />
+            <path d="M12 3v3M9 3h6M12 13l3-2" />
+        </svg>
+    """,
+}
+
+CARD_TYPE_ICON_COLORS = {
+    "macro": "#526d80",
+    "mezzo": "#5c7354",
+    "micro": "#8a6e3c",
+    "session": "#765d6a",
+}
 
 
 # ----------------------------------------------------------
@@ -202,21 +238,84 @@ def css() -> None:
             letter-spacing: -0.025em;
             line-height: 1.14;
         }
+        .preview-card-identity {
+            display: flex;
+            align-items: center;
+            gap: 0.28rem;
+            margin-top: 0.5rem;
+            min-height: 2.65rem;
+        }
+        .preview-card-type {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.18rem 0.45rem;
+            border: 1px solid currentColor;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+        .preview-card-emblem {
+            width: 3rem;
+            height: 3rem;
+            margin-left: 0.5rem;
+            opacity: 0.22;
+            transform: rotate(-7deg);
+        }
+        .preview-card-type-macro {
+            color: #526d80;
+            background: #e7f0f7;
+        }
+        .preview-card-type-mezzo {
+            color: #5c7354;
+            background: #eaf2e7;
+        }
+        .preview-card-type-micro {
+            color: #8a6e3c;
+            background: #f8efd9;
+        }
+        .preview-card-type-session {
+            color: #765d6a;
+            background: #f5e9ef;
+        }
         .preview-summary {
-            margin: 1rem 0 1.1rem;
+            margin: 0.85rem 0 0.9rem;
+            padding: 0.8rem 0;
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
             color: var(--ink);
-            font-size: 1.02rem;
-            line-height: 1.58;
+            font-size: 1.12rem;
+            line-height: 1.5;
         }
         .preview-field {
-            margin: 0.65rem 0;
+            display: grid;
+            grid-template-columns: minmax(6.7rem, 8.4rem) minmax(0, 1fr);
+            column-gap: 0.55rem;
+            margin: 0.48rem 0;
             color: var(--ink);
+            font-size: 0.92rem;
             line-height: 1.45;
         }
         .preview-field-label {
             color: var(--muted-ink);
             font-weight: 400;
-            font-size: 0.9em;
+            font-size: 0.78rem;
+            letter-spacing: 0.035em;
+            text-transform: uppercase;
+        }
+        .preview-field-value {
+            color: var(--ink);
+        }
+        @media (max-width: 640px) {
+            .preview-field {
+                display: block;
+            }
+            .preview-field-label {
+                display: block;
+                margin-bottom: 0.1rem;
+            }
         }
         .preview-tags-title {
             margin: 1rem 0 0.25rem;
@@ -226,20 +325,136 @@ def css() -> None:
         [class*="st-key-card-"] div[data-testid="stVerticalBlockBorderWrapper"] {
             background: var(--surface);
             border: 1px solid var(--strong-line) !important;
-            border-radius: 10px;
-            box-shadow: 0 1px 2px rgb(40 41 35 / 5%);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgb(40 41 35 / 6%);
         }
+        [class*="st-key-card-macro"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #788796;
+            border-top: 6px solid #788796 !important;
+            box-shadow: inset 0 3px 0 #788796, 0 4px 12px rgb(40 41 35 / 6%);
         }
+        [class*="st-key-card-mezzo"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #7f8d72;
+            border-top: 6px solid #7f8d72 !important;
+            box-shadow: inset 0 3px 0 #7f8d72, 0 4px 12px rgb(40 41 35 / 6%);
         }
+        [class*="st-key-card-micro"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #a78a59;
+            border-top: 6px solid #a78a59 !important;
+            box-shadow: inset 0 3px 0 #a78a59, 0 4px 12px rgb(40 41 35 / 6%);
         }
+        [class*="st-key-card-session"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #8c7780;
+            border-top: 6px solid #8c7780 !important;
+            box-shadow: inset 0 3px 0 #8c7780, 0 4px 12px rgb(40 41 35 / 6%);
+        }
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-macro) {
+            border-top: 6px solid #788796 !important;
+            box-shadow: inset 0 3px 0 #788796, 0 4px 12px rgb(40 41 35 / 6%);
+        }
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-mezzo) {
+            border-top: 6px solid #7f8d72 !important;
+            box-shadow: inset 0 3px 0 #7f8d72, 0 4px 12px rgb(40 41 35 / 6%);
+        }
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-micro) {
+            border-top: 6px solid #a78a59 !important;
+            box-shadow: inset 0 3px 0 #a78a59, 0 4px 12px rgb(40 41 35 / 6%);
+        }
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-session) {
+            border-top: 6px solid #8c7780 !important;
+            box-shadow: inset 0 3px 0 #8c7780, 0 4px 12px rgb(40 41 35 / 6%);
+        }
+        .detail-card-header {
+            position: relative;
+            overflow: hidden;
+            margin: 0.25rem 0 1rem;
+            padding: 1rem 1.1rem 1.05rem;
+            border-top: 6px solid var(--strong-line);
+            border-bottom: 1px solid var(--line);
+        }
+        .detail-card-header-macro { border-top-color: #788796; }
+        .detail-card-header-mezzo { border-top-color: #7f8d72; }
+        .detail-card-header-micro { border-top-color: #a78a59; }
+        .detail-card-header-session { border-top-color: #8c7780; }
+        .detail-card-type {
+            display: inline-block;
+            margin-bottom: 0.45rem;
+            color: var(--muted-ink);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.055em;
+            text-transform: uppercase;
+        }
+        .detail-card-title {
+            position: relative;
+            z-index: 1;
+            max-width: 82%;
+            margin: 0;
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+        }
+        .detail-card-emblem {
+            position: absolute;
+            right: 1.1rem;
+            bottom: 0.65rem;
+            width: 4rem;
+            height: 4rem;
+            opacity: 0.18;
+            transform: rotate(-7deg);
+        }
+        .detail-section {
+            margin: 0;
+            padding: 0.1rem 0 0.8rem;
+            border-bottom: 1px solid var(--line);
+        }
+        .detail-section-label {
+            margin-bottom: 0.25rem;
+            color: var(--muted-ink);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.045em;
+            text-transform: uppercase;
+        }
+        .detail-section-value {
+            color: var(--ink);
+            font-size: 1rem;
+            line-height: 1.45;
+        }
+        .detail-section-summary .detail-section-value {
+            font-size: 1.13rem;
+            line-height: 1.5;
+        }
+        .detail-section-coaching-note {
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--line);
+            border-left: 3px solid var(--strong-line);
+            border-radius: 8px;
+            background: var(--soft-surface);
+        }
+        .detail-section-coaching-note .detail-section-label {
+            margin-bottom: 0.45rem;
+        }
+        .detail-section-list {
+            margin: 0.2rem 0 0;
+            padding-left: 1.2rem;
+        }
+        .detail-section-list li + li {
+            margin-top: 0.25rem;
+        }
+        .detail-section-tags {
+            border-bottom: 0;
+            padding-bottom: 0.2rem;
+        }
+        [class*="st-key-detail-"] div[data-testid="stVerticalBlockBorderWrapper"] {
+            border: 0 !important;
+            border-top: 1px solid var(--line) !important;
+            border-radius: 0 !important;
+            background: transparent;
+            box-shadow: none;
         }
         [class*="st-key-pathway-card-"] div[data-testid="stVerticalBlockBorderWrapper"] {
             background: var(--surface);
@@ -328,16 +543,6 @@ def render_contact_links() -> None:
     )
 
 
-def card_type_badge_color(card: Any) -> str:
-    colors = {
-        "macro": "blue",
-        "mezzo": "green",
-        "micro": "orange",
-        "session": "violet",
-    }
-    return colors.get(str(card.card_type), "gray")
-
-
 def set_tag_filter(tag: str) -> None:
     current_tags = list(st.session_state.get("tag_filters", []))
     if tag not in current_tags:
@@ -375,7 +580,10 @@ def render_preview_field(card: Any, field_name: str, display_config: dict[str, A
     if isinstance(value, list) and not value:
         return
 
-    label = field_label(field_name, display_config)
+    label = DETAIL_FIELD_LABEL_OVERRIDES.get(
+        field_name,
+        field_label(field_name, display_config),
+    )
     if field_name == "summary":
         st.html(f'<p class="preview-summary">{escape(as_text(value))}</p>')
     elif field_name == "tags" and isinstance(value, list):
@@ -386,25 +594,25 @@ def render_preview_field(card: Any, field_name: str, display_config: dict[str, A
             for profile_id in value
         )
         st.html(
-            '<p class="preview-field">'
+            '<div class="preview-field">'
             f'<span class="preview-field-label">{escape(label)}:</span> '
-            f'{escape(rendered_value)}'
-            '</p>'
+            f'<span class="preview-field-value">{escape(rendered_value)}</span>'
+            '</div>'
         )
     elif isinstance(value, list):
         rendered_value = ", ".join(display_text(item) for item in value)
         st.html(
-            '<p class="preview-field">'
+            '<div class="preview-field">'
             f'<span class="preview-field-label">{escape(label)}:</span> '
-            f'{escape(rendered_value)}'
-            '</p>'
+            f'<span class="preview-field-value">{escape(rendered_value)}</span>'
+            '</div>'
         )
     else:
         st.html(
-            '<p class="preview-field">'
+            '<div class="preview-field">'
             f'<span class="preview-field-label">{escape(label)}:</span> '
-            f'{escape(as_text(value))}'
-            '</p>'
+            f'<span class="preview-field-value">{escape(as_text(value))}</span>'
+            '</div>'
         )
 
 
@@ -425,10 +633,24 @@ def render_preview_card(
     ]
     card_type_key = str(card.card_type).replace("_", "-")
 
-    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=400):
+    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=500):
         header_cols = st.columns([1, 0.38], vertical_alignment="top")
         with header_cols[0]:
             st.html(f'<div class="preview-card-title">{escape(card.title)}</div>')
+            card_type = card_type_label(card.card_type, display_config)
+            icon_svg = CARD_TYPE_ICONS.get(card_type_key, "")
+            icon_color = CARD_TYPE_ICON_COLORS.get(card_type_key, "#4d4d4d")
+            type_icon = ""
+            if icon_svg:
+                icon_uri = svg_data_uri(icon_svg.replace("currentColor", icon_color))
+                type_icon = f'<img class="preview-card-emblem" src="{icon_uri}" alt="">'
+            st.html(
+                '<div class="preview-card-identity">'
+                f'<span class="preview-card-type preview-card-type-{card_type_key}">'
+                f'{escape(card_type)}</span>'
+                f'{type_icon}'
+                '</div>'
+            )
         with header_cols[1]:
             with st.container(
                 key=f"open-action-{key_prefix}-{card.id}",
@@ -452,13 +674,13 @@ def render_preview_card(
                     on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
                 )
 
-        st.badge(
-            card_type_label(card.card_type, display_config),
-            color=card_type_badge_color(card),
-        )
-
         for field_name in ordered_preview_fields:
+            if field_name == "tags":
+                continue
             render_preview_field(card, field_name, display_config)
+
+        if "tags" in ordered_preview_fields and card.tags:
+            render_preview_field(card, "tags", display_config)
 
 
 # ----------------------------------------------------------
@@ -469,7 +691,7 @@ def render_reference_list(card: Any, card_by_id: dict[str, Any]) -> None:
     if not card.references:
         return
 
-    with st.container(border=True):
+    with st.container(border=False, key="detail-references"):
         st.markdown("**References**")
         items = []
         for reference in card.references:
@@ -484,7 +706,7 @@ def render_workout_parts(parts: list[Any]) -> None:
     if not parts:
         return
 
-    with st.container(border=True):
+    with st.container(border=False, key="detail-workout-parts"):
         st.markdown("**Workout parts**")
         lines = []
         for part in parts:
@@ -503,7 +725,7 @@ def render_dataclass_value(field_name: str, value: Any, display_config: dict[str
         return False
 
     family = asdict(value)
-    with st.container(border=True):
+    with st.container(border=False, key="detail-session-family"):
         st.markdown(f"**{field_label(field_name, display_config)}**")
         st.write(family.get("title", ""))
         if family.get("summary"):
@@ -526,37 +748,74 @@ def render_field(field_name: str, value: Any, display_config: dict[str, Any]) ->
         return
 
     label = field_label(field_name, display_config)
-    with st.container(border=True):
-        st.markdown(f"**{label}**")
-        if field_name == "tags" and isinstance(value, list):
-            render_tag_buttons(value, "detail")
-        elif field_name == "philosophy_profile_ids" and isinstance(value, list):
-            st.markdown(
-                "\n".join(
-                    f"- {philosophy_profile_display_name(profile_id)}"
-                    for profile_id in value
-                )
-            )
-        elif isinstance(value, list):
-            st.markdown("\n".join(f"- {as_text(item)}" for item in value))
-        else:
-            st.write(format_field_value(field_name, value))
+    section_class = "detail-section"
+    if field_name == "summary":
+        section_class += " detail-section-summary"
+    elif field_name == "additional_information":
+        section_class += " detail-section-coaching-note"
+    elif field_name == "tags":
+        section_class += " detail-section-tags"
 
+    if field_name == "tags" and isinstance(value, list):
+        st.html(
+            f'<section class="{section_class}">'
+            f'<div class="detail-section-label">{escape(label)}</div>'
+            '</section>'
+        )
+        render_tag_buttons(value, "detail")
+        return
 
-def ordered_detail_fields(card: Any, display_config: dict[str, Any]) -> list[str]:
-    configured_fields = (
-        display_config.get("system_fields", [])
-        + display_config.get("preview_fields", [])
-        + display_config.get("detail_field_order", [])
+    if field_name == "philosophy_profile_ids" and isinstance(value, list):
+        rendered_value = ", ".join(
+            philosophy_profile_display_name(profile_id)
+            for profile_id in value
+        )
+        value_html = escape(rendered_value)
+    elif isinstance(value, list):
+        value_html = (
+            '<ul class="detail-section-list">'
+            + "".join(f'<li>{escape(as_text(item))}</li>' for item in value)
+            + "</ul>"
+        )
+    else:
+        value_html = escape(format_field_value(field_name, value))
+
+    st.html(
+        f'<section class="{section_class}">'
+        f'<div class="detail-section-label">{escape(label)}</div>'
+        f'<div class="detail-section-value">{value_html}</div>'
+        '</section>'
     )
+
+
+def ordered_detail_fields(card: Any) -> list[str]:
     dataclass_field_names = [field.name for field in dataclass_fields(card)]
     ordered = []
-    for field_name in configured_fields + dataclass_field_names:
+    for field_name in DETAIL_SECTION_ORDER + dataclass_field_names:
         if field_name in DETAIL_HIDDEN_FIELDS:
             continue
         if field_name not in ordered and hasattr(card, field_name):
             ordered.append(field_name)
     return ordered
+
+
+def render_detail_header(card: Any, display_config: dict[str, Any]) -> None:
+    card_type_key = str(card.card_type).replace("_", "-")
+    card_type = card_type_label(card.card_type, display_config)
+    icon_svg = CARD_TYPE_ICONS.get(card_type_key, "")
+    icon_color = CARD_TYPE_ICON_COLORS.get(card_type_key, "#4d4d4d")
+    emblem = ""
+    if icon_svg:
+        icon_uri = svg_data_uri(icon_svg.replace("currentColor", icon_color))
+        emblem = f'<img class="detail-card-emblem" src="{icon_uri}" alt="">'
+
+    st.html(
+        f'<section class="detail-card-header detail-card-header-{card_type_key}">'
+        f'<div class="detail-card-type">{escape(card_type)}</div>'
+        f'<h2 class="detail-card-title">{escape(card.title)}</h2>'
+        f'{emblem}'
+        '</section>'
+    )
 
 
 def render_detail(
@@ -566,11 +825,14 @@ def render_detail(
     show_header: bool = True,
 ) -> None:
     if show_header:
-        st.subheader(card.title)
-        st.caption(card_type_label(card.card_type, display_config))
+        render_detail_header(card, display_config)
 
-    for field_name in ordered_detail_fields(card, display_config):
+    for field_name in ordered_detail_fields(card):
         value = getattr(card, field_name, None)
+        if value is None or (isinstance(value, str) and not value.strip()):
+            continue
+        if isinstance(value, list) and not value:
+            continue
         if field_name == "workout_parts":
             render_workout_parts(value)
         elif field_name == "references":

@@ -2,67 +2,37 @@
 
 ## Goal
 
-Add a Coaching philosophies area to the Streamlit app so the new philosophy profiles are visible, understandable, and connected to the training cards without turning the app into a documentation browser.
+Evolve the app's preview cards into a restrained training-card deck: recognisable at a glance, compact to browse, and always grounded in the schema-defined card content.
 
-## Current Understanding
+## Design Direction
 
-- The canonical coaching source files live under `coaching/`.
-- The Streamlit app uses short app-facing summaries by default and loads a full source note only when the reader requests it.
-- App-facing philosophy markdown belongs under `streamlit_app/content/philosophies/`.
-- The app-facing content files and Coaching philosophies mode are implemented.
+- Borrow the information grammar of a trading card, not Pokemon's visual assets or exact design.
+- Keep the fixed light theme, readable typography, and minimal interface.
+- Treat Macro, Mezzo, Micro, and Session as distinct card families through subtle frame and identity cues.
+- Keep the preview as a scan-friendly introduction; the full schema remains available through `Open card`.
 
-## Critical Review
+## Preview Card Structure
 
-- Strong: this makes the philosophy work discoverable and useful for browsing cards.
-- Strong: keeping app copy separate from source notes avoids mixing content-authoring documentation with UI presentation.
-- Risk: if the app-facing summaries drift from the source philosophy notes, the app can become misleading.
-- Recommendation: treat `coaching/philosophies/<id>/summary.md` as the source and refresh app summaries whenever profiles change materially.
-
-## Proposed Direction
-
-- Add one markdown file per philosophy profile in `streamlit_app/content/philosophies/`.
-- Keep each file short: title, official website link where applicable, overview, main emphases, and a concise interpretation note.
-- In the Coaching philosophies mode, show profile overview cards with card counts, a `Show cards` action, and an on-demand full-note dialog.
-- Keep philosophy filtering available in Browse cards, Build pathway, and Today session, while making the overview mode the more explanatory entry point.
+1. Framed card with a subtle type-specific top edge.
+2. Title, type marker, and actions form the identity area.
+3. Summary is the card's primary effect: readable and visually distinct.
+4. Purpose, suitable levels, race context, training profile, and philosophy are compact attributes.
+5. Clickable tags form the footer and continue to filter the library.
 
 ## Tasks
 
-- [x] Create app-facing philosophy markdown files.
-- [x] Add a loader for app-facing philosophy markdown.
-- [x] Add a `Coaching philosophies` mode in `streamlit_app/app.py`.
-- [x] Render philosophy profile overview cards.
-- [x] Show card counts by philosophy profile.
-- [x] Add `Show cards` action that switches to Browse mode with that philosophy selected.
-- [x] Add a `Read full philosophy` dialog that renders the detailed coaching note.
-- [x] Add a `View sources` dialog that shows only reviewed-source bullets and links.
-- [x] Decide whether philosophy filters should also apply to Build pathway and Today session.
+- [x] Replace the previous temporary philosophy plan with this card-design plan.
+- [x] Establish the first restrained training-card frame and preview hierarchy.
+- [x] Present preview attributes as a compact label-and-value stat block.
+- [x] Use each card family's icon as a subdued identity watermark beside the type marker.
+- [x] Give the full-card dialog the same type-aware header and clean section language.
+- [x] Use a Streamlit-only coaching sequence for full-card fields, while retaining future schema fields as a fallback.
+- [ ] Review the updated preview cards in the running app and adjust density from screenshots.
+- [x] Add a small, semantic line icon to each card-family type marker.
+- [ ] Consider optional card art only after the information hierarchy is proven useful.
 
-## Decisions
+## Guardrails
 
-- The app-facing files are presentation copy, not the source of truth.
-- The source of truth remains the `coaching/` directory plus `training_cards/philosophy_profiles.py`.
-- App-facing pages do not show internal source paths or profile IDs.
-- Named profiles link to their official website; the shared `Common` foundation has no external counterpart.
-- The detailed coaching note opens only on request in a large dialog; it is not mixed into the overview cards.
-- Named profiles expose only their reviewed official-source bullets in the app; books-to-review and interpretation boundaries stay in the working source notes.
-- Coaching-philosophy filtering is shared across Browse cards, Build pathway, and Today session. It narrows valid candidates without changing pathway relationships.
-- We are not implementing ranking or recommendation logic as part of this feature.
-
-## Open Questions
-
-- Should `common` appear as a full philosophy profile card or as a quieter shared-foundation card?
-
-## Progress
-
-- Created this temporary plan in `streamlit_app/PLAN.md`.
-- Created app-facing markdown summaries under `streamlit_app/content/philosophies/`.
-- Added a Coaching philosophies app mode with profile summaries, card counts, and direct links into Browse cards.
-- Added a large dialog for reading the detailed coaching note behind each profile.
-- Added a source dialog for each named profile, limited to reviewed official material and its links.
-
-## Visual Refinement
-
-- [x] Establish a restrained light-theme palette and shared component styling.
-- [x] Give the page header and card titles an editorial type hierarchy.
-- [x] Unify buttons, inputs, tags, dividers, and card surfaces around the same spacing and border language.
-- [ ] Review the visual baseline in the running app and iterate from screenshots.
+- Preview content remains driven by `display_config` and the card schema; no invented coaching content.
+- Card type colors stay muted and functional, not decorative noise.
+- Full-card dialogs retain the complete schema-defined detail view.
