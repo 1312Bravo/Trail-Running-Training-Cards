@@ -164,6 +164,19 @@ def cards_matching_tags(cards: list[Any], tags: list[str]) -> list[Any]:
     ]
 
 
+def cards_matching_philosophies(cards: list[Any], profile_ids: list[str]) -> list[Any]:
+    if not profile_ids:
+        return cards
+    return [
+        card
+        for card in cards
+        if any(
+            profile_id in getattr(card, "philosophy_profile_ids", [])
+            for profile_id in profile_ids
+        )
+    ]
+
+
 def remove_tag_filter(tag: str) -> None:
     st.session_state.tag_filters = [
         selected_tag
@@ -256,17 +269,16 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 label_visibility="collapsed",
             )
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
-    philosophy_profile_options = list(PHILOSOPHY_PROFILES)
-    if philosophy_profile_options:
-        st.multiselect(
-            "Coaching philosophy",
-            philosophy_profile_options,
-            key="philosophy_profile_filters",
-            format_func=philosophy_profile_display_name,
-            placeholder="All coaching philosophies",
-            help="Show cards shaped by at least one selected coaching philosophy.",
-        )
-    render_active_tag_filters()
+
+    filter_controls = st.columns(
+        [0.16, 1.2, 0.08, 0.58, 0.16],
+        vertical_alignment="top",
+    )
+    with filter_controls[1]:
+        render_active_tag_filters()
+
+    with filter_controls[3]:
+        render_philosophy_profile_filter()
 
     cards_for_view = filtered_cards(
         cards,
@@ -374,6 +386,22 @@ def render_active_tag_filters() -> None:
                 on_click=remove_tag_filter,
                 args=(tag,),
             )
+
+
+def render_philosophy_profile_filter() -> None:
+    philosophy_profile_options = list(PHILOSOPHY_PROFILES)
+    if not philosophy_profile_options:
+        return
+
+    st.multiselect(
+        "Coaching philosophy",
+        philosophy_profile_options,
+        key="philosophy_profile_filters",
+        format_func=philosophy_profile_display_name,
+        placeholder="All coaching philosophies",
+        help="Show cards shaped by at least one selected coaching philosophy.",
+        width="stretch",
+    )
 
 
 # ----------------------------------------------------------
@@ -485,12 +513,23 @@ def render_build_pathway(
             on_change=add_search_term,
             args=("pathway_search_input", "pathway_search_terms"),
         )
-    render_search_terms("pathway_search_terms")
-    render_active_tag_filters()
+    filter_controls = st.columns(
+        [0.18, 1, 0.28, 1, 0.18],
+        gap="small",
+        vertical_alignment="top",
+    )
+    with filter_controls[1]:
+        render_active_tag_filters()
+    with filter_controls[3]:
+        render_search_terms("pathway_search_terms")
+        render_philosophy_profile_filter()
 
-    visible_candidates = cards_matching_tags(
-        cards_matching_terms(candidates, st.session_state.pathway_search_terms),
-        st.session_state.tag_filters,
+    visible_candidates = cards_matching_philosophies(
+        cards_matching_tags(
+            cards_matching_terms(candidates, st.session_state.pathway_search_terms),
+            st.session_state.tag_filters,
+        ),
+        st.session_state.philosophy_profile_filters,
     )
     if visible_candidates:
         render_grid(
@@ -526,12 +565,23 @@ def render_today_session(cards: list[Any], display_config: dict[str, Any]) -> No
             on_change=add_search_term,
             args=("today_search_input", "today_search_terms"),
         )
-    render_search_terms("today_search_terms")
-    render_active_tag_filters()
+    filter_controls = st.columns(
+        [0.18, 1, 0.28, 1, 0.18],
+        gap="small",
+        vertical_alignment="top",
+    )
+    with filter_controls[1]:
+        render_active_tag_filters()
+    with filter_controls[3]:
+        render_search_terms("today_search_terms")
+        render_philosophy_profile_filter()
 
-    visible_sessions = cards_matching_tags(
-        cards_matching_terms(session_cards, st.session_state.today_search_terms),
-        st.session_state.tag_filters,
+    visible_sessions = cards_matching_philosophies(
+        cards_matching_tags(
+            cards_matching_terms(session_cards, st.session_state.today_search_terms),
+            st.session_state.tag_filters,
+        ),
+        st.session_state.philosophy_profile_filters,
     )
 
     if visible_sessions:

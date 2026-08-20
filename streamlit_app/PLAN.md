@@ -23,7 +23,7 @@ Add a Coaching philosophies area to the Streamlit app so the new philosophy prof
 - Add one markdown file per philosophy profile in `streamlit_app/content/philosophies/`.
 - Keep each file short: title, official website link where applicable, overview, main emphases, and a concise interpretation note.
 - In the Coaching philosophies mode, show profile overview cards with card counts, a `Show cards` action, and an on-demand full-note dialog.
-- Keep philosophy filtering available in `Browse cards`, but make the overview mode the more explanatory entry point.
+- Keep philosophy filtering available in Browse cards, Build pathway, and Today session, while making the overview mode the more explanatory entry point.
 
 ## Tasks
 
@@ -35,7 +35,7 @@ Add a Coaching philosophies area to the Streamlit app so the new philosophy prof
 - [x] Add `Show cards` action that switches to Browse mode with that philosophy selected.
 - [x] Add a `Read full philosophy` dialog that renders the detailed coaching note.
 - [x] Add a `View sources` dialog that shows only reviewed-source bullets and links.
-- [ ] Decide whether philosophy filters should also apply to Build pathway and Today session.
+- [x] Decide whether philosophy filters should also apply to Build pathway and Today session.
 
 ## Decisions
 
@@ -45,12 +45,12 @@ Add a Coaching philosophies area to the Streamlit app so the new philosophy prof
 - Named profiles link to their official website; the shared `Common` foundation has no external counterpart.
 - The detailed coaching note opens only on request in a large dialog; it is not mixed into the overview cards.
 - Named profiles expose only their reviewed official-source bullets in the app; books-to-review and interpretation boundaries stay in the working source notes.
+- Coaching-philosophy filtering is shared across Browse cards, Build pathway, and Today session. It narrows valid candidates without changing pathway relationships.
 - We are not implementing ranking or recommendation logic as part of this feature.
 
 ## Open Questions
 
 - Should `common` appear as a full philosophy profile card or as a quieter shared-foundation card?
-- Should Browse-mode philosophy filters move from multiselect to visible chips?
 
 ## Progress
 
