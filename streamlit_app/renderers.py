@@ -3,6 +3,7 @@ from __future__ import annotations
 from base64 import b64encode
 from dataclasses import asdict, fields as dataclass_fields, is_dataclass
 from html import escape
+from pathlib import Path
 from typing import Any
 
 import streamlit as st
@@ -60,6 +61,16 @@ CARD_TYPE_ICON_COLORS = {
     "micro": "#8a6e3c",
     "session": "#765d6a",
 }
+
+# Temporary shared art lets us evaluate artwork placement before assigning
+# permanent avatars or adding art metadata to the card library.
+SHARED_ART_PROTOTYPE_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "art_work"
+    / "assets"
+    / "prototype"
+    / "shared-ibex-line-prototype.svg"
+)
 
 
 # ----------------------------------------------------------
@@ -243,6 +254,11 @@ def css() -> None:
             font-weight: 600;
             letter-spacing: -0.025em;
             line-height: 1.14;
+        }
+        [class*="st-key-prototype-art-"] img {
+            border: 1px solid #526d80;
+            border-radius: 8px;
+            object-fit: cover;
         }
         .preview-card-identity {
             display: flex;
@@ -640,8 +656,20 @@ def render_preview_card(
     card_type_key = str(card.card_type).replace("_", "-")
 
     with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=500):
-        header_cols = st.columns([1, 0.38], vertical_alignment="top")
-        with header_cols[0]:
+        has_prototype_art = SHARED_ART_PROTOTYPE_PATH.is_file()
+        header_widths = [0.32, 1, 0.38] if has_prototype_art else [1, 0.38]
+        header_cols = st.columns(header_widths, vertical_alignment="top")
+        title_column_index = 1 if has_prototype_art else 0
+        action_column_index = 2 if has_prototype_art else 1
+
+        if has_prototype_art:
+            with header_cols[0]:
+                st.image(
+                    str(SHARED_ART_PROTOTYPE_PATH),
+                    width=96,
+                )
+
+        with header_cols[title_column_index]:
             st.html(f'<div class="preview-card-title">{escape(card.title)}</div>')
             card_type = card_type_label(card.card_type, display_config)
             icon_svg = CARD_TYPE_ICONS.get(card_type_key, "")
@@ -657,7 +685,7 @@ def render_preview_card(
                 f'{type_icon}'
                 '</div>'
             )
-        with header_cols[1]:
+        with header_cols[action_column_index]:
             with st.container(
                 key=f"open-action-{key_prefix}-{card.id}",
                 horizontal=True,

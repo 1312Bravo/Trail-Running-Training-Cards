@@ -14,15 +14,15 @@ We want original cards with some of the recognition and collectibility of Pokemo
 
 Every card could have one original avatar. The avatar would be stable: the same card always has the same character or visual identity wherever it appears in the app.
 
-The current preferred direction is original alpine guardian animals. The first reference family is a slate-and-silver ibex in a misty blue mountain world. Other Macro cards may later use different guardian species.
+The current preferred direction is original guardian animals as transparent, mature, sparse line avatars on the white cards. Each card will choose its own clearly recognisable species; Macro cards establish the strongest, most grounded visual class.
 
 ## Shared Visual Identity
 
 The current working model has three related layers:
 
-- **Planning level:** Macro, Mezzo, Micro, and Session establish a shared visual role and framing.
-- **Primary visual family:** one curated family gives an avatar its main species, silhouette, terrain, palette, markings, or emblem.
-- **Affinities:** small shared themes, such as aerobic development, recovery, strength, intensity, race practice, or technical terrain, can appear as symbols, accents, or subtle UI highlights.
+- **Shared visual system:** transparent canvas, slate linework, pale-slate detail, muted-gold mark, mature animal anatomy, and no scenery.
+- **Planning level:** Macro, Mezzo, Micro, and Session establish a shared visual role, pose, framing, and restrained accent colour.
+- **Card-specific brief:** each card chooses one stable animal avatar, its species-defining features, and its pose.
 
 This could make related cards feel connected without making every card look identical.
 
@@ -34,28 +34,25 @@ Because of that, a coaching `parent` or `child` reference should not automatical
 
 The current idea is:
 
-- Give every card one stable avatar and one primary visual family.
-- Let multiple relationships show through shared affinities, small emblems, accent colors, or highlights when a pathway is selected.
+- Give every card one stable avatar.
+- Let multiple relationships show through normal app links, ordering, and highlights when a pathway is selected.
 - Keep pathway-specific relationship cues in the app UI where possible, rather than permanently baking every relationship into an image.
 
 This means the same Micro avatar can make sense beneath several valid Mezzo pathways.
 
-## First Visual Lineage
+## Prompt Architecture
 
-For a deliberately chosen four-card pilot, artwork can tell a generational story: the Macro is a mature master guardian; Mezzo is its adult child; Micro is a younger descendant; Session is the youngest and most action-focused form. They share anatomy, markings, materials, background world, and a muted-gold lineage mark.
+Every avatar prompt is assembled from three files in `art_work/prompts/`:
 
-Planning level should be obvious through the combination of age, pose, and a restrained neon rim-light accent:
+1. `COMMON.md` defines the visual system shared by every card.
+2. One planning-level file defines the Macro, Mezzo, Micro, or Session visual class.
+3. `CARD_BRIEF_TEMPLATE.md` captures the card's own species, recognisable features, pose, and alt text.
 
-- Macro: glacier blue, mature and still.
-- Mezzo: neon emerald, deliberate forward walk.
-- Micro: electric violet, compact and agile.
-- Session: neon amber, focused precise stride.
-
-This is a curated visual-storytelling pattern, not an automatic interpretation of every coaching relationship. The prompt details live in `PROMPT_GUIDE.md`.
+The planning level creates resemblance across cards of the same level. It does not imply that a card inherits species or anatomy from coaching parents.
 
 ## Possible Future Storage
 
-When the design is ready, artwork metadata could live in a separate catalog under `art_work/`, not in card JSON. A future entry might connect a card id to an artwork file, avatar id, visual family, affinities, alt text, and approval status.
+When the design is ready, artwork metadata can live in a separate catalog under `art_work/`, not in card JSON. A future entry only needs to connect a card id to an artwork file and alt text.
 
 We should create that catalog only after agreeing its fields and testing one complete four-card pathway.
 

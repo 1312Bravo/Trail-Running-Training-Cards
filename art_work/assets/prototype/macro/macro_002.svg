@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Alpine ibex master avatar</title>
+  <path d="M34 300L105 205L146 254L202 177L286 300H34Z" fill="#526D80" fill-opacity="0.36"/>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M151 153C116 129 86 95 82 58C79 30 97 17 116 29C139 43 137 76 122 101C113 116 100 126 86 132" stroke-width="9"/>
+    <path d="M177 150C203 127 235 106 256 112C278 118 281 141 267 159C253 176 234 184 215 185" stroke-width="7"/>
+    <path d="M111 48L91 43M122 67L98 64M122 89L99 90M213 132L232 127M205 147L227 145M197 163L216 166" stroke="#74869A" stroke-width="3"/>
+    <path d="M151 145C139 159 134 179 137 202C140 229 154 247 173 253C194 258 218 250 233 232C245 218 247 202 238 191C230 181 218 177 205 174C196 163 187 153 177 146" stroke-width="8"/>
+    <path d="M150 166C134 153 120 159 115 176C126 186 140 187 151 179M174 183C182 177 191 178 197 184M202 214C214 218 225 215 232 207M213 202C222 199 231 202 237 208" stroke-width="4"/>
+    <path d="M143 214C120 238 109 274 112 324M180 252C188 278 187 305 177 331" stroke-width="8"/>
+  </g>
+  <path d="M127 278L139 266L151 278M139 266V295M130 286H148" stroke="#AFAFA8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
