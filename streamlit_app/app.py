@@ -6,6 +6,7 @@ import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.philosophy_profiles import (
+    COMMON_PHILOSOPHY_PROFILE_ID,
     PHILOSOPHY_PROFILES,
     philosophy_profile_display_name,
 )
@@ -23,6 +24,11 @@ from streamlit_app.data import (
     load_library,
     related_child_cards,
 )
+from streamlit_app.philosophies import (
+    load_app_summary,
+    load_detailed_note,
+    load_reviewed_source_bullets,
+)
 from streamlit_app.renderers import (
     css,
     display_text,
@@ -32,7 +38,13 @@ from streamlit_app.renderers import (
 )
 
 
-APP_MODES = ["Browse cards", "Build pathway", "Today session"]
+APP_MODES = [
+    "Browse cards",
+    "Build pathway",
+    "Today session",
+    "Coaching philosophies",
+]
+PHILOSOPHY_SUMMARY_HEIGHT = 380
 PATHWAY_STEPS = [
     ("macro", "Macro"),
     ("mezzo", "Mezzo"),
@@ -47,11 +59,39 @@ PATHWAY_STEPS = [
 # The app only needs a search query and the currently opened card.
 
 def set_active_card(card_id: str) -> None:
+    st.session_state.active_philosophy_profile_id = None
+    st.session_state.active_philosophy_sources_profile_id = None
     st.session_state.active_card_id = card_id
 
 
 def clear_active_card() -> None:
     st.session_state.active_card_id = None
+
+
+def set_active_philosophy(profile_id: str) -> None:
+    st.session_state.active_card_id = None
+    st.session_state.active_philosophy_sources_profile_id = None
+    st.session_state.active_philosophy_profile_id = profile_id
+
+
+def clear_active_philosophy() -> None:
+    st.session_state.active_philosophy_profile_id = None
+
+
+def set_active_philosophy_sources(profile_id: str) -> None:
+    st.session_state.active_card_id = None
+    st.session_state.active_philosophy_profile_id = None
+    st.session_state.active_philosophy_sources_profile_id = profile_id
+
+
+def clear_active_philosophy_sources() -> None:
+    st.session_state.active_philosophy_sources_profile_id = None
+
+
+def browse_philosophy_cards(profile_id: str) -> None:
+    st.session_state.app_mode = "Browse cards"
+    st.session_state.card_scope_label = None
+    st.session_state.philosophy_profile_filters = [profile_id]
 
 
 def state_key_for_level(level: str) -> str:
@@ -124,6 +164,19 @@ def cards_matching_tags(cards: list[Any], tags: list[str]) -> list[Any]:
     ]
 
 
+def cards_matching_philosophies(cards: list[Any], profile_ids: list[str]) -> list[Any]:
+    if not profile_ids:
+        return cards
+    return [
+        card
+        for card in cards
+        if any(
+            profile_id in getattr(card, "philosophy_profile_ids", [])
+            for profile_id in profile_ids
+        )
+    ]
+
+
 def remove_tag_filter(tag: str) -> None:
     st.session_state.tag_filters = [
         selected_tag
@@ -139,6 +192,8 @@ def init_state() -> None:
     st.session_state.setdefault("today_search_input", "")
     st.session_state.setdefault("today_search_terms", [])
     st.session_state.setdefault("active_card_id", None)
+    st.session_state.setdefault("active_philosophy_profile_id", None)
+    st.session_state.setdefault("active_philosophy_sources_profile_id", None)
     st.session_state.setdefault("app_mode", APP_MODES[0])
     st.session_state.setdefault("card_scope_label", None)
     st.session_state.setdefault("tag_filters", [])
@@ -148,9 +203,36 @@ def init_state() -> None:
 
 
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
-    @st.dialog(card.title, width="medium", on_dismiss=clear_active_card)
+    @st.dialog(" ", width="medium", on_dismiss=clear_active_card)
     def dialog_content() -> None:
-        render_detail(card, display_config, card_by_id, show_header=False)
+        render_detail(card, display_config, card_by_id, show_header=True)
+
+    dialog_content()
+
+
+def open_philosophy_dialog(profile_id: str) -> None:
+    profile_name = philosophy_profile_display_name(profile_id)
+
+    @st.dialog(f"{profile_name} philosophy", width="large", on_dismiss=clear_active_philosophy)
+    def dialog_content() -> None:
+        st.markdown(load_detailed_note(profile_id))
+
+    dialog_content()
+
+
+def open_philosophy_sources_dialog(profile_id: str) -> None:
+    profile_name = philosophy_profile_display_name(profile_id)
+
+    @st.dialog(
+        f"{profile_name} reviewed sources",
+        width="large",
+        on_dismiss=clear_active_philosophy_sources,
+    )
+    def dialog_content() -> None:
+        st.caption(
+            "Reviewed official material used to inform this library's interpretation."
+        )
+        st.markdown(load_reviewed_source_bullets(profile_id))
 
     dialog_content()
 
@@ -165,9 +247,9 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
     if st.session_state.card_scope_label not in scope_labels:
         st.session_state.card_scope_label = None
 
-    controls = st.columns([0.16, 1.2, 0.08, 0.58, 0.16], vertical_alignment="center")
-    with controls[1]:
-        with st.container(horizontal_alignment="center"):
+    with st.container(border=False, key="browse-toolbar"):
+        controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
+        with controls[0]:
             chosen_scope = st.segmented_control(
                 "Block",
                 scope_labels,
@@ -176,8 +258,7 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 width="stretch",
                 label_visibility="collapsed",
             )
-    with controls[3]:
-        with st.container(horizontal_alignment="center"):
+        with controls[1]:
             st.session_state.search_query = st.text_input(
                 "Search",
                 value=st.session_state.search_query,
@@ -186,18 +267,13 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
                 width="stretch",
                 label_visibility="collapsed",
             )
+
+        filter_controls = st.columns([1.05, 1], gap="large", vertical_alignment="bottom")
+        with filter_controls[0]:
+            render_active_tag_filters(show_label=False)
+        with filter_controls[1]:
+            render_philosophy_profile_filter(label_visibility="collapsed")
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
-    philosophy_profile_options = list(PHILOSOPHY_PROFILES)
-    if philosophy_profile_options:
-        st.multiselect(
-            "Coaching philosophy",
-            philosophy_profile_options,
-            key="philosophy_profile_filters",
-            format_func=philosophy_profile_display_name,
-            placeholder="All coaching philosophies",
-            help="Show cards shaped by at least one selected coaching philosophy.",
-        )
-    render_active_tag_filters()
 
     cards_for_view = filtered_cards(
         cards,
@@ -210,6 +286,67 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
         render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
     else:
         st.caption("No cards match the current filters.")
+
+
+# ----------------------------------------------------------
+# Coaching Philosophies Mode
+# ----------------------------------------------------------
+
+def render_coaching_philosophies(cards: list[Any]) -> None:
+    st.caption(
+        "The shared foundation and named profiles explain the coaching reasoning that shapes this card library."
+    )
+    profile_ids = list(PHILOSOPHY_PROFILES)
+
+    for row_start in range(0, len(profile_ids), 2):
+        cols = st.columns([0.12, 1, 0.18, 1, 0.12], gap="small")
+        for offset, profile_id in enumerate(profile_ids[row_start: row_start + 2]):
+            with cols[1 + offset * 2]:
+                with st.container(border=True, key=f"philosophy-{profile_id}"):
+                    with st.container(
+                        height=PHILOSOPHY_SUMMARY_HEIGHT,
+                        border=False,
+                        key=f"philosophy-summary-{profile_id}",
+                    ):
+                        st.markdown(load_app_summary(profile_id))
+                    st.divider()
+                    card_count = sum(
+                        profile_id in getattr(card, "philosophy_profile_ids", [])
+                        for card in cards
+                    )
+                    st.caption(f"{card_count} cards in this profile")
+                    action_count = (
+                        2 if profile_id == COMMON_PHILOSOPHY_PROFILE_ID else 3
+                    )
+                    actions = st.columns(action_count)
+                    with actions[0]:
+                        st.button(
+                            "Show cards",
+                            key=f"philosophy_show_cards_{profile_id}",
+                            type="secondary",
+                            width="stretch",
+                            on_click=browse_philosophy_cards,
+                            args=(profile_id,),
+                        )
+                    with actions[1]:
+                        st.button(
+                            "Read full philosophy",
+                            key=f"philosophy_read_{profile_id}",
+                            type="secondary",
+                            width="stretch",
+                            on_click=set_active_philosophy,
+                            args=(profile_id,),
+                        )
+                    if profile_id != COMMON_PHILOSOPHY_PROFILE_ID:
+                        with actions[2]:
+                            st.button(
+                                "View sources",
+                                key=f"philosophy_sources_{profile_id}",
+                                type="secondary",
+                                width="stretch",
+                                on_click=set_active_philosophy_sources,
+                                args=(profile_id,),
+                            )
 
 
 def render_search_terms(terms_key: str) -> None:
@@ -229,11 +366,12 @@ def render_search_terms(terms_key: str) -> None:
             )
 
 
-def render_active_tag_filters() -> None:
+def render_active_tag_filters(show_label: bool = True) -> None:
     if not st.session_state.tag_filters:
         return
 
-    st.caption("Tag filters")
+    if show_label:
+        st.caption("Tag filters")
     with st.container(horizontal=True):
         for tag in st.session_state.tag_filters:
             st.button(
@@ -244,6 +382,23 @@ def render_active_tag_filters() -> None:
                 on_click=remove_tag_filter,
                 args=(tag,),
             )
+
+
+def render_philosophy_profile_filter(label_visibility: str = "visible") -> None:
+    philosophy_profile_options = list(PHILOSOPHY_PROFILES)
+    if not philosophy_profile_options:
+        return
+
+    st.multiselect(
+        "Coaching philosophy",
+        philosophy_profile_options,
+        key="philosophy_profile_filters",
+        format_func=philosophy_profile_display_name,
+        placeholder="All coaching philosophies",
+        help="Show cards shaped by at least one selected coaching philosophy.",
+        width="stretch",
+        label_visibility=label_visibility,
+    )
 
 
 # ----------------------------------------------------------
@@ -341,26 +496,35 @@ def render_build_pathway(
             )
         return
 
-    step_cols = st.columns([0.18, 1, 0.28, 1, 0.18], gap="small", vertical_alignment="center")
-    with step_cols[1]:
-        st.caption(f"Choose {next_label.lower()}")
-    with step_cols[3]:
-        st.text_input(
-            "Search current cards",
-            key="pathway_search_input",
-            placeholder=f"Search {next_label.lower()} cards",
-            help="Searches only the cards available for the current pathway step, including tags.",
-            label_visibility="collapsed",
-            width="stretch",
-            on_change=add_search_term,
-            args=("pathway_search_input", "pathway_search_terms"),
-        )
-    render_search_terms("pathway_search_terms")
-    render_active_tag_filters()
+    with st.container(border=False, key="mode-toolbar-pathway"):
+        controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
+        with controls[0]:
+            st.caption(f"Choose {next_label.lower()}")
+        with controls[1]:
+            st.text_input(
+                "Search current cards",
+                key="pathway_search_input",
+                placeholder=f"Search {next_label.lower()} cards",
+                help="Searches only the cards available for the current pathway step, including tags.",
+                label_visibility="collapsed",
+                width="stretch",
+                on_change=add_search_term,
+                args=("pathway_search_input", "pathway_search_terms"),
+            )
 
-    visible_candidates = cards_matching_tags(
-        cards_matching_terms(candidates, st.session_state.pathway_search_terms),
-        st.session_state.tag_filters,
+        filter_controls = st.columns([1.05, 1], gap="large", vertical_alignment="bottom")
+        with filter_controls[0]:
+            render_active_tag_filters(show_label=False)
+        with filter_controls[1]:
+            render_search_terms("pathway_search_terms")
+            render_philosophy_profile_filter(label_visibility="collapsed")
+
+    visible_candidates = cards_matching_philosophies(
+        cards_matching_tags(
+            cards_matching_terms(candidates, st.session_state.pathway_search_terms),
+            st.session_state.tag_filters,
+        ),
+        st.session_state.philosophy_profile_filters,
     )
     if visible_candidates:
         render_grid(
@@ -382,26 +546,35 @@ def render_build_pathway(
 def render_today_session(cards: list[Any], display_config: dict[str, Any]) -> None:
     session_cards = cards_of_type(cards, "session")
 
-    cols = st.columns([0.18, 1, 0.28, 1, 0.18], gap="small", vertical_alignment="center")
-    with cols[1]:
-        st.caption("Quick choose for today")
-    with cols[3]:
-        st.text_input(
-            "Search session cards",
-            key="today_search_input",
-            placeholder="Search today's session",
-            help="Add one or more search terms. Terms combine with AND.",
-            label_visibility="collapsed",
-            width="stretch",
-            on_change=add_search_term,
-            args=("today_search_input", "today_search_terms"),
-        )
-    render_search_terms("today_search_terms")
-    render_active_tag_filters()
+    with st.container(border=False, key="mode-toolbar-today"):
+        controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
+        with controls[0]:
+            st.caption("Quick choose for today")
+        with controls[1]:
+            st.text_input(
+                "Search session cards",
+                key="today_search_input",
+                placeholder="Search today's session",
+                help="Add one or more search terms. Terms combine with AND.",
+                label_visibility="collapsed",
+                width="stretch",
+                on_change=add_search_term,
+                args=("today_search_input", "today_search_terms"),
+            )
 
-    visible_sessions = cards_matching_tags(
-        cards_matching_terms(session_cards, st.session_state.today_search_terms),
-        st.session_state.tag_filters,
+        filter_controls = st.columns([1.05, 1], gap="large", vertical_alignment="bottom")
+        with filter_controls[0]:
+            render_active_tag_filters(show_label=False)
+        with filter_controls[1]:
+            render_search_terms("today_search_terms")
+            render_philosophy_profile_filter(label_visibility="collapsed")
+
+    visible_sessions = cards_matching_philosophies(
+        cards_matching_tags(
+            cards_matching_terms(session_cards, st.session_state.today_search_terms),
+            st.session_state.tag_filters,
+        ),
+        st.session_state.philosophy_profile_filters,
     )
 
     if visible_sessions:
@@ -447,7 +620,7 @@ def main() -> None:
     with header_cols[1]:
         render_contact_links()
 
-    mode_cols = st.columns([0.31, 0.38, 0.31])
+    mode_cols = st.columns([0.13, 0.74, 0.13])
     with mode_cols[1]:
         st.segmented_control(
             "Mode",
@@ -462,12 +635,24 @@ def main() -> None:
         render_build_pathway(cards, display_config, card_by_id)
     elif st.session_state.app_mode == "Today session":
         render_today_session(cards, display_config)
+    elif st.session_state.app_mode == "Coaching philosophies":
+        render_coaching_philosophies(cards)
     else:
         render_browse_cards(cards, display_config)
 
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:
         open_card_dialog(active_card, display_config, card_by_id)
+
+    active_philosophy_profile_id = st.session_state.active_philosophy_profile_id
+    if active_philosophy_profile_id:
+        open_philosophy_dialog(active_philosophy_profile_id)
+
+    active_philosophy_sources_profile_id = (
+        st.session_state.active_philosophy_sources_profile_id
+    )
+    if active_philosophy_sources_profile_id:
+        open_philosophy_sources_dialog(active_philosophy_sources_profile_id)
 
 
 if __name__ == "__main__":
