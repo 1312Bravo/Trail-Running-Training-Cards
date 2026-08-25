@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from base64 import b64encode
 from dataclasses import asdict, fields as dataclass_fields, is_dataclass
+from functools import lru_cache
 from html import escape
 from pathlib import Path
 from typing import Any
@@ -9,6 +10,7 @@ from typing import Any
 import streamlit as st
 
 from training_cards.philosophy_profiles import philosophy_profile_display_name
+from streamlit_app.artwork import artwork_for_card
 from streamlit_app.config import DETAIL_FIELD_LABEL_OVERRIDES, DETAIL_SECTION_ORDER
 from streamlit_app.data import card_type_label
 
@@ -57,21 +59,10 @@ CARD_TYPE_ICONS = {
 
 CARD_TYPE_ICON_COLORS = {
     "macro": "#526d80",
-    "mezzo": "#5c7354",
-    "micro": "#8a6e3c",
-    "session": "#765d6a",
+    "mezzo": "#765d8c",
+    "micro": "#a06a2c",
+    "session": "#d7b829",
 }
-
-# Temporary shared art lets us evaluate artwork placement before assigning
-# permanent avatars or adding art metadata to the card library.
-SHARED_ART_PROTOTYPE_PATH = (
-    Path(__file__).resolve().parents[1]
-    / "art_work"
-    / "assets"
-    / "prototype"
-    / "shared-ibex-line-prototype.svg"
-)
-
 
 # ----------------------------------------------------------
 # Page Styling
@@ -198,36 +189,48 @@ def css() -> None:
         [class*="st-key-pathway_search_terms_"] button,
         [class*="st-key-today_search_terms_"] button {
             min-height: 1.65rem;
-            padding: 0.1rem 0.45rem;
-            background: var(--surface);
-            border: 1px solid var(--line);
+            padding: 0.12rem 0.52rem;
+            background: linear-gradient(180deg, rgb(255 255 255 / 78%), rgb(255 255 255 / 44%));
+            border: 1px solid rgb(37 37 37 / 42%);
+            border-radius: 6px;
             color: var(--ink);
-            box-shadow: none;
+            box-shadow: inset 0 1px 0 rgb(255 255 255 / 78%), 0 1px 1px rgb(40 41 35 / 8%);
             font-size: 0.86rem;
             font-weight: 400;
         }
         [class*="st-key-selected_tag_"] button {
-            background: #e9ece4;
-            border-color: #8b9585;
+            background: linear-gradient(180deg, rgb(255 255 255 / 92%), rgb(255 255 255 / 58%));
+            border-color: #6f716b;
             font-weight: 600;
+        }
+        [class*="st-key-tag_"] button:hover,
+        [class*="st-key-selected_tag_"] button:hover,
+        [class*="st-key-pathway_search_terms_"] button:hover,
+        [class*="st-key-today_search_terms_"] button:hover,
+        [class*="st-key-open_"] button:hover,
+        [class*="st-key-select_"] button:hover {
+            background: linear-gradient(180deg, rgb(255 255 255 / 96%), rgb(255 255 255 / 64%));
+            border-color: #6f716b;
+            color: var(--ink);
         }
         [class*="st-key-open-action"] {
             position: sticky;
             top: 0;
             z-index: 2;
-            background: var(--paper);
+            background: transparent;
             padding-bottom: 0.25rem;
         }
         [class*="st-key-open_"] button,
         [class*="st-key-select_"] button {
-            border: 1px solid #aeb0a7;
-            background: var(--soft-surface);
+            border: 1px solid #6f716b;
+            border-radius: 6px;
+            background: linear-gradient(180deg, rgb(255 255 255 / 84%), rgb(255 255 255 / 52%));
             color: var(--ink);
-            font-weight: 600;
+            font-weight: 400;
             min-height: 1.8rem;
             padding: 0.12rem 0.55rem;
             font-size: 0.8rem;
-            box-shadow: none;
+            box-shadow: inset 0 1px 0 rgb(255 255 255 / 82%), 0 1px 1px rgb(40 41 35 / 10%);
         }
         [class*="st-key-pathway_open_"] button,
         [class*="st-key-pathway_change_"] button {
@@ -248,12 +251,13 @@ def css() -> None:
             padding-bottom: 0.4rem;
         }
         .preview-card-title {
+            margin: 0.25rem 0 0.4rem;
             color: var(--ink);
             font-family: Georgia, "Times New Roman", serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            line-height: 1.14;
+            font-size: 1.45rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            line-height: 1.12;
         }
         [class*="st-key-prototype-art-"] img {
             border: 1px solid #526d80;
@@ -264,71 +268,129 @@ def css() -> None:
             display: flex;
             align-items: center;
             gap: 0.28rem;
-            margin-top: 0.5rem;
-            min-height: 2.65rem;
+            min-height: 1.9rem;
         }
         .preview-card-type {
             display: inline-flex;
             align-items: center;
-            padding: 0.18rem 0.45rem;
-            border: 1px solid currentColor;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.04em;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent !important;
+            color: var(--muted-ink);
+            font-size: 0.78rem;
+            font-weight: 400;
+            letter-spacing: 0.045em;
             line-height: 1.1;
             text-transform: uppercase;
         }
-        .preview-card-emblem {
-            width: 3rem;
-            height: 3rem;
-            margin-left: 0.5rem;
-            opacity: 0.22;
-            transform: rotate(-7deg);
+        [class*="st-key-preview-art-"] {
+            position: relative;
+            overflow: hidden;
+            margin: 0.35rem 0 0.95rem;
+            padding: 1.05rem;
+            border: 2px solid rgb(37 37 37 / 34%);
+            border-radius: 8px;
+            box-shadow:
+                inset 0 0 26px rgb(255 255 255 / 66%),
+                inset 0 0 68px rgb(255 255 255 / 42%),
+                0 1px 0 rgb(255 255 255 / 42%);
+        }
+        [class*="st-key-preview-art-"] img {
+            position: relative;
+            z-index: 1;
+            object-fit: contain;
+        }
+        [class*="st-key-preview-art-macro"] {
+            background:
+                radial-gradient(circle at 50% 42%, rgb(255 255 255 / 72%) 0, rgb(255 255 255 / 38%) 28%, transparent 56%),
+                linear-gradient(135deg, #e6f3fa 0, #d4e7f0 48%, #bdd3e1 100%) !important;
+        }
+        [class*="st-key-preview-art-mezzo"] {
+            background:
+                radial-gradient(circle at 50% 42%, rgb(255 255 255 / 72%) 0, rgb(255 255 255 / 38%) 28%, transparent 56%),
+                linear-gradient(135deg, #f2e7f8 0, #e2d2ee 48%, #cdb8df 100%) !important;
+        }
+        [class*="st-key-preview-art-micro"] {
+            background:
+                radial-gradient(circle at 50% 42%, rgb(255 255 255 / 72%) 0, rgb(255 255 255 / 38%) 28%, transparent 56%),
+                linear-gradient(135deg, #f5d8aa 0, #dfa963 48%, #bd7831 100%) !important;
+        }
+        [class*="st-key-preview-art-session"] {
+            background:
+                radial-gradient(circle at 50% 42%, rgb(255 255 255 / 72%) 0, rgb(255 255 255 / 38%) 28%, transparent 56%),
+                linear-gradient(135deg, #fff9bf 0, #f2dd5d 48%, #d7b829 100%) !important;
+        }
+        .preview-card-art-image {
+            display: block;
+            width: 210px;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
         }
         .preview-card-type-macro {
-            color: #526d80;
-            background: #e7f0f7;
+            color: var(--muted-ink);
         }
         .preview-card-type-mezzo {
-            color: #5c7354;
-            background: #eaf2e7;
+            color: var(--muted-ink);
         }
         .preview-card-type-micro {
-            color: #8a6e3c;
-            background: #f8efd9;
+            color: var(--muted-ink);
         }
         .preview-card-type-session {
-            color: #765d6a;
-            background: #f5e9ef;
+            color: var(--muted-ink);
         }
         .preview-summary {
-            margin: 0.85rem 0 0.9rem;
-            padding: 0.8rem 0;
-            border-top: 1px solid var(--line);
-            border-bottom: 1px solid var(--line);
+            margin: 0.95rem 0 0.75rem;
+            padding: 0.75rem 0.85rem;
+            border: 1px solid rgb(111 113 107 / 56%);
+            border-radius: 6px;
+            background: rgb(255 255 255 / 42%);
             color: var(--ink);
-            font-size: 1.12rem;
-            line-height: 1.5;
+            font-size: 1.04rem;
+            line-height: 1.42;
         }
         .preview-field {
             display: grid;
             grid-template-columns: minmax(6.7rem, 8.4rem) minmax(0, 1fr);
-            column-gap: 0.55rem;
-            margin: 0.48rem 0;
+            align-items: center;
+            column-gap: 0.75rem;
+            margin: 0;
+            padding: 0.58rem 0.45rem;
+            border-top: 1px solid rgb(111 113 107 / 24%);
+            background: transparent;
             color: var(--ink);
-            font-size: 0.92rem;
-            line-height: 1.45;
+            font-size: 0.88rem;
+            line-height: 1.38;
+        }
+        .preview-field + .preview-field {
+            margin-top: 0;
         }
         .preview-field-label {
-            color: var(--muted-ink);
-            font-weight: 400;
-            font-size: 0.78rem;
-            letter-spacing: 0.035em;
-            text-transform: uppercase;
+            color: #666964;
+            font-weight: 600;
+            font-size: 0.76rem;
+            letter-spacing: 0.015em;
+            text-transform: none;
         }
         .preview-field-value {
-            color: var(--ink);
+            color: #2f302d;
+            font-weight: 400;
+        }
+        .preview-tag-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem 0.9rem;
+            margin-top: 0.7rem;
+            padding: 0.15rem 0.45rem 0;
+        }
+        .preview-tag-label {
+            color: #373936;
+            font-size: 0.86rem;
+            line-height: 1.3;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 0.18rem;
         }
         @media (max-width: 640px) {
             .preview-field {
@@ -346,45 +408,67 @@ def css() -> None:
         }
         [class*="st-key-card-"] div[data-testid="stVerticalBlockBorderWrapper"] {
             background: var(--surface);
-            border: 1px solid var(--strong-line) !important;
+            border: 2px solid #6f716b !important;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgb(40 41 35 / 6%);
+            box-shadow: 0 5px 12px rgb(40 41 35 / 8%);
         }
+        [class*="st-key-card-macro"],
         [class*="st-key-card-macro"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-top: 6px solid #788796 !important;
-            box-shadow: inset 0 3px 0 #788796, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #f3f9fc !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
+        [class*="st-key-card-mezzo"],
         [class*="st-key-card-mezzo"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-top: 6px solid #7f8d72 !important;
-            box-shadow: inset 0 3px 0 #7f8d72, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #faf5fd !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
+        [class*="st-key-card-micro"],
         [class*="st-key-card-micro"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-top: 6px solid #a78a59 !important;
-            box-shadow: inset 0 3px 0 #a78a59, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #fff2df !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
+        [class*="st-key-card-session"],
         [class*="st-key-card-session"][data-testid="stVerticalBlockBorderWrapper"],
         [class*="st-key-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-top: 6px solid #8c7780 !important;
-            box-shadow: inset 0 3px 0 #8c7780, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #fffbe3 !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
+        }
+        [class*="st-key-card-macro"] div[data-testid="stVerticalBlock"],
+        [class*="st-key-card-mezzo"] div[data-testid="stVerticalBlock"],
+        [class*="st-key-card-micro"] div[data-testid="stVerticalBlock"],
+        [class*="st-key-card-session"] div[data-testid="stVerticalBlock"],
+        [class*="st-key-card-macro"] div[data-testid="stElementContainer"],
+        [class*="st-key-card-mezzo"] div[data-testid="stElementContainer"],
+        [class*="st-key-card-micro"] div[data-testid="stElementContainer"],
+        [class*="st-key-card-session"] div[data-testid="stElementContainer"] {
+            background: transparent !important;
         }
         div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-macro) {
-            border-top: 6px solid #788796 !important;
-            box-shadow: inset 0 3px 0 #788796, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #f3f9fc !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
         div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-mezzo) {
-            border-top: 6px solid #7f8d72 !important;
-            box-shadow: inset 0 3px 0 #7f8d72, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #faf5fd !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
         div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-micro) {
-            border-top: 6px solid #a78a59 !important;
-            box-shadow: inset 0 3px 0 #a78a59, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #fff2df !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
         div[data-testid="stVerticalBlockBorderWrapper"]:has(.preview-card-type-session) {
-            border-top: 6px solid #8c7780 !important;
-            box-shadow: inset 0 3px 0 #8c7780, 0 4px 12px rgb(40 41 35 / 6%);
+            background: #fffbe3 !important;
+            border-color: #6f716b !important;
+            box-shadow: 0 0 0 1px #6f716b, 0 5px 12px rgb(40 41 35 / 10%);
         }
         .detail-card-header {
             position: relative;
@@ -394,10 +478,10 @@ def css() -> None:
             border-top: 6px solid var(--strong-line);
             border-bottom: 1px solid var(--line);
         }
-        .detail-card-header-macro { border-top-color: #788796; }
-        .detail-card-header-mezzo { border-top-color: #7f8d72; }
-        .detail-card-header-micro { border-top-color: #a78a59; }
-        .detail-card-header-session { border-top-color: #8c7780; }
+        .detail-card-header-macro { border-top-color: #526d80; }
+        .detail-card-header-mezzo { border-top-color: #765d8c; }
+        .detail-card-header-micro { border-top-color: #a06a2c; }
+        .detail-card-header-session { border-top-color: #d7b829; }
         .detail-card-type {
             display: inline-block;
             margin-bottom: 0.45rem;
@@ -484,16 +568,16 @@ def css() -> None:
             border-radius: 8px;
         }
         [class*="st-key-pathway-card-macro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #788796 !important;
+            border-left: 4px solid #526d80 !important;
         }
         [class*="st-key-pathway-card-mezzo"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #7f8d72 !important;
+            border-left: 4px solid #765d8c !important;
         }
         [class*="st-key-pathway-card-micro"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #a78a59 !important;
+            border-left: 4px solid #a06a2c !important;
         }
         [class*="st-key-pathway-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-left: 4px solid #8c7780 !important;
+            border-left: 4px solid #d7b829 !important;
         }
         </style>
         """
@@ -540,6 +624,26 @@ def field_label(field_name: str, display_config: dict[str, Any]) -> str:
 def svg_data_uri(svg: str) -> str:
     encoded_svg = b64encode(svg.encode("utf-8")).decode("ascii")
     return f"data:image/svg+xml;base64,{encoded_svg}"
+
+
+@lru_cache(maxsize=128)
+def image_file_data_uri(path: Path) -> str:
+    suffix = path.suffix.lower()
+    mime_type = {
+        ".svg": "image/svg+xml",
+        ".webp": "image/webp",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+    }.get(suffix)
+    if not mime_type:
+        return ""
+
+    try:
+        encoded_image = b64encode(path.read_bytes()).decode("ascii")
+    except OSError:
+        return ""
+    return f"data:{mime_type};base64,{encoded_image}"
 
 
 # ----------------------------------------------------------
@@ -655,37 +759,22 @@ def render_preview_card(
     ]
     card_type_key = str(card.card_type).replace("_", "-")
 
-    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=500):
-        has_prototype_art = SHARED_ART_PROTOTYPE_PATH.is_file()
-        header_widths = [0.32, 1, 0.38] if has_prototype_art else [1, 0.38]
-        header_cols = st.columns(header_widths, vertical_alignment="top")
-        title_column_index = 1 if has_prototype_art else 0
-        action_column_index = 2 if has_prototype_art else 1
+    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=660):
+        artwork = artwork_for_card(card.id)
 
-        if has_prototype_art:
-            with header_cols[0]:
-                st.image(
-                    str(SHARED_ART_PROTOTYPE_PATH),
-                    width=96,
-                )
+        st.html(f'<div class="preview-card-title">{escape(card.title)}</div>')
 
-        with header_cols[title_column_index]:
-            st.html(f'<div class="preview-card-title">{escape(card.title)}</div>')
+        header_cols = st.columns([1, 0.38], vertical_alignment="top")
+
+        with header_cols[0]:
             card_type = card_type_label(card.card_type, display_config)
-            icon_svg = CARD_TYPE_ICONS.get(card_type_key, "")
-            icon_color = CARD_TYPE_ICON_COLORS.get(card_type_key, "#4d4d4d")
-            type_icon = ""
-            if icon_svg:
-                icon_uri = svg_data_uri(icon_svg.replace("currentColor", icon_color))
-                type_icon = f'<img class="preview-card-emblem" src="{icon_uri}" alt="">'
             st.html(
                 '<div class="preview-card-identity">'
                 f'<span class="preview-card-type preview-card-type-{card_type_key}">'
                 f'{escape(card_type)}</span>'
-                f'{type_icon}'
                 '</div>'
             )
-        with header_cols[action_column_index]:
+        with header_cols[1]:
             with st.container(
                 key=f"open-action-{key_prefix}-{card.id}",
                 horizontal=True,
@@ -707,6 +796,20 @@ def render_preview_card(
                     width="content",
                     on_click=lambda card_id=card.id: st.session_state.__setitem__("active_card_id", card_id),
                 )
+
+        if artwork:
+            art_uri = image_file_data_uri(artwork.asset_path)
+            with st.container(
+                key=f"preview-art-{card_type_key}-{key_prefix}-{card.id}",
+                horizontal=True,
+                horizontal_alignment="center",
+            ):
+                if art_uri:
+                    st.html(
+                        '<img class="preview-card-art-image" '
+                        f'src="{art_uri}" '
+                        f'alt="{escape(artwork.alt_text, quote=True)}">'
+                    )
 
         for field_name in ordered_preview_fields:
             if field_name == "tags":
