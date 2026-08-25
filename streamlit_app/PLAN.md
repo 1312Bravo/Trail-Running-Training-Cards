@@ -27,6 +27,8 @@ Evolve the app's preview cards into a restrained training-card deck: recognisabl
 - [x] Use each card family's icon as a subdued identity watermark beside the type marker.
 - [x] Give the full-card dialog the same type-aware header and clean section language.
 - [x] Use a Streamlit-only coaching sequence for full-card fields, while retaining future schema fields as a fallback.
+- [x] Group Browse cards controls into one compact browser toolbar.
+- [x] Align the Build pathway and Today session filters with the Browse cards control layout.
 - [ ] Review the updated preview cards in the running app and adjust density from screenshots.
 - [x] Add a small, semantic line icon to each card-family type marker.
 - [ ] Consider optional card art only after the information hierarchy is proven useful.

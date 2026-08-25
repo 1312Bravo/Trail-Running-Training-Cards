@@ -126,6 +126,12 @@ def css() -> None:
         [data-testid="stSegmentedControl"] {
             background: var(--surface);
         }
+        [class*="st-key-browse-toolbar"] [data-testid="stTextInput"] input,
+        [class*="st-key-browse-toolbar"] [data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
+        [class*="st-key-mode-toolbar-"] [data-testid="stTextInput"] input,
+        [class*="st-key-mode-toolbar-"] [data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+            background: var(--soft-surface);
+        }
         [data-testid="stDivider"] {
             border-color: var(--line);
         }
