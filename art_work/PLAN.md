@@ -56,6 +56,19 @@ Create an original trading-card-inspired visual system for the training-card app
 - [x] Remove the rejected sparkle texture asset, switch browse-card borders to gray, and make the lower card area more deliberately framed.
 - [x] Refine lower preview metadata rows with soft stat bands and stronger label hierarchy without adding more borders.
 - [x] Restore lower metadata divider lines, use title-case labels, vertically center row labels, polish buttons, and strengthen avatar-panel color.
+- [x] Capitalize preview suitable-level values, render preview tags as clickable underlined labels, and remap planning-level card colors.
+- [x] Bring opened-card detail view closer to preview styling with a tinted card shell, avatar panel, title-first header, and clickable label tags.
+- [x] Refine opened-card detail into a calmer card-back view with no large avatar, a coloured title band, compact key facts, quieter coaching note, and single-item lists without bullets.
+- [x] Tighten opened-card spacing, remove coaching-note borders, move summary below the title, style key facts more strongly, and replace raw session/reference markdown bullets.
+- [x] Remove the remaining opened-card inner frame, strengthen summary/key-fact hierarchy, add support-section dividers, promote session workout structure, and align preview type-symbol colors.
+- [x] Rework opened-card title into a thin level strip, improve summary as description text, make references clickable card links, remove session-family internal tags, and drop final-section dividers.
+- [x] Replace the opened-card title strip with a top-left diagonal level accent, naturalise summary text, and restore duration/RPE as the primary workout-part line.
+- [x] Add level-specific fallback avatars, force reference-card links to rerun into the parent card, and replace the detail accent with thicker four-corner patches.
+- [x] Fix opened-card reference navigation without callback rerun warnings, narrow modal positioning CSS, and prevent duplicated duration units.
+- [x] Add opened-card back navigation after reference jumps and switch avatar block symbols from level color to quiet charcoal.
+- [x] Move avatar block symbols into a consistent top-right emblem position across pilot and fallback assets.
+- [x] Push avatar block symbols further into the top-right corner while keeping them inside the SVG canvas.
+- [x] Move block symbols out of the avatar SVGs and render them as top-right avatar-panel overlays.
 - [ ] Test the four art cards, cards without art, narrow screens, and ordinary pathway browsing.
 - [ ] Add art to the detail header only after browse-card placement is accepted.
 - [ ] Promote locally accepted assets to the web catalog only when they are approved.

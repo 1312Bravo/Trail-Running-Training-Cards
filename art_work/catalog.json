@@ -8,19 +8,19 @@
   "mezzo_002": {
     "level": "mezzo",
     "asset_path": "assets/prototype/mezzo/mezzo_002.svg",
-    "alt_text": "Alpine chamois guardian with a green trail marker",
-    "tags": ["pilot", "mezzo", "endurance-block", "chamois", "trail-marker", "forest-green"]
+    "alt_text": "Alpine chamois guardian with a purple trail marker",
+    "tags": ["pilot", "mezzo", "endurance-block", "chamois", "trail-marker", "purple"]
   },
   "micro_006": {
     "level": "micro",
     "asset_path": "assets/prototype/micro/micro_006.svg",
-    "alt_text": "Red deer guardian with a violet compass",
-    "tags": ["pilot", "micro", "long-run-focus", "deer", "compass", "soft-violet"]
+    "alt_text": "Red deer guardian with an orange compass",
+    "tags": ["pilot", "micro", "long-run-focus", "deer", "compass", "dark-orange"]
   },
   "session_003": {
     "level": "session",
     "asset_path": "assets/prototype/session/session_003.svg",
-    "alt_text": "Wolf guardian with an amber stopwatch",
-    "tags": ["pilot", "session", "long-run", "wolf", "stopwatch", "warm-amber"]
+    "alt_text": "Wolf guardian with a yellow stopwatch",
+    "tags": ["pilot", "session", "long-run", "wolf", "stopwatch", "yellow"]
   }
 }

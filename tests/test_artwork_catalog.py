@@ -104,6 +104,15 @@ class ArtworkCatalogTests(unittest.TestCase):
         self.assertTrue(fallback_entry.is_fallback)
         self.assertEqual("fallback", fallback_entry.level)
 
+    def test_artwork_lookup_can_use_level_specific_fallback(self) -> None:
+        fallback_entry = artwork_for_card("not_in_catalog", fallback_level="session")
+
+        self.assertIsNotNone(fallback_entry)
+        self.assertTrue(fallback_entry.is_fallback)
+        self.assertEqual("session", fallback_entry.level)
+        self.assertEqual("fallback_session.svg", fallback_entry.asset_path.name)
+        self.assertIn("session", fallback_entry.tags)
+
     def test_fallback_asset_must_stay_inside_art_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             outside = Path(directory) / "outside.svg"

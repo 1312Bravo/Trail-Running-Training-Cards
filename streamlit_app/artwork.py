@@ -13,6 +13,10 @@ ART_ROOT = Path(__file__).resolve().parents[1] / "art_work"
 DEFAULT_CATALOG_PATH = ART_ROOT / "catalog.json"
 DEFAULT_FALLBACK_ASSET_PATH = ART_ROOT / "assets" / "prototype" / "fallback" / "fallback_avatar.svg"
 VALID_LEVELS = {"macro", "mezzo", "micro", "session"}
+DEFAULT_LEVEL_FALLBACK_ASSET_PATHS = {
+    level: ART_ROOT / "assets" / "prototype" / "fallback" / f"fallback_{level}.svg"
+    for level in VALID_LEVELS
+}
 
 
 @dataclass(frozen=True)
@@ -24,18 +28,27 @@ class ArtworkAsset:
     is_fallback: bool = False
 
 
-def artwork_for_card(card_id: str, use_fallback: bool = True) -> ArtworkAsset | None:
+def artwork_for_card(
+    card_id: str,
+    use_fallback: bool = True,
+    fallback_level: str | None = None,
+) -> ArtworkAsset | None:
     artwork = load_artwork_catalog().get(card_id)
     if artwork is not None:
         return artwork
     if not use_fallback:
         return None
-    return fallback_artwork()
+    return fallback_artwork(fallback_level=fallback_level)
 
 
 def fallback_artwork(
-    asset_path: Path = DEFAULT_FALLBACK_ASSET_PATH,
+    asset_path: Path | None = None,
+    fallback_level: str | None = None,
 ) -> ArtworkAsset | None:
+    level = fallback_level if fallback_level in VALID_LEVELS else "fallback"
+    if asset_path is None:
+        asset_path = DEFAULT_LEVEL_FALLBACK_ASSET_PATHS.get(level, DEFAULT_FALLBACK_ASSET_PATH)
+
     resolved_asset_path = asset_path.resolve()
     if not _is_relative_to(resolved_asset_path, ART_ROOT):
         return None
@@ -43,10 +56,10 @@ def fallback_artwork(
         return None
 
     return ArtworkAsset(
-        level="fallback",
+        level=level,
         asset_path=resolved_asset_path,
-        alt_text="Unassigned training-card avatar",
-        tags=("fallback", "unassigned"),
+        alt_text=f"Unassigned {level} training-card avatar",
+        tags=("fallback", "unassigned") if level == "fallback" else ("fallback", "unassigned", level),
         is_fallback=True,
     )
 
