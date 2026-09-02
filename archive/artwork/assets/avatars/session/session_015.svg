@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Burro avatar for Practical Power-Hiking Practice</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 287C110 244 154 223 208 228C241 232 265 250 276 278C246 294 211 295 178 279C151 299 113 301 78 287" stroke-width="8"/>
+    <path d="M154 226C139 199 142 169 164 145L184 183C198 177 215 179 230 188L251 163C249 193 232 214 207 227" stroke-width="7"/>
+    <path d="M164 145L153 112M184 143L197 111M181 202C191 198 201 199 209 207M217 250C235 253 251 248 262 239" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

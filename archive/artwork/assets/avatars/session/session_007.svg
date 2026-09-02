@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Elk avatar for Goal-Demand Long Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M76 287C107 243 153 222 209 228C243 231 267 250 278 278C248 294 212 295 178 278C151 299 111 302 76 287" stroke-width="7"/>
+    <path d="M157 227C144 199 145 169 162 145M164 168L139 150M160 151L166 122M190 224C203 195 229 178 260 176M214 195L244 190M231 181L241 154" stroke-width="6"/>
+    <path d="M180 202C190 197 201 198 210 206M215 251C234 254 250 249 261 239" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">Training card block color palette samples</title>
+  <desc id="desc">Four collectible element palette options for Macro, Mezzo, Micro, and Session training cards.</desc>
+  <defs>
+    <filter id="cardShadow" x="-20%" y="-30%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#3e3526" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffdf8"/>
+      <stop offset="100%" stop-color="#f6f0e3"/>
+    </linearGradient>
+    <style>
+      .bg { fill: #f7f4ec; }
+      .title { font: 700 34px Georgia, serif; fill: #262522; }
+      .subtitle { font: 400 17px Segoe UI, sans-serif; fill: #69665d; }
+      .option-card { fill: url(#paper); stroke: #c1a76a; stroke-width: 2; filter: url(#cardShadow); }
+      .option-title { font: 700 22px Georgia, serif; fill: #282725; }
+      .option-note { font: 400 14px Segoe UI, sans-serif; fill: #6d685f; }
+      .label { font: 700 13px Segoe UI, sans-serif; letter-spacing: 0.09em; fill: #3a3935; }
+      .name { font: 600 22px Segoe UI, sans-serif; fill: #272621; }
+      .hex { font: 400 13px Consolas, monospace; fill: #5f5b52; }
+      .swatch { stroke: #8f835f; stroke-width: 1.5; }
+    </style>
+
+    <linearGradient id="a-macro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f6fcfd"/>
+      <stop offset="55%" stop-color="#d7eef2"/>
+      <stop offset="100%" stop-color="#7faebb"/>
+    </linearGradient>
+    <linearGradient id="a-mezzo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fbf2"/>
+      <stop offset="55%" stop-color="#dce8d2"/>
+      <stop offset="100%" stop-color="#789064"/>
+    </linearGradient>
+    <linearGradient id="a-micro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#faf8f2"/>
+      <stop offset="55%" stop-color="#e2ded5"/>
+      <stop offset="100%" stop-color="#8c8171"/>
+    </linearGradient>
+    <linearGradient id="a-session" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff9df"/>
+      <stop offset="55%" stop-color="#fff0bf"/>
+      <stop offset="100%" stop-color="#d7a928"/>
+    </linearGradient>
+
+    <linearGradient id="b-macro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fcff"/>
+      <stop offset="55%" stop-color="#dcecf4"/>
+      <stop offset="100%" stop-color="#7197aa"/>
+    </linearGradient>
+    <linearGradient id="b-mezzo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fcf5"/>
+      <stop offset="55%" stop-color="#dcebd7"/>
+      <stop offset="100%" stop-color="#6f986b"/>
+    </linearGradient>
+    <linearGradient id="b-micro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7f1"/>
+      <stop offset="55%" stop-color="#f4d7c2"/>
+      <stop offset="100%" stop-color="#b36b45"/>
+    </linearGradient>
+    <linearGradient id="b-session" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff9dc"/>
+      <stop offset="55%" stop-color="#fff2bf"/>
+      <stop offset="100%" stop-color="#cfa63a"/>
+    </linearGradient>
+
+    <linearGradient id="c-macro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fbfb"/>
+      <stop offset="55%" stop-color="#e1edf0"/>
+      <stop offset="100%" stop-color="#809ba3"/>
+    </linearGradient>
+    <linearGradient id="c-mezzo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fafbf4"/>
+      <stop offset="55%" stop-color="#e2e7d6"/>
+      <stop offset="100%" stop-color="#7d8b62"/>
+    </linearGradient>
+    <linearGradient id="c-micro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbf6ee"/>
+      <stop offset="55%" stop-color="#e8dfd1"/>
+      <stop offset="100%" stop-color="#9a7553"/>
+    </linearGradient>
+    <linearGradient id="c-session" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff8dd"/>
+      <stop offset="55%" stop-color="#f7e9b5"/>
+      <stop offset="100%" stop-color="#b8912f"/>
+    </linearGradient>
+
+    <linearGradient id="d-macro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4fcff"/>
+      <stop offset="55%" stop-color="#d3ecf8"/>
+      <stop offset="100%" stop-color="#5f9fbc"/>
+    </linearGradient>
+    <linearGradient id="d-mezzo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f6fcf3"/>
+      <stop offset="55%" stop-color="#d6ead0"/>
+      <stop offset="100%" stop-color="#5f9a5f"/>
+    </linearGradient>
+    <linearGradient id="d-micro" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff4ec"/>
+      <stop offset="55%" stop-color="#f2c9aa"/>
+      <stop offset="100%" stop-color="#b86135"/>
+    </linearGradient>
+    <linearGradient id="d-session" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7d0"/>
+      <stop offset="55%" stop-color="#ffed9e"/>
+      <stop offset="100%" stop-color="#d1a000"/>
+    </linearGradient>
+  </defs>
+
+  <rect class="bg" width="1400" height="900"/>
+  <text class="title" x="70" y="72">Collectible Element Palette Samples</text>
+  <text class="subtitle" x="70" y="106">White card body stays calm. These colors would live mostly inside the avatar window.</text>
+
+  <g transform="translate(70 145)">
+    <rect class="option-card" width="1260" height="150" rx="18"/>
+    <text class="option-title" x="28" y="42">Option A · Elemental Trail</text>
+    <text class="option-note" x="28" y="70">Safe, readable, natural. Less fantasy, more trail system.</text>
+    <g transform="translate(270 27)">
+      <rect class="swatch" fill="url(#a-macro)" x="0" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="18" y="29">MACRO</text>
+      <text class="name" x="18" y="58">Ice</text>
+      <text class="hex" x="18" y="82">#d7eef2 · #7faebb</text>
+      <rect class="swatch" fill="url(#a-mezzo)" x="235" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="253" y="29">MEZZO</text>
+      <text class="name" x="253" y="58">Forest</text>
+      <text class="hex" x="253" y="82">#dce8d2 · #789064</text>
+      <rect class="swatch" fill="url(#a-micro)" x="470" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="488" y="29">MICRO</text>
+      <text class="name" x="488" y="58">Stone</text>
+      <text class="hex" x="488" y="82">#e2ded5 · #8c8171</text>
+      <rect class="swatch" fill="url(#a-session)" x="705" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="723" y="29">SESSION</text>
+      <text class="name" x="723" y="58">Spark</text>
+      <text class="hex" x="723" y="82">#fff0bf · #d7a928</text>
+    </g>
+  </g>
+
+  <g transform="translate(70 325)">
+    <rect class="option-card" width="1260" height="150" rx="18"/>
+    <text class="option-title" x="28" y="42">Option B · Mystic Training Elements</text>
+    <text class="option-note" x="28" y="70">More card-game energy. Still trail-like, but more vivid.</text>
+    <g transform="translate(270 27)">
+      <rect class="swatch" fill="url(#b-macro)" x="0" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="18" y="29">MACRO</text>
+      <text class="name" x="18" y="58">Frost</text>
+      <text class="hex" x="18" y="82">#dcecf4 · #7197aa</text>
+      <rect class="swatch" fill="url(#b-mezzo)" x="235" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="253" y="29">MEZZO</text>
+      <text class="name" x="253" y="58">Verdant</text>
+      <text class="hex" x="253" y="82">#dcebd7 · #6f986b</text>
+      <rect class="swatch" fill="url(#b-micro)" x="470" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="488" y="29">MICRO</text>
+      <text class="name" x="488" y="58">Ember</text>
+      <text class="hex" x="488" y="82">#f4d7c2 · #b36b45</text>
+      <rect class="swatch" fill="url(#b-session)" x="705" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="723" y="29">SESSION</text>
+      <text class="name" x="723" y="58">Radiance</text>
+      <text class="hex" x="723" y="82">#fff2bf · #cfa63a</text>
+    </g>
+  </g>
+
+  <g transform="translate(70 505)">
+    <rect class="option-card" width="1260" height="150" rx="18"/>
+    <text class="option-title" x="28" y="42">Option C · Ancient Card Elements</text>
+    <text class="option-note" x="28" y="70">Mature, parchment-like, probably the least “UI color.”</text>
+    <g transform="translate(270 27)">
+      <rect class="swatch" fill="url(#c-macro)" x="0" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="18" y="29">MACRO</text>
+      <text class="name" x="18" y="58">Aether</text>
+      <text class="hex" x="18" y="82">#e1edf0 · #809ba3</text>
+      <rect class="swatch" fill="url(#c-mezzo)" x="235" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="253" y="29">MEZZO</text>
+      <text class="name" x="253" y="58">Grove</text>
+      <text class="hex" x="253" y="82">#e2e7d6 · #7d8b62</text>
+      <rect class="swatch" fill="url(#c-micro)" x="470" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="488" y="29">MICRO</text>
+      <text class="name" x="488" y="58">Relic</text>
+      <text class="hex" x="488" y="82">#e8dfd1 · #9a7553</text>
+      <rect class="swatch" fill="url(#c-session)" x="705" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="723" y="29">SESSION</text>
+      <text class="name" x="723" y="58">Solar</text>
+      <text class="hex" x="723" y="82">#f7e9b5 · #b8912f</text>
+    </g>
+  </g>
+
+  <g transform="translate(70 685)">
+    <rect class="option-card" width="1260" height="150" rx="18"/>
+    <text class="option-title" x="28" y="42">Option D · Stronger Game Palette</text>
+    <text class="option-note" x="28" y="70">Most exciting at first glance, but highest risk of feeling too colorful.</text>
+    <g transform="translate(270 27)">
+      <rect class="swatch" fill="url(#d-macro)" x="0" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="18" y="29">MACRO</text>
+      <text class="name" x="18" y="58">Crystal</text>
+      <text class="hex" x="18" y="82">#d3ecf8 · #5f9fbc</text>
+      <rect class="swatch" fill="url(#d-mezzo)" x="235" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="253" y="29">MEZZO</text>
+      <text class="name" x="253" y="58">Wildwood</text>
+      <text class="hex" x="253" y="82">#d6ead0 · #5f9a5f</text>
+      <rect class="swatch" fill="url(#d-micro)" x="470" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="488" y="29">MICRO</text>
+      <text class="name" x="488" y="58">Forge</text>
+      <text class="hex" x="488" y="82">#f2c9aa · #b86135</text>
+      <rect class="swatch" fill="url(#d-session)" x="705" y="0" width="205" height="96" rx="12"/>
+      <text class="label" x="723" y="29">SESSION</text>
+      <text class="name" x="723" y="58">Bolt</text>
+      <text class="hex" x="723" y="82">#ffed9e · #d1a000</text>
+    </g>
+  </g>
+</svg>

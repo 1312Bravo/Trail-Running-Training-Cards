@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Badger avatar for Muscular Endurance Week</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M83 286C113 245 157 225 211 233C241 237 261 253 267 278C238 294 203 294 171 280C145 297 111 300 83 286" stroke-width="8"/>
+    <path d="M147 232C139 208 145 183 165 164C177 179 193 185 211 183C230 181 247 171 262 155C263 184 249 207 224 225" stroke-width="7"/>
+    <path d="M162 188L147 220M189 186L174 226M216 183L198 226" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

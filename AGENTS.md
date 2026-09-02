@@ -7,6 +7,11 @@ This repository contains the standalone Training Cards library.
 - Treat Google Drive JSON as the source of truth for card content.
 - Use training_cards/local_cache/ only as a temporary downloaded working copy.
 - Run validation after editing JSON or syncing with Drive.
+- Keep routine checks proportional to the change:
+  - Avatar-only SVG changes usually need visual preview, not automated tests.
+  - CSS or card-layout styling changes usually need app preview; run focused checks only when Python rendering logic changes.
+  - Python renderer, catalog, or cloud-sync changes should get a focused compile or targeted test.
+  - Full test runs are for larger checkpoints, schema/content changes, or deployment prep.
 - Consult coaching/coaching_foundation.md, coaching/card_authoring_guidance.md, and the relevant coaching philosophy profile before changing card content, schemas, or coaching logic.
 - Keep code readable and avoid unnecessary abstraction.
 - Preserve secrets and local cache files out of git.

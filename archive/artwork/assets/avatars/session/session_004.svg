@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Heron avatar for Aerobic Threshold Assessment Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M128 303C151 270 164 231 165 188C165 160 173 138 189 121C202 151 202 181 189 210C178 235 169 264 166 303" stroke-width="8"/>
+    <path d="M188 121C211 103 239 97 268 105C245 119 222 129 197 135" stroke-width="6"/>
+    <path d="M153 249C132 230 105 220 73 220C102 243 128 259 153 267" stroke-width="6"/>
+    <path d="M174 171C183 165 194 165 204 171M164 303L145 329M166 303L184 329" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

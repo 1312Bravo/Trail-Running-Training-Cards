@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Ram avatar for Uphill Muscular Endurance Repeats</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M83 292C112 249 154 228 208 232C241 235 264 253 274 280C245 296 209 296 176 280C151 298 116 302 83 292" stroke-width="8"/>
+    <path d="M155 229C138 202 138 171 157 146C180 153 193 171 191 192C189 211 176 225 156 229M192 192C213 185 237 190 254 206" stroke-width="7"/>
+    <path d="M157 146C137 141 119 146 108 160C112 175 127 183 146 181" stroke-width="6"/>
+    <path d="M184 255C203 259 224 255 240 244" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

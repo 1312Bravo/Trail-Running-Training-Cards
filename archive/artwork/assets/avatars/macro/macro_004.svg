@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Golden eagle avatar for Event-Demand Specific Preparation</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 245C105 188 151 153 210 139C247 130 270 139 284 164C247 166 211 180 178 205C145 230 110 247 70 245" stroke-width="8"/>
+    <path d="M160 208C174 178 198 151 230 130C225 155 212 180 193 204C176 226 159 247 150 275" stroke-width="7"/>
+    <path d="M226 129C243 119 264 120 282 132C268 139 253 141 235 137" stroke-width="6"/>
+    <path d="M117 217C145 207 170 194 192 177M139 236C162 227 181 216 198 202M157 259C173 246 188 231 202 214" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

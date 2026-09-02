@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Wolfhound avatar for Ultra Execution Long Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 285C105 242 150 221 205 227C238 230 263 248 275 276C247 293 212 293 179 277C153 297 113 301 74 285" stroke-width="7"/>
+    <path d="M150 226C138 199 142 169 163 146L184 180C199 174 215 176 230 185L252 160C250 190 233 213 207 226" stroke-width="7"/>
+    <path d="M180 201C190 197 201 198 210 206M216 250C234 253 250 248 261 239" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

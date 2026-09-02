@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Field mouse avatar for Aerobic Base Week</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M102 291C119 249 153 225 196 227C226 229 247 246 252 271C257 296 235 314 199 315C158 316 122 306 102 291" stroke-width="7"/>
+    <path d="M151 228C137 205 136 180 150 159C163 178 165 199 155 221M195 227C207 204 228 192 253 193C241 212 222 224 198 230" stroke-width="6"/>
+    <path d="M169 250C158 244 146 247 141 259C150 268 163 267 172 259M205 274C219 275 232 271 241 263" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

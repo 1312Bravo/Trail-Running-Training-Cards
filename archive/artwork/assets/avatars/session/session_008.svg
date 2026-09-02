@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Lynx avatar for Event-Specific Progression Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M82 284C112 242 154 222 205 227C238 230 263 248 275 275C248 291 213 291 181 276C155 295 119 299 82 284" stroke-width="7"/>
+    <path d="M152 226C140 201 144 173 163 151L183 182C198 176 215 178 230 187L250 164C248 194 232 215 207 227" stroke-width="7"/>
+    <path d="M164 151L158 128M250 164L263 144M180 201C190 197 201 198 210 206M216 248C234 251 250 246 261 237" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

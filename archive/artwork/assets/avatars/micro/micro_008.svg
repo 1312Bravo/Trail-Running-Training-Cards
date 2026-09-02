@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Otter avatar for Ultra Execution Week</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 283C106 249 151 233 204 237C238 240 263 255 276 280C244 292 207 291 174 276C147 294 111 296 72 283" stroke-width="7"/>
+    <path d="M159 237C150 214 154 188 173 170C185 187 201 195 221 195C240 195 258 188 276 175C273 201 257 219 232 230" stroke-width="7"/>
+    <path d="M181 209C191 205 201 207 209 214M217 257C234 259 250 256 263 248" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

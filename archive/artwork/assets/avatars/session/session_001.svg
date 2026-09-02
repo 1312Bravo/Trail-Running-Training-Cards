@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Swift avatar for Easy Aerobic Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M63 238C111 204 163 188 223 194C254 197 280 209 301 231C255 229 214 237 179 257C141 280 102 274 63 238" stroke-width="8"/>
+    <path d="M158 256C176 229 202 208 236 195C229 223 210 246 179 263" stroke-width="6"/>
+    <path d="M111 226C142 223 170 219 196 211" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

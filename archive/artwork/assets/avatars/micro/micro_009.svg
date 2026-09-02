@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Hedgehog avatar for Integration And Taper Week</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M89 289C107 250 143 230 190 233C222 235 249 251 263 278C237 299 196 304 154 294C128 288 106 291 89 289" stroke-width="8"/>
+    <path d="M124 242L115 217M145 235L142 207M166 232L171 205M187 235L201 211M207 244L229 225" stroke="#74869A" stroke-width="4"/>
+    <path d="M176 260C190 255 205 257 216 266M218 278C232 281 245 278 255 270" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

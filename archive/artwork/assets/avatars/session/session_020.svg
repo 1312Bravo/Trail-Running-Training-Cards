@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Songbird avatar for Taper Activation Session</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M83 250C119 219 160 207 207 214C238 219 260 235 273 260C238 270 207 270 180 260C153 281 119 278 83 250" stroke-width="7"/>
+    <path d="M158 258C174 236 197 221 227 214C223 239 207 257 181 266" stroke-width="6"/>
+    <path d="M219 217C238 206 260 205 279 214" stroke-width="5"/>
+    <path d="M124 239C150 237 174 233 196 226" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

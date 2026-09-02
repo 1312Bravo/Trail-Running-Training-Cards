@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Doe avatar for Response-Led Recovery Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M83 285C113 242 156 221 209 226C240 229 264 247 274 274C245 291 211 291 179 276C154 295 118 300 83 285" stroke-width="7"/>
+    <path d="M157 225C143 199 146 171 164 149M186 225C196 197 219 180 247 177" stroke-width="6"/>
+    <path d="M177 200C188 195 199 197 207 205M213 249C230 252 245 248 255 238" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

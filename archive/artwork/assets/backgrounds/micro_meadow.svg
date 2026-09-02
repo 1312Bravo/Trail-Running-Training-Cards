@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" role="img" aria-labelledby="title desc">
+  <title id="title">Micro meadow background</title>
+  <desc id="desc">Stylized meadow grasses and field layer for micro cards.</desc>
+  <path d="M0 221c82-19 160-18 234 2 90 24 185 20 282-10 41-13 81-18 124-13v110H0z" fill="#92a069" opacity=".18"/>
+  <path d="M0 252c104-26 207-23 309 9 102 31 211 30 331-4v53H0z" fill="#6d7e53" opacity=".17"/>
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".24">
+    <path d="M72 265c7-21 9-37 6-49M111 271c10-24 15-43 15-60M504 262c-11-22-15-41-10-58M548 270c-7-18-8-33-3-46"/>
+  </g>
+  <g fill="#ffffff" opacity=".24">
+    <circle cx="93" cy="212" r="4"/>
+    <circle cx="128" cy="198" r="3"/>
+    <circle cx="508" cy="200" r="4"/>
+    <circle cx="550" cy="222" r="3"/>
+  </g>
+</svg>

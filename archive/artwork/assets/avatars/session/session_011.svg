@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Antelope avatar for Relaxed Economy Strides</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M77 285C109 242 154 222 209 228C243 231 267 250 278 278C248 294 212 295 178 278C151 299 111 302 77 285" stroke-width="7"/>
+    <path d="M157 227C143 199 145 170 165 147M188 224C200 195 225 177 255 176" stroke-width="6"/>
+    <path d="M165 147C158 125 160 103 172 84M188 146C197 124 214 108 237 101" stroke-width="5"/>
+    <path d="M180 201C190 197 201 198 210 206M216 250C233 252 249 248 260 239" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>
