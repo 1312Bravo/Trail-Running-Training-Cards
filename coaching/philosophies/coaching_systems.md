@@ -1,8 +1,15 @@
 # Coaching Systems
 
-This catalogue lists the named coaching systems available as philosophy profiles. The summaries are orientation only: the detailed interpretation and source record inside each system folder determine how a profile should shape card content.
+This catalogue lists the training-method profiles available as coaching philosophy profiles. The summaries are orientation only: the detailed interpretation and source record inside each system folder determine how a profile should shape card content.
 
-Every profile below is an allowed `philosophy_profile_ids` value. The canonical technical registry is `training_cards/philosophy_profiles.py`.
+Every profile below is an actual training-method `philosophy_profile_ids` value. The canonical technical registry is `training_cards/philosophy_profiles.py`. The legacy `common` value is not listed because it represents old foundation-only card data, not a real philosophy profile.
+
+## Mainstream Endurance
+
+**Profile ID:** `mainstream_endurance`  
+**Primary resource:** academic, institutional, coaching-education, and peer-reviewed endurance-training sources.
+
+Mainstream Endurance is the broad evidence-informed endurance-training model commonly taught through sport science, exercise physiology, strength and conditioning, and athletics coaching education. Its profile covers general training principles, endurance determinants, progression, specificity, intensity domains, recovery, periodisation, tapering, testing, and support work without relying on named coaching systems as primary sources.
 
 ## CTS
 

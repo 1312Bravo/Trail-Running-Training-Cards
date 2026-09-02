@@ -1,6 +1,6 @@
 # Card Authoring Guidance
 
-This note explains how to write and review training cards once the shared coaching foundation, selected philosophy profile, hierarchy, and relevant source history are understood.
+This note explains how to write and review training cards once the shared coaching foundation, selected training-method philosophy profile, hierarchy, and relevant source history are understood.
 
 Use this file with:
 
@@ -19,7 +19,9 @@ Before writing or rebuilding a card, check:
 - the shared coach identity and standards in `coaching/coaching_foundation.md`
 - the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
 - any relevant source record in `coaching/philosophies/<profile>/sources.md`
-- the `philosophy_profile_ids` value: use `common` when only the shared foundation shaped the card; otherwise use the exact directory names of every philosophy profile that materially shaped it
+- the `philosophy_profile_ids` value: use the exact directory names of every actual training-method profile that materially shaped the card
+- choose the profile ID from its documented method, source record, and actual influence on the card
+- do not use `common` for new card authoring; it is a temporary legacy value for existing foundation-only cards during restructuring
 - whether the card should be broad and reusable or more specific inside the details only
 
 ## Card Quality Standard
@@ -64,7 +66,7 @@ A good card should make it easy to understand:
 ## Field Discipline
 
 - `summary`: one preview-safe sentence for quick comparison.
-- `philosophy_profile_ids`: structured coaching-philosophy provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. `common` is the reserved shared-foundation value and cannot be combined with named profiles; every named ID matches a directory under `coaching/philosophies/` exactly.
+- `philosophy_profile_ids`: structured training-method provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. Actual profile IDs match directories under `coaching/philosophies/` exactly. `common` is legacy-only and should not be used for new card authoring.
 - `purpose`: the coaching job of the card.
 - `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
 - `training_profile`: the actual stress pattern, feel, terrain, and loading demand.

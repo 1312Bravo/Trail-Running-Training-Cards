@@ -6,9 +6,12 @@ from collections.abc import Iterable
 COMMON_PHILOSOPHY_PROFILE_ID = "common"
 
 # This is the canonical controlled vocabulary for card philosophy provenance.
-# IDs must match the corresponding coaching/philosophies directory names.
+# `common` is a temporary legacy value for existing foundation-only cards; new
+# cards should use actual training-method profiles such as mainstream_endurance.
+# Non-legacy IDs must match the corresponding coaching/philosophies directories.
 PHILOSOPHY_PROFILES: dict[str, str] = {
     COMMON_PHILOSOPHY_PROFILE_ID: "Common",
+    "mainstream_endurance": "Mainstream Endurance",
     "cts": "CTS",
     "evoke_endurance": "Evoke Endurance",
     "swap": "Some Work, All Play",
