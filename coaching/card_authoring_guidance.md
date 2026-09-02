@@ -21,7 +21,7 @@ Before writing or rebuilding a card, check:
 - any relevant source record in `coaching/philosophies/<profile>/sources.md`
 - the `philosophy_profile_ids` value: use the exact directory names of every actual training-method profile that materially shaped the card
 - choose the profile ID from its documented method, source record, and actual influence on the card
-- do not use `common` for new card authoring; it is a temporary legacy value for existing foundation-only cards during restructuring
+- do not use `common`; the shared coaching foundation is always-on and is not a card-level philosophy profile
 - whether the card should be broad and reusable or more specific inside the details only
 
 ## Card Quality Standard
@@ -66,7 +66,7 @@ A good card should make it easy to understand:
 ## Field Discipline
 
 - `summary`: one preview-safe sentence for quick comparison.
-- `philosophy_profile_ids`: structured training-method provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. Actual profile IDs match directories under `coaching/philosophies/` exactly. `common` is legacy-only and should not be used for new card authoring.
+- `philosophy_profile_ids`: structured training-method provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. Profile IDs match directories under `coaching/philosophies/` exactly. `common` is not valid card provenance.
 - `purpose`: the coaching job of the card.
 - `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
 - `training_profile`: the actual stress pattern, feel, terrain, and loading demand.

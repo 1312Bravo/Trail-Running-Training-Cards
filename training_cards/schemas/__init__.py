@@ -1,4 +1,4 @@
-from .base import BaseTrainingCard, COMMON_PHILOSOPHY_PROFILE_ID
+from .base import BaseTrainingCard
 from training_cards.philosophy_profiles import (
     PHILOSOPHY_PROFILE_IDS,
     PHILOSOPHY_PROFILES,
@@ -14,7 +14,6 @@ from .session_family import SessionFamily
 
 __all__ = [
     "BaseTrainingCard",
-    "COMMON_PHILOSOPHY_PROFILE_ID",
     "PHILOSOPHY_PROFILE_IDS",
     "PHILOSOPHY_PROFILES",
     "CardReference",

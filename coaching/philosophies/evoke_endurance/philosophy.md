@@ -158,7 +158,7 @@ An alternative should preserve the main capacity whenever possible and name what
 
 ### Reserve The Profile Label For Real Structural Influence
 
-Use `evoke_endurance` only when the card is materially shaped by the profile's layered capacity model, threshold-informed intensity control, muscular-endurance logic, or capacity-versus-utilisation distinction. A generic easy run, hill session, or trail long run remains `common` unless that reasoning changes its design.
+Use `evoke_endurance` only when the card is materially shaped by the profile's layered capacity model, threshold-informed intensity control, muscular-endurance logic, or capacity-versus-utilisation distinction. A generic easy run, hill session, or trail long run should use a different training-method profile unless Evoke reasoning changes its design.
 
 ## Current Limits And Review Questions
 

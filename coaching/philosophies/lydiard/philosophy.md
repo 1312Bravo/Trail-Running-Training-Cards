@@ -164,7 +164,7 @@ Descriptions should make clear why the work occurs now rather than presenting it
 
 ### Reserve The Profile Label For Real Structural Influence
 
-Use `lydiard` only where base-first development, response-regulated recovery, sequential progression, or backward timing materially shapes the card. General endurance content shaped only by the shared foundation remains `common`.
+Use `lydiard` only where base-first development, response-regulated recovery, sequential progression, or backward timing materially shapes the card. General endurance content should use a different training-method profile unless Lydiard's distinctive logic materially shapes it.
 
 ## Current Limits And Review Questions
 

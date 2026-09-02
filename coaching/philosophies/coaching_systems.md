@@ -2,7 +2,7 @@
 
 This catalogue lists the training-method profiles available as coaching philosophy profiles. The summaries are orientation only: the detailed interpretation and source record inside each system folder determine how a profile should shape card content.
 
-Every profile below is an actual training-method `philosophy_profile_ids` value. The canonical technical registry is `training_cards/philosophy_profiles.py`. The legacy `common` value is not listed because it represents old foundation-only card data, not a real philosophy profile.
+Every profile below is an actual training-method `philosophy_profile_ids` value. The canonical technical registry is `training_cards/philosophy_profiles.py`. The shared coaching foundation is not listed because it affects every card by default and is not a card-level philosophy profile.
 
 ## Mainstream Endurance
 

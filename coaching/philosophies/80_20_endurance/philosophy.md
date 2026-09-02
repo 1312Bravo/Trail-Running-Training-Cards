@@ -154,7 +154,7 @@ Cards that create meaningful intensity, duration, or terrain stress should descr
 
 ### Reserve The Profile Label For Meaningful Influence
 
-Use `80_20_endurance` only when deliberate intensity distribution, structured execution, or a hard/easy and recovery pattern materially shapes the card. A generic interval or easy run is `common` unless this philosophy changes the way it is designed or used.
+Use `80_20_endurance` only when deliberate intensity distribution, structured execution, or a hard/easy and recovery pattern materially shapes the card. A generic interval or easy run should use a different training-method profile unless this philosophy changes the way it is designed or used.
 
 ## Current Limits And Review Questions
 

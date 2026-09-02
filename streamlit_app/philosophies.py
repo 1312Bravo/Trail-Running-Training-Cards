@@ -4,8 +4,6 @@ from pathlib import Path
 
 import streamlit as st
 
-from training_cards.philosophy_profiles import COMMON_PHILOSOPHY_PROFILE_ID
-
 
 # App summaries are deliberately separate from the detailed coaching notes. The
 # app can present both without making the source documentation its default view.
@@ -20,14 +18,10 @@ def app_summary_path(profile_id: str) -> Path:
 
 
 def detailed_note_path(profile_id: str) -> Path:
-    if profile_id == COMMON_PHILOSOPHY_PROFILE_ID:
-        return COACHING_DIR / "coaching_foundation.md"
     return COACHING_DIR / "philosophies" / profile_id / "philosophy.md"
 
 
 def sources_note_path(profile_id: str) -> Path | None:
-    if profile_id == COMMON_PHILOSOPHY_PROFILE_ID:
-        return None
     return COACHING_DIR / "philosophies" / profile_id / "sources.md"
 
 

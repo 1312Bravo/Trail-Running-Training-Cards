@@ -294,11 +294,11 @@ Use `mainstream_endurance` when a card is materially shaped by broad sport-scien
 
 Do not use this label merely because a card is normal, sensible, or broadly useful. The card should show the mainstream logic in its fields: intended adaptation, progression variable, recovery relationship, placement in the plan, and practical execution cues.
 
-### Keep `common` Separate
+### Keep The Shared Foundation Separate
 
-`common` remains the shared coaching foundation: athlete-centred tone, professional scope, durable development, trail-aware judgement, access awareness, and safety boundaries. `mainstream_endurance` is different. It describes the general training-method model.
+The shared coaching foundation remains separate from card-level philosophy provenance. It defines athlete-centred tone, professional scope, durable development, trail-aware judgement, access awareness, and safety boundaries for every card. `mainstream_endurance` is different. It describes the general training-method model.
 
-If a card only follows the shared foundation without making a specific training-method claim, it should remain `common`. If it uses general endurance science to structure progression, adaptation, periodisation, or specificity, `mainstream_endurance` may be appropriate.
+If a card only follows the shared foundation without making a specific training-method claim, it should be reconsidered as a card concept rather than assigned a foundation label. If it uses general endurance science to structure progression, adaptation, periodisation, or specificity, `mainstream_endurance` may be appropriate.
 
 ### Avoid Named-System Drift
 
@@ -318,7 +318,7 @@ When a card includes terrain, speed, long duration, strength, or race-like work,
 
 ### State The Performance Determinant
 
-A mainstream-labelled card should name the determinant or capability it is trying to influence: aerobic capacity, threshold control, economy, durability, specific endurance, strength support, movement skill, heat tolerance, recovery, or race execution. If the determinant cannot be named, the card may be too vague or may belong only to `common`.
+A mainstream-labelled card should name the determinant or capability it is trying to influence: aerobic capacity, threshold control, economy, durability, specific endurance, strength support, movement skill, heat tolerance, recovery, or race execution. If the determinant cannot be named, the card may be too vague to carry a training-method profile.
 
 ### Include Assessment Boundaries When Relevant
 
@@ -334,4 +334,4 @@ Cards under this profile should avoid assuming advanced readiness unless that is
 - Add reviewed course notes only when they are publicly accessible or personally available for responsible summary.
 - Keep ACSM, NSCA, World Athletics, USATF, IOC, ECSS, and peer-reviewed reviews as the source backbone.
 - Do not use named coaching-system material as primary support for this profile.
-- Review each existing `common` card before relabelling it; this profile should not become a broad default tag.
+- Review each existing general-purpose card before replacing or rewriting it; this profile should not become a broad default tag.

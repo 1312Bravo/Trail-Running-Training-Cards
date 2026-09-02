@@ -6,7 +6,6 @@ import streamlit as st
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.philosophy_profiles import (
-    COMMON_PHILOSOPHY_PROFILE_ID,
     PHILOSOPHY_PROFILES,
     philosophy_profile_display_name,
 )
@@ -297,7 +296,7 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
 
 def render_coaching_philosophies(cards: list[Any]) -> None:
     st.caption(
-        "The shared foundation and named profiles explain the coaching reasoning that shapes this card library."
+        "Every card follows the shared coaching foundation. These profiles show the training methods that shape card content."
     )
     profile_ids = list(PHILOSOPHY_PROFILES)
 
@@ -318,10 +317,7 @@ def render_coaching_philosophies(cards: list[Any]) -> None:
                         for card in cards
                     )
                     st.caption(f"{card_count} cards in this profile")
-                    action_count = (
-                        2 if profile_id == COMMON_PHILOSOPHY_PROFILE_ID else 3
-                    )
-                    actions = st.columns(action_count)
+                    actions = st.columns(3)
                     with actions[0]:
                         st.button(
                             "Show cards",
@@ -340,16 +336,15 @@ def render_coaching_philosophies(cards: list[Any]) -> None:
                             on_click=set_active_philosophy,
                             args=(profile_id,),
                         )
-                    if profile_id != COMMON_PHILOSOPHY_PROFILE_ID:
-                        with actions[2]:
-                            st.button(
-                                "View sources",
-                                key=f"philosophy_sources_{profile_id}",
-                                type="secondary",
-                                width="stretch",
-                                on_click=set_active_philosophy_sources,
-                                args=(profile_id,),
-                            )
+                    with actions[2]:
+                        st.button(
+                            "View sources",
+                            key=f"philosophy_sources_{profile_id}",
+                            type="secondary",
+                            width="stretch",
+                            on_click=set_active_philosophy_sources,
+                            args=(profile_id,),
+                        )
 
 
 def render_search_terms(terms_key: str) -> None:
@@ -391,6 +386,11 @@ def render_philosophy_profile_filter(label_visibility: str = "visible") -> None:
     philosophy_profile_options = list(PHILOSOPHY_PROFILES)
     if not philosophy_profile_options:
         return
+    st.session_state.philosophy_profile_filters = [
+        profile_id
+        for profile_id in st.session_state.philosophy_profile_filters
+        if profile_id in PHILOSOPHY_PROFILES
+    ]
 
     st.multiselect(
         "Coaching philosophy",

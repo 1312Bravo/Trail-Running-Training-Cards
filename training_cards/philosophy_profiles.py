@@ -3,14 +3,9 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 
-COMMON_PHILOSOPHY_PROFILE_ID = "common"
-
 # This is the canonical controlled vocabulary for card philosophy provenance.
-# `common` is a temporary legacy value for existing foundation-only cards; new
-# cards should use actual training-method profiles such as mainstream_endurance.
-# Non-legacy IDs must match the corresponding coaching/philosophies directories.
+# IDs must match the corresponding coaching/philosophies directory names.
 PHILOSOPHY_PROFILES: dict[str, str] = {
-    COMMON_PHILOSOPHY_PROFILE_ID: "Common",
     "mainstream_endurance": "Mainstream Endurance",
     "cts": "CTS",
     "evoke_endurance": "Evoke Endurance",
@@ -34,11 +29,4 @@ def validate_philosophy_profile_ids(profile_ids: Iterable[str]) -> None:
         raise ValueError(
             "Training card philosophy_profile_ids contains unknown profile IDs: "
             + ", ".join(unknown_profile_ids)
-        )
-    if (
-        COMMON_PHILOSOPHY_PROFILE_ID in profile_id_list
-        and len(profile_id_list) != 1
-    ):
-        raise ValueError(
-            "Training card philosophy_profile_ids cannot combine common with named profiles."
         )

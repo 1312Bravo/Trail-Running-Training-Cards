@@ -140,7 +140,7 @@ The card should identify the decision being practised. "Race execution" is too b
 
 ### Reserve The Profile Label For Real Structural Influence
 
-Use `sharman_ultra` only where athlete-specific adaptation, educational guidance, practical ultra-execution reasoning, and integration of broad endurance principles materially shape the card. A generic long run with optional substitutions remains `common`.
+Use `sharman_ultra` only where athlete-specific adaptation, educational guidance, practical ultra-execution reasoning, and integration of broad endurance principles materially shape the card. A generic long run with optional substitutions should not carry the Sharman Ultra label unless that distinctive logic is visible.
 
 ## Current Limits And Review Questions
 

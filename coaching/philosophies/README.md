@@ -28,8 +28,7 @@ Use `_template/` when creating a new profile. Refine the template as we learn wh
 The profile-folder name is the stable profile ID used in card data. `training_cards/philosophy_profiles.py` is the canonical registry of those IDs and their display names. Examples include `mainstream_endurance`, `cts`, `evoke_endurance`, `swap`, `sharman_ultra`, `80_20_endurance`, and `lydiard`.
 
 - Use one or more profile-folder IDs when a card is shaped by specific training-method profiles.
-- Do not use `common` for new card authoring. `common` is a temporary legacy value for existing foundation-only cards while the library is restructured.
-- During the transition, do not combine `common` with actual profile IDs.
+- Do not use `common`; the shared coaching foundation is always-on and is not a card-level philosophy profile.
 - A profile ID must exactly match its directory name.
 - Do not create a profile ID until its folder and source record exist.
 

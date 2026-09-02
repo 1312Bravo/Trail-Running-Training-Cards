@@ -184,7 +184,7 @@ CTS-labelled cards should therefore include the observation that makes the sessi
 
 ## Implications For Cards
 
-This section translates the CTS profile into standards for the training-card library. It does not prescribe a card schema or replace the shared authoring guidance. Instead, it defines the signs that a card has genuinely been shaped by CTS reasoning and therefore should carry the `cts` philosophy profile ID rather than remain `common`.
+This section translates the CTS profile into standards for the training-card library. It does not prescribe a card schema or replace the shared authoring guidance. Instead, it defines the signs that a card has genuinely been shaped by CTS reasoning and therefore should carry the `cts` philosophy profile ID.
 
 ### Name The Performance Problem
 
@@ -224,7 +224,7 @@ Focused rehearsal also makes review possible. If a run is meant to test fueling,
 
 ### Use The Profile Deliberately
 
-A card should not use the CTS profile merely because it contains intervals, a long run, a hill, strength work, or an ultramarathon reference. The card must reflect the system's demand-led, long-range, and cost-aware reasoning. Otherwise, the card should remain `common` or be linked to a different philosophy that genuinely shaped its approach.
+A card should not use the CTS profile merely because it contains intervals, a long run, a hill, strength work, or an ultramarathon reference. The card must reflect the system's demand-led, long-range, and cost-aware reasoning. Otherwise, the card should use a different philosophy that genuinely shaped its approach.
 
 The philosophy label is provenance, not decoration. It tells a reader that the card's selection, progression, execution, and context were materially shaped by a particular coaching system. Using it sparingly makes future filtering and comparison meaningful; using it loosely would turn the label into a broad aesthetic category with no reliable coaching content.
 
@@ -235,4 +235,4 @@ This section protects the profile from becoming more certain or complete than it
 - The source set is centred on publicly available CTS ultrarunning material and does not reproduce or replace *Training Essentials for Ultrarunning*, Second Edition. Add page-level notes from the book when we have reviewed the relevant passages.
 - CTS material has evolved over time and includes different contexts, authors, and athlete populations. Treat the profile as a coherent interpretation of recurring themes, not as a claim that every CTS recommendation is permanent or universal.
 - The exact role of strength training requires careful handling because CTS material frames its potential benefit, cost, and preferred implementation with important nuance. Keep generic cards conservative until a dedicated source review establishes the intended CTS position for each use case.
-- Before assigning `cts` to existing cards, review each card against the implications above. A generic card remains `common` unless the CTS logic materially shaped its structure or guidance.
+- Before assigning `cts` to existing cards, review each card against the implications above. A generic card should not carry the CTS label unless the CTS logic materially shaped its structure or guidance.

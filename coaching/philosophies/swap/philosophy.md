@@ -148,7 +148,7 @@ The profile label should only be used where the card visibly supports sustainabl
 
 ### Reserve The Profile Label For Distinctive Influence
 
-Use `swap` when the card is materially shaped by SWAP's long-term fulfilment, economy-and-speed, fatigue-resistance, science-evolving, and agency-aware logic. A generic enjoyable trail run or generic supportive explanation remains `common`.
+Use `swap` when the card is materially shaped by SWAP's long-term fulfilment, economy-and-speed, fatigue-resistance, science-evolving, and agency-aware logic. A generic enjoyable trail run or generic supportive explanation should not carry the SWAP label unless that distinctive logic is visible.
 
 ## Current Limits And Review Questions
 

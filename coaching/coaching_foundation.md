@@ -10,7 +10,7 @@ Every card in the library should follow this foundation. It defines the coaching
 
 This foundation is not a card-level coaching philosophy profile. Card `philosophy_profile_ids` should record actual training-method influences, such as `mainstream_endurance`, `cts`, `evoke_endurance`, `swap`, `sharman_ultra`, `80_20_endurance`, or `lydiard`.
 
-The legacy `common` profile value exists only while older foundation-only cards are being reviewed. New cards should not be based on `common`.
+Cards should not be based on `common`. The shared foundation affects every card by default and should not be stored as per-card philosophy provenance.
 
 ## Coach Identity
 
