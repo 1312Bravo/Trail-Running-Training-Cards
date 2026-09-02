@@ -38,11 +38,15 @@ Evoke distinguishes a runner's maximum available force from their ability to rep
 
 Strength is not an automatic extra training burden. The coach must decide whether the runner needs general strength, specific strength, mobility, balance, technique, or simply more recoverable running. When strength work is useful, its placement should respect the total training load and the specificity phase. The aim is not gym performance for its own sake; it is a force reserve and movement quality that make the primary running objective more attainable.
 
+Strength reserve should be interpreted as a prerequisite relationship, not as a permanent parallel contest with the running plan. A runner may need enough basic force, tissue tolerance, and movement control before steep or loaded muscular-endurance work becomes productive. Once that reserve is adequate for the goal, additional strength load must justify its cost. A card should therefore avoid treating "more strength" as automatically better; it should say what the reserve supports and how the running load is protected while it is being built.
+
 ### Layer Muscular Endurance On Top Of Capacity
 
 Evoke uses muscular endurance to mean the ability of the propelling muscles to apply a relatively high proportion of their available force for very many repetitions. For mountain runners, this gives a clear explanation for why a strong aerobic runner may still struggle with sustained climbing, steep hiking, loaded ascent, or the local fatigue of long terrain. The limitation may be primarily local rather than purely cardiovascular.
 
 The system is emphatic that muscular-endurance work is layered onto a large aerobic base and adequate strength reserve, not used as a substitute for either. A powerful specific session can feel highly productive and produce quick initial gains, yet become counterproductive when it replaces the aerobic volume that supports long-term performance. Cards following this profile should name the local demand, the prerequisite base, the expected recovery cost, and the reason this is more than an ordinary hard hill session.
+
+The prerequisite language matters because muscular-endurance sessions can be seductive: they feel specific, create obvious fatigue, and seem to prove seriousness. In this profile, that visible fatigue is not proof of value. The useful session is one that targets the limiting local movement while leaving the athlete able to continue the surrounding aerobic work. A card should make entry criteria visible, such as a repeatable aerobic base, basic climbing tolerance, adequate strength reserve, and enough recovery space after the session.
 
 ### Use The Right Kind Of Specific Stress
 
@@ -55,6 +59,8 @@ For a runner, a stair or treadmill alternative may reproduce repeated extension 
 Capacity training develops a quality more independently: aerobic capacity, maximal strength, muscular endurance, or a particular technical skill. Utilisation training asks the athlete to use multiple developed capacities together in a more objective-like situation. The distinction gives the system a way to avoid race simulation too early. A session can look impressively specific while being a poor choice if the athlete is still missing the capacity that should make it useful.
 
 The distinction also clarifies late-cycle work. A long, hilly, event-like outing can be valuable because it integrates aerobic capacity, muscular endurance, fueling, pacing, gear, terrain judgement, and confidence. Its value is not that it is the hardest possible day. It is a rehearsal of using capacities that already exist. The closer a session comes to event simulation, the more carefully its timing, recovery, and necessity should be justified.
+
+For card authoring, the capacity-versus-utilisation distinction should be operational. A mountain aerobic capacity card may use hills, but the purpose remains aerobic development. A muscular-endurance card may use steep terrain, but the purpose is repeated local propulsive force. A utilisation card combines route duration, climbing, hiking, gear, fueling, and pacing because the athlete is ready to practise using those qualities together. The same trail can support all three purposes; the card must identify which one is intended.
 
 ### Sequence Training Without Worshipping The Calendar
 
@@ -87,6 +93,14 @@ This does not prohibit moderate work. For an athlete with a well-developed aerob
 Because the system relies on individual thresholds, it expects that they will change. The athlete's pace, gradient, or output at a given aerobic cost may improve substantially, and the relationship between thresholds can provide one clue about which kind of work now deserves emphasis. A zone estimate should therefore be reviewed after meaningful fitness change or when observed responses no longer match the prescription.
 
 Retesting is useful only when it produces a clearer decision. A card should never demand a laboratory-grade assessment as a condition of sensible training. It can offer a simple repeatable field method, explain what change would matter, and leave room for perceived effort and coaching judgement when measurements are uncertain.
+
+Testing also has to be matched to the question. An aerobic drift check may help estimate whether an intended aerobic cap is still appropriate. A steep climb benchmark may show progress in a movement that matters to the goal. A maximal effort may be the wrong tool when the athlete is already carrying fatigue. Evoke-informed cards should make the test's decision purpose explicit: set intensity, confirm aerobic development, identify an imbalance, or decide whether the athlete is ready for a more specific layer.
+
+### Progress The Layer, Not Every Variable
+
+Evoke's layered model works best when the coach knows which layer is being progressed. During aerobic capacity work, progression may come from more repeatable aerobic time, better output at the same aerobic cost, or more appropriate terrain control. During strength-reserve work, progression may come from load, control, or movement quality. During muscular-endurance work, progression may come from duration, repetition count, grade, load, or specificity, but not all at once.
+
+Cards should therefore identify the primary progression variable and preserve the rest of the training structure. A muscular-endurance block that simultaneously increases steepness, duration, load, frequency, descent cost, and total weekly volume is no longer a precise layer. It is a large uncontrolled dose. The profile should encourage enough restraint that adaptation can be attributed and repeated.
 
 ## Trail And Mountain Application
 

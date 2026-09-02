@@ -28,6 +28,8 @@ The long-range plan is a season-level map, not a rigid calendar of daily workout
 
 This long view should remain flexible when life or racing plans change, but its flexibility is not randomness. It gives the coach a reference point for deciding whether a change still serves the season's priorities or merely reacts to the latest good or bad week. The athlete can then understand why a seemingly useful session is being postponed, simplified, or excluded.
 
+For cards, this means a CTS-labelled macro or mezzo card should make the decision sequence visible. The card should identify the event demand, the current limiter, the reason this block comes now, and the trade-off it creates. A plan that adds a quality block, bigger long run, heat exposure, or race rehearsal without naming what it displaces is not really using the long-range view.
+
 ### Prioritise The Fundamentals
 
 Durable workload, adequate recovery, consistent training frequency, and the ability to handle work over months and years come before novelty and marginal gains. Advanced tools are not rejected, but they are earned by a sufficient base of training, experience, resilience, and self-awareness. The system is wary of using altitude, heat, complicated workouts, or concentrated training blocks as substitutes for a missing foundation. When progress stalls, the first question is not which advanced intervention to add; it is whether the runner has made the most of sustainable volume, recovery, consistency, and clear execution of the work already in the plan.
@@ -64,6 +66,8 @@ CTS does not treat fitness as the only determinant of race performance. Fueling 
 
 The wider preparation is still organised around the race rather than becoming a list of wellness tasks. If a variable has little relevance to the runner's goal, it does not need equal attention. If it is likely to decide whether the athlete can keep moving late in the event, it deserves a place in training even when it is not a conventional running workout.
 
+The rehearsal should also create usable information. A fueling practice, descent exposure, heat session, or long outing should leave the coach with a clearer next decision: repeat, progress, simplify, change the strategy, or stop treating that demand as a limiter. CTS reasoning is practical enough that a rehearsal with no review question can become unnecessary complexity.
+
 ## Training Load And Adaptation
 
 This section explains how the CTS interpretation thinks about applying training stress and allowing adaptation to occur. It is concerned with the total pattern of work over time, not only the content of one workout. The central question is whether the runner is building a larger, more usable capacity while remaining able to absorb the next meaningful piece of training.
@@ -99,6 +103,8 @@ This level of definition protects both the athlete and the plan. It stops a runn
 A focused block can improve a limiting quality by repeatedly exposing it over a defined period. It can also be inappropriate when the runner lacks the base, recovery capacity, or event context to absorb it. CTS-labelled cards should make the preconditions and recovery implications visible, particularly when they describe repeated high-intensity days, back-to-back long runs, or a sustained emphasis on one quality. The value lies in the accumulated exposure and the adaptation that follows, not in making a week look unusually difficult. A block with no protected recovery or no reason to concentrate the work is simply unmanaged density.
 
 A useful block therefore needs a narrow question it is trying to answer. For example, can the runner improve a particular intensity range, add durable vertical work, or practise race-specific execution without losing the capacity to train the following week? If the answer cannot be described, the block is probably being used as a fashionable format rather than a targeted intervention.
+
+The exit from a block matters as much as the entry. A focused period should end with enough recovery or transition space to reveal whether adaptation occurred. If the athlete leaves a block carrying unresolved fatigue, the coach may need to reduce the next layer rather than declare the block successful because it was completed.
 
 ### Strength Is Supportive, Not Automatic
 
@@ -173,6 +179,8 @@ The coach should therefore ask what decision a metric is meant to inform before 
 Completing the written session is not the final measure of success. The coach should review whether the athlete received the intended stimulus, tolerated it, recovered from it, and remains on track for the larger plan. This makes the plan adjustable without becoming directionless. A session that needed a sensible modification can still be successful if its key purpose was preserved; a perfectly completed session can be a poor decision if it created disproportionate fatigue or displaced more important work later in the plan.
 
 This creates a learning loop throughout the plan. The runner and coach can compare the planned stimulus with the actual response, then use that difference to improve future decisions. Over time, this produces a more individual understanding of what the athlete can absorb and what conditions make a particular type of work more or less useful.
+
+CTS-labelled cards should therefore include the observation that makes the session reviewable. For a long run, that may be fueling, pacing, terrain tolerance, or recovery. For intervals, it may be execution quality and whether the surrounding easy work stayed easy enough. For downhill work, it may be delayed soreness and coordination. The card should help the runner collect the information that changes the next prescription.
 
 ## Implications For Cards
 

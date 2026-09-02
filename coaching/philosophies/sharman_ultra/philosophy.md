@@ -20,11 +20,15 @@ Sharman Ultra explicitly identifies rapport and understanding the athlete as a k
 
 Individualisation remains accountable to a training rationale. It is not simply giving the runner preferred sessions. The coach asks which version of an established principle is most likely to be completed, understood, and absorbed in this athlete's circumstances. A smaller but repeatable dose can be more valuable than an idealised plan that clashes with the runner's life.
 
+This profile should make the information-gathering step visible in cards. A Sharman Ultra-labelled card should not presume that "ultra runner" is enough context. It should point to the athlete factor that changes the prescription: time available, terrain access, current durability, prior ultra experience, confidence, recovery capacity, or the runner's specific definition of success.
+
 ### Maximise The Benefit Of Each Session
 
 The team's published coaching material describes fitting a plan around the athlete's lifestyle to maximise the benefit of each training session. This does not mean every session must be hard or novel. It means each one should have a reason, an appropriate dose, and a place in the larger preparation. Unnecessary volume, symbolic suffering, and generic complexity are not automatically evidence of serious ultrarunning training.
 
 For cards, this encourages a practical question: what capability does this work develop, and why is it the best use of the athlete's available recovery and time right now? A session should state its main purpose and not bury it under multiple competing goals.
+
+The card should also make clear what can be removed. If the athlete has limited time or recovery, the best version of a session may preserve one key learning goal while dropping secondary terrain, duration, or intensity demands. That selectivity is part of maximising benefit, not a watered-down version of the plan.
 
 ### Adapt Established Endurance Knowledge For Ultras
 
@@ -37,6 +41,8 @@ The boundary is important. A card cannot claim a precise Sharman Ultra method me
 Helping athletes understand their body and adapt training and racing more effectively is a stated Sharman Ultra benefit. The plan should therefore educate rather than demand blind compliance. The runner should know what a session develops, what a normal response looks like, which adjustment preserves the purpose, and when a response suggests the session should be simplified or moved.
 
 Athlete education is not the same as asking a runner to self-diagnose every problem. It means the coach provides clear boundaries and useful decision cues. The athlete gains agency within a framework, while more serious or persistent concerns remain within appropriate professional scope.
+
+Because the public source base does not yet define exact proprietary protocols, this educational layer is one of the safest ways to use the profile. A card can be specific about what the runner should notice and how that observation changes the next step without inventing a branded workout progression.
 
 ### Use Experience To Make Advice Practical
 
@@ -129,6 +135,8 @@ The card should explain why the work belongs in the plan, what response to obser
 ### Connect Fitness To Race Execution
 
 Where relevant, cards should show how the physical work connects to pacing, fueling, terrain judgement, gear, or other ultrarunning execution skills. The link must be proportionate to the card's role; not every session needs to rehearse every race detail.
+
+The card should identify the decision being practised. "Race execution" is too broad unless it is tied to a concrete question, such as when to hike, how fueling timing holds on climbs, how gear changes pacing, or how the athlete responds to a long descent. This keeps the profile practical while respecting the limits of the current source base.
 
 ### Reserve The Profile Label For Real Structural Influence
 
