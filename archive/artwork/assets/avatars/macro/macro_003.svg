@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Mountain goat avatar for Mountain Capacity Development</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 314C99 270 117 235 148 207C165 192 174 175 172 154C170 136 162 121 151 108C169 108 188 120 199 139C209 158 207 178 199 197C219 194 240 201 253 216C263 229 258 244 243 251C225 260 203 257 185 245C172 266 166 292 167 323" stroke-width="8"/>
+    <path d="M170 153C150 126 140 96 147 63C169 77 181 99 181 121C181 135 176 146 168 156M195 149C207 119 232 100 262 101C248 121 229 138 203 153" stroke-width="7"/>
+    <path d="M158 86C166 97 171 110 173 124M236 111C225 124 213 135 201 143" stroke="#74869A" stroke-width="3"/>
+    <path d="M175 180C162 168 147 171 139 187C151 199 166 199 178 189M204 207C214 202 224 204 231 211" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

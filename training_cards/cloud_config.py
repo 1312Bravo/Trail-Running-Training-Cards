@@ -35,8 +35,8 @@ class GoogleDriveLibraryConfig:
 
 GOOGLE_DRIVE_LIBRARY = GoogleDriveLibraryConfig(
     library_name = "training_cards_library",
-    root_folder_id = "1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I",
-    root_folder_url = "https://drive.google.com/drive/folders/1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I",
+    root_folder_id = "1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV",
+    root_folder_url = "https://drive.google.com/drive/folders/1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV",
     cards_folder_id = "1QrIiVVeC8JjH-tKNGcYu3WoaY8kxI5aQ",
     macro_folder_id = "1vH4gK24aPDoVtcHo4OCfLHfs3Pe2xcCb",
     mezzo_folder_id = "1WUyxrzpaPR8DBQaRMPiTEFoWgyRIAbV8",

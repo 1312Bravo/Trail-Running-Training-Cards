@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Chamois kid avatar for Controlled Downhill Skills Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 310C100 269 116 238 146 214C162 201 169 184 168 166C167 150 160 137 150 126C169 126 187 137 197 154C207 172 203 191 193 208C212 207 232 214 244 230C254 243 248 257 232 264C213 272 190 266 174 251C162 271 157 295 158 322" stroke-width="8"/>
+    <path d="M166 165C154 143 154 121 167 101M192 161C200 139 218 125 241 123" stroke-width="6"/>
+    <path d="M174 193C162 183 149 186 143 200C154 210 168 210 179 201" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" role="img" aria-labelledby="title desc">
+  <title id="title">Session singletrack background</title>
+  <desc id="desc">Stylized macadam singletrack path for session cards.</desc>
+  <path d="M0 236c106-31 215-24 325-6 111 18 211 18 315-16v96H0z" fill="#a68b4c" opacity=".16"/>
+  <path d="M316 310c40-67 62-117 67-164 4-38-3-71-21-106 88 88 126 181 144 270z" fill="#ffffff" opacity=".24"/>
+  <path d="M302 310c28-65 42-115 39-153-3-41-21-74-54-101 48 41 72 82 76 124 4 37-8 81-35 130z" fill="#8d7441" opacity=".18"/>
+  <g fill="#5f5748" opacity=".18">
+    <circle cx="397" cy="228" r="3"/>
+    <circle cx="424" cy="252" r="2.5"/>
+    <circle cx="384" cy="274" r="2"/>
+    <circle cx="452" cy="286" r="3"/>
+    <circle cx="352" cy="246" r="2.5"/>
+  </g>
+  <path d="M403 64c49 45 83 95 103 150" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity=".2"/>
+</svg>

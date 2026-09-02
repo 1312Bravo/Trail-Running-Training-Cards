@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Raven avatar for Individualised Ultra Execution And Peak</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M112 284C126 226 153 184 194 157C224 138 254 136 281 151C251 176 228 202 210 231C191 262 161 280 112 284" stroke-width="8"/>
+    <path d="M183 159C174 134 181 106 202 82C211 109 207 134 194 157" stroke-width="7"/>
+    <path d="M221 150C242 136 264 132 286 139C270 151 250 158 226 160" stroke-width="6"/>
+    <path d="M139 254C162 243 182 227 199 208M151 274C176 263 195 248 210 231" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

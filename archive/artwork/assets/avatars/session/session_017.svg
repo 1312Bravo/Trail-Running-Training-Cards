@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Raven runner avatar for Race-Simulation Decision Rehearsal</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M98 278C116 226 148 189 195 166C226 151 255 153 281 171C248 188 224 211 208 239C190 269 156 282 98 278" stroke-width="8"/>
+    <path d="M189 168C180 143 187 117 207 94C215 120 211 144 199 166" stroke-width="7"/>
+    <path d="M223 159C245 148 267 148 287 158" stroke-width="5"/>
+    <path d="M132 255C160 245 181 230 199 211" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

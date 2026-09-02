@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Mountain swallow avatar for Aerobic Power Intervals</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M64 237C106 207 153 193 207 197C244 199 272 212 294 235C252 233 215 240 182 258C144 278 104 272 64 237" stroke-width="8"/>
+    <path d="M162 256C178 231 202 211 234 198C229 223 211 245 184 262" stroke-width="6"/>
+    <path d="M123 229C152 226 178 222 202 215" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

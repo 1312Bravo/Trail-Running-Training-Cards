@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Unassigned mezzo trail-flag guardian avatar</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M122 322V95" stroke-width="8"/>
+    <path d="M122 104H239L210 143L239 181H122" stroke-width="8"/>
+    <path d="M151 126H198M151 153H214" stroke="#74869A" stroke-width="4"/>
+    <path d="M91 322H178" stroke="#74869A" stroke-width="5"/>
+    <path d="M78 293C98 277 137 277 158 293M95 261C111 250 139 250 155 261" stroke-width="6"/>
+    <path d="M120 74C109 58 111 39 125 25C138 43 137 61 124 75" stroke-width="6"/>
+    <path d="M113 48C120 45 126 45 132 49" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.9" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

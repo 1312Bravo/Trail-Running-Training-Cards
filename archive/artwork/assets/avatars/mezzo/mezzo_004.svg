@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Tahr avatar for Mountain Aerobic Capacity Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M89 316C92 270 109 236 141 209C158 194 166 177 165 157C164 140 157 126 147 114C166 116 185 128 194 147C202 165 199 184 190 201C210 200 232 207 245 222C256 235 251 249 235 257C216 266 192 260 174 246C161 267 156 293 158 322" stroke-width="8"/>
+    <path d="M164 155C151 129 151 100 166 75C181 97 183 122 174 145M191 150C198 124 216 104 241 96C232 119 216 137 195 151" stroke-width="7"/>
+    <path d="M171 183C158 172 144 175 138 190C149 201 164 201 176 191M204 211C214 206 224 208 231 215" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

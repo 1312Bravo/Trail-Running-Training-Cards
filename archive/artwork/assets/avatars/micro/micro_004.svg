@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Pine marten avatar for Mountain Aerobic Capacity Week</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M83 284C113 244 153 226 203 230C233 233 254 249 263 273C240 289 211 290 183 278C160 296 125 299 83 284" stroke-width="7"/>
+    <path d="M153 228C142 205 144 179 160 158L179 186C193 181 208 182 221 190L240 169C239 195 225 214 203 228" stroke-width="7"/>
+    <path d="M174 204C184 200 194 201 202 208M211 249C226 252 240 248 249 239" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

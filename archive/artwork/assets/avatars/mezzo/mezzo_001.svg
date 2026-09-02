@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Marmot avatar for Consistency And Durability Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M91 309C96 263 112 229 142 204C158 191 166 174 166 156C166 140 160 126 150 115C170 116 188 126 199 143C211 162 207 185 194 204C213 203 232 210 242 223C251 236 246 249 231 255C213 262 190 257 174 244C160 265 153 290 154 321" stroke-width="8"/>
+    <path d="M158 124C150 105 151 87 162 72M181 125C188 106 201 91 219 84" stroke-width="6"/>
+    <path d="M169 181C157 171 144 175 138 189C148 199 162 199 173 190M194 206C204 202 213 204 220 211" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

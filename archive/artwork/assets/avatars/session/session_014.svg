@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Mountain goat kid avatar for Short Hill Power Repeats</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M97 310C100 271 116 239 145 215C161 202 169 185 167 166C166 150 159 137 148 126C168 126 186 137 196 154C206 172 202 191 192 208C211 207 232 215 244 231C254 244 248 258 232 264C213 272 190 266 173 251C161 271 156 295 157 322" stroke-width="8"/>
+    <path d="M166 165C154 143 154 121 167 101M192 161C201 139 219 125 242 123" stroke-width="6"/>
+    <path d="M174 192C162 182 148 185 142 199C153 209 167 209 178 200" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Arctic tern avatar for Peak Integration And Taper Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M69 244C112 216 158 202 209 203C246 203 272 214 290 235C251 236 216 244 185 260C149 279 111 275 69 244" stroke-width="8"/>
+    <path d="M176 257C188 230 209 211 239 200C232 224 216 245 190 262" stroke-width="7"/>
+    <path d="M228 205C249 192 273 189 295 197" stroke-width="5"/>
+    <path d="M115 235C143 232 169 229 194 223M132 255C158 253 179 249 197 242" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

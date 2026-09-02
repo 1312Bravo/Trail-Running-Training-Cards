@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 310" role="img" aria-labelledby="title desc">
+  <title id="title">Mezzo hills background</title>
+  <desc id="desc">Stylized smaller hills and route curves for mezzo cards.</desc>
+  <path d="M0 214c91-54 151-50 230-15 70 31 121 34 190 4 71-30 140-28 220 18v89H0z" fill="#506f48" opacity=".18"/>
+  <path d="M0 252c99-34 178-35 260-4 78 30 161 31 247 0 50-18 91-25 133-18v80H0z" fill="#3f653e" opacity=".2"/>
+  <path d="M84 237c50-46 97-70 142-70 40 0 70 18 108 31 44 15 87 12 140-23" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity=".22"/>
+  <path d="M120 188 72 246h94zM463 176l-71 75h139z" fill="#ffffff" opacity=".16"/>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Pack goat avatar for Ultra Execution Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M91 316C95 270 113 237 145 210C162 195 170 177 168 157C166 140 159 127 149 116C169 116 188 128 197 146C206 164 203 185 194 203C213 202 233 209 246 224C257 237 251 250 236 258C216 266 193 261 176 247C164 268 159 293 160 323" stroke-width="8"/>
+    <path d="M167 154C151 130 145 101 153 72C172 87 182 110 180 135M194 150C206 124 228 107 256 106C242 125 221 140 199 153" stroke-width="7"/>
+    <path d="M128 233L161 225L184 246L146 254Z" stroke="#74869A" stroke-width="3"/>
+    <path d="M174 183C161 172 147 175 140 190C151 201 166 201 178 191" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

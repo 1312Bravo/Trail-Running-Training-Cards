@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Ibex kid avatar for Incline Muscular Endurance Climb</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M97 310C100 270 116 238 145 214C161 201 169 184 167 165C166 149 159 136 148 125C168 125 186 136 196 153C206 171 202 190 192 207C211 206 232 214 244 230C254 243 248 257 232 263C213 271 190 265 173 250C161 270 156 294 157 322" stroke-width="8"/>
+    <path d="M165 164C154 142 154 119 166 99M191 160C199 137 217 123 241 121" stroke-width="6"/>
+    <path d="M173 191C161 181 148 184 142 198C153 208 167 208 178 199" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

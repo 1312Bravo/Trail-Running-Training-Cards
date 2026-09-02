@@ -1,0 +1,680 @@
+{
+  "macro_001": {
+    "level": "macro",
+    "asset_path": "assets/avatars/macro/macro_001.svg",
+    "alt_text": "Snow leopard line avatar for Foundation And Consistency",
+    "tags": [
+      "macro",
+      "snow-leopard",
+      "male",
+      "foundation",
+      "rebuild",
+      "common"
+    ]
+  },
+  "macro_002": {
+    "level": "macro",
+    "asset_path": "assets/avatars/macro/macro_002.svg",
+    "alt_text": "Alpine ibex line avatar for Aerobic Base And Sequential Development",
+    "tags": [
+      "pilot",
+      "macro",
+      "alpine-ibex",
+      "female",
+      "base",
+      "development",
+      "rebuild",
+      "lydiard"
+    ]
+  },
+  "macro_003": {
+    "level": "macro",
+    "asset_path": "assets/avatars/macro/macro_003.svg",
+    "alt_text": "Mountain goat line avatar for Mountain Capacity Development",
+    "tags": [
+      "macro",
+      "mountain-goat",
+      "male",
+      "mountain",
+      "capacity",
+      "rebuild",
+      "evoke-endurance"
+    ]
+  },
+  "macro_004": {
+    "level": "macro",
+    "asset_path": "assets/avatars/macro/macro_004.svg",
+    "alt_text": "Golden eagle line avatar for Event-Demand Specific Preparation",
+    "tags": [
+      "macro",
+      "golden-eagle",
+      "female",
+      "event",
+      "demand",
+      "rebuild",
+      "cts"
+    ]
+  },
+  "macro_005": {
+    "level": "macro",
+    "asset_path": "assets/avatars/macro/macro_005.svg",
+    "alt_text": "Red fox line avatar for Sustainable Economy And Speed Development",
+    "tags": [
+      "macro",
+      "red-fox",
+      "male",
+      "economy",
+      "speed",
+      "rebuild",
+      "swap"
+    ]
+  },
+  "macro_006": {
+    "level": "macro",
+    "asset_path": "assets/avatars/macro/macro_006.svg",
+    "alt_text": "Raven line avatar for Individualised Ultra Execution And Peak",
+    "tags": [
+      "macro",
+      "raven",
+      "female",
+      "ultra",
+      "execution",
+      "rebuild",
+      "sharman-ultra"
+    ]
+  },
+  "mezzo_001": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_001.svg",
+    "alt_text": "Marmot line avatar for Consistency And Durability Block",
+    "tags": [
+      "mezzo",
+      "marmot",
+      "female",
+      "consistency",
+      "durability",
+      "rebuild",
+      "common"
+    ]
+  },
+  "mezzo_002": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_002.svg",
+    "alt_text": "Alpine chamois line avatar for Aerobic Base Block",
+    "tags": [
+      "pilot",
+      "mezzo",
+      "alpine-chamois",
+      "male",
+      "aerobic",
+      "base",
+      "rebuild",
+      "lydiard"
+    ]
+  },
+  "mezzo_003": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_003.svg",
+    "alt_text": "Trail hound line avatar for Intensity Distribution Block",
+    "tags": [
+      "mezzo",
+      "trail-hound",
+      "female",
+      "intensity",
+      "distribution",
+      "rebuild",
+      "80-20-endurance"
+    ]
+  },
+  "mezzo_004": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_004.svg",
+    "alt_text": "Tahr line avatar for Mountain Aerobic Capacity Block",
+    "tags": [
+      "mezzo",
+      "tahr",
+      "male",
+      "mountain",
+      "aerobic",
+      "rebuild",
+      "evoke-endurance"
+    ]
+  },
+  "mezzo_005": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_005.svg",
+    "alt_text": "Musk ox line avatar for Muscular Endurance Block",
+    "tags": [
+      "mezzo",
+      "musk-ox",
+      "female",
+      "muscular",
+      "endurance",
+      "rebuild",
+      "evoke-endurance"
+    ]
+  },
+  "mezzo_006": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_006.svg",
+    "alt_text": "Mountain hare line avatar for Goal-Demand Endurance Block",
+    "tags": [
+      "mezzo",
+      "mountain-hare",
+      "male",
+      "goal",
+      "endurance",
+      "rebuild",
+      "cts"
+    ]
+  },
+  "mezzo_007": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_007.svg",
+    "alt_text": "Kestrel line avatar for Economy And Speed Block",
+    "tags": [
+      "mezzo",
+      "kestrel",
+      "female",
+      "economy",
+      "speed",
+      "rebuild",
+      "swap"
+    ]
+  },
+  "mezzo_008": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_008.svg",
+    "alt_text": "Pack goat line avatar for Ultra Execution Block",
+    "tags": [
+      "mezzo",
+      "pack-goat",
+      "male",
+      "ultra",
+      "execution",
+      "rebuild",
+      "sharman-ultra"
+    ]
+  },
+  "mezzo_009": {
+    "level": "mezzo",
+    "asset_path": "assets/avatars/mezzo/mezzo_009.svg",
+    "alt_text": "Arctic tern line avatar for Peak Integration And Taper Block",
+    "tags": [
+      "mezzo",
+      "arctic-tern",
+      "female",
+      "peak",
+      "taper",
+      "rebuild",
+      "cts",
+      "lydiard"
+    ]
+  },
+  "micro_001": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_001.svg",
+    "alt_text": "Pika line avatar for Consistency Week",
+    "tags": [
+      "micro",
+      "pika",
+      "male",
+      "consistency",
+      "week",
+      "rebuild",
+      "common"
+    ]
+  },
+  "micro_002": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_002.svg",
+    "alt_text": "Field mouse line avatar for Aerobic Base Week",
+    "tags": [
+      "micro",
+      "field-mouse",
+      "female",
+      "aerobic",
+      "base",
+      "week",
+      "rebuild",
+      "lydiard"
+    ]
+  },
+  "micro_003": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_003.svg",
+    "alt_text": "Little owl line avatar for Structured Intensity Distribution Week",
+    "tags": [
+      "micro",
+      "little-owl",
+      "male",
+      "intensity",
+      "week",
+      "rebuild",
+      "80-20-endurance"
+    ]
+  },
+  "micro_004": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_004.svg",
+    "alt_text": "Pine marten line avatar for Mountain Aerobic Capacity Week",
+    "tags": [
+      "micro",
+      "pine-marten",
+      "female",
+      "mountain",
+      "week",
+      "rebuild",
+      "evoke-endurance"
+    ]
+  },
+  "micro_005": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_005.svg",
+    "alt_text": "Badger line avatar for Muscular Endurance Week",
+    "tags": [
+      "micro",
+      "badger",
+      "male",
+      "muscular",
+      "endurance",
+      "week",
+      "rebuild",
+      "evoke-endurance"
+    ]
+  },
+  "micro_006": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_006.svg",
+    "alt_text": "Red deer line avatar for Goal-Demand Long Week",
+    "tags": [
+      "pilot",
+      "micro",
+      "red-deer",
+      "female",
+      "long",
+      "week",
+      "rebuild",
+      "cts"
+    ]
+  },
+  "micro_007": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_007.svg",
+    "alt_text": "Stoat line avatar for Economy And Speed Week",
+    "tags": [
+      "micro",
+      "stoat",
+      "male",
+      "economy",
+      "speed",
+      "week",
+      "rebuild",
+      "swap"
+    ]
+  },
+  "micro_008": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_008.svg",
+    "alt_text": "Otter line avatar for Ultra Execution Week",
+    "tags": [
+      "micro",
+      "otter",
+      "female",
+      "ultra",
+      "week",
+      "rebuild",
+      "sharman-ultra"
+    ]
+  },
+  "micro_009": {
+    "level": "micro",
+    "asset_path": "assets/avatars/micro/micro_009.svg",
+    "alt_text": "Hedgehog line avatar for Integration And Taper Week",
+    "tags": [
+      "micro",
+      "hedgehog",
+      "female",
+      "taper",
+      "week",
+      "rebuild",
+      "cts",
+      "lydiard"
+    ]
+  },
+  "session_001": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_001.svg",
+    "alt_text": "Swift line avatar for Easy Aerobic Run",
+    "tags": [
+      "session",
+      "swift",
+      "female",
+      "easy",
+      "aerobic",
+      "rebuild",
+      "80-20-endurance",
+      "volume",
+      "recovery"
+    ]
+  },
+  "session_002": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_002.svg",
+    "alt_text": "Doe line avatar for Response-Led Recovery Run",
+    "tags": [
+      "session",
+      "doe",
+      "male",
+      "recovery",
+      "rebuild",
+      "lydiard",
+      "easy",
+      "low-load"
+    ]
+  },
+  "session_003": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_003.svg",
+    "alt_text": "Wolf line avatar for Aerobic Base Long Run",
+    "tags": [
+      "pilot",
+      "session",
+      "wolf",
+      "male",
+      "long",
+      "run",
+      "rebuild",
+      "lydiard",
+      "endurance",
+      "long-run",
+      "aerobic"
+    ]
+  },
+  "session_004": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_004.svg",
+    "alt_text": "Heron line avatar for Aerobic Threshold Assessment Run",
+    "tags": [
+      "session",
+      "heron",
+      "female",
+      "threshold",
+      "assessment",
+      "rebuild",
+      "evoke-endurance",
+      "aerobic",
+      "easy",
+      "volume",
+      "recovery"
+    ]
+  },
+  "session_005": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_005.svg",
+    "alt_text": "Ram line avatar for Uphill Muscular Endurance Repeats",
+    "tags": [
+      "session",
+      "ram",
+      "male",
+      "uphill",
+      "muscular",
+      "endurance",
+      "rebuild",
+      "evoke-endurance",
+      "strength-endurance",
+      "hills",
+      "muscular-endurance"
+    ]
+  },
+  "session_006": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_006.svg",
+    "alt_text": "Ibex kid line avatar for Incline Muscular Endurance Climb",
+    "tags": [
+      "session",
+      "ibex-kid",
+      "female",
+      "incline",
+      "climb",
+      "rebuild",
+      "evoke-endurance",
+      "strength-endurance",
+      "hills",
+      "muscular-endurance"
+    ]
+  },
+  "session_007": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_007.svg",
+    "alt_text": "Elk line avatar for Goal-Demand Long Run",
+    "tags": [
+      "session",
+      "elk",
+      "male",
+      "goal",
+      "long",
+      "run",
+      "rebuild",
+      "cts",
+      "endurance",
+      "long-run",
+      "aerobic"
+    ]
+  },
+  "session_008": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_008.svg",
+    "alt_text": "Lynx line avatar for Event-Specific Progression Run",
+    "tags": [
+      "session",
+      "lynx",
+      "female",
+      "progression",
+      "rebuild",
+      "cts",
+      "endurance",
+      "long-run",
+      "aerobic"
+    ]
+  },
+  "session_009": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_009.svg",
+    "alt_text": "Falcon line avatar for Threshold Intervals",
+    "tags": [
+      "session",
+      "falcon",
+      "male",
+      "threshold",
+      "intervals",
+      "rebuild",
+      "80-20-endurance",
+      "tempo",
+      "controlled-intensity"
+    ]
+  },
+  "session_010": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_010.svg",
+    "alt_text": "Mountain swallow line avatar for Aerobic Power Intervals",
+    "tags": [
+      "session",
+      "mountain-swallow",
+      "female",
+      "aerobic",
+      "power",
+      "rebuild",
+      "swap",
+      "aerobic-power",
+      "vo2max",
+      "high-intensity"
+    ]
+  },
+  "session_011": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_011.svg",
+    "alt_text": "Antelope line avatar for Relaxed Economy Strides",
+    "tags": [
+      "session",
+      "antelope",
+      "male",
+      "strides",
+      "rebuild",
+      "swap",
+      "speed",
+      "coordination",
+      "rhythm"
+    ]
+  },
+  "session_012": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_012.svg",
+    "alt_text": "Wild horse line avatar for Fatigue-Resistance Fartlek",
+    "tags": [
+      "session",
+      "wild-horse",
+      "female",
+      "fartlek",
+      "rebuild",
+      "swap",
+      "aerobic-power",
+      "vo2max",
+      "high-intensity"
+    ]
+  },
+  "session_013": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_013.svg",
+    "alt_text": "Hill stag line avatar for Lydiard Hill Circuit",
+    "tags": [
+      "session",
+      "hill-stag",
+      "male",
+      "hill",
+      "circuit",
+      "rebuild",
+      "lydiard",
+      "hills",
+      "power",
+      "neuromuscular"
+    ]
+  },
+  "session_014": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_014.svg",
+    "alt_text": "Mountain goat kid line avatar for Short Hill Power Repeats",
+    "tags": [
+      "session",
+      "mountain-goat-kid",
+      "female",
+      "short",
+      "hill",
+      "power",
+      "rebuild",
+      "lydiard",
+      "hills",
+      "neuromuscular"
+    ]
+  },
+  "session_015": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_015.svg",
+    "alt_text": "Burro line avatar for Practical Power-Hiking Practice",
+    "tags": [
+      "session",
+      "burro",
+      "male",
+      "power",
+      "hiking",
+      "rebuild",
+      "sharman-ultra",
+      "trail",
+      "mountain",
+      "skills"
+    ]
+  },
+  "session_016": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_016.svg",
+    "alt_text": "Wolfhound line avatar for Ultra Execution Long Run",
+    "tags": [
+      "session",
+      "wolfhound",
+      "female",
+      "ultra",
+      "execution",
+      "rebuild",
+      "sharman-ultra",
+      "specificity",
+      "race"
+    ]
+  },
+  "session_017": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_017.svg",
+    "alt_text": "Raven runner line avatar for Race-Simulation Decision Rehearsal",
+    "tags": [
+      "session",
+      "raven-runner",
+      "male",
+      "race",
+      "simulation",
+      "rebuild",
+      "sharman-ultra",
+      "specificity",
+      "execution"
+    ]
+  },
+  "session_018": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_018.svg",
+    "alt_text": "Crane line avatar for Controlled Steady Run",
+    "tags": [
+      "session",
+      "crane",
+      "female",
+      "steady",
+      "run",
+      "rebuild",
+      "80-20-endurance",
+      "threshold",
+      "tempo",
+      "controlled-intensity"
+    ]
+  },
+  "session_019": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_019.svg",
+    "alt_text": "Chamois kid line avatar for Controlled Downhill Skills Run",
+    "tags": [
+      "session",
+      "chamois-kid",
+      "male",
+      "downhill",
+      "skills",
+      "rebuild",
+      "common",
+      "trail",
+      "mountain"
+    ]
+  },
+  "session_020": {
+    "level": "session",
+    "asset_path": "assets/avatars/session/session_020.svg",
+    "alt_text": "Songbird line avatar for Taper Activation Session",
+    "tags": [
+      "session",
+      "songbird",
+      "female",
+      "taper",
+      "activation",
+      "rebuild",
+      "cts",
+      "lydiard",
+      "speed",
+      "coordination",
+      "rhythm"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Unassigned macro mountain guardian avatar</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 289L139 172L174 231L197 194L252 289" stroke-width="8"/>
+    <path d="M104 289H272" stroke-width="7"/>
+    <path d="M126 222L140 234L155 208M186 225L198 238L211 216" stroke="#74869A" stroke-width="4"/>
+    <path d="M142 306C167 292 205 292 230 306" stroke-width="6"/>
+    <path d="M159 323H214" stroke="#74869A" stroke-width="4"/>
+    <path d="M159 150C145 128 146 102 162 80C179 103 179 129 164 151" stroke-width="7"/>
+    <path d="M152 111C159 106 166 106 173 111M151 129C160 125 168 125 176 129" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.9" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

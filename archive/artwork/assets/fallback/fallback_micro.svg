@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Unassigned micro compass guardian avatar</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="168" cy="192" r="72" stroke-width="8"/>
+    <path d="M198 136L177 204L116 236L139 169L198 136Z" stroke-width="7"/>
+    <path d="M168 91V114M168 270V293M67 192H91M245 192H269" stroke-width="6"/>
+    <path d="M133 127C144 119 158 115 173 116M128 257C144 266 164 270 184 266" stroke="#74869A" stroke-width="4"/>
+    <path d="M168 71C155 52 157 29 173 13C188 34 187 55 172 72" stroke-width="6"/>
+    <path d="M160 40C166 37 174 37 181 41" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.9" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

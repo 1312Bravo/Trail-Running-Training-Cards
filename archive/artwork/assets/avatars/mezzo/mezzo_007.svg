@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Kestrel avatar for Economy And Speed Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M81 250C117 206 159 177 209 163C238 155 262 159 282 176C244 184 213 199 189 221C162 246 127 256 81 250" stroke-width="8"/>
+    <path d="M173 224C181 194 199 169 227 148C225 176 213 201 191 225C174 243 163 261 158 281" stroke-width="7"/>
+    <path d="M122 226C146 219 168 207 188 191M143 245C165 238 183 228 198 214" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

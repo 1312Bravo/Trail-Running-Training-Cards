@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Trail hound avatar for Intensity Distribution Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M76 284C105 238 149 215 207 219C237 222 259 237 272 262C249 276 219 277 189 264C168 286 138 294 108 286C94 283 83 287 76 284" stroke-width="8"/>
+    <path d="M145 218C133 192 138 162 159 137L181 171C196 164 213 165 228 174L250 152C247 181 231 204 204 218" stroke-width="7"/>
+    <path d="M177 189C187 184 198 185 207 192M216 238C232 241 246 237 256 228" stroke-width="4"/>
+    <path d="M108 286C119 305 120 321 113 332M189 264C199 284 201 307 195 330" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

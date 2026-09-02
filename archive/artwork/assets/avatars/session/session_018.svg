@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Crane avatar for Controlled Steady Run</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M126 303C150 269 163 230 164 188C164 160 172 138 188 121C201 151 201 181 188 210C177 235 168 264 165 303" stroke-width="8"/>
+    <path d="M188 121C212 104 240 99 268 108C245 121 222 130 197 135" stroke-width="6"/>
+    <path d="M153 248C132 229 105 220 73 220C102 243 128 259 153 267" stroke-width="6"/>
+    <path d="M164 303L143 329M166 303L187 329" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

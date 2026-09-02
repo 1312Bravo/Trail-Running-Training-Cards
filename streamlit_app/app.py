@@ -62,10 +62,12 @@ def set_active_card(card_id: str) -> None:
     st.session_state.active_philosophy_profile_id = None
     st.session_state.active_philosophy_sources_profile_id = None
     st.session_state.active_card_id = card_id
+    st.session_state.active_card_history = []
 
 
 def clear_active_card() -> None:
     st.session_state.active_card_id = None
+    st.session_state.active_card_history = []
 
 
 def set_active_philosophy(profile_id: str) -> None:
@@ -192,6 +194,7 @@ def init_state() -> None:
     st.session_state.setdefault("today_search_input", "")
     st.session_state.setdefault("today_search_terms", [])
     st.session_state.setdefault("active_card_id", None)
+    st.session_state.setdefault("active_card_history", [])
     st.session_state.setdefault("active_philosophy_profile_id", None)
     st.session_state.setdefault("active_philosophy_sources_profile_id", None)
     st.session_state.setdefault("app_mode", APP_MODES[0])

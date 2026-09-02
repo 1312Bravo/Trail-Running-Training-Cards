@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Musk ox avatar for Muscular Endurance Block</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 279C99 232 142 211 199 218C235 222 263 243 273 274C246 293 207 297 172 280C145 298 108 300 72 279" stroke-width="8"/>
+    <path d="M141 217C126 192 131 162 153 141C166 154 181 159 197 156C214 153 232 143 247 128C252 159 240 187 214 208" stroke-width="8"/>
+    <path d="M153 143C139 129 120 124 101 132M244 130C260 121 278 120 294 128" stroke-width="6"/>
+    <path d="M173 178C185 174 198 176 208 184M209 236C229 240 246 235 258 224" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

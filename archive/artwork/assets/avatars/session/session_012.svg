@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Wild horse avatar for Fatigue-Resistance Fartlek</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 285C105 241 151 220 208 226C243 230 269 249 281 278C250 296 213 296 178 279C151 300 110 303 72 285" stroke-width="8"/>
+    <path d="M151 225C137 198 142 169 166 145C178 161 194 168 212 168C232 168 251 159 268 144C266 176 248 203 219 221" stroke-width="7"/>
+    <path d="M163 151C151 142 138 138 124 140M183 197C193 193 204 195 213 203M219 250C238 253 254 248 266 238" stroke-width="4"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="292" r="10"/>
+    <path d="M55 302V326M45 315H65"/>
+  </g>
+</svg>

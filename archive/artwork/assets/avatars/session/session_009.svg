@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Falcon avatar for Threshold Intervals</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M77 242C116 195 160 166 213 153C245 145 270 150 289 169C250 174 218 189 193 213C163 241 125 251 77 242" stroke-width="8"/>
+    <path d="M172 217C181 187 201 162 231 144C228 172 215 197 191 220C173 238 161 257 156 280" stroke-width="7"/>
+    <path d="M226 149C247 137 270 136 291 145" stroke-width="5"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

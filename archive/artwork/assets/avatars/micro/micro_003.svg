@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Little owl avatar for Structured Intensity Distribution Week</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M116 282C111 237 128 197 161 176C193 195 213 234 209 279C183 298 145 299 116 282" stroke-width="8"/>
+    <path d="M128 194L142 158L161 179L184 158L199 195" stroke-width="7"/>
+    <path d="M139 225C148 219 157 219 166 225M166 225C176 219 186 219 195 225M151 250C160 256 170 256 179 250" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>

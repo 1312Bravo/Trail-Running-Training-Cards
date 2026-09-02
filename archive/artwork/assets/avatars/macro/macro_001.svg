@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <title>Snow leopard avatar for Foundation And Consistency</title>
+  <g stroke="#34475A" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 268C111 225 157 205 207 213C240 218 261 239 264 263C267 291 244 309 208 306C180 304 159 292 142 274C120 284 96 282 78 268" stroke-width="8"/>
+    <path d="M142 210C135 181 143 151 165 129L185 156C200 151 215 153 228 162L247 138C248 170 235 194 211 209" stroke-width="8"/>
+    <path d="M171 175C181 169 193 170 202 177M209 226C225 231 241 227 251 217M221 211C235 207 248 211 257 220" stroke-width="4"/>
+    <path d="M102 278C116 298 118 316 111 331M190 305C199 316 201 325 200 333" stroke="#74869A" stroke-width="3"/>
+  </g>
+  <g opacity="0.95" stroke="#8F8878" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="300" r="10"/>
+    <path d="M62 293L80 275M69 275H80V286"/>
+  </g>
+</svg>
