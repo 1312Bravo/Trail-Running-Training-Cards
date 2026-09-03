@@ -81,8 +81,17 @@ def publish_library(
     if archive_metadata.exists():
         client.upload_file(archive_metadata, root_folder_id, archive_metadata.name, "application/json")
     for card_type in CARD_TYPE_FOLDERS:
-        for path in sorted((source_dir / "cards" / card_type).glob("*.json")):
-            client.upload_file(path, card_folder_ids[card_type], path.name, "application/json")
+        folder_cache = {(): card_folder_ids[card_type]}
+        for path in sorted((source_dir / "cards" / card_type).rglob("*.json")):
+            relative_parent = path.relative_to(source_dir / "cards" / card_type).parent
+            parent_parts = relative_parent.parts
+            parent_folder_id = _ensure_drive_folder_path(
+                client,
+                card_folder_ids[card_type],
+                parent_parts,
+                folder_cache,
+            )
+            client.upload_file(path, parent_folder_id, path.name, "application/json")
     return GoogleDriveLibraryConfig(
         library_name=library_name,
         root_folder_id=root_folder_id,
@@ -141,7 +150,7 @@ def _checksums(root_dir: Path) -> dict[str, str]:
 
 def _verify_raw_library(library_dir: Path) -> int:
     manifest = read_json(library_dir / MANIFEST_FILE_NAME)
-    card_paths = list((library_dir / manifest["cards_root"]).glob("*/*.json"))
+    card_paths = list((library_dir / manifest["cards_root"]).rglob("*.json"))
     expected_count = manifest.get("card_count")
 
     if not isinstance(expected_count, int) or expected_count != len(card_paths):
@@ -150,6 +159,29 @@ def _verify_raw_library(library_dir: Path) -> int:
         )
 
     return len(card_paths)
+
+
+def _ensure_drive_folder_path(
+    client,
+    root_folder_id: str,
+    path_parts: tuple[str, ...],
+    folder_cache: dict[tuple[str, ...], str],
+) -> str:
+    if path_parts in folder_cache:
+        return folder_cache[path_parts]
+
+    current_parts: tuple[str, ...] = ()
+    current_folder_id = root_folder_id
+
+    for part in path_parts:
+        current_parts = (*current_parts, part)
+        if current_parts not in folder_cache:
+            current_folder_id = client.create_folder(part, current_folder_id)
+            folder_cache[current_parts] = current_folder_id
+        else:
+            current_folder_id = folder_cache[current_parts]
+
+    return current_folder_id
 
 
 def _reset_directory(path: Path) -> None:

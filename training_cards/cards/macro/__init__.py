@@ -1,16 +1,17 @@
-from .base_development import base_development
-from .build_phase import build_phase
-from .peak_and_taper import peak_and_taper
-from .race_specific_preparation import race_specific_preparation
-from .recovery_and_reset import recovery_and_reset
-from .return_to_consistency import return_to_consistency
+from .mainstream_endurance.mainstream_return_to_consistency import mainstream_return_to_consistency
+from .mainstream_endurance.mainstream_base_development import mainstream_base_development
+from .mainstream_endurance.mainstream_build_phase import mainstream_build_phase
+from .mainstream_endurance.mainstream_race_specific_preparation import mainstream_race_specific_preparation
+from .mainstream_endurance.mainstream_peak_and_taper import mainstream_peak_and_taper
+from .mainstream_endurance.mainstream_recovery_and_reset import mainstream_recovery_and_reset
+from .mainstream_endurance.mainstream_evidence_informed_development import mainstream_evidence_informed_development
 
 MACRO_CARDS = [
-    return_to_consistency,
-    base_development,
-    build_phase,
-    race_specific_preparation,
-    peak_and_taper,
-    recovery_and_reset,
+    mainstream_return_to_consistency,
+    mainstream_base_development,
+    mainstream_build_phase,
+    mainstream_race_specific_preparation,
+    mainstream_peak_and_taper,
+    mainstream_recovery_and_reset,
+    mainstream_evidence_informed_development,
 ]
-

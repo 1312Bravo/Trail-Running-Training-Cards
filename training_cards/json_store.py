@@ -17,6 +17,7 @@ SCHEMA_VERSION = "1.2.0"
 LIBRARY_VERSION = "0.3.0"
 LAST_UPDATED = "2026-08-17"
 CARDS_ROOT = "cards"
+MULTI_PROFILE_CARD_FOLDER = "multi_profile"
 
 CARD_TYPE_FOLDER = {
     "macro": "macro",
@@ -24,6 +25,17 @@ CARD_TYPE_FOLDER = {
     "micro": "micro",
     "session": "session",
 }
+
+
+def card_profile_folder(card: BaseTrainingCard) -> str:
+    if len(card.philosophy_profile_ids) == 1:
+        return card.philosophy_profile_ids[0]
+
+    return MULTI_PROFILE_CARD_FOLDER
+
+
+def card_storage_path(card: BaseTrainingCard) -> Path:
+    return Path(CARD_TYPE_FOLDER[str(card.card_type)]) / card_profile_folder(card) / f"{card.slug}.json"
 
 # Define how consumers should present the card library without owning card meaning.
 def build_display_config() -> dict[str, Any]:
@@ -131,6 +143,8 @@ def build_manifest(cards: list[BaseTrainingCard]) -> dict[str, Any]:
             "slug": card.slug,
             "card_type": str(card.card_type),
             "title": card.title,
+            "profile_folder": card_profile_folder(card),
+            "storage_path": str(card_storage_path(card)).replace("\\", "/"),
         }
         for card in sorted(cards, key = lambda card: card.id)
     ]
@@ -221,12 +235,11 @@ def write_library_bundle(
     write_json(bundle_path, bundle)
     return bundle_path
 
-# Write cards as one JSON file per card, grouped by planning level.
+# Write cards as one JSON file per card, grouped by planning level and profile folder.
 # This is used for local cache/export now and can support cloud upload later.
 def export_cards_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> None:
     for card in cards:
-        type_dir = output_dir / CARD_TYPE_FOLDER[str(card.card_type)]
-        write_json(type_dir / f"{card.slug}.json", card_to_dict(card))
+        write_json(output_dir / card_storage_path(card), card_to_dict(card))
 
 # Write a complete local copy of the cloud-style library: manifest plus cards.
 def export_card_library_to_json(cards: list[BaseTrainingCard], output_dir: Path) -> None:
@@ -238,12 +251,13 @@ def export_card_library_to_json(cards: list[BaseTrainingCard], output_dir: Path)
     export_cards_to_json(cards, output_dir / CARDS_ROOT)
     write_library_bundle(output_dir, cards, manifest, display_config)
 
-# Load JSON card files under macro/mezzo/micro/session folders and validate
-# them by rebuilding the dataclass objects.
+# Load JSON card files under macro/mezzo/micro/session folders and validate them
+# by rebuilding the dataclass objects. Nested profile folders are preferred, but
+# this still reads older flat type folders while old archives exist.
 def load_cards_from_json(input_dir: Path) -> list[BaseTrainingCard]:
     cards = []
 
-    for path in sorted(input_dir.glob("*/*.json")):
+    for path in sorted(input_dir.rglob("*.json")):
         cards.append(card_from_dict(read_json(path)))
 
     return cards

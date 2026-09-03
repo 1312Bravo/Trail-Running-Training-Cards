@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 
+from training_cards.philosophy_profiles import MAINSTREAM_ENDURANCE
 from training_cards.pathway import (
     build_pathway_index,
     validate_pathway_publish_ready,
@@ -135,6 +136,7 @@ def _macro(card_id: str, references: list[CardReference] | None = None) -> Macro
         title=card_id,
         card_type=CardType.MACRO,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],
@@ -148,6 +150,7 @@ def _mezzo(card_id: str, references: list[CardReference] | None = None) -> Mezzo
         title=card_id,
         card_type=CardType.MEZZO,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],
@@ -161,6 +164,7 @@ def _micro(card_id: str, references: list[CardReference] | None = None) -> Micro
         title=card_id,
         card_type=CardType.MICRO,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],
@@ -174,6 +178,7 @@ def _session(card_id: str, references: list[CardReference] | None = None) -> Ses
         title=card_id,
         card_type=CardType.SESSION,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],

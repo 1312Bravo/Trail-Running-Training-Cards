@@ -1,22 +1,27 @@
-from .aerobic_power_block import aerobic_power_block
-from .easy_volume_block import easy_volume_block
-from .endurance_development_block import endurance_development_block
-from .fueling_practice_block import fueling_practice_block
-from .long_endurance_block import long_endurance_block
-from .race_practice_block import race_practice_block
-from .recovery_block import recovery_block
-from .strength_endurance_block import strength_endurance_block
-from .threshold_development_block import threshold_development_block
+from .mainstream_endurance.mainstream_easy_volume_block import mainstream_easy_volume_block
+from .mainstream_endurance.mainstream_endurance_development_block import mainstream_endurance_development_block
+from .mainstream_endurance.mainstream_strength_endurance_block import mainstream_strength_endurance_block
+from .mainstream_endurance.mainstream_threshold_development_block import mainstream_threshold_development_block
+from .mainstream_endurance.mainstream_aerobic_power_block import mainstream_aerobic_power_block
+from .mainstream_endurance.mainstream_long_endurance_block import mainstream_long_endurance_block
+from .mainstream_endurance.mainstream_race_practice_block import mainstream_race_practice_block
+from .mainstream_endurance.mainstream_fueling_practice_block import mainstream_fueling_practice_block
+from .mainstream_endurance.mainstream_recovery_block import mainstream_recovery_block
+from .mainstream_endurance.mainstream_progressive_aerobic_development_block import mainstream_progressive_aerobic_development_block
+from .mainstream_endurance.mainstream_controlled_quality_development_block import mainstream_controlled_quality_development_block
+from .mainstream_endurance.mainstream_recovery_and_adaptation_block import mainstream_recovery_and_adaptation_block
 
 MEZZO_CARDS = [
-    easy_volume_block,
-    endurance_development_block,
-    strength_endurance_block,
-    threshold_development_block,
-    aerobic_power_block,
-    long_endurance_block,
-    race_practice_block,
-    fueling_practice_block,
-    recovery_block,
+    mainstream_easy_volume_block,
+    mainstream_endurance_development_block,
+    mainstream_strength_endurance_block,
+    mainstream_threshold_development_block,
+    mainstream_aerobic_power_block,
+    mainstream_long_endurance_block,
+    mainstream_race_practice_block,
+    mainstream_fueling_practice_block,
+    mainstream_recovery_block,
+    mainstream_progressive_aerobic_development_block,
+    mainstream_controlled_quality_development_block,
+    mainstream_recovery_and_adaptation_block,
 ]
-

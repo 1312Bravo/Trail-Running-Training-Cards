@@ -77,6 +77,12 @@ def download_cloud_library(
         for item in client.list_folder(folder_id):
             if item.file_or_folder == "file" and item.title.endswith(".json"):
                 client.download_file(item.id, type_dir / item.title)
+            elif item.file_or_folder == "folder":
+                profile_dir = type_dir / item.title
+                profile_dir.mkdir(parents = True, exist_ok = True)
+                for profile_item in client.list_folder(item.id):
+                    if profile_item.file_or_folder == "file" and profile_item.title.endswith(".json"):
+                        client.download_file(profile_item.id, profile_dir / profile_item.title)
 
     if validate_download:
         refresh_library_bundle(config.local_cache_dir)
@@ -109,9 +115,26 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
 
     for card_type, folder_id in config.card_type_folder_ids.items():
         folder_items = client.list_folder(folder_id)
+        profile_folder_ids = {
+            item.title: item.id
+            for item in folder_items
+            if item.file_or_folder == "folder"
+        }
 
-        for path in sorted((cards_dir / card_type).glob("*.json")):
-            _upsert_file(client, path, folder_id, path.name, folder_items)
+        for path in sorted((cards_dir / card_type).rglob("*.json")):
+            relative_path = path.relative_to(cards_dir / card_type)
+            parent_folder_id = folder_id
+            existing_items = folder_items
+
+            if len(relative_path.parts) > 1:
+                profile_folder_name = relative_path.parts[0]
+                parent_folder_id = profile_folder_ids.get(profile_folder_name)
+                if parent_folder_id is None:
+                    parent_folder_id = client.create_folder(profile_folder_name, folder_id)
+                    profile_folder_ids[profile_folder_name] = parent_folder_id
+                existing_items = client.list_folder(parent_folder_id)
+
+            _upsert_file(client, path, parent_folder_id, path.name, existing_items)
 
 
 # Export seed cards into local cache, validate them, then upload to Drive.
@@ -150,7 +173,7 @@ def _clear_cached_json_files(cache_dir: Path) -> None:
     if bundle_path.exists():
         bundle_path.unlink()
 
-    for path in (cache_dir / CARDS_ROOT).glob("*/*.json"):
+    for path in (cache_dir / CARDS_ROOT).rglob("*.json"):
         path.unlink()
 
 

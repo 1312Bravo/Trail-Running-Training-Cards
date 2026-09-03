@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 
+from training_cards.philosophy_profiles import ENDURANCE_80_20, MAINSTREAM_ENDURANCE
 from training_cards.schemas import (
     CardType,
     MacroCard,
@@ -41,11 +42,11 @@ class PhilosophyProfileTests(unittest.TestCase):
             _macro(philosophy_profile_ids=["common"])
 
     def test_profile_ids_have_display_names(self) -> None:
-        self.assertEqual("80/20 Endurance", philosophy_profile_display_name("80_20_endurance"))
-        self.assertEqual("Mainstream Endurance", philosophy_profile_display_name("mainstream_endurance"))
+        self.assertEqual("80/20 Endurance", philosophy_profile_display_name(ENDURANCE_80_20))
+        self.assertEqual("Mainstream Endurance", philosophy_profile_display_name(MAINSTREAM_ENDURANCE))
 
     def test_mainstream_endurance_is_a_regular_profile(self) -> None:
-        self.assertIn("mainstream_endurance", PHILOSOPHY_PROFILES)
+        self.assertIn(MAINSTREAM_ENDURANCE, PHILOSOPHY_PROFILES)
 
 
 def _macro(philosophy_profile_ids: list[str] | None = None) -> MacroCard:

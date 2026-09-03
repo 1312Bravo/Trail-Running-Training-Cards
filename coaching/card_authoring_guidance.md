@@ -6,6 +6,7 @@ Use this file with:
 
 - `coaching/coaching_foundation.md`
 - `coaching/card_hierarchy.md`
+- `coaching/card_storage_architecture.md`
 - `coaching/philosophies/<profile>/philosophy.md`
 - `coaching/philosophies/<profile>/sources.md`
 
@@ -20,6 +21,7 @@ Before writing or rebuilding a card, check:
 - the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
 - any relevant source record in `coaching/philosophies/<profile>/sources.md`
 - the `philosophy_profile_ids` value: use the exact directory names of every actual training-method profile that materially shaped the card
+- in Python-authored seed cards, use the profile ID constants from `training_cards/philosophy_profiles.py` rather than raw profile strings
 - choose the profile ID from its documented method, source record, and actual influence on the card
 - do not use `common`; the shared coaching foundation is always-on and is not a card-level philosophy profile
 - whether the card should be broad and reusable or more specific inside the details only
@@ -66,7 +68,7 @@ A good card should make it easy to understand:
 ## Field Discipline
 
 - `summary`: one preview-safe sentence for quick comparison.
-- `philosophy_profile_ids`: structured training-method provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. Profile IDs match directories under `coaching/philosophies/` exactly. `common` is not valid card provenance.
+- `philosophy_profile_ids`: structured training-method provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. Profile IDs match directories under `coaching/philosophies/` exactly. In Python cards, use constants such as `MAINSTREAM_ENDURANCE`, `CTS`, `EVOKE_ENDURANCE`, `SWAP`, `SHARMAN_ULTRA`, `ENDURANCE_80_20`, and `LYDIARD`. Exported JSON stores the literal string values. `common` is not valid card provenance.
 - `purpose`: the coaching job of the card.
 - `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
 - `training_profile`: the actual stress pattern, feel, terrain, and loading demand.
@@ -108,6 +110,20 @@ Cards should be connected with structured references rather than loose string li
 Use `parent` and `child` only for directly adjacent planning levels. Use `previous`, `next`, and `alternative` only between cards at the same planning level. Use `support` for a meaningful cross-level connection that is not part of the direct Macro -> Mezzo -> Micro -> Session pathway.
 
 Use short tags on references when useful. Do not turn references into long explanations; longer reasoning belongs in the card content.
+
+## Naming And Storage
+
+Visible card titles should be readable coaching names. They do not need to include the philosophy name unless that is genuinely part of the card identity.
+
+Implementation identifiers need stronger uniqueness:
+
+- Python filenames for philosophy-specific variants should use a profile prefix when the card concept could exist in more than one philosophy, such as `mainstream_easy_aerobic_run.py`.
+- Python object names should follow the same uniqueness pattern when they are exported through a package-level registry.
+- Card `slug` values should also stay unique because cloud JSON files are written as `<slug>.json` inside the card-type folder.
+- Card `id` values remain the primary stable identity for references and app behavior.
+- Cloud JSON stores `philosophy_profile_ids` as literal strings, not Python constants, so it stays portable outside the Python authoring environment.
+
+Example: a mainstream and a Lydiard version may both display as `Easy Aerobic Run`, but their Python filenames, object names, slugs, IDs, and `philosophy_profile_ids` should make the distinction unambiguous.
 
 ## Output Expectations
 

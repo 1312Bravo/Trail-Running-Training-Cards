@@ -1,22 +1,27 @@
-from .aerobic_maintenance_week import aerobic_maintenance_week
-from .back_to_back_focus_week import back_to_back_focus_week
-from .intensity_support_week import intensity_support_week
-from .long_run_focus_week import long_run_focus_week
-from .race_practice_week import race_practice_week
-from .recovery_week import recovery_week
-from .strength_support_week import strength_support_week
-from .taper_week import taper_week
-from .volume_progression_week import volume_progression_week
+from .mainstream_endurance.mainstream_recovery_week import mainstream_recovery_week
+from .mainstream_endurance.mainstream_aerobic_maintenance_week import mainstream_aerobic_maintenance_week
+from .mainstream_endurance.mainstream_volume_progression_week import mainstream_volume_progression_week
+from .mainstream_endurance.mainstream_strength_support_week import mainstream_strength_support_week
+from .mainstream_endurance.mainstream_intensity_support_week import mainstream_intensity_support_week
+from .mainstream_endurance.mainstream_long_run_focus_week import mainstream_long_run_focus_week
+from .mainstream_endurance.mainstream_back_to_back_focus_week import mainstream_back_to_back_focus_week
+from .mainstream_endurance.mainstream_race_practice_week import mainstream_race_practice_week
+from .mainstream_endurance.mainstream_taper_week import mainstream_taper_week
+from .mainstream_endurance.mainstream_aerobic_progression_week import mainstream_aerobic_progression_week
+from .mainstream_endurance.mainstream_quality_and_recovery_week import mainstream_quality_and_recovery_week
+from .mainstream_endurance.mainstream_consolidation_week import mainstream_consolidation_week
 
 MICRO_CARDS = [
-    recovery_week,
-    aerobic_maintenance_week,
-    volume_progression_week,
-    strength_support_week,
-    intensity_support_week,
-    long_run_focus_week,
-    back_to_back_focus_week,
-    race_practice_week,
-    taper_week,
+    mainstream_recovery_week,
+    mainstream_aerobic_maintenance_week,
+    mainstream_volume_progression_week,
+    mainstream_strength_support_week,
+    mainstream_intensity_support_week,
+    mainstream_long_run_focus_week,
+    mainstream_back_to_back_focus_week,
+    mainstream_race_practice_week,
+    mainstream_taper_week,
+    mainstream_aerobic_progression_week,
+    mainstream_quality_and_recovery_week,
+    mainstream_consolidation_week,
 ]
-
