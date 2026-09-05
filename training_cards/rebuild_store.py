@@ -8,6 +8,7 @@ from pathlib import Path
 from training_cards.cloud_config import GoogleDriveLibraryConfig
 from training_cards.cloud_store import download_cloud_library
 from training_cards.json_store import (
+    CARDS_ROOT,
     DISPLAY_CONFIG_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
     MANIFEST_FILE_NAME,
@@ -96,6 +97,77 @@ def publish_library(
         library_name=library_name,
         root_folder_id=root_folder_id,
         root_folder_url=f"https://drive.google.com/drive/folders/{root_folder_id}",
+        cards_folder_id=cards_folder_id,
+        macro_folder_id=card_folder_ids["macro"],
+        mezzo_folder_id=card_folder_ids["mezzo"],
+        micro_folder_id=card_folder_ids["micro"],
+        session_folder_id=card_folder_ids["session"],
+    )
+
+
+def replace_active_library_contents(
+    client,
+    source_dir: Path,
+    active_config: GoogleDriveLibraryConfig,
+) -> GoogleDriveLibraryConfig:
+    load_card_library_from_json(source_dir)
+    root_items = client.list_folder(active_config.root_folder_id)
+    expected_root_names = {
+        MANIFEST_FILE_NAME,
+        DISPLAY_CONFIG_FILE_NAME,
+        LIBRARY_BUNDLE_FILE_NAME,
+        CARDS_ROOT,
+    }
+    replace_items = [
+        item
+        for item in root_items
+        if item.title in expected_root_names
+    ]
+
+    unexpected_items = [
+        item.title
+        for item in root_items
+        if item.title not in expected_root_names
+    ]
+    if unexpected_items:
+        raise ValueError(
+            "Active library root contains unexpected items; refusing destructive replacement: "
+            + ", ".join(sorted(unexpected_items))
+        )
+
+    for item in replace_items:
+        client.delete_file(item.id)
+
+    cards_folder_id = client.create_folder(CARDS_ROOT, active_config.root_folder_id)
+    card_folder_ids = {
+        card_type: client.create_folder(card_type, cards_folder_id)
+        for card_type in CARD_TYPE_FOLDERS
+    }
+
+    for file_name in (MANIFEST_FILE_NAME, DISPLAY_CONFIG_FILE_NAME, LIBRARY_BUNDLE_FILE_NAME):
+        client.upload_file(source_dir / file_name, active_config.root_folder_id, file_name, "application/json")
+
+    for card_type in CARD_TYPE_FOLDERS:
+        folder_cache = {(): card_folder_ids[card_type]}
+        card_type_dir = source_dir / CARDS_ROOT / card_type
+
+        if not card_type_dir.exists():
+            continue
+
+        for path in sorted(card_type_dir.rglob("*.json")):
+            relative_parent = path.relative_to(card_type_dir).parent
+            parent_folder_id = _ensure_drive_folder_path(
+                client,
+                card_folder_ids[card_type],
+                relative_parent.parts,
+                folder_cache,
+            )
+            client.upload_file(path, parent_folder_id, path.name, "application/json")
+
+    return GoogleDriveLibraryConfig(
+        library_name=active_config.library_name,
+        root_folder_id=active_config.root_folder_id,
+        root_folder_url=active_config.root_folder_url,
         cards_folder_id=cards_folder_id,
         macro_folder_id=card_folder_ids["macro"],
         mezzo_folder_id=card_folder_ids["mezzo"],

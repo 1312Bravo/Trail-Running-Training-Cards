@@ -39,6 +39,18 @@ Each card should answer these questions clearly:
 - What are the main risks or mistakes?
 - What cards could logically come before or after it?
 
+## Philosophy Specificity Standard
+
+Use `mainstream_endurance` for the baseline evidence-informed version of a card type. Create a named-philosophy version only when that philosophy creates a meaningful distinction from the matching `mainstream_endurance` card.
+
+The distinction must be large enough that it would affect how the app chooses, explains, structures, filters, or sequences the card. This applies at every level: macro, mezzo, micro, and session.
+
+Use coaching common sense rather than a mechanical checklist. A separate named-philosophy card is justified when a coach using that philosophy would make a noticeably different coaching decision from a mainstream evidence-informed coach for the same athlete and situation.
+
+Small emphasis differences should stay in the relevant philosophy notes, card explanation, or lower-level cards. If the philosophy would only produce the same card with different language, tone, or minor watchouts, do not create a duplicate.
+
+When unsure, default to no separate named-philosophy card until the distinction becomes clear during coaching review or card drafting.
+
 ## Card Structure Standard
 
 When using the card fields, write them because they support real coaching decisions, not because they look tidy in code.

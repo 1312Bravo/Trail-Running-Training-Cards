@@ -38,21 +38,22 @@ For each card level:
 - First define the baseline endurance type taxonomy.
 - Then build the `mainstream_endurance` version for the baseline types.
 - Then review each baseline type through each named philosophy.
-- Create a philosophy-specific card only when the philosophy changes the coaching logic, not merely the wording.
+- Create a philosophy-specific card only when the philosophy creates a meaningful distinction from the `mainstream_endurance` version.
 - After baseline types are reviewed, add philosophy-specific special types that are not part of the mainstream taxonomy.
 
-## Philosophy Review Rule
+For macro cards, build the accepted `mainstream_endurance` baseline cards first. Philosophy review should compare each named philosophy against those concrete baseline cards, not against vague type names alone.
 
-A philosophy-specific card is justified when the philosophy changes at least one of these:
+## Philosophy Specificity Standard
 
-- the purpose of the phase
-- the training emphasis
-- the sequencing logic
-- the progression or regression rules
-- the constraints or watchouts
-- the way trail or mountain specificity is interpreted
+A named-philosophy card should exist only when the philosophy creates a meaningful distinction from the matching `mainstream_endurance` card. The distinction must be large enough that it would affect how the app chooses, explains, structures, filters, or sequences the card.
 
-If the philosophy would only produce the same card with different language, do not create a duplicate.
+This standard applies to every card level: macro, mezzo, micro, and session.
+
+Use coaching common sense rather than a mechanical checklist. A separate named-philosophy card is justified when a coach using that philosophy would make a noticeably different coaching decision from a mainstream evidence-informed coach for the same athlete and situation.
+
+Small emphasis differences should stay in the relevant philosophy notes, card explanation, or lower-level cards. If the philosophy would only produce the same card with different language, tone, or minor watchouts, do not create a duplicate.
+
+When unsure, default to no separate named-philosophy card until the distinction becomes clear during coaching review or card drafting.
 
 ## Macro Level
 
@@ -83,15 +84,15 @@ These macro types are accepted as useful broad training phases. They are generat
 
 | Type ID | Type name | Coach decision | About this phase | Mainstream status |
 | --- | --- | --- | --- | --- |
-| `macro_type_return_to_consistency` | Return To Consistency | Keep | This phase is used when the athlete first needs to restore dependable training rhythm, frequency, and basic load tolerance. The coaching priority is not to chase fitness quickly, but to make running feel repeatable again and to rebuild confidence in the routine. Training should be simple, mostly easy, and conservative with intensity, terrain, and downhill cost. Useful supporting blocks may include consistency, easy aerobic running, recovery, low-risk strength support, and gradual reintroduction of trail exposure. | Build mainstream card |
-| `macro_type_base_development` | Base Development | Keep | This phase builds the durable foundation that later training depends on: broad aerobic capacity, consistent routine, basic strength support, movement competence, and the ability to absorb progressive load. It absorbs the old separate ideas of general preparation and aerobic development at macro level because, for broad planning, these belong to one foundation-building phase. Training should avoid premature race specificity, excessive intensity, and chronic moderate-hard work. Trail and mountain context can be introduced gradually through varied terrain, climbing, hiking, and controlled descents without making every run race-specific. | Build mainstream card |
-| `macro_type_capacity_development` | Capacity Development | Keep | This phase follows a sufficient base and develops stronger performance capacities through purposeful block emphases. The macro decision is that the athlete is ready for more directed training, while the exact emphasis, such as threshold, aerobic power, strength endurance, long-endurance tolerance, or climbing durability, is selected at mezzo level. The phase should create meaningful adaptation without trying to develop every quality at once. Good coaching protects aerobic support and recovery while increasing the specificity or intensity of selected stressors. | Build mainstream card |
-| `macro_type_race_specific_preparation` | Race-Specific Preparation | Keep | This phase converts developed fitness into the capabilities and decisions required by the goal event or objective. It should emphasize terrain demands, pacing, fueling, equipment, environmental conditions, technical confidence, and race-execution rehearsal in proportion to the actual goal. The phase should not abandon general capacity or recovery, and it should not confuse copying race terrain with preparing the athlete well. In trail and mountain running, this phase often changes substantially because gradient, descent load, technicality, duration, weather, and remoteness can matter more than pace. | Build mainstream card |
-| `macro_type_peak_and_taper` | Peak And Taper | Merge | This phase protects readiness while reducing unnecessary fatigue before an important race or objective. Peak, sharpening, and taper are kept together at macro level because they share one broad coaching job: maintain useful fitness, preserve rhythm, improve freshness, and help the athlete arrive confident rather than overloaded. The finer distinction between sharpening sessions, reduced-load weeks, and final taper details belongs mostly at mezzo, micro, or session level. Trail and ultra goals may require special attention to residual muscle damage, travel, equipment checks, and confidence on goal-relevant terrain. | Build mainstream card |
-| `macro_type_competition_management` | Competition Management | Keep | This phase is for athletes navigating a race season, race series, or multiple meaningful events close enough together that the plan cannot be treated as one simple build-and-taper cycle. The main coaching job is balancing recovery, freshness, small fitness touchpoints, learning from races, and readiness for the next event. It is distinct from maintenance because competition stress itself becomes a major training and recovery input. In trail and mountain running, races may create high muscular, technical, environmental, and travel cost, so the space between events must be coached deliberately rather than filled automatically. | Build mainstream card |
-| `macro_type_recovery_and_transition` | Recovery And Transition | Keep | This phase restores readiness after a race, demanding block, disrupted period, or accumulated fatigue. It gives the athlete time to absorb previous work, reduce physical and mental load, and create a clean bridge into the next training cycle. Recovery should not be treated as either total inactivity or hidden training; the right dose depends on fatigue, motivation, soreness, and upcoming goals. Trail and mountain athletes may need extra respect for descent damage, long-duration fatigue, technical stress, and travel load even when general fitness feels intact. | Build mainstream card |
-| `macro_type_off_season` | Off-Season | Keep | This phase is an intentional step away from race preparation and structured performance pressure. It is different from recovery because it is not only about absorbing a recent stress, and different from maintenance because the goal is not primarily to preserve peak-specific fitness. The coach uses it to restore freshness, widen movement options, address basic strength or mobility, keep enough aerobic rhythm, and let motivation return without drifting into either total inactivity or hidden training. For trail and mountain runners, off-season may reduce technical and downhill cost while keeping outdoor movement, hiking, easy running, and general durability alive. | Build mainstream card |
-| `macro_type_maintenance` | Maintenance | Keep | This phase holds useful fitness with controlled training cost when full development is not the right objective. It fits between goals, during busy life periods, travel, uncertain schedules, or times when preserving consistency and key qualities matters more than pushing adaptation. The phase should keep rhythm, aerobic support, and small touches of strength or intensity where appropriate, but it should not pretend to be a full build phase. For trail runners, maintenance may also preserve terrain familiarity, climbing rhythm, and descent tolerance at a sustainable dose. | Build mainstream card |
+| `macro_type_return_to_consistency` | Return To Consistency | Keep | This phase is used when the athlete first needs to restore dependable training rhythm, frequency, and basic load tolerance. The coaching priority is not to chase fitness quickly, but to make running feel repeatable again and to rebuild confidence in the routine. Training should be simple, mostly easy, and conservative with intensity, terrain, and downhill cost. Useful supporting blocks may include consistency, easy aerobic running, recovery, low-risk strength support, and gradual reintroduction of trail exposure. | Built as `mainstream_return_to_consistency` |
+| `macro_type_base_development` | Base Development | Keep | This phase builds the durable foundation that later training depends on: broad aerobic capacity, consistent routine, basic strength support, movement competence, and the ability to absorb progressive load. It absorbs the old separate ideas of general preparation and aerobic development at macro level because, for broad planning, these belong to one foundation-building phase. Training should avoid premature race specificity, excessive intensity, and chronic moderate-hard work. Trail and mountain context can be introduced gradually through varied terrain, climbing, hiking, and controlled descents without making every run race-specific. | Built as `mainstream_base_development` |
+| `macro_type_capacity_development` | Capacity Development | Keep | This phase follows a sufficient base and develops stronger performance capacities through purposeful block emphases. The macro decision is that the athlete is ready for more directed training, while the exact emphasis, such as threshold, aerobic power, strength endurance, long-endurance tolerance, or climbing durability, is selected at mezzo level. The phase should create meaningful adaptation without trying to develop every quality at once. Good coaching protects aerobic support and recovery while increasing the specificity or intensity of selected stressors. | Built as `mainstream_capacity_development` |
+| `macro_type_race_specific_preparation` | Race-Specific Preparation | Keep | This phase converts developed fitness into the capabilities and decisions required by the goal event or objective. It should emphasize terrain demands, pacing, fueling, equipment, environmental conditions, technical confidence, and race-execution rehearsal in proportion to the actual goal. The phase should not abandon general capacity or recovery, and it should not confuse copying race terrain with preparing the athlete well. In trail and mountain running, this phase often changes substantially because gradient, descent load, technicality, duration, weather, and remoteness can matter more than pace. | Built as `mainstream_race_specific_preparation` |
+| `macro_type_peak_and_taper` | Peak And Taper | Merge | This phase protects readiness while reducing unnecessary fatigue before an important race or objective. Peak, sharpening, and taper are kept together at macro level because they share one broad coaching job: maintain useful fitness, preserve rhythm, improve freshness, and help the athlete arrive confident rather than overloaded. The finer distinction between sharpening sessions, reduced-load weeks, and final taper details belongs mostly at mezzo, micro, or session level. Trail and ultra goals may require special attention to residual muscle damage, travel, equipment checks, and confidence on goal-relevant terrain. | Built as `mainstream_peak_and_taper` |
+| `macro_type_competition_management` | Competition Management | Keep | This phase is for athletes navigating a race season, race series, or multiple meaningful events close enough together that the plan cannot be treated as one simple build-and-taper cycle. The main coaching job is balancing recovery, freshness, small fitness touchpoints, learning from races, and readiness for the next event. It is distinct from maintenance because competition stress itself becomes a major training and recovery input. In trail and mountain running, races may create high muscular, technical, environmental, and travel cost, so the space between events must be coached deliberately rather than filled automatically. | Built as `mainstream_competition_management` |
+| `macro_type_recovery_and_transition` | Recovery And Transition | Keep | This phase restores readiness after a race, demanding block, disrupted period, or accumulated fatigue. It gives the athlete time to absorb previous work, reduce physical and mental load, and create a clean bridge into the next training cycle. Recovery should not be treated as either total inactivity or hidden training; the right dose depends on fatigue, motivation, soreness, and upcoming goals. Trail and mountain athletes may need extra respect for descent damage, long-duration fatigue, technical stress, and travel load even when general fitness feels intact. | Built as `mainstream_recovery_and_transition` |
+| `macro_type_off_season` | Off-Season | Keep | This phase is an intentional step away from race preparation and structured performance pressure. It is different from recovery because it is not only about absorbing a recent stress, and different from maintenance because the goal is not primarily to preserve peak-specific fitness. The coach uses it to restore freshness, widen movement options, address basic strength or mobility, keep enough aerobic rhythm, and let motivation return without drifting into either total inactivity or hidden training. For trail and mountain runners, off-season may reduce technical and downhill cost while keeping outdoor movement, hiking, easy running, and general durability alive. | Built as `mainstream_off_season` |
+| `macro_type_maintenance` | Maintenance | Keep | This phase holds useful fitness with controlled training cost when full development is not the right objective. It fits between goals, during busy life periods, travel, uncertain schedules, or times when preserving consistency and key qualities matters more than pushing adaptation. The phase should keep rhythm, aerobic support, and small touches of strength or intensity where appropriate, but it should not pretend to be a full build phase. For trail runners, maintenance may also preserve terrain familiarity, climbing rhythm, and descent tolerance at a sustainable dose. | Built as `mainstream_maintenance` |
 
 ### Macro Philosophy Review Matrix
 
@@ -99,15 +100,125 @@ Use this to decide, later, whether an accepted baseline macro type needs a disti
 
 | Type ID | `mainstream_endurance` | `80_20_endurance` | `lydiard` | `cts` | `evoke_endurance` | `swap` | `sharman_ultra` |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `macro_type_return_to_consistency` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_base_development` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_capacity_development` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_race_specific_preparation` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_peak_and_taper` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_competition_management` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_recovery_and_transition` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_off_season` | Build | Review | Review | Review | Review | Review | Review |
-| `macro_type_maintenance` | Build | Review | Review | Review | Review | Review | Review |
+| `macro_type_return_to_consistency` | Build | No separate macro card | No separate macro card | No separate macro card | No separate macro card | Distinct version justified | No separate macro card |
+| `macro_type_base_development` | Build | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | No separate macro card |
+| `macro_type_capacity_development` | Build | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | No separate macro card |
+| `macro_type_race_specific_preparation` | Build | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified |
+| `macro_type_peak_and_taper` | Build | No separate macro card | Distinct version justified | No separate macro card | No separate macro card | No separate macro card | No separate macro card |
+| `macro_type_competition_management` | Build | Distinct version justified | No separate macro card | Distinct version justified | No separate macro card | Distinct version justified | Distinct version justified |
+| `macro_type_recovery_and_transition` | Build | No separate macro card | No separate macro card | No separate macro card | No separate macro card | No separate macro card | No separate macro card |
+| `macro_type_off_season` | Build | No separate macro card | No separate macro card | No separate macro card | No separate macro card | Distinct version justified | No separate macro card |
+| `macro_type_maintenance` | Build | Distinct version justified | No separate macro card | No separate macro card | No separate macro card | No separate macro card | No separate macro card |
+
+### Built Macro Card Set
+
+The justified macro cards have been created as active Python seed cards. This section records build status without duplicating the full card content.
+
+| Philosophy profile | Built macro cards |
+| --- | --- |
+| `mainstream_endurance` | `mainstream_return_to_consistency`, `mainstream_base_development`, `mainstream_capacity_development`, `mainstream_race_specific_preparation`, `mainstream_peak_and_taper`, `mainstream_competition_management`, `mainstream_recovery_and_transition`, `mainstream_off_season`, `mainstream_maintenance` |
+| `80_20_endurance` | `endurance_80_20_base_development`, `endurance_80_20_capacity_development`, `endurance_80_20_race_specific_preparation`, `endurance_80_20_competition_management`, `endurance_80_20_maintenance` |
+| `lydiard` | `lydiard_base_development`, `lydiard_capacity_development`, `lydiard_race_specific_preparation`, `lydiard_peak_and_taper` |
+| `cts` | `cts_base_development`, `cts_capacity_development`, `cts_race_specific_preparation`, `cts_competition_management` |
+| `evoke_endurance` | `evoke_base_development`, `evoke_capacity_development`, `evoke_race_specific_preparation` |
+| `swap` | `swap_return_to_consistency`, `swap_base_development`, `swap_capacity_development`, `swap_race_specific_preparation`, `swap_competition_management`, `swap_off_season` |
+| `sharman_ultra` | `sharman_race_specific_preparation`, `sharman_competition_management` |
+
+### 80/20 Endurance Macro Review
+
+Coach decision: create 80/20-specific macro cards only where deliberate intensity distribution, hard/easy contrast, zone discipline, and recovery spacing change the macro-phase logic. Do not create a separate 80/20 card when the phase is mostly a shared coaching state with the same macro purpose as mainstream.
+
+| Type ID | 80/20 decision | Coach rationale |
+| --- | --- | --- |
+| `macro_type_return_to_consistency` | No separate macro card | The 80/20 philosophy reinforces easy discipline and conservative re-entry, but the macro job is still restoring routine and tolerance. This can be handled inside mainstream return-to-consistency guidance unless later lower-level cards need 80/20-specific execution. |
+| `macro_type_base_development` | Distinct version justified | Base development is strongly affected by 80/20 because the phase must protect a deliberately low-intensity majority, prevent moderate-effort drift, and build volume through manageable cycles rather than harder ordinary running. |
+| `macro_type_capacity_development` | Distinct version justified | The phase changes meaningfully because 80/20 capacity work should place moderate and high intensity as a bounded minority inside enough easy training and recovery spacing. The macro card should define how selected quality is added without eroding the distribution. |
+| `macro_type_race_specific_preparation` | Distinct version justified | Race-specific work may temporarily change the intensity pattern, but 80/20 requires that specificity be deliberate rather than accidental. The card should explain how terrain, race pace, long duration, and moderate work fit without turning the whole phase into grey-zone training. |
+| `macro_type_peak_and_taper` | No separate macro card | 80/20 can influence taper execution, but the macro job remains the mainstream taper job: reduce fatigue, preserve rhythm, and arrive ready. Distribution details can be handled later in taper weeks and sessions. |
+| `macro_type_competition_management` | Distinct version justified | Racing disrupts clean intensity accounting, so 80/20 needs a distinct macro logic for treating competitions as high-cost inputs, restoring hard/easy contrast, and avoiding too much moderate work between events. |
+| `macro_type_recovery_and_transition` | No separate macro card | Recovery is central to 80/20, but the macro-phase purpose is not distinct enough from mainstream recovery and transition. The 80/20 influence can be expressed later through recovery weeks, easy sessions, and density rules. |
+| `macro_type_off_season` | No separate macro card | Off-season is mainly about decompression, movement variety, and stepping away from performance pressure. 80/20 may inform how much easy rhythm remains, but it should not turn off-season into ratio management. |
+| `macro_type_maintenance` | Distinct version justified | Maintenance changes under 80/20 because the phase should preserve useful fitness through a low-cost distribution, small purposeful intensity touchpoints, and easy-work discipline rather than unplanned moderate running. |
+
+### Lydiard Macro Review
+
+Coach decision: create Lydiard-specific macro cards where base-first development, sequential phase order, response-regulated recovery, inner-coach effort judgement, or backward timing changes the macro logic. Do not label a card Lydiard only because it includes aerobic running, hills, or a taper.
+
+| Type ID | Lydiard decision | Coach rationale |
+| --- | --- | --- |
+| `macro_type_return_to_consistency` | No separate macro card | Lydiard effort judgement and conservative progression can support re-entry, but the macro job is still restoring basic rhythm and tolerance. A distinct Lydiard card is not justified unless the return phase is explicitly rebuilding toward the Lydiard sequence. |
+| `macro_type_base_development` | Distinct version justified | The base is central to Lydiard. A Lydiard version should treat aerobic conditioning as the durable resource that makes later hill, anaerobic, integration, and taper work productive, with progression limited by the slowest adapting system. |
+| `macro_type_capacity_development` | Distinct version justified | Lydiard changes this phase through its ordered development of later qualities. Hill strength, faster work, and integration should be framed as sequential layers that depend on the base, not as interchangeable capacity blocks. |
+| `macro_type_race_specific_preparation` | Distinct version justified | Lydiard race preparation is shaped by backward timing and integration of capacities before the target race. A distinct version should explain what previous phases built and how race-relevant work connects them. |
+| `macro_type_peak_and_taper` | Distinct version justified | Peaking is central to Lydiard's timed sequence. A distinct version should protect the idea that the final phase expresses accumulated preparation rather than forcing missing fitness at the end. |
+| `macro_type_competition_management` | No separate macro card | Lydiard is most clearly organised around timing a target race rather than managing dense race seasons. Use mainstream competition management unless a later source review supports a distinct Lydiard race-season approach. |
+| `macro_type_recovery_and_transition` | No separate macro card | Response-regulated recovery is important in Lydiard, but recovery and transition do not become a distinct macro card unless they are tied to a specific phase-sequence decision. |
+| `macro_type_off_season` | No separate macro card | Off-season is not a distinctive Lydiard macro phase in the current source interpretation. Lydiard logic may inform easy aerobic rhythm, but the phase purpose remains mainstream. |
+| `macro_type_maintenance` | No separate macro card | Lydiard values preserving the aerobic base, but maintenance as a constrained life or between-goal phase is not distinct enough from mainstream to justify its own macro card. |
+
+### CTS Macro Review
+
+Coach decision: create CTS-specific macro cards where event-demand analysis, long-range ultra planning, focused limiter development, workload cost, and race-execution rehearsal change the macro logic. Do not use CTS for generic ultrarunning language or generic hard sessions.
+
+| Type ID | CTS decision | Coach rationale |
+| --- | --- | --- |
+| `macro_type_return_to_consistency` | No separate macro card | CTS would still ask whether the athlete is ready for work, but the macro purpose is not distinct from mainstream re-entry. Demand-led ultra specificity should wait until basic consistency exists. |
+| `macro_type_base_development` | Distinct version justified | CTS base work is shaped by patient workload development, event relevance, and the fundamentals that make later ultra-specific preparation possible. A distinct version should frame base as earned, repeatable workload rather than generic mileage. |
+| `macro_type_capacity_development` | Distinct version justified | CTS often uses focused blocks when they solve a meaningful limiter. A distinct version should name the performance problem, prerequisite workload, trade-off, and recovery cost of the chosen capacity emphasis. |
+| `macro_type_race_specific_preparation` | Distinct version justified | This is one of the strongest CTS fits. The card should start from the event's consequential demands and rehearse only what matters: terrain, duration, descending, fueling, heat, altitude, equipment, pacing, or hiking. |
+| `macro_type_peak_and_taper` | No separate macro card | CTS can inform taper decisions, but the current documented distinction is not strong enough to require a separate macro card before source-specific taper material is reviewed. |
+| `macro_type_competition_management` | Distinct version justified | Closely spaced ultras and tune-up races require demand-led cost accounting. A CTS version should treat each race as both stress and information, then choose only the work that improves readiness for the next event. |
+| `macro_type_recovery_and_transition` | No separate macro card | CTS is highly cost-aware, but recovery and transition can stay mainstream at macro level until a specific CTS post-race or transition method is documented. |
+| `macro_type_off_season` | No separate macro card | Off-season is not a distinctive CTS macro concept in the current source interpretation. Use mainstream off-season unless an event-demand goal already turns the phase into preparation. |
+| `macro_type_maintenance` | No separate macro card | CTS can help choose efficient training during constraints, but the current macro purpose remains mainstream maintenance unless a specific ultra-event demand or race season changes it. |
+
+### Evoke Endurance Macro Review
+
+Coach decision: create Evoke-specific macro cards where the layered mountain-endurance model changes the phase: aerobic capacity, strength reserve, muscular endurance, and later utilisation of those capacities. Do not use Evoke merely because a card includes trails, hills, or hard climbing.
+
+| Type ID | Evoke decision | Coach rationale |
+| --- | --- | --- |
+| `macro_type_return_to_consistency` | No separate macro card | Evoke would support conservative re-entry and aerobic control, but the phase purpose is still restoring rhythm and tolerance. Distinct Evoke layering is premature until the athlete can train consistently. |
+| `macro_type_base_development` | Distinct version justified | Evoke base development is strongly distinct because it prioritises a substantial aerobic base, often with threshold-informed intensity control and attention to aerobic imbalance before visible mountain-specific work. |
+| `macro_type_capacity_development` | Distinct version justified | This is a core Evoke macro difference. A distinct card should organise capacity development as layers: aerobic capacity, strength reserve, muscular endurance, and the readiness conditions for progressing from one to the next. |
+| `macro_type_race_specific_preparation` | Distinct version justified | Evoke changes race-specific preparation through the capacity-versus-utilisation distinction. Event-like mountain work should appear only when the athlete has enough underlying capacity to use it productively. |
+| `macro_type_peak_and_taper` | No separate macro card | Evoke tapering should respect prior layer costs, but the documented philosophy does not yet justify a separate macro taper card beyond mainstream principles. |
+| `macro_type_competition_management` | No separate macro card | The current Evoke interpretation is strongest for objective preparation layers, not race-season management across multiple competitions. Use mainstream unless a later source review supports more. |
+| `macro_type_recovery_and_transition` | No separate macro card | Recovery response is central to Evoke dosing, especially after muscular-endurance or descent stress, but this influence can be handled inside recovery blocks and sessions rather than a separate macro phase. |
+| `macro_type_off_season` | No separate macro card | Off-season may include strength and general movement, but Evoke's distinctive layered model is not the main organising principle of the phase. |
+| `macro_type_maintenance` | No separate macro card | Maintaining aerobic rhythm or strength reserve can be Evoke-informed at lower levels, but the broad macro phase does not need a separate Evoke card yet. |
+
+### SWAP Macro Review
+
+Coach decision: create SWAP-specific macro cards where whole-person sustainability, long-term engagement, economy and speed as skills, fatigue-resistance curiosity, positive response, and athlete agency change the phase purpose. Do not use SWAP only for friendly tone.
+
+| Type ID | SWAP decision | Coach rationale |
+| --- | --- | --- |
+| `macro_type_return_to_consistency` | Distinct version justified | SWAP can meaningfully change this phase by rebuilding consistency without shame, restoring confidence, and using enjoyment and agency to make training feel safe and repeatable again. |
+| `macro_type_base_development` | Distinct version justified | A SWAP base is not only aerobic foundation; it should protect long-term consistency, health, enjoyment, and early economy or speed touches when appropriate. That changes the macro emphasis enough for a distinct card. |
+| `macro_type_capacity_development` | Distinct version justified | SWAP capacity work can be distinct through speed and economy development, fatigue-resistance questions, curiosity about individual response, and restraint that keeps demanding work compatible with long-term engagement. |
+| `macro_type_race_specific_preparation` | Distinct version justified | SWAP race-specific preparation should integrate performance with confidence, adventure, fueling, terrain response, and a healthy relationship with the goal. This is more than generic specificity. |
+| `macro_type_peak_and_taper` | No separate macro card | SWAP can strongly influence taper tone, confidence, and fear-management, but the macro structure is not distinct enough from mainstream peak and taper. Keep those influences in lower-level taper cards or explanatory notes. |
+| `macro_type_competition_management` | Distinct version justified | SWAP's long-term lens matters when races are close together. A distinct version should balance ambition, health, joy, learning, and fatigue resistance instead of letting race excitement become unmanaged load. |
+| `macro_type_recovery_and_transition` | No separate macro card | SWAP can make recovery feel more positive and humane, but this is mostly framing unless it changes the macro decision itself. Use mainstream recovery and express SWAP-specific tone or reflection later where needed. |
+| `macro_type_off_season` | Distinct version justified | Off-season strongly fits SWAP because it can emphasise play, movement variety, identity outside performance pressure, and renewed motivation without losing purposeful rhythm. |
+| `macro_type_maintenance` | No separate macro card | SWAP values can improve maintenance language and lower-level choices, but the macro purpose remains holding useful fitness with low cost. This does not need a duplicate macro card. |
+
+### Sharman Ultra Macro Review
+
+Coach decision: create Sharman Ultra-specific macro cards where athlete-specific adaptation, education, practical ultra-execution reasoning, lifestyle fit, and success definition change the macro logic. Stay careful because the public source base supports coaching stance more than exact proprietary workouts.
+
+| Type ID | Sharman Ultra decision | Coach rationale |
+| --- | --- | --- |
+| `macro_type_return_to_consistency` | No separate macro card | Sharman Ultra coaching can individualise re-entry, but the macro purpose is still restoring rhythm and basic tolerance. The distinction is not strong enough for a separate macro card. |
+| `macro_type_base_development` | No separate macro card | Sharman Ultra uses established endurance principles, but the current source base does not justify a distinct base macro beyond mainstream unless ultra execution or athlete-specific adaptation substantially changes it. |
+| `macro_type_capacity_development` | No separate macro card | Capacity development can be adapted by a Sharman-style coach, but the documented public method does not yet provide a distinct enough macro structure for generic capacity work. |
+| `macro_type_race_specific_preparation` | Distinct version justified | This is a strong Sharman Ultra fit. A distinct version should connect fitness to practical ultra execution: terrain, pacing, fueling, hiking, gear, logistics, problem-solving, and athlete-specific success. |
+| `macro_type_peak_and_taper` | No separate macro card | Sharman Ultra can individualise taper choices, but current sources do not justify a distinct macro taper card before more direct material is reviewed. |
+| `macro_type_competition_management` | Distinct version justified | Race-season management can be distinct because Sharman Ultra emphasises athlete-specific adaptation, practical experience, and learning from races rather than applying a fixed between-race template. |
+| `macro_type_recovery_and_transition` | No separate macro card | Sharman Ultra can individualise post-ultra recovery, but the macro phase remains close to mainstream recovery and transition unless a more specific source-supported recovery method is identified. |
+| `macro_type_off_season` | No separate macro card | Off-season may be adapted to the athlete, but the current Sharman Ultra source base does not make it a distinctive macro phase beyond mainstream. |
+| `macro_type_maintenance` | No separate macro card | Lifestyle fit and athlete-specific adaptation are important, but they are not enough by themselves to create a distinct Sharman Ultra maintenance macro card. Keep maintenance mainstream unless ultra race demands change the phase into race-specific preparation or competition management. |
 
 ### Philosophy-Specific Macro Types
 
@@ -115,7 +226,8 @@ Add special philosophy-specific macro types only after the accepted baseline mac
 
 | Philosophy | Type ID | Working type name | Coach verdict | Why it is not covered by baseline types |
 | --- | --- | --- | --- | --- |
+| All reviewed profiles | _none yet_ | _none yet_ | Hold | Current macro differences can be represented as philosophy-specific versions of accepted baseline types. Add a special macro type only if card drafting reveals a true phase that the baseline taxonomy cannot express. |
 
 ## Open Questions
 
-- Should the mainstream macro cards be built in this order, from return/base through maintenance?
+- No open macro-type questions after the current philosophy review.

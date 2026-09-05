@@ -37,6 +37,8 @@ def get_cloud_library_url(config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRAR
 # Export the current Python seed cards into the ignored local cloud cache.
 def export_seed_library_to_cache(config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> Path:
     validate_pathway_publish_ready(ALL_SEED_CARDS)
+    config.local_cache_dir.mkdir(parents=True, exist_ok=True)
+    _clear_cached_json_files(config.local_cache_dir)
     export_card_library_to_json(ALL_SEED_CARDS, config.local_cache_dir)
     return config.local_cache_dir
 
