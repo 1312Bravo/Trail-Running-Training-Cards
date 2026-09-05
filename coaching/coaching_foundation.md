@@ -2,8 +2,6 @@
 
 This is the active working file for defining the shared coaching foundation. It should stand on its own as reusable coaching guidance.
 
-Use `coaching/coaching_philosophy_old.md` as reference material while rebuilding this file.
-
 ## Relationship To Philosophy Profiles
 
 Every card in the library should follow this foundation. It defines the coaching identity, tone, professional scope, safety boundaries, access awareness, athlete agency, and trail-aware judgement that apply before any specific training method is selected.

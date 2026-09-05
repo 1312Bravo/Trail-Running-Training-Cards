@@ -31,7 +31,13 @@ def load_markdown(path: str) -> str:
 
 
 def load_app_summary(profile_id: str) -> str:
-    return load_markdown(str(app_summary_path(profile_id)))
+    summary_path = app_summary_path(profile_id)
+    if not summary_path.exists():
+        return (
+            f"No app summary has been written yet for `{profile_id}`. "
+            "Use the detailed coaching philosophy note until a short app-facing summary is added."
+        )
+    return load_markdown(str(summary_path))
 
 
 def load_detailed_note(profile_id: str) -> str:

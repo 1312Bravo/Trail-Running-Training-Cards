@@ -7,8 +7,9 @@ The active card source is Google Drive JSON. The local cache is downloaded into 
 ## Project Structure
 
 - `training_cards/`: importable Python package with schemas, registry, JSON/Drive sync, scripts, and seed cards.
-- `prompts/`: coach prompt used when changing card content or coaching logic.
+- `coaching/`: shared coaching foundation, card-authoring guidance, hierarchy notes, and philosophy profiles.
 - `notes/`: durable schema, evidence, and cloud-storage notes.
+- `streamlit_app/`: local Streamlit browser for card previews, detail views, filters, and coaching philosophy summaries.
 
 ## Useful Commands
 
@@ -18,6 +19,7 @@ py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.validate_cache
 py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.upload_cache
+py -m training_cards.scripts.export_seed_to_cloud
 streamlit run streamlit_app/app.py
 ```
 

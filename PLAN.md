@@ -10,7 +10,7 @@ The current focus is content and coaching quality, not schema changes.
 
 The card library should feel like it was built by a thoughtful endurance coach with trail-running and mountain-running expertise.
 
-Before rebuilding or expanding the cards, we first need to clarify:
+Before building or expanding the cards, we first need to clarify:
 
 - where the coach takes knowledge from
 - how coaching judgment is translated into cards
@@ -103,22 +103,17 @@ Coaching foundation and philosophy-profile TODO:
 - [x] Expand all current system profiles into long-form interpretations with comparable structure: coaching principles, training load and adaptation, trail and mountain application, knowledge and decision-making, card implications, and current limits. All current profiles are available for card authoring; their source boundaries remain explicit.
 - [x] Expand each current profile's `summary.md` and `sources.md` alongside the long-form philosophy, separating reviewed material from direct-source work still required.
 - [x] Create and maintain a `sources.md` record inside each philosophy profile.
-- [x] Define philosophy profiles as documented, source-grounded interpretations of named coaching systems or teams; add `coaching/philosophies/README.md` to set folder structure, source standards, profile-ID rules, and the `common` boundary.
+- [x] Define philosophy profiles as documented, source-grounded interpretations of named coaching systems or teams; add `coaching/philosophies/README.md` to set folder structure, source standards, profile-ID rules, and the shared-foundation boundary.
 - [x] Catalogue the planned coaching systems in `coaching/philosophies/coaching_systems.md`, with primary official resource links: `cts`, `evoke_endurance` (including the Uphill Athlete lineage), `swap`, `sharman_ultra`, `80_20_endurance`, and `lydiard`.
 - [x] Align the `_template/` filenames and contents with the documented `summary.md`, `philosophy.md`, and `sources.md` structure.
 - [ ] Update related files if needed: `card_authoring_guidance.md` and `card_hierarchy.md`.
-- [x] Add card-level philosophy provenance: `philosophy_profile_ids` is a structured list, uses `common` for cards shaped only by the shared foundation, uses exact philosophy-directory names for other values, supports multiple profiles, and is shown in card preview/detail and Browse-mode filtering.
-- [x] Create `training_cards/philosophy_profiles.py` as the single local registry of valid profile IDs and display names. Use it in card validation and Streamlit rendering/filtering; cards store only stable IDs, and `common` cannot be combined with named profiles.
+- [x] Add card-level philosophy provenance: `philosophy_profile_ids` is a structured list, uses exact philosophy-directory names, supports multiple profiles, and is shown in card preview/detail and Browse-mode filtering.
+- [x] Create `training_cards/philosophy_profiles.py` as the single local registry of valid profile IDs and display names. Use it in card validation and Streamlit rendering/filtering; cards store only stable IDs.
 - [x] Define and enforce the card-relationship contract: adjacent-level `parent`/`child`, same-level `previous`/`next`/`alternative`, and cross-level non-structural `support`.
 - [x] Convert the existing skipped-level structural links to `support`, preserving their coaching meaning without changing the pathway hierarchy.
-- [x] Re-export and validate the 38-card local cache with schema 1.2 and `philosophy_profile_ids` set to `common`.
+- [x] Remove `common` as card-level provenance. The shared coaching foundation is always-on and not stored on cards.
 - [x] Publish the validated schema-1.2 replacement library to Google Drive and configure it as the source of truth.
 - [x] Remove the obsolete one-off migration scripts after the verified replacement cutover.
-
-Reference files:
-
-- `coaching/coaching_philosophy_old.md`
-- `coaching/source_history_old.md`
 
 Active files:
 
@@ -137,9 +132,9 @@ Possible prompt work:
 - make the prompt clearer about field purpose and coaching voice
 - define how much evidence, specificity, and trail adaptation each card needs
 
-## Phase 4: Card Rebuild Plan
+## Phase 4: Card Build Plan
 
-Status: completed. The 44-card library is the configured and validated source of truth; the former active contents and pre-rebuild archive have been permanently removed.
+Status: active. The 33-card macro seed library is the configured and validated source of truth. Mezzo, micro, and session cards still need to be built from the same card-matrix and philosophy-specific review process.
 
 Goals:
 
@@ -150,7 +145,7 @@ Goals:
 - strengthen references between cards
 - keep preview fields concise and detail fields genuinely useful
 
-Likely rebuild order:
+Likely build order:
 
 1. Macro cards
 2. Mezzo block cards
@@ -158,24 +153,25 @@ Likely rebuild order:
 4. Session workout cards
 5. Session family support content
 
-Rebuild and cutover workflow:
+Replacement workflow:
 
-- [x] Define the archive-and-swap rebuild workflow in `notes/card_library_rebuild_workflow.md`.
-- [x] Freeze the current active Google Drive library immediately before rebuild work begins.
-- [x] Create and independently verify dated local and Google Drive archives of the current library.
-- [x] Build the complete replacement library in a clean local staging location, with deliberate philosophy-profile provenance on every card.
-- [x] Validate and content-review the full staged replacement before any cloud change.
-- [x] Add explicit Drive archive, replacement-upload, verification, and cutover tooling. Do not change ordinary `upload_cache` into a deletion command.
-- [x] Create, upload, download, and validate a new replacement Drive library folder.
-- [x] Switch `training_cards/cloud_config.py` to the verified replacement library.
-- [x] Refresh the active local cache from the replacement; permanently delete the dated Drive archive after the rebuild is accepted.
-- [x] Permanently remove the former Drive `manifest.json` and `cards` folder from the shared container using the Drive-owner account. Only the verified replacement and dated archive remain.
+- [x] Define the explicit validated replacement workflow in `notes/card_library_rebuild_workflow.md`.
+- [x] Add direct active-library replacement tooling. Do not change ordinary `upload_cache` into a deletion command.
+- [x] Export, validate, upload, download, and verify the 33-card macro seed library.
+- [x] Replace the active Drive library contents in place and update `training_cards/cloud_config.py` with the recreated folder IDs.
+- [x] Refresh the active local cache from Drive and validate it.
+- [x] Remove obsolete local staging, archive, and migration artifacts after verification.
 
-Replacement-library scope for this rebuild:
+Current seed-library scope:
 
-- [x] Define the first replacement-library scope: 6 macro phases, 9 mezzo blocks, 9 micro weeks, and 20 session cards. This preserves a complete planning pathway while expanding the session layer from 14 to 20 cards.
-- [x] Author the replacement card set as a new library, not as edits to the previous generic cards.
-- [x] Use `common` only for genuinely shared-foundation cards. Give every named profile a strong, visible role in at least one macro, mezzo, micro, and/or session card: `cts` for event-demand and long-range specificity; `evoke_endurance` for aerobic capacity, strength reserve, and muscular endurance; `80_20_endurance` for intensity distribution and execution; `lydiard` for base-first sequence and response-led regulation; `swap` for economy, speed, fatigue resistance, and sustainable engagement; and `sharman_ultra` for individual adaptation and practical ultra execution.
+- [x] Define macro phase types with coach reasoning in `training_cards/cards/card_matrix.md`.
+- [x] Author mainstream macro cards for all accepted baseline macro types.
+- [x] Review each named philosophy against the accepted macro types.
+- [x] Apply the specificity standard strictly and keep only meaningfully distinct named-philosophy macro cards.
+- [x] Upload the verified 33-card macro seed library to Google Drive.
+- [ ] Build mezzo cards from the accepted macro structure.
+- [ ] Build micro cards after mezzo structure is accepted.
+- [ ] Build session cards after micro structure is accepted.
 
 ## Phase 5: Card Expansion
 
@@ -203,12 +199,12 @@ Potential expansion areas:
 - Use local card files as implementation artifacts, not the final authority.
 - Keep card titles broad and reusable.
 - Put trail-specific detail inside card content rather than making every card trail-only.
-- Review coaching notes and prompts before rebuilding cards.
+- Review coaching notes and prompts before building cards.
 - Run validation after card JSON or synced content changes.
 
 ## Immediate Next Step
 
-Review the rebuilt cards for coaching quality and expand the library from the new philosophy-grounded baseline. New cards may use any registered philosophy profile when its distinctive reasoning materially shapes the card; use `common` only for shared-foundation-only cards.
+Build mezzo cards from the accepted macro structure. New cards may use any registered philosophy profile when its distinctive reasoning materially shapes the card. Do not use `common` as card-level provenance.
 
 Each profile now uses three files:
 

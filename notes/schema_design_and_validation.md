@@ -48,10 +48,11 @@ BaseTrainingCard
 
 `philosophy_profile_ids` records which coaching philosophy profiles materially shaped a card. It is a list because a card can draw from more than one profile.
 
-- Use `common` when a card is shaped only by the shared coaching foundation.
-- For every other value, use the philosophy directory name under `coaching/philosophies/` exactly.
+- Use only real training-method profile IDs.
+- The shared coaching foundation applies to every card, but it is not card-level provenance.
+- Do not use `common`; it is not a valid philosophy profile.
+- Use the philosophy directory name under `coaching/philosophies/` exactly.
 - The allowed IDs and their display names are defined once in `training_cards/philosophy_profiles.py` and enforced when cards are created or loaded.
-- `common` cannot be combined with named profiles; a card using more than one philosophy uses only named profile IDs.
 - The field is visible in the card preview and detail view, searchable, and available as a Browse-mode filter.
 
 `SessionFamily` is a separate object used by `SessionCard` to define the reusable workout-family taxonomy. This keeps family labels searchable and consistent without turning them into a full training card.

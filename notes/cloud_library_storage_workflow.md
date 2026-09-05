@@ -36,31 +36,33 @@ A database such as Supabase can wait until the app needs in-app editing, multi-u
 
 ## Current Google Drive Library
 
-Rebuilt and cut over on 2026-08-18.
+Replaced in place and verified on 2026-09-05.
 
 ```text
 training_cards_library
-https://drive.google.com/drive/folders/1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I
+https://drive.google.com/drive/folders/1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV
 ```
 
 Folder IDs:
 
-- Root library folder: `1g_ED3kgbgSH0f5O_JmwQmJotXgJUhq3I`
-- `cards`: `1QrIiVVeC8JjH-tKNGcYu3WoaY8kxI5aQ`
-- `cards/macro`: `1vH4gK24aPDoVtcHo4OCfLHfs3Pe2xcCb`
-- `cards/mezzo`: `1WUyxrzpaPR8DBQaRMPiTEFoWgyRIAbV8`
-- `cards/micro`: `1QK7BJ6Ss31qLv-1i17iavl9HpXFILlyx`
-- `cards/session`: `11GMo7Dzo1_MzkkA32tV9iqQcnNJKSYl-`
+- Root library folder: `1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV`
+- `cards`: `1gkq35IYGJfVtQ9zMHIxpNvfSjLj71eZJ`
+- `cards/macro`: `1rJ91KuLMzFjcAQ5epltmjH0S34DA34wf`
+- `cards/mezzo`: `1TMQXtZac_10qr9o33xLRpgCgl_pCIMO1`
+- `cards/micro`: `1KfrqxDUizagS56cs3joJTbUJure2vayJ`
+- `cards/session`: `1suyg-9H4ucOp4IC86XERRtAlldKQWqdu`
 
 Current library contents:
 
 - `manifest.json`: 1 file
 - `display_config.json`: 1 file
 - `training_cards_library.json`: 1 bundled app-facing file
-- `cards/macro`: 6 files
-- `cards/mezzo`: 9 files
-- `cards/micro`: 9 files
-- `cards/session`: 20 files
+- `cards/macro`: 33 files
+- `cards/mezzo`: 0 files
+- `cards/micro`: 0 files
+- `cards/session`: 0 files
+
+The current seed library contains macro cards only. Mezzo, micro, and session cards will be built later from the card matrix and the philosophy-specific review process.
 
 ## Python Cloud Reference
 
@@ -152,6 +154,7 @@ py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.upload_cache
 py -m training_cards.scripts.export_seed_to_cloud
+py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
 ```
 
 Command meanings:
@@ -163,6 +166,7 @@ Command meanings:
 - `download_cloud_library`: download Drive JSON into local cache and validate it.
 - `upload_cache`: refresh `training_cards_library.json`, then upload local cache files to Drive, updating existing files by name and creating missing files.
 - `export_seed_to_cloud`: export Python seed cards to cache, validate, and upload to Drive.
+- `rebuild_drive_library replace-active`: replace the known active Drive library contents with a complete validated source directory, deleting obsolete remote files first.
 
 ## Cloud Folder Shape
 
@@ -175,8 +179,10 @@ training_cards_library/
   training_cards_library.json
   cards/
     macro/
-      return-to-consistency.json
-      base-development.json
+      mainstream_endurance/
+        mainstream-return-to-consistency.json
+      cts/
+        cts-race-specific-preparation.json
     mezzo/
     micro/
     session/

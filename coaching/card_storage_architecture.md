@@ -94,6 +94,8 @@ Exported JSON stores the literal string value:
 
 This keeps the JSON portable outside Python and keeps app filtering independent from filesystem assumptions.
 
-## Current Transition Note
+## Current Library Shape
 
-The current active card modules are stored under `mainstream_endurance` because they have been structurally assigned to `MAINSTREAM_ENDURANCE` after removing `common`. This is not the final coaching judgement for every older card. Later review may move cards into named philosophy folders, rewrite them, or create new philosophy-specific variants.
+The active seed library now starts with macro cards organised by planning level and philosophy folder. Empty profile folders at mezzo, micro, and session levels are intentional placeholders for the next card-building passes.
+
+The current macro cards were authored from `training_cards/cards/card_matrix.md`. Future mezzo, micro, and session cards should follow the same specificity standard: create a named-philosophy version only when that philosophy meaningfully changes the app choice, explanation, structure, filtering, or sequencing.
