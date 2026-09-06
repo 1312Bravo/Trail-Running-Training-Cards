@@ -12,14 +12,14 @@ This inventory records the current card-level philosophy provenance model and th
 - Philosophy-specific implementation filenames, object names, and slugs should be prefixed when the same visible card concept could exist under multiple philosophies.
 - A named-philosophy card should exist only when the philosophy meaningfully changes the app choice, explanation, structure, filtering, or sequencing.
 
-## Active Seed Library
+## Current Seed Library
 
-The current active seed library is a macro-only starting set built from `training_cards/cards/card_matrix.md`.
+The configured cloud source of truth currently contains the verified macro seed set. The local working seed/cache also includes the mainstream mezzo baseline for review before the next cloud replacement.
 
 | Level | Status |
 | --- | --- |
 | Macro | Active seed cards authored and uploaded |
-| Mezzo | Folder structure reserved; cards not built yet |
+| Mezzo | Mainstream baseline authored locally; named-philosophy review not started |
 | Micro | Folder structure reserved; cards not built yet |
 | Session | Folder structure reserved; cards not built yet |
 
@@ -37,6 +37,14 @@ The current active seed library is a macro-only starting set built from `trainin
 | `multi_profile` | 0 |
 
 Total active macro seed cards: 33.
+
+## Mainstream Mezzo Card Counts
+
+| Profile folder | Local working mezzo cards |
+| --- | ---: |
+| `mainstream_endurance` | 28 |
+
+Total local working mainstream mezzo cards: 28.
 
 ## Review Standard
 

@@ -35,7 +35,7 @@ The replacement library should instead be prepared as a complete, validated sour
 1. Build or edit the replacement card modules locally.
 2. Export seed cards into the local cache.
 3. Validate schema, manifest count, duplicate IDs and slugs, philosophy IDs, and pathway references.
-4. Build the bundled `training_cards_library.json`.
+4. Build `macro_mezzo_reuse.json` and the bundled `training_cards_library.json`.
 5. Review the replacement as content before any Drive operation.
 
 The replacement source must be complete. It must not rely on files left behind from the old library.
@@ -60,7 +60,7 @@ py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir t
 The replacement action must:
 
 - refuse to run against a missing or incomplete source directory
-- delete only known active root items: `manifest.json`, `display_config.json`, `training_cards_library.json`, and `cards`
+- delete only known active root items: `manifest.json`, `display_config.json`, `macro_mezzo_reuse.json`, `training_cards_library.json`, and `cards`
 - refuse unexpected root files or unexpected root folder shape
 - recreate `cards/macro`, `cards/mezzo`, `cards/micro`, and `cards/session`
 - upload the complete replacement library

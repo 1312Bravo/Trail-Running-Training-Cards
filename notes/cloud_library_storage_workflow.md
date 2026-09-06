@@ -36,7 +36,7 @@ A database such as Supabase can wait until the app needs in-app editing, multi-u
 
 ## Current Google Drive Library
 
-Replaced in place and verified on 2026-09-06.
+Replaced in place and verified on 2026-09-06. The macro layer was uploaded first, then root metadata and the mezzo layer were uploaded incrementally so existing cloud macro files were not disturbed.
 
 ```text
 training_cards_library
@@ -56,13 +56,14 @@ Current library contents:
 
 - `manifest.json`: 1 file
 - `display_config.json`: 1 file
+- `macro_mezzo_reuse.json`: 1 app-facing reuse metadata file
 - `training_cards_library.json`: 1 bundled app-facing file
 - `cards/macro`: 33 files
-- `cards/mezzo`: 0 files
+- `cards/mezzo`: 78 files
 - `cards/micro`: 0 files
 - `cards/session`: 0 files
 
-The current seed library contains macro cards only. Mezzo, micro, and session cards will be built later from the card matrix and the philosophy-specific review process.
+The current Drive library contains accepted macro cards, the mainstream mezzo baseline, the accepted named-philosophy mezzo cards, and explicit macro-to-reused-mezzo mapping metadata. Micro and session cards will be built later from the card matrix and the philosophy-specific review process.
 
 ## Python Cloud Reference
 
@@ -153,6 +154,7 @@ py -m training_cards.scripts.validate_cache
 py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.upload_cache
+py -m training_cards.scripts.upload_mezzo_cache
 py -m training_cards.scripts.export_seed_to_cloud
 py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
 ```
@@ -165,6 +167,7 @@ Command meanings:
 - `build_bundle`: validate the local cache and write `training_cards_library.json`.
 - `download_cloud_library`: download Drive JSON into local cache and validate it.
 - `upload_cache`: refresh `training_cards_library.json`, then upload local cache files to Drive, updating existing files by name and creating missing files.
+- `upload_mezzo_cache`: refresh root metadata and upload only `cards/mezzo`, leaving existing cloud macro files untouched.
 - `export_seed_to_cloud`: export Python seed cards to cache, validate, and upload to Drive.
 - `rebuild_drive_library replace-active`: replace the known active Drive library contents with a complete validated source directory, deleting obsolete remote files first.
 
@@ -176,6 +179,7 @@ The cloud folder should mirror the local cache shape:
 training_cards_library/
   manifest.json
   display_config.json
+  macro_mezzo_reuse.json
   training_cards_library.json
   cards/
     macro/
@@ -256,11 +260,12 @@ Example:
 {
   "manifest": {},
   "display_config": {},
+  "macro_mezzo_reuse": {},
   "cards": []
 }
 ```
 
-The Training Platform app can read this one file instead of downloading `manifest.json`, `display_config.json`, and every individual card JSON file. Keep editing and reviewing the individual card JSON files; rebuild and upload the bundle whenever any card, manifest, or display config changes.
+The Training Platform app can read this one file instead of downloading `manifest.json`, `display_config.json`, `macro_mezzo_reuse.json`, and every individual card JSON file. Keep editing and reviewing the individual card JSON files; rebuild and upload the bundle whenever any card, manifest, display config, or reuse metadata changes.
 
 ## Local Cache
 

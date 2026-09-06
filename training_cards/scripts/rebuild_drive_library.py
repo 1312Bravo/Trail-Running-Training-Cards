@@ -17,6 +17,7 @@ from training_cards.rebuild_store import (
 from training_cards.json_store import (
     DISPLAY_CONFIG_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
+    MACRO_MEZZO_REUSE_FILE_NAME,
     MANIFEST_FILE_NAME,
 )
 
@@ -91,6 +92,7 @@ def _delete_nested_former_library_contents(client, former_items) -> None:
     expected_root_file_names = {
         MANIFEST_FILE_NAME,
         DISPLAY_CONFIG_FILE_NAME,
+        MACRO_MEZZO_REUSE_FILE_NAME,
         LIBRARY_BUNDLE_FILE_NAME,
     }
     legacy_cards_folders = [

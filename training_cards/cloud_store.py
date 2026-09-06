@@ -10,11 +10,14 @@ from training_cards.json_store import (
     CARDS_ROOT,
     DISPLAY_CONFIG_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
+    MACRO_MEZZO_REUSE_FILE_NAME,
     MANIFEST_FILE_NAME,
     build_display_config,
+    build_macro_mezzo_reuse_config_for_cards,
     export_card_library_to_json,
     load_card_library_from_json,
     refresh_library_bundle,
+    write_macro_mezzo_reuse_config,
     write_json,
 )
 from training_cards.pathway import validate_pathway_publish_ready
@@ -72,6 +75,15 @@ def download_cloud_library(
     else:
         client.download_file(display_config.id, config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME)
 
+    macro_mezzo_reuse = _maybe_find_drive_item(root_items, MACRO_MEZZO_REUSE_FILE_NAME)
+    if macro_mezzo_reuse is None:
+        write_json(
+            config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME,
+            build_macro_mezzo_reuse_config_for_cards([]),
+        )
+    else:
+        client.download_file(macro_mezzo_reuse.id, config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME)
+
     for card_type, folder_id in config.card_type_folder_ids.items():
         type_dir = cards_dir / card_type
         type_dir.mkdir(parents = True, exist_ok = True)
@@ -95,48 +107,43 @@ def download_cloud_library(
 # Upload local cache files to Drive, updating existing files and creating missing ones.
 def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
+    macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
 
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
 
-    validate_pathway_publish_ready(load_cached_cloud_library(config))
+    cards = load_cached_cloud_library(config)
+    if not macro_mezzo_reuse_path.exists():
+        write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
+
+    validate_pathway_publish_ready(cards)
     refresh_library_bundle(config.local_cache_dir)
     root_items = client.list_folder(config.root_folder_id)
 
-    _upsert_file(client, config.local_cache_dir / MANIFEST_FILE_NAME, config.root_folder_id, MANIFEST_FILE_NAME, root_items)
-    _upsert_file(client, display_config_path, config.root_folder_id, DISPLAY_CONFIG_FILE_NAME, root_items)
-    _upsert_file(
-        client,
-        config.local_cache_dir / LIBRARY_BUNDLE_FILE_NAME,
-        config.root_folder_id,
-        LIBRARY_BUNDLE_FILE_NAME,
-        root_items,
-    )
-
-    cards_dir = config.local_cache_dir / CARDS_ROOT
+    _upsert_root_library_files(client, config, root_items)
 
     for card_type, folder_id in config.card_type_folder_ids.items():
-        folder_items = client.list_folder(folder_id)
-        profile_folder_ids = {
-            item.title: item.id
-            for item in folder_items
-            if item.file_or_folder == "folder"
-        }
+        _upload_card_type_files(client, config, card_type, folder_id)
 
-        for path in sorted((cards_dir / card_type).rglob("*.json")):
-            relative_path = path.relative_to(cards_dir / card_type)
-            parent_folder_id = folder_id
-            existing_items = folder_items
 
-            if len(relative_path.parts) > 1:
-                profile_folder_name = relative_path.parts[0]
-                parent_folder_id = profile_folder_ids.get(profile_folder_name)
-                if parent_folder_id is None:
-                    parent_folder_id = client.create_folder(profile_folder_name, folder_id)
-                    profile_folder_ids[profile_folder_name] = parent_folder_id
-                existing_items = client.list_folder(parent_folder_id)
+# Upload root metadata plus only mezzo card files, leaving existing macro files untouched.
+def upload_cached_mezzo_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
+    display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
+    macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
 
-            _upsert_file(client, path, parent_folder_id, path.name, existing_items)
+    if not display_config_path.exists():
+        write_json(display_config_path, build_display_config())
+
+    cards = load_cached_cloud_library(config)
+    if not macro_mezzo_reuse_path.exists():
+        write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
+
+    validate_pathway_publish_ready(cards)
+    refresh_library_bundle(config.local_cache_dir)
+    root_items = client.list_folder(config.root_folder_id)
+
+    _upsert_root_library_files(client, config, root_items)
+    _upload_card_type_files(client, config, "mezzo", config.mezzo_folder_id)
 
 
 # Export seed cards into local cache, validate them, then upload to Drive.
@@ -160,10 +167,62 @@ def _maybe_find_drive_item(items: list[DriveItem], title: str) -> DriveItem | No
     return None
 
 
+def _upsert_root_library_files(
+    client,
+    config: GoogleDriveLibraryConfig,
+    root_items: list[DriveItem],
+) -> None:
+    root_file_names = (
+        MANIFEST_FILE_NAME,
+        DISPLAY_CONFIG_FILE_NAME,
+        MACRO_MEZZO_REUSE_FILE_NAME,
+        LIBRARY_BUNDLE_FILE_NAME,
+    )
+    for file_name in root_file_names:
+        _upsert_file(
+            client,
+            config.local_cache_dir / file_name,
+            config.root_folder_id,
+            file_name,
+            root_items,
+        )
+
+
+def _upload_card_type_files(
+    client,
+    config: GoogleDriveLibraryConfig,
+    card_type: str,
+    folder_id: str,
+) -> None:
+    cards_dir = config.local_cache_dir / CARDS_ROOT
+    folder_items = client.list_folder(folder_id)
+    profile_folder_ids = {
+        item.title: item.id
+        for item in folder_items
+        if item.file_or_folder == "folder"
+    }
+
+    for path in sorted((cards_dir / card_type).rglob("*.json")):
+        relative_path = path.relative_to(cards_dir / card_type)
+        parent_folder_id = folder_id
+        existing_items = folder_items
+
+        if len(relative_path.parts) > 1:
+            profile_folder_name = relative_path.parts[0]
+            parent_folder_id = profile_folder_ids.get(profile_folder_name)
+            if parent_folder_id is None:
+                parent_folder_id = client.create_folder(profile_folder_name, folder_id)
+                profile_folder_ids[profile_folder_name] = parent_folder_id
+            existing_items = client.list_folder(parent_folder_id)
+
+        _upsert_file(client, path, parent_folder_id, path.name, existing_items)
+
+
 # Remove old local JSON before downloading a fresh cloud copy.
 def _clear_cached_json_files(cache_dir: Path) -> None:
     manifest_path = cache_dir / MANIFEST_FILE_NAME
     display_config_path = cache_dir / DISPLAY_CONFIG_FILE_NAME
+    macro_mezzo_reuse_path = cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     bundle_path = cache_dir / LIBRARY_BUNDLE_FILE_NAME
 
     if manifest_path.exists():
@@ -171,6 +230,9 @@ def _clear_cached_json_files(cache_dir: Path) -> None:
 
     if display_config_path.exists():
         display_config_path.unlink()
+
+    if macro_mezzo_reuse_path.exists():
+        macro_mezzo_reuse_path.unlink()
 
     if bundle_path.exists():
         bundle_path.unlink()

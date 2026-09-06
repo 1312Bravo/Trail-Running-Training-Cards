@@ -22,6 +22,7 @@ from streamlit_app.data import (
     filtered_cards,
     load_library,
     related_child_cards,
+    reusable_mezzo_ids_for_philosophies,
 )
 from streamlit_app.philosophies import (
     load_app_summary,
@@ -165,13 +166,24 @@ def cards_matching_tags(cards: list[Any], tags: list[str]) -> list[Any]:
     ]
 
 
-def cards_matching_philosophies(cards: list[Any], profile_ids: list[str]) -> list[Any]:
+def cards_matching_philosophies(
+    cards: list[Any],
+    profile_ids: list[str],
+    macro_mezzo_reuse_config: dict[str, Any] | None = None,
+    parent_card_id: str | None = None,
+) -> list[Any]:
     if not profile_ids:
         return cards
+    reused_mezzo_ids = reusable_mezzo_ids_for_philosophies(
+        macro_mezzo_reuse_config,
+        parent_card_id,
+        profile_ids,
+    )
     return [
         card
         for card in cards
-        if any(
+        if card.id in reused_mezzo_ids
+        or any(
             profile_id in getattr(card, "philosophy_profile_ids", [])
             for profile_id in profile_ids
         )
@@ -422,7 +434,11 @@ def next_pathway_step(selected_cards: dict[str, Any | None]) -> tuple[str, str] 
     return None
 
 
-def pathway_candidates(cards: list[Any], selected_cards: dict[str, Any | None]) -> tuple[str, str, list[Any]]:
+def pathway_candidates(
+    cards: list[Any],
+    selected_cards: dict[str, Any | None],
+    macro_mezzo_reuse_config: dict[str, Any] | None = None,
+) -> tuple[str, str, list[Any]]:
     next_step = next_pathway_step(selected_cards)
     if not next_step:
         return "", "", []
@@ -436,7 +452,12 @@ def pathway_candidates(cards: list[Any], selected_cards: dict[str, Any | None]) 
     previous_card = selected_cards[previous_level]
     if previous_card is None:
         return next_level, next_label, []
-    return next_level, next_label, related_child_cards(cards, previous_card, next_level)
+    return next_level, next_label, related_child_cards(
+        cards,
+        previous_card,
+        next_level,
+        macro_mezzo_reuse_config,
+    )
 
 
 def render_pathway_selection(selected_cards: dict[str, Any | None], display_config: dict[str, Any]) -> None:
@@ -478,11 +499,16 @@ def render_build_pathway(
     cards: list[Any],
     display_config: dict[str, Any],
     card_by_id: dict[str, Any],
+    macro_mezzo_reuse_config: dict[str, Any],
 ) -> None:
     selected_cards = selected_pathway_cards(card_by_id)
     render_pathway_selection(selected_cards, display_config)
 
-    next_level, next_label, candidates = pathway_candidates(cards, selected_cards)
+    next_level, next_label, candidates = pathway_candidates(
+        cards,
+        selected_cards,
+        macro_mezzo_reuse_config,
+    )
     if not next_level:
         st.caption("Pathway complete. Use Open card on any selected card to inspect details, or Remove to revise one step.")
         pathway_cards = [
@@ -528,6 +554,8 @@ def render_build_pathway(
             st.session_state.tag_filters,
         ),
         st.session_state.philosophy_profile_filters,
+        macro_mezzo_reuse_config,
+        selected_cards["macro"].id if next_level == "mezzo" and selected_cards["macro"] else None,
     )
     if visible_candidates:
         render_grid(
@@ -603,7 +631,7 @@ def main() -> None:
     cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
 
     try:
-        cards, display_config = load_library(cache_dir)
+        cards, display_config, macro_mezzo_reuse_config = load_library(cache_dir)
     except Exception as error:
         st.error(
             "The local card cache could not be loaded. "
@@ -635,7 +663,7 @@ def main() -> None:
         )
 
     if st.session_state.app_mode == "Build pathway":
-        render_build_pathway(cards, display_config, card_by_id)
+        render_build_pathway(cards, display_config, card_by_id, macro_mezzo_reuse_config)
     elif st.session_state.app_mode == "Today session":
         render_today_session(cards, display_config)
     elif st.session_state.app_mode == "Coaching philosophies":

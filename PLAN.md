@@ -4,7 +4,7 @@ This file is the working plan for improving the coaching folder, technical notes
 
 Keep this file updated whenever the work plan, ordering, decisions, or completed phases change.
 
-The current focus is content and coaching quality, not schema changes.
+The current focus is content and coaching quality, with small supporting metadata changes only when they make the card structure clearer for the app.
 
 ## Guiding Direction
 
@@ -134,7 +134,7 @@ Possible prompt work:
 
 ## Phase 4: Card Build Plan
 
-Status: active. The 33-card macro seed library is the configured and validated source of truth. Mezzo, micro, and session cards still need to be built from the same card-matrix and philosophy-specific review process.
+Status: active. The configured cloud source of truth now contains the verified 111-card macro-plus-mezzo seed library: 33 macro cards, 78 mezzo cards, and 107 explicit macro-to-reused-mezzo mapping entries. Micro cards and session cards still need to be built from the same card-matrix and philosophy-specific review process.
 
 Goals:
 
@@ -171,7 +171,15 @@ Current seed-library scope:
 - [x] Upload the verified 33-card macro seed library to Google Drive.
 - [x] Review each named philosophy for additional macro-specific phase types that are not covered by the accepted mainstream macro taxonomy.
 - [x] Refactor the accepted special macro types into existing stable macro IDs: `macro_type_lydiard_hill_resistance_transition` as `macro_017` and `macro_type_evoke_muscular_endurance_development` as `macro_025`.
-- [ ] Build mezzo cards from the accepted macro structure.
+- [x] Define and coach-review the mainstream mezzo taxonomy under each accepted mainstream macro type.
+- [x] Build the accepted mainstream mezzo cards locally.
+- [x] Prepare named-philosophy macro-to-mezzo reviews for 80/20, Lydiard, CTS, Evoke, SWAP, and Sharman in `card_matrix.md`.
+- [x] Review and reduce the prepared named-philosophy mezzo candidate sets before building card files.
+- [x] Add a named-philosophy mezzo coverage sanity review so specific-card counts are judged together with inherited and reused mainstream coverage.
+- [x] Build the accepted named-philosophy mezzo card files.
+- [x] Upload root metadata plus the 78 mezzo card files to Google Drive with the incremental mezzo-only upload command.
+- [x] Decide app-facing reuse behavior for mainstream mezzos reused under philosophy-specific equivalent macros: use explicit `macro_mezzo_reuse.json` metadata rather than duplicate card files.
+- [x] Add local/export/cloud/rebuild/app support for `macro_mezzo_reuse.json`, and include it in the app-facing `training_cards_library.json` bundle.
 - [ ] Build micro cards after mezzo structure is accepted.
 - [ ] Build session cards after micro structure is accepted.
 
@@ -202,11 +210,12 @@ Potential expansion areas:
 - Keep card titles broad and reusable.
 - Put trail-specific detail inside card content rather than making every card trail-only.
 - Review coaching notes and prompts before building cards.
+- After finishing any substantial work block, do a coach-led completion review for overreach, missing pieces, overlap, level fit, naming, refactors, and local/cloud/doc alignment before moving on.
 - Run validation after card JSON or synced content changes.
 
 ## Immediate Next Step
 
-Build mezzo cards from the accepted macro structure. New cards may use any registered philosophy profile when its distinctive reasoning materially shapes the card. Do not use `common` as card-level provenance.
+Review the app pathway behavior with the new `macro_mezzo_reuse.json` mapping active. Reused mainstream mezzos are represented through mapping metadata rather than duplicate card content, so the app should show inherited/reused mainstream mezzos under the relevant philosophy/macro context while keeping the card library itself clean.
 
 Each profile now uses three files:
 

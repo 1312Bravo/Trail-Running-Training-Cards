@@ -100,6 +100,14 @@ Create cards step by step.
 4. Review each card for repetition before accepting it.
 5. Check the source history and hierarchy notes when the card needs evidence, trail-specific reasoning, or placement logic.
 
+## Completion Review
+
+After finishing any substantial work block, do a coach-led completion review before moving to the next block. Here, "work block" means a meaningful set of decisions or content, such as an accepted type set, philosophy review pass, card batch, storage change, or sync checkpoint. It does not mean only a card hierarchy block.
+
+During the review, check whether the finished block has too much, is missing something important, duplicates nearby concepts, uses the wrong planning level, needs clearer naming, or should be merged, split, deleted, or refactored. Also check that local files, cloud structure, docs, and app-facing assumptions still agree.
+
+Make obvious cleanup adjustments immediately. If an adjustment has non-obvious consequences, pause and realign before changing it.
+
 ## App Display Assumption
 
 Cards will later be shown in the Training Platform app with two levels of detail:

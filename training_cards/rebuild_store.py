@@ -11,6 +11,7 @@ from training_cards.json_store import (
     CARDS_ROOT,
     DISPLAY_CONFIG_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
+    MACRO_MEZZO_REUSE_FILE_NAME,
     MANIFEST_FILE_NAME,
     load_card_library_from_json,
     read_json,
@@ -19,6 +20,12 @@ from training_cards.json_store import (
 
 
 CARD_TYPE_FOLDERS = ("macro", "mezzo", "micro", "session")
+ROOT_LIBRARY_FILE_NAMES = (
+    MANIFEST_FILE_NAME,
+    DISPLAY_CONFIG_FILE_NAME,
+    MACRO_MEZZO_REUSE_FILE_NAME,
+    LIBRARY_BUNDLE_FILE_NAME,
+)
 
 
 def archive_active_library(
@@ -74,7 +81,7 @@ def publish_library(
         card_type: client.create_folder(card_type, cards_folder_id)
         for card_type in CARD_TYPE_FOLDERS
     }
-    for file_name in (MANIFEST_FILE_NAME, DISPLAY_CONFIG_FILE_NAME, LIBRARY_BUNDLE_FILE_NAME):
+    for file_name in ROOT_LIBRARY_FILE_NAMES:
         if not (source_dir / file_name).exists():
             continue
         client.upload_file(source_dir / file_name, root_folder_id, file_name, "application/json")
@@ -113,9 +120,7 @@ def replace_active_library_contents(
     load_card_library_from_json(source_dir)
     root_items = client.list_folder(active_config.root_folder_id)
     expected_root_names = {
-        MANIFEST_FILE_NAME,
-        DISPLAY_CONFIG_FILE_NAME,
-        LIBRARY_BUNDLE_FILE_NAME,
+        *ROOT_LIBRARY_FILE_NAMES,
         CARDS_ROOT,
     }
     replace_items = [
@@ -144,7 +149,7 @@ def replace_active_library_contents(
         for card_type in CARD_TYPE_FOLDERS
     }
 
-    for file_name in (MANIFEST_FILE_NAME, DISPLAY_CONFIG_FILE_NAME, LIBRARY_BUNDLE_FILE_NAME):
+    for file_name in ROOT_LIBRARY_FILE_NAMES:
         client.upload_file(source_dir / file_name, active_config.root_folder_id, file_name, "application/json")
 
     for card_type in CARD_TYPE_FOLDERS:

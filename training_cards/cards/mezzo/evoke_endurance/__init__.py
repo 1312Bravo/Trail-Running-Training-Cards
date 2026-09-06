@@ -1,0 +1,1 @@
+from training_cards.cards.mezzo.evoke_endurance.evoke_mezzo_cards import EVOKE_MEZZO_CARDS

@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
-from training_cards.json_store import load_card_library_from_json
+from training_cards.json_store import (
+    load_card_library_from_json,
+    load_macro_mezzo_reuse_config,
+)
 from training_cards.schemas import (
     BaseTrainingCard,
     CardType,
@@ -26,6 +29,7 @@ def load_active_cards() -> list[BaseTrainingCard]:
 
 ALL_CARDS = load_active_cards()
 CARD_BY_ID = {card.id: card for card in ALL_CARDS}
+MACRO_MEZZO_REUSE_CONFIG = load_macro_mezzo_reuse_config(GOOGLE_DRIVE_LIBRARY.local_cache_dir)
 
 
 # Return a single card by stable ID.
@@ -63,3 +67,21 @@ def get_cards_by_session_family(family_id_or_slug: str) -> list[BaseTrainingCard
 # Follow all structured references from one card to the actual card objects.
 def get_referenced_cards(card: BaseTrainingCard) -> list[BaseTrainingCard]:
     return [CARD_BY_ID[reference.card_id] for reference in card.references]
+
+
+# Return app-facing macro-to-mezzo reuse metadata from the active JSON cache.
+def get_macro_mezzo_reuse_config() -> dict[str, object]:
+    return MACRO_MEZZO_REUSE_CONFIG
+
+
+# Return reused mainstream mezzo cards for a profile within a macro context.
+def get_reused_mezzo_cards(profile_id: str, macro_card_id: str) -> list[BaseTrainingCard]:
+    reused_ids = {
+        entry["reused_mezzo_card_id"]
+        for entry in MACRO_MEZZO_REUSE_CONFIG.get("entries", [])
+        if isinstance(entry, dict)
+        and entry.get("philosophy_profile_id") == profile_id
+        and entry.get("macro_card_id") == macro_card_id
+        and isinstance(entry.get("reused_mezzo_card_id"), str)
+    }
+    return [CARD_BY_ID[card_id] for card_id in sorted(reused_ids) if card_id in CARD_BY_ID]

@@ -5,10 +5,14 @@ import unittest
 from pathlib import Path
 
 from training_cards.json_store import (
+    LIBRARY_BUNDLE_FILE_NAME,
+    MACRO_MEZZO_REUSE_FILE_NAME,
     MULTI_PROFILE_CARD_FOLDER,
     card_storage_path,
     export_card_library_to_json,
     load_card_library_from_json,
+    load_macro_mezzo_reuse_config,
+    read_json,
 )
 from training_cards.philosophy_profiles import CTS, LYDIARD, MAINSTREAM_ENDURANCE
 from training_cards.schemas import CardType, MacroCard, TrainingLevel
@@ -46,6 +50,15 @@ class JsonStorageTests(unittest.TestCase):
             )
             self.assertTrue(
                 (output_dir / "cards" / "macro" / MULTI_PROFILE_CARD_FOLDER / "macro-002.json").exists()
+            )
+            self.assertTrue((output_dir / MACRO_MEZZO_REUSE_FILE_NAME).exists())
+            self.assertEqual(
+                0,
+                load_macro_mezzo_reuse_config(output_dir)["entry_count"],
+            )
+            self.assertIn(
+                "macro_mezzo_reuse",
+                read_json(output_dir / LIBRARY_BUNDLE_FILE_NAME),
             )
 
             loaded_cards = load_card_library_from_json(output_dir)
