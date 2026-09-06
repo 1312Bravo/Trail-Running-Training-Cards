@@ -20,7 +20,7 @@ endurance_80_20_race_specific_preparation = _load_card("80_20_endurance.enduranc
 endurance_80_20_competition_management = _load_card("80_20_endurance.endurance_80_20_competition_management", "endurance_80_20_competition_management")
 endurance_80_20_maintenance = _load_card("80_20_endurance.endurance_80_20_maintenance", "endurance_80_20_maintenance")
 lydiard_base_development = _load_card("lydiard.lydiard_base_development", "lydiard_base_development")
-lydiard_capacity_development = _load_card("lydiard.lydiard_capacity_development", "lydiard_capacity_development")
+lydiard_hill_resistance_transition = _load_card("lydiard.lydiard_hill_resistance_transition", "lydiard_hill_resistance_transition")
 lydiard_race_specific_preparation = _load_card("lydiard.lydiard_race_specific_preparation", "lydiard_race_specific_preparation")
 lydiard_peak_and_taper = _load_card("lydiard.lydiard_peak_and_taper", "lydiard_peak_and_taper")
 cts_base_development = _load_card("cts.cts_base_development", "cts_base_development")
@@ -28,7 +28,7 @@ cts_capacity_development = _load_card("cts.cts_capacity_development", "cts_capac
 cts_race_specific_preparation = _load_card("cts.cts_race_specific_preparation", "cts_race_specific_preparation")
 cts_competition_management = _load_card("cts.cts_competition_management", "cts_competition_management")
 evoke_base_development = _load_card("evoke_endurance.evoke_base_development", "evoke_base_development")
-evoke_capacity_development = _load_card("evoke_endurance.evoke_capacity_development", "evoke_capacity_development")
+evoke_muscular_endurance_development = _load_card("evoke_endurance.evoke_muscular_endurance_development", "evoke_muscular_endurance_development")
 evoke_race_specific_preparation = _load_card("evoke_endurance.evoke_race_specific_preparation", "evoke_race_specific_preparation")
 swap_return_to_consistency = _load_card("swap.swap_return_to_consistency", "swap_return_to_consistency")
 swap_base_development = _load_card("swap.swap_base_development", "swap_base_development")
@@ -55,7 +55,7 @@ MACRO_CARDS = [
     endurance_80_20_competition_management,
     endurance_80_20_maintenance,
     lydiard_base_development,
-    lydiard_capacity_development,
+    lydiard_hill_resistance_transition,
     lydiard_race_specific_preparation,
     lydiard_peak_and_taper,
     cts_base_development,
@@ -63,7 +63,7 @@ MACRO_CARDS = [
     cts_race_specific_preparation,
     cts_competition_management,
     evoke_base_development,
-    evoke_capacity_development,
+    evoke_muscular_endurance_development,
     evoke_race_specific_preparation,
     swap_return_to_consistency,
     swap_base_development,

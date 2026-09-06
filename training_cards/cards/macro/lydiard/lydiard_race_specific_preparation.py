@@ -34,7 +34,7 @@ lydiard_race_specific_preparation = MacroCard(
         'Move to Lydiard peak and taper when integration is sufficient and freshness becomes the limiting factor.'
     ],
     regression_rules = [
-        'Return to capacity development if an earlier layer is clearly missing.',
+        'Return to hill resistance transition if that bridge layer is clearly missing.',
         'Simplify race-specific terrain if it disrupts recovery or coordination.',
         'Choose an honest reduced goal if the sequence has been interrupted too much to compress safely.'
     ],

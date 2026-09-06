@@ -169,6 +169,8 @@ Current seed-library scope:
 - [x] Review each named philosophy against the accepted macro types.
 - [x] Apply the specificity standard strictly and keep only meaningfully distinct named-philosophy macro cards.
 - [x] Upload the verified 33-card macro seed library to Google Drive.
+- [x] Review each named philosophy for additional macro-specific phase types that are not covered by the accepted mainstream macro taxonomy.
+- [x] Refactor the accepted special macro types into existing stable macro IDs: `macro_type_lydiard_hill_resistance_transition` as `macro_017` and `macro_type_evoke_muscular_endurance_development` as `macro_025`.
 - [ ] Build mezzo cards from the accepted macro structure.
 - [ ] Build micro cards after mezzo structure is accepted.
 - [ ] Build session cards after micro structure is accepted.

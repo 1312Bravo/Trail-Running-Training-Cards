@@ -31,7 +31,7 @@ evoke_base_development = MacroCard(
     progression_rules = [
         'Progress aerobic time or output at the same aerobic cost before adding specialised mountain stress.',
         'Review thresholds or field cues when response no longer matches the prescription.',
-        'Move to Evoke capacity development when aerobic consistency and recovery are stable.'
+        'Move to Evoke muscular endurance development when aerobic consistency, strength reserve, and recovery are stable.'
     ],
     regression_rules = [
         'Lower intensity if the athlete repeatedly drifts above the intended aerobic effort.',

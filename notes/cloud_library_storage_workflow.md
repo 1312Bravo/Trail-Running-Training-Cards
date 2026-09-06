@@ -36,7 +36,7 @@ A database such as Supabase can wait until the app needs in-app editing, multi-u
 
 ## Current Google Drive Library
 
-Replaced in place and verified on 2026-09-05.
+Replaced in place and verified on 2026-09-06.
 
 ```text
 training_cards_library
@@ -46,11 +46,11 @@ https://drive.google.com/drive/folders/1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV
 Folder IDs:
 
 - Root library folder: `1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV`
-- `cards`: `1gkq35IYGJfVtQ9zMHIxpNvfSjLj71eZJ`
-- `cards/macro`: `1rJ91KuLMzFjcAQ5epltmjH0S34DA34wf`
-- `cards/mezzo`: `1TMQXtZac_10qr9o33xLRpgCgl_pCIMO1`
-- `cards/micro`: `1KfrqxDUizagS56cs3joJTbUJure2vayJ`
-- `cards/session`: `1suyg-9H4ucOp4IC86XERRtAlldKQWqdu`
+- `cards`: `1l2GNAN348_Q3kXnCVOUZHoHxpEbpPeKv`
+- `cards/macro`: `18IABJtzFkQdzaZFcAa1ulVriSgCv0Zr0`
+- `cards/mezzo`: `1gQbOltntSbLD4Geapz8VIifJ63QHZg_w`
+- `cards/micro`: `14uD_WS3RosZeQ8HRP6xOvBDA41lVi16N`
+- `cards/session`: `1NuzKGJSHSis0jNQkPUhsLenfp00fjlV2`
 
 Current library contents:
 

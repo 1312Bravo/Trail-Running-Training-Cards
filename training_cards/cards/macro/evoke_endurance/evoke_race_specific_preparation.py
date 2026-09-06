@@ -34,7 +34,7 @@ evoke_race_specific_preparation = MacroCard(
         'Move to mainstream peak and taper when utilisation is practised and freshness is the priority.'
     ],
     regression_rules = [
-        'Return to capacity development if a missing layer limits the rehearsal.',
+        'Return to muscular endurance development if a missing local-force layer limits the rehearsal.',
         'Reduce duration, grade, load, descent, or technicality if recovery cost is disproportionate.',
         'Use honest substitutions when ideal mountain access is unavailable.'
     ],

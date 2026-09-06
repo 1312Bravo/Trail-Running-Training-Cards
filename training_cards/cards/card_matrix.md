@@ -102,7 +102,7 @@ Use this to decide, later, whether an accepted baseline macro type needs a disti
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `macro_type_return_to_consistency` | Build | No separate macro card | No separate macro card | No separate macro card | No separate macro card | Distinct version justified | No separate macro card |
 | `macro_type_base_development` | Build | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | No separate macro card |
-| `macro_type_capacity_development` | Build | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | No separate macro card |
+| `macro_type_capacity_development` | Build | Distinct version justified | Special macro type instead | Distinct version justified | Special macro type instead | Distinct version justified | No separate macro card |
 | `macro_type_race_specific_preparation` | Build | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified | Distinct version justified |
 | `macro_type_peak_and_taper` | Build | No separate macro card | Distinct version justified | No separate macro card | No separate macro card | No separate macro card | No separate macro card |
 | `macro_type_competition_management` | Build | Distinct version justified | No separate macro card | Distinct version justified | No separate macro card | Distinct version justified | Distinct version justified |
@@ -118,9 +118,9 @@ The justified macro cards have been created as active Python seed cards. This se
 | --- | --- |
 | `mainstream_endurance` | `mainstream_return_to_consistency`, `mainstream_base_development`, `mainstream_capacity_development`, `mainstream_race_specific_preparation`, `mainstream_peak_and_taper`, `mainstream_competition_management`, `mainstream_recovery_and_transition`, `mainstream_off_season`, `mainstream_maintenance` |
 | `80_20_endurance` | `endurance_80_20_base_development`, `endurance_80_20_capacity_development`, `endurance_80_20_race_specific_preparation`, `endurance_80_20_competition_management`, `endurance_80_20_maintenance` |
-| `lydiard` | `lydiard_base_development`, `lydiard_capacity_development`, `lydiard_race_specific_preparation`, `lydiard_peak_and_taper` |
+| `lydiard` | `lydiard_base_development`, `lydiard_hill_resistance_transition`, `lydiard_race_specific_preparation`, `lydiard_peak_and_taper` |
 | `cts` | `cts_base_development`, `cts_capacity_development`, `cts_race_specific_preparation`, `cts_competition_management` |
-| `evoke_endurance` | `evoke_base_development`, `evoke_capacity_development`, `evoke_race_specific_preparation` |
+| `evoke_endurance` | `evoke_base_development`, `evoke_muscular_endurance_development`, `evoke_race_specific_preparation` |
 | `swap` | `swap_return_to_consistency`, `swap_base_development`, `swap_capacity_development`, `swap_race_specific_preparation`, `swap_competition_management`, `swap_off_season` |
 | `sharman_ultra` | `sharman_race_specific_preparation`, `sharman_competition_management` |
 
@@ -148,7 +148,7 @@ Coach decision: create Lydiard-specific macro cards where base-first development
 | --- | --- | --- |
 | `macro_type_return_to_consistency` | No separate macro card | Lydiard effort judgement and conservative progression can support re-entry, but the macro job is still restoring basic rhythm and tolerance. A distinct Lydiard card is not justified unless the return phase is explicitly rebuilding toward the Lydiard sequence. |
 | `macro_type_base_development` | Distinct version justified | The base is central to Lydiard. A Lydiard version should treat aerobic conditioning as the durable resource that makes later hill, anaerobic, integration, and taper work productive, with progression limited by the slowest adapting system. |
-| `macro_type_capacity_development` | Distinct version justified | Lydiard changes this phase through its ordered development of later qualities. Hill strength, faster work, and integration should be framed as sequential layers that depend on the base, not as interchangeable capacity blocks. |
+| `macro_type_capacity_development` | Special macro type instead | Lydiard changes this phase enough that a generic capacity-development label is too vague. The useful macro concept is the hill-resistance transition: a bridge from base toward later faster, anaerobic, coordination, or race-relevant work. |
 | `macro_type_race_specific_preparation` | Distinct version justified | Lydiard race preparation is shaped by backward timing and integration of capacities before the target race. A distinct version should explain what previous phases built and how race-relevant work connects them. |
 | `macro_type_peak_and_taper` | Distinct version justified | Peaking is central to Lydiard's timed sequence. A distinct version should protect the idea that the final phase expresses accumulated preparation rather than forcing missing fitness at the end. |
 | `macro_type_competition_management` | No separate macro card | Lydiard is most clearly organised around timing a target race rather than managing dense race seasons. Use mainstream competition management unless a later source review supports a distinct Lydiard race-season approach. |
@@ -180,7 +180,7 @@ Coach decision: create Evoke-specific macro cards where the layered mountain-end
 | --- | --- | --- |
 | `macro_type_return_to_consistency` | No separate macro card | Evoke would support conservative re-entry and aerobic control, but the phase purpose is still restoring rhythm and tolerance. Distinct Evoke layering is premature until the athlete can train consistently. |
 | `macro_type_base_development` | Distinct version justified | Evoke base development is strongly distinct because it prioritises a substantial aerobic base, often with threshold-informed intensity control and attention to aerobic imbalance before visible mountain-specific work. |
-| `macro_type_capacity_development` | Distinct version justified | This is a core Evoke macro difference. A distinct card should organise capacity development as layers: aerobic capacity, strength reserve, muscular endurance, and the readiness conditions for progressing from one to the next. |
+| `macro_type_capacity_development` | Special macro type instead | Evoke changes this phase enough that a generic capacity-development label is too vague. The useful macro concept is muscular endurance development layered onto aerobic capacity and strength reserve before objective-like utilisation. |
 | `macro_type_race_specific_preparation` | Distinct version justified | Evoke changes race-specific preparation through the capacity-versus-utilisation distinction. Event-like mountain work should appear only when the athlete has enough underlying capacity to use it productively. |
 | `macro_type_peak_and_taper` | No separate macro card | Evoke tapering should respect prior layer costs, but the documented philosophy does not yet justify a separate macro taper card beyond mainstream principles. |
 | `macro_type_competition_management` | No separate macro card | The current Evoke interpretation is strongest for objective preparation layers, not race-season management across multiple competitions. Use mainstream unless a later source review supports more. |
@@ -222,12 +222,38 @@ Coach decision: create Sharman Ultra-specific macro cards where athlete-specific
 
 ### Philosophy-Specific Macro Types
 
-Add special philosophy-specific macro types only after the accepted baseline macro types have been reviewed. Do not add speculative philosophy-specific macro types before the baseline review is complete.
+This is a separate review from deciding whether a named philosophy needs its own version of an accepted baseline macro type.
 
-| Philosophy | Type ID | Working type name | Coach verdict | Why it is not covered by baseline types |
+The baseline review asks:
+
+- Does this philosophy change an existing mainstream macro type enough to justify its own card?
+
+The special-type review asks:
+
+- Does this philosophy contain a real macro-phase concept that is not covered by the accepted mainstream macro taxonomy at all?
+
+Do not add speculative philosophy-specific macro types. A special macro type must describe a true phase-level planning concept, not only a favorite workout, a block emphasis, a coaching tone, or a lower-level detail.
+
+For each philosophy, the coach must explicitly decide whether its distinct training model creates any additional macro types beyond the accepted baseline set.
+
+| Philosophy | Review status | Possible special macro-type question | Coach verdict | Notes |
 | --- | --- | --- | --- | --- |
-| All reviewed profiles | _none yet_ | _none yet_ | Hold | Current macro differences can be represented as philosophy-specific versions of accepted baseline types. Add a special macro type only if card drafting reveals a true phase that the baseline taxonomy cannot express. |
+| `80_20_endurance` | Complete | Does 80/20 need a separate macro phase for distribution reset, intensity-ratio correction, or race-season redistribution beyond baseline base/capacity/race-specific/maintenance/competition phases? | Reject additional macro type | 80/20 changes the operating rules across phases: low-intensity majority, hard/easy contrast, intensity accounting, and recovery spacing. Those are strong enough for distinct versions of several baseline macro types, but not a new phase category. Distribution reset is usually a mezzo, micro, or review problem rather than a macro phase. |
+| `lydiard` | Complete | Does Lydiard need a separate hill-strength or coordination/integration macro phase beyond baseline capacity development and race-specific preparation? | Keep one additional macro type | Lydiard hill-resistance transition is a true phase-level concept when used in the classic sequence. It bridges the aerobic base toward later faster and race-relevant work, changes sequencing, and changes the blocks that should sit inside it. Coordination, sharpening, and final race integration are already covered by Lydiard race-specific preparation and peak/taper at this library level. |
+| `cts` | Complete | Does CTS need a separate long-range event-demand planning phase, limiter-identification phase, or ultra-specific preparation phase beyond baseline race-specific preparation? | Reject additional macro type | CTS strongly changes how base, capacity, race-specific preparation, and competition management are designed. But event-demand analysis and limiter identification are coaching processes, not separate training phases. Ultra-specific preparation is covered by the CTS version of race-specific preparation. |
+| `evoke_endurance` | Complete | Does Evoke need separate macro phases for aerobic capacity, strength reserve, muscular endurance, or utilisation rather than treating these as capacity/race-specific variants? | Keep one additional macro type | Evoke's layered model can create a real muscular-endurance macro phase for mountain objectives: after sufficient aerobic capacity and strength reserve, before full objective utilisation. Strength reserve alone is usually support or mezzo-level unless it becomes the primary block sequence. Utilisation is covered by Evoke race-specific preparation. |
+| `swap` | Complete | Does SWAP need a separate speed/economy development phase, joy/reconnection phase, or fatigue-resistance phase beyond baseline return, base, capacity, and off-season? | Reject additional macro type | SWAP meaningfully changes return to consistency, base, capacity, race-specific preparation, competition management, and off-season. Speed, economy, joy, and fatigue resistance are central emphases, but they fit inside those phase types rather than creating a separate macro taxonomy. |
+| `sharman_ultra` | Complete | Does Sharman Ultra need a separate athlete-specific ultra planning, education, or execution-preparation phase beyond baseline race-specific preparation and competition management? | Reject additional macro type | Sharman Ultra changes race-specific preparation and competition management through athlete-specific adaptation, education, and practical ultra execution. Planning and education are coaching methods rather than macro phases, and the public source base does not justify inventing additional Sharman-specific phase categories. |
+
+### Accepted Special Macro Types
+
+These are philosophy-specific macro types that are not fully covered by the accepted mainstream macro taxonomy. They require a follow-up decision before more cards are authored: create a new macro card, rename/refactor an existing philosophy-specific macro card, or hold the type as future work.
+
+| Type ID | Type name | Philosophy | Coach verdict | About this phase | Card status |
+| --- | --- | --- | --- | --- | --- |
+| `macro_type_lydiard_hill_resistance_transition` | Hill Resistance Transition | `lydiard` | Keep | This phase sits after a substantial aerobic base and before later faster, anaerobic, coordination, or race-relevant work. Its job is to convert general aerobic durability into stronger, more resilient running mechanics and leg power while preserving the base that makes the later sequence useful. At macro level it matters because it changes the order of the plan: the athlete should not jump straight from base into hard race-like work when the hill-resistance bridge is still needed. For trail and mountain running, this phase must be adapted carefully; hills can support strength and coordination, but technical descent, long climbing specificity, and mountain execution still need their own later justification. | Built by refactoring `lydiard_capacity_development` into `lydiard_hill_resistance_transition` while keeping stable ID `macro_017`. |
+| `macro_type_evoke_muscular_endurance_development` | Muscular Endurance Development | `evoke_endurance` | Keep | This phase is used when a mountain or uphill objective requires repeated local force production that ordinary aerobic volume and general strength do not fully prepare. It belongs after the athlete has enough aerobic capacity and strength reserve to absorb the work, and before full objective utilisation or race simulation dominates the plan. The phase should emphasize targeted uphill or climbing-specific muscular endurance, continued aerobic support, careful recovery, and clear prerequisites. It should avoid using visible fatigue as proof of value, adding muscular-endurance work too early, or replacing the aerobic base with repeated hard hill suffering. | Built by refactoring `evoke_capacity_development` into `evoke_muscular_endurance_development` while keeping stable ID `macro_025`. |
 
 ## Open Questions
 
-- No open macro-type questions after the current philosophy review.
+- No open macro-type questions remain after the current special-type review and refactor.

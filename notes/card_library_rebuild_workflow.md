@@ -89,4 +89,4 @@ The following actions require explicit approval in the moment; previous general 
 
 ## Current Replacement Record
 
-On 2026-09-05, the active `training_cards_library` Drive folder was replaced in place with a 33-card macro seed library. The library uses schema `1.2.0`, library version `0.4.0`, and stores cards under level/profile folders.
+On 2026-09-06, the active `training_cards_library` Drive folder was replaced in place with a 33-card macro seed library. The library uses schema `1.2.0`, library version `0.4.1`, and stores cards under level/profile folders.

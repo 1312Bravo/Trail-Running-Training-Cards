@@ -37,11 +37,11 @@ GOOGLE_DRIVE_LIBRARY = GoogleDriveLibraryConfig(
     library_name = "training_cards_library",
     root_folder_id = "1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV",
     root_folder_url = "https://drive.google.com/drive/folders/1Y7lXD-wr3kQH9QVbsi_nrkK9ihDrKKPV",
-    cards_folder_id = "1gkq35IYGJfVtQ9zMHIxpNvfSjLj71eZJ",
-    macro_folder_id = "1rJ91KuLMzFjcAQ5epltmjH0S34DA34wf",
-    mezzo_folder_id = "1TMQXtZac_10qr9o33xLRpgCgl_pCIMO1",
-    micro_folder_id = "1KfrqxDUizagS56cs3joJTbUJure2vayJ",
-    session_folder_id = "1suyg-9H4ucOp4IC86XERRtAlldKQWqdu",
+    cards_folder_id = "1l2GNAN348_Q3kXnCVOUZHoHxpEbpPeKv",
+    macro_folder_id = "18IABJtzFkQdzaZFcAa1ulVriSgCv0Zr0",
+    mezzo_folder_id = "1gQbOltntSbLD4Geapz8VIifJ63QHZg_w",
+    micro_folder_id = "14uD_WS3RosZeQ8HRP6xOvBDA41lVi16N",
+    session_folder_id = "1NuzKGJSHSis0jNQkPUhsLenfp00fjlV2",
 )
 
 CARD_TYPE_FOLDER_IDS = GOOGLE_DRIVE_LIBRARY.card_type_folder_ids

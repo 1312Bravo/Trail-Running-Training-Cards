@@ -31,7 +31,7 @@ lydiard_base_development = MacroCard(
     progression_rules = [
         'Progress aerobic workload at the rate the whole athlete can absorb.',
         'Let the slowest-adapting system limit increases in volume, terrain, or speed.',
-        'Move to the next Lydiard layer only when the base is repeatable and recovery response is stable.'
+        'Move to the Lydiard hill resistance transition only when the base is repeatable and recovery response is stable.'
     ],
     regression_rules = [
         'Reduce volume, terrain cost, or frequency if musculoskeletal tolerance lags behind aerobic confidence.',
