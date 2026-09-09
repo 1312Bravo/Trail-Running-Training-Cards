@@ -68,6 +68,32 @@ class PathwayIndexTests(unittest.TestCase):
 
         self.assertEqual(["mezzo_001", "mezzo_029"], [card.id for card in children])
 
+    def test_children_include_reused_mezzo_micro_mapping(self) -> None:
+        cards = [
+            _mezzo("mezzo_001"),
+            _micro("micro_001", references=[_parent("mezzo_001")]),
+            _micro("micro_065", philosophy_profile_ids=[ENDURANCE_80_20], references=[_parent("mezzo_029")]),
+        ]
+        reuse_config = {
+            "entries": [
+                {
+                    "philosophy_profile_id": ENDURANCE_80_20,
+                    "mezzo_card_id": "mezzo_001",
+                    "mezzo_card_name": "Re-Entry Rhythm Block",
+                    "reused_micro_card_id": "micro_001",
+                    "reused_micro_card_name": "Routine Anchor Week",
+                    "reuse_type": "inherit_mainstream",
+                }
+            ]
+        }
+
+        children = build_pathway_index(
+            cards,
+            mezzo_micro_reuse_config=reuse_config,
+        ).children("mezzo_001", "micro")
+
+        self.assertEqual(["micro_001"], [card.id for card in children])
+
     def test_shortcut_parent_child_references_are_publish_errors(self) -> None:
         cards = [
             _macro("macro_001", references=[_child("micro_001")]),
@@ -192,14 +218,18 @@ def _mezzo(
     )
 
 
-def _micro(card_id: str, references: list[CardReference] | None = None) -> MicroCard:
+def _micro(
+    card_id: str,
+    references: list[CardReference] | None = None,
+    philosophy_profile_ids: list[str] | None = None,
+) -> MicroCard:
     return MicroCard(
         id=card_id,
         slug=card_id,
         title=card_id,
         card_type=CardType.MICRO,
         suitable_levels=[TrainingLevel.ALL],
-        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
+        philosophy_profile_ids=philosophy_profile_ids or [MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],

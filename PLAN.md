@@ -134,7 +134,7 @@ Possible prompt work:
 
 ## Phase 4: Card Build Plan
 
-Status: active. The configured cloud source of truth now contains the verified 111-card macro-plus-mezzo seed library: 33 macro cards, 78 mezzo cards, and 107 explicit macro-to-reused-mezzo mapping entries. Micro cards and session cards still need to be built from the same card-matrix and philosophy-specific review process.
+Status: active. The configured cloud source of truth contains the verified 288-card macro-plus-mezzo-plus-micro library: 33 macro cards, 78 mezzo cards, 177 micro cards, 107 macro-to-mezzo reuse entries, and 224 mezzo-to-micro reuse entries. Session cards still need to be built from the same card-matrix and philosophy-specific review process.
 
 Goals:
 
@@ -180,7 +180,14 @@ Current seed-library scope:
 - [x] Upload root metadata plus the 78 mezzo card files to Google Drive with the incremental mezzo-only upload command.
 - [x] Decide app-facing reuse behavior for mainstream mezzos reused under philosophy-specific equivalent macros: use explicit `macro_mezzo_reuse.json` metadata rather than duplicate card files.
 - [x] Add local/export/cloud/rebuild/app support for `macro_mezzo_reuse.json`, and include it in the app-facing `training_cards_library.json` bundle.
-- [ ] Build micro cards after mezzo structure is accepted.
+- [x] Define the mainstream micro taxonomy under the accepted mainstream mezzo blocks.
+- [x] Build the 64 accepted mainstream micro card files and validate the exported 175-card cache.
+- [x] Review named philosophies against the mainstream micro taxonomy before building micro card files.
+- [x] Build the 113 accepted named-philosophy micro card candidates and validate the expanded 288-card cache.
+- [x] Add `mezzo_micro_reuse.json` support so reused mainstream micro cards can appear under named-philosophy mezzo contexts.
+- [x] Build micro cards after mezzo structure is accepted.
+- [x] Upload root metadata plus the 177 micro card files to Google Drive with the incremental micro-only upload command.
+- [x] Refresh the active local cache from Drive and validate the 288-card macro-plus-mezzo-plus-micro library.
 - [ ] Build session cards after micro structure is accepted.
 
 ## Phase 5: Card Expansion
@@ -215,7 +222,7 @@ Potential expansion areas:
 
 ## Immediate Next Step
 
-Review the app pathway behavior with the new `macro_mezzo_reuse.json` mapping active. Reused mainstream mezzos are represented through mapping metadata rather than duplicate card content, so the app should show inherited/reused mainstream mezzos under the relevant philosophy/macro context while keeping the card library itself clean.
+Begin the session-card planning pass from the accepted micro structure. The current Drive-backed cache validates at 288 cards: 33 macro, 78 mezzo, and 177 micro, with `macro_mezzo_reuse.json` and `mezzo_micro_reuse.json` included in the app-facing bundle.
 
 Each profile now uses three files:
 

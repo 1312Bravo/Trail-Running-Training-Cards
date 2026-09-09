@@ -13,6 +13,7 @@ from training_cards.json_store import (
     LIBRARY_BUNDLE_FILE_NAME,
     MACRO_MEZZO_REUSE_FILE_NAME,
     MANIFEST_FILE_NAME,
+    MEZZO_MICRO_REUSE_FILE_NAME,
     load_card_library_from_json,
     read_json,
     write_json,
@@ -24,6 +25,7 @@ ROOT_LIBRARY_FILE_NAMES = (
     MANIFEST_FILE_NAME,
     DISPLAY_CONFIG_FILE_NAME,
     MACRO_MEZZO_REUSE_FILE_NAME,
+    MEZZO_MICRO_REUSE_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
 )
 

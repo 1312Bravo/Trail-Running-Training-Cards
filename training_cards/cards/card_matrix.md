@@ -710,3 +710,342 @@ Coverage conclusion: the prepared sets are not underbuilt once inherited and reu
 When a named philosophy inherits a mainstream macro or reuses a mainstream mezzo under a philosophy-specific equivalent macro, the app should use explicit reuse metadata instead of duplicated card files. The metadata lives in `macro_mezzo_reuse.json` and is also included in the app-facing `training_cards_library.json` bundle.
 
 Each reuse entry records the philosophy profile, macro card ID and name, reused mainstream mezzo card ID and name, and whether the relationship is `inherit_mainstream` or `reuse_mainstream`. This keeps the structure visible for the app while preserving one source of truth for shared card content.
+
+## Micro Level
+
+Micro cards define reusable week-level structures inside a mezzo block. They answer: what does this week need to do, how is stress distributed, which session roles matter most, how is recovery protected, and what signs would make the coach progress, hold, or reduce?
+
+Micro cards should not become single-session prescriptions. They can name likely session roles, but the exact workout belongs at session level. They should also avoid becoming mini-mezzo cards; the block-level purpose is already defined by the parent mezzo card.
+
+For micro work, use the same build system as macro-to-mezzo:
+
+- First define the `mainstream_endurance` week-type taxonomy under accepted mainstream mezzo blocks.
+- Then review named philosophies against those mainstream week types.
+- Reuse mainstream micro cards when the week structure is still the same.
+- Create a philosophy-specific micro card only when the philosophy meaningfully changes the week structure, stress distribution, sequencing, or app-facing decision.
+- After mainstream week types are reviewed, add philosophy-specific special week types that do not exist in the mainstream taxonomy.
+
+The specificity standard is stricter at micro level than at macro or mezzo level because weekly variations can multiply quickly. A separate micro type is justified only when it changes the week-level coaching decision. Small differences in language, watchouts, workout flavor, or exact session execution should stay in the parent mezzo card, session cards, or app guidance.
+
+### Coach-Led Mainstream Micro Type Work
+
+Micro types are not copied mechanically from the mezzo card names. For each parent mezzo block, the coach should ask:
+
+- What weekly structures are actually needed to make this block coachable?
+- Is this a real week-level pattern, or only a session detail?
+- Does the week have a distinct job inside the block?
+- Does it change stress distribution, key session placement, recovery demand, or readiness checks?
+- Is the concept already covered by another micro type?
+- How does trail or mountain context change this week?
+- Should `mainstream_endurance` receive a card for this type?
+
+### Coach-Derived Mainstream Micro Types
+
+These are accepted mainstream week types for the micro layer. They are intentionally strict and reusable, but they are not forced into a fixed "two weeks per block" pattern. Each parent mezzo receives as many week types as the coach needs to make the block usable without pushing session-level detail upward into the micro layer.
+
+Common low-complexity blocks often need two week roles: one to create or maintain the main stimulus and one to consolidate, check, or reduce cost. Higher-stress, higher-specificity, or more operational blocks may need three week roles because introduction, development, and absorption are genuinely different coaching decisions.
+
+#### Return To Consistency
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Re-Entry Rhythm Block | `micro_type_reentry_routine_anchor_week` | Routine Anchor Week | Keep | Establishes a repeatable weekly rhythm with short, easy, predictable runs and enough space between them that the athlete finishes wanting to continue. It belongs at micro level because the coaching decision is how the week is arranged, not which single session is run. | Planned |
+| Re-Entry Rhythm Block | `micro_type_reentry_frequency_extension_week` | Frequency Extension Week | Keep | Adds one small exposure or slightly lengthens an existing easy outing only after the routine is stable. The week emphasizes continuity over load and avoids using motivation spikes to rush back into full training. | Planned |
+| Easy Aerobic Reconditioning Block | `micro_type_easy_aerobic_reconditioning_week` | Easy Aerobic Reconditioning Week | Keep | Uses mostly easy running to rebuild aerobic feel, basic durability, and confidence after interruption. The week should feel controlled, familiar, and recoverable rather than like a test of lost fitness. | Planned |
+| Easy Aerobic Reconditioning Block | `micro_type_aerobic_reconditioning_hold_week` | Aerobic Reconditioning Hold Week | Keep | Holds volume and terrain cost steady so the athlete can absorb returning frequency. This is a real micro decision because the coach deliberately chooses not to progress despite the block still aiming at reconditioning. | Planned |
+| Movement Strength Reintroduction Block | `micro_type_strength_reintroduction_week` | Strength Reintroduction Week | Keep | Reintroduces simple strength, mobility, drills, or strides at a dose that does not compromise easy running. The week protects soreness management and movement quality before heavier or more specific work appears. | Planned |
+| Movement Strength Reintroduction Block | `micro_type_movement_tolerance_check_week` | Movement Tolerance Check Week | Keep | Keeps strength and movement work present while checking next-day soreness, stiffness, downhill tolerance, and coordination. It belongs at micro level because the main decision is weekly spacing and response, not exercise selection alone. | Planned |
+
+#### Base Development
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Aerobic Volume Block | `micro_type_aerobic_volume_baseline_week` | Aerobic Volume Baseline Week | Keep | Establishes the current repeatable volume and frequency before meaningful progression. It belongs at micro level because the coach is deciding whether the week is stable enough to build from, not prescribing individual runs. | Planned |
+| Aerobic Volume Block | `micro_type_aerobic_volume_build_week` | Aerobic Volume Build Week | Keep | Builds weekly aerobic load through easy running frequency, modest duration increases, or both. It avoids turning volume growth into faster ordinary running and keeps the athlete's easy effort genuinely sustainable. | Planned |
+| Aerobic Volume Block | `micro_type_aerobic_volume_absorption_week` | Aerobic Volume Absorption Week | Keep | Holds or slightly reduces load so the athlete can consolidate recent volume. This week is needed because durable aerobic development depends on absorbing frequency and duration, not only adding them. | Planned |
+| Long Endurance Development Block | `micro_type_long_run_extension_week` | Long Run Extension Week | Keep | Extends the long outing or time-on-feet stimulus while keeping the rest of the week supportive. Trail context may shift the progression from distance to duration, vertical gain, hiking, or descent cost. | Planned |
+| Long Endurance Development Block | `micro_type_long_endurance_specificity_week` | Long Endurance Specificity Week | Keep | Keeps the long-endurance emphasis but changes the terrain, duration, hiking, vertical, or fueling context to better match the athlete's goal. It is distinct from simply extending the long run because the week changes what kind of endurance is being practiced. | Planned |
+| Long Endurance Development Block | `micro_type_long_run_consolidation_week` | Long Run Consolidation Week | Keep | Keeps the long-endurance stimulus familiar while reducing novelty or total cost elsewhere. It prevents the long run from becoming a weekly exam and protects consistency around it. | Planned |
+| Strength And Movement Support Block | `micro_type_strength_support_integration_week` | Strength Support Integration Week | Keep | Places strength or movement support around running so it improves durability without stealing from the main aerobic work. The weekly spacing decision is the key coaching feature. | Planned |
+| Strength And Movement Support Block | `micro_type_strength_support_deload_week` | Strength Support Deload Week | Keep | Reduces strength load, novelty, or soreness risk while preserving movement quality. This week is useful when run training needs priority or when connective tissue and muscle response need more time. | Planned |
+| Trail Skill And Terrain Familiarity Block | `micro_type_trail_familiarity_exposure_week` | Trail Familiarity Exposure Week | Keep | Adds controlled trail, gradient, surface, or technical exposure without making the whole week race-specific. The week develops confidence and coordination while limiting descent and terrain novelty. | Planned |
+| Trail Skill And Terrain Familiarity Block | `micro_type_trail_skill_consolidation_week` | Trail Skill Consolidation Week | Keep | Repeats familiar terrain demands at low enough cost that the athlete becomes more fluent rather than more fatigued. It is distinct from exposure because the main job is stabilizing skill and confidence. | Planned |
+
+#### Capacity Development
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Threshold Control Block | `micro_type_threshold_introduction_week` | Threshold Introduction Week | Keep | Introduces controlled threshold or comfortably-hard work while preserving enough easy running and recovery around it. The week teaches restraint before larger doses are considered. | Planned |
+| Threshold Control Block | `micro_type_threshold_development_week` | Threshold Development Week | Keep | Builds the amount or specificity of threshold work without letting it drift into uncontrolled race effort. It belongs at micro level because the week must decide where quality sits relative to endurance and recovery. | Planned |
+| Threshold Control Block | `micro_type_threshold_absorption_week` | Threshold Absorption Week | Keep | Reduces or simplifies threshold demand while checking whether the athlete is absorbing the work. This is distinct from development because the main coaching decision is restraint, not progression. | Planned |
+| Aerobic Power Block | `micro_type_aerobic_power_introduction_week` | Aerobic Power Introduction Week | Keep | Introduces aerobic-power work with conservative dose, familiar terrain, and generous recovery spacing. It is needed because high-end aerobic stress should not jump immediately to full development load. | Planned |
+| Aerobic Power Block | `micro_type_aerobic_power_stimulus_week` | Aerobic Power Stimulus Week | Keep | Places a clear aerobic-power stimulus in an otherwise supportive week. The goal is meaningful high-end aerobic stress without stacking too many demanding sessions. | Planned |
+| Aerobic Power Block | `micro_type_aerobic_power_recovery_spacing_week` | Aerobic Power Recovery-Spacing Week | Keep | Keeps the aerobic-power signal present while increasing spacing, reducing volume, or simplifying terrain so the athlete can absorb the work. This is not a full deload; it is a controlled quality-support week. | Planned |
+| Strength Endurance Block | `micro_type_strength_endurance_introduction_week` | Strength Endurance Introduction Week | Keep | Introduces uphill, resistance, or sustained muscular demand before a full strength-endurance stimulus week is appropriate. It protects connective tissue and downhill recovery cost while the athlete learns the feel of the work. | Planned |
+| Strength Endurance Block | `micro_type_strength_endurance_stimulus_week` | Strength Endurance Stimulus Week | Keep | Adds sustained climbing, resistance, uphill work, or muscular-endurance demand at a recoverable dose. Trail and mountain context strongly affect the chosen stress because grade, footing, and descent cost matter. | Planned |
+| Strength Endurance Block | `micro_type_strength_endurance_absorption_week` | Strength Endurance Absorption Week | Keep | Protects recovery from muscular damage while keeping easy aerobic rhythm alive. This week is needed because strength-endurance stress can outlast the workout and affect several following days. | Planned |
+
+#### Race-Specific Preparation
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Course Demands Block | `micro_type_course_demands_exposure_week` | Course Demands Exposure Week | Keep | Introduces the most consequential terrain, duration, gradient, surface, or environmental demand in controlled form. It avoids copying the race blindly and focuses on the demands that actually change preparation. | Planned |
+| Course Demands Block | `micro_type_course_demands_integration_week` | Course Demands Integration Week | Keep | Combines course-relevant demands with normal training rhythm so the athlete learns to absorb specificity without losing the broader plan. It is week-level because the decision is how specificity fits around recovery and support work. | Planned |
+| Course Demands Block | `micro_type_course_demands_simulation_week` | Course Demands Simulation Week | Keep | Uses a larger or more complete course-specific exposure when the athlete is ready and the timing justifies it. It is distinct from exposure because the week intentionally tests how multiple demands interact, without becoming a race replacement. | Planned |
+| Race Execution Practice Block | `micro_type_race_execution_integration_week` | Race Execution Integration Week | Keep | Introduces execution skills such as pacing discipline, gear use, decision routines, or aid-station flow inside normal training. It prepares the athlete for later rehearsal without requiring a high-cost simulation. | Planned |
+| Race Execution Practice Block | `micro_type_race_execution_rehearsal_week` | Race Execution Rehearsal Week | Keep | Practices pacing, gear, terrain decisions, mental routines, or aid-station-like behaviors in a structured week. The goal is better execution, not proving readiness through excessive simulation. | Planned |
+| Race Execution Practice Block | `micro_type_execution_feedback_week` | Execution Feedback Week | Keep | Uses a lower-cost week to review what the athlete learned from rehearsal and adjust future race strategy. It belongs at micro level when the week is deliberately organized around learning, not just analysis after a workout. | Planned |
+| Fueling And Hydration Practice Block | `micro_type_fueling_integration_week` | Fueling Integration Week | Keep | Introduces fueling and hydration practice into ordinary endurance training before making it a primary rehearsal demand. This week is needed because the athlete often needs habit formation before tolerance testing. | Planned |
+| Fueling And Hydration Practice Block | `micro_type_fueling_practice_week` | Fueling Practice Week | Keep | Places fueling and hydration practice into long, steady, or race-relevant sessions while keeping training stress manageable. The week treats nutrition as a trainable skill under realistic conditions. | Planned |
+| Fueling And Hydration Practice Block | `micro_type_fueling_tolerance_check_week` | Fueling Tolerance Check Week | Keep | Keeps the physical training simpler while checking gut tolerance, timing, product choice, heat response, and logistics. This week is distinct because the main adaptation target is execution reliability, not bigger fitness. | Planned |
+
+#### Peak And Taper
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Taper Freshness Block | `micro_type_taper_load_reduction_week` | Taper Load Reduction Week | Keep | Reduces training cost while preserving rhythm, confidence, and enough movement to avoid feeling flat. The week should not chase new fitness or remove all familiar running. | Planned |
+| Taper Freshness Block | `micro_type_final_freshness_week` | Final Freshness Week | Keep | Organizes the final pre-race week around freshness, familiarity, logistics, sleep, and low-risk movement. Trail and ultra goals may require extra attention to travel, equipment, and descent-damage avoidance. | Planned |
+| Sharpening Touchpoint Block | `micro_type_sharpening_touchpoint_week` | Sharpening Touchpoint Week | Keep | Includes a small familiar quality touch that preserves coordination and confidence without creating fatigue. The week is distinct from general taper reduction because it intentionally keeps a small performance signal. | Planned |
+| Sharpening Touchpoint Block | `micro_type_sharpening_absorption_week` | Sharpening Absorption Week | Keep | Allows a previous sharpening touch to settle while keeping the athlete calm and prepared. It prevents a good touchpoint from inviting extra last-minute work. | Planned |
+| Race Readiness Check Block | `micro_type_readiness_confirmation_week` | Readiness Confirmation Week | Keep | Confirms gear, pacing cues, fueling plan, logistics, and body signals with very low added cost. It is a week structure only when these checks are integrated into the final taper rhythm. | Planned |
+| Race Readiness Check Block | `micro_type_pre_race_settle_week` | Pre-Race Settle Week | Keep | Prioritizes calm, familiar movement, problem prevention, and confidence when the athlete is close enough to the race that doing less is often the best coaching choice. | Planned |
+
+#### Competition Management
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Between-Race Recovery Block | `micro_type_post_competition_reset_week` | Post-Competition Reset Week | Keep | Reduces load and complexity after a race while checking soreness, motivation, sleep, and musculoskeletal response. Trail races may require special respect for descent damage and travel fatigue. | Planned |
+| Between-Race Recovery Block | `micro_type_between_race_bridge_week` | Between-Race Bridge Week | Keep | Rebuilds a small amount of rhythm between events without pretending there is time for a full development block. The week keeps the athlete moving toward the next race while protecting recovery. | Planned |
+| Race Season Maintenance Block | `micro_type_race_season_rhythm_week` | Race Season Rhythm Week | Keep | Maintains aerobic rhythm and a small touch of quality between competitions. It avoids loading the week as if the athlete were outside race season. | Planned |
+| Race Season Maintenance Block | `micro_type_low_cost_quality_touch_week` | Low-Cost Quality Touch Week | Keep | Uses a small controlled stimulus to keep coordination or intensity familiarity without adding meaningful fatigue. It belongs at micro level because placement and restraint across the whole week are the coaching decision. | Planned |
+| Competition Learning Block | `micro_type_race_debrief_learning_week` | Race Debrief Learning Week | Keep | Turns a recent race into useful coaching information while keeping physical training cost modest. The week can include easy movement, review, and targeted rehearsal of one lesson. | Planned |
+| Competition Learning Block | `micro_type_race_lesson_integration_week` | Race Lesson Integration Week | Keep | Applies one clear race lesson in training without overcorrecting everything at once. The week is justified when learning changes the structure, not merely when the athlete writes notes. | Planned |
+
+#### Recovery And Transition
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Post-Race Recovery Block | `micro_type_immediate_post_race_recovery_week` | Immediate Post-Race Recovery Week | Keep | Protects healing, sleep, nutrition, mobility, and very gentle movement after a demanding event. The week should not be judged by fitness maintenance. | Planned |
+| Post-Race Recovery Block | `micro_type_post_race_return_to_movement_week` | Post-Race Return-To-Movement Week | Keep | Reintroduces easy running or cross-training only as symptoms and motivation allow. Trail and ultra events may require a slower return because soreness and neuromuscular fatigue can linger. | Planned |
+| Reduced-Load Adaptation Block | `micro_type_reduced_load_absorption_week` | Reduced-Load Absorption Week | Keep | Deliberately lowers training cost after a demanding block or fatigue signal while maintaining enough rhythm for the athlete to feel connected to training. | Planned |
+| Reduced-Load Adaptation Block | `micro_type_reduced_load_readiness_check_week` | Reduced-Load Readiness Check Week | Keep | Uses simple sessions and response checks to decide whether the athlete is ready to resume building. It is a micro card because the week is organized around the readiness decision. | Planned |
+| Transition Bridge Block | `micro_type_transition_reorientation_week` | Transition Reorientation Week | Keep | Shifts attention from one training emphasis to the next with reduced pressure and simple structure. The week helps avoid abrupt jumps between blocks. | Planned |
+| Transition Bridge Block | `micro_type_transition_rhythm_week` | Transition Rhythm Week | Keep | Re-establishes enough normal weekly rhythm to enter the next block cleanly. It should feel purposeful but not like a hidden development week. | Planned |
+
+#### Off-Season
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Low-Pressure Aerobic Rhythm Block | `micro_type_low_pressure_aerobic_week` | Low-Pressure Aerobic Week | Keep | Preserves easy aerobic rhythm without race-preparation pressure. The week should leave room for life, freshness, and motivation to return. | Planned |
+| Low-Pressure Aerobic Rhythm Block | `micro_type_unstructured_aerobic_option_week` | Unstructured Aerobic Option Week | Keep | Allows flexible easy movement while still protecting enough consistency to avoid a complete reset later. It belongs at micro level because the coach sets boundaries for freedom across the week. | Planned |
+| General Strength And Mobility Block | `micro_type_general_strength_foundation_week` | General Strength Foundation Week | Keep | Uses general strength, mobility, and tissue-capacity work without needing race-specific transfer immediately. Running remains supportive rather than dominant. | Planned |
+| General Strength And Mobility Block | `micro_type_general_mobility_recovery_week` | General Mobility Recovery Week | Keep | Keeps movement quality and range of motion alive while reducing load and soreness. This week is useful when the athlete needs restoration more than progression. | Planned |
+| Movement Variety Block | `micro_type_movement_variety_exploration_week` | Movement Variety Exploration Week | Keep | Introduces hiking, cycling, skiing, gym work, games, or other movement options at low pressure. The goal is freshness and general athleticism, not disguised training stress. | Planned |
+| Movement Variety Block | `micro_type_movement_variety_rhythm_week` | Movement Variety Rhythm Week | Keep | Keeps varied movement repeatable enough that off-season does not become random overload. It protects recovery while letting the athlete enjoy broader movement choices. | Planned |
+
+#### Maintenance
+
+| Parent mezzo | Micro type ID | Week type name | Coach decision | About this week | Mainstream status |
+| --- | --- | --- | --- | --- | --- |
+| Aerobic Maintenance Block | `micro_type_aerobic_maintenance_week` | Aerobic Maintenance Week | Keep | Holds useful aerobic rhythm with controlled cost during busy, between-goal, or constrained periods. The week should be easy to repeat and hard to derail. | Planned |
+| Aerobic Maintenance Block | `micro_type_aerobic_maintenance_refresh_week` | Aerobic Maintenance Refresh Week | Keep | Adds a small dose of freshness, variety, or slightly longer easy running without turning maintenance into development. It is useful when the athlete is stable but needs the week to feel alive. | Planned |
+| Quality Touchpoint Block | `micro_type_quality_touchpoint_week` | Quality Touchpoint Week | Keep | Keeps a small familiar quality stimulus in the week while protecting low overall cost. It should preserve coordination or intensity familiarity, not create a full capacity block. | Planned |
+| Quality Touchpoint Block | `micro_type_quality_touchpoint_recovery_week` | Quality Touchpoint Recovery Week | Keep | Places recovery emphasis around a small quality touch so the week remains sustainable. This prevents maintenance from drifting into chronic moderate fatigue. | Planned |
+| Constraint-Friendly Consistency Block | `micro_type_constraint_friendly_week` | Constraint-Friendly Week | Keep | Builds a realistic week around limited time, travel, work, family, or energy constraints. The coaching decision is preserving what matters most rather than forcing a normal template. | Planned |
+| Constraint-Friendly Consistency Block | `micro_type_minimum_effective_rhythm_week` | Minimum Effective Rhythm Week | Keep | Defines the smallest useful weekly rhythm that keeps the athlete connected to training. It should be honest, repeatable, and protective rather than a guilty compromise. | Planned |
+
+### Built Mainstream Micro Card Set
+
+The 64 accepted mainstream micro types have been created as active Python seed cards in `training_cards/cards/micro/mainstream_endurance/mainstream_micro_cards.py`.
+
+Build status:
+
+- `mainstream_endurance`: 64 micro cards, `micro_001` through `micro_064`
+- Parent coverage: all 28 mainstream mezzo blocks
+- Exported cache count after build: 175 total cards, including 64 micro cards
+
+### Mainstream Micro Completion Review
+
+Coach review: the mainstream micro taxonomy is accepted as a planning map and has now been implemented as mainstream micro card files. The set is intentionally conservative but no longer artificially symmetrical. Low-complexity or low-risk blocks usually stay at two week types. Higher-stress and higher-specificity blocks receive three week types where introduction, development, simulation, practice, feedback, or absorption represent genuinely different weekly coaching decisions.
+
+Potential reduction watchouts:
+
+- Some absorption, recovery-spacing, and hold weeks may later be merged if the card content becomes too similar.
+- Some learning, readiness, and check weeks must stay week-structured; if they become only checklists, they should move to app guidance or session support notes.
+- Some quality touchpoint weeks may later become shared/reused micro cards instead of separate cards under several parent mezzos.
+- Some three-week-role blocks should be reduced back to two if card drafting shows that the middle role adds language rather than a different week structure.
+
+Missing-piece watchouts:
+
+- Trail and mountain specificity is represented inside week descriptions, but named-philosophy review may reveal special week structures for downhill tolerance, hiking economy, muscular endurance, heat/altitude, or technical confidence.
+- The micro-to-session layer will need clearer session-role taxonomy before session cards are built.
+- If the app needs reusable week-type explanations independent of cards, this section may later become active type metadata.
+
+Next micro step: review named philosophies against these mainstream micro types. The review should follow the same pattern as macro-to-mezzo: inherited mainstream mezzo, philosophy-specific equivalent mezzo, philosophy-specific new mezzo, then special philosophy-specific additions.
+
+### Micro Philosophy Review
+
+This section reviews whether named philosophies need their own micro cards. The review uses the same structure as macro-to-mezzo, but with a stricter threshold because micro cards are week-level objects and can multiply quickly.
+
+Default rule:
+
+- If a named philosophy inherits a mainstream mezzo, reuse the mainstream micro cards under that mezzo unless the philosophy changes the week structure itself.
+- If a named philosophy reuses a mainstream mezzo under a philosophy-specific macro, reuse the mainstream micro cards under that mezzo unless the philosophy changes the week structure itself.
+- If a named philosophy has a philosophy-specific mezzo, review that mezzo directly and create only the micro cards whose weekly structure is meaningfully distinct.
+- If a distinction is mostly workout execution, intensity target, exact terrain choice, wording, motivation, or reminder language, defer it to session cards or app guidance.
+
+Expected app/storage implication: if named-philosophy macro-to-mezzo reuse is handled by `macro_mezzo_reuse.json`, then named-philosophy mezzo-to-micro reuse should later be handled by a matching `mezzo_micro_reuse.json` file rather than duplicate micro card content.
+
+#### 80/20 Endurance Micro Review
+
+Coach decision: create 80/20-specific micro cards where weekly intensity distribution, hard/easy contrast, race-counted load, moderate-work containment, or easy-discipline maintenance changes the week structure. Reuse mainstream micro cards where the week structure is ordinary and only the language changes.
+
+| Parent mezzo | Decision | Accepted 80/20 micro types | Coach rationale |
+| --- | --- | --- | --- |
+| Inherited/reused mainstream mezzos | `inherit_or_reuse_mainstream` | Use mapped mainstream micro children later | If the parent mezzo is already mainstream, its week structures stay mainstream unless intensity accounting changes the week itself. |
+| 80/20 Low-Intensity Volume Block | `specific_version` | Low-Intensity Baseline Week; Low-Intensity Volume Build Week; Low-Intensity Absorption Week | Base-volume weeks are distinct because easy discipline and low-intensity majority are not optional details; they shape the whole week. |
+| 80/20 Long Endurance Distribution Block | `specific_version` | Long-Endurance Distribution Week; Long-Endurance Absorption Week | Long trail duration, climbing, descents, and hiking can behave like hard work, so the week must count hidden intensity and muscular cost. A separate hidden-cost check week was rejected because those checks belong inside both accepted weeks rather than forming a different weekly structure. |
+| 80/20 Planned Moderate Work Block | `specific_version` | Planned Moderate Introduction Week; Planned Moderate Development Week; Moderate Spillover Control Week | Moderate work is allowed only when deliberate and contained; the week structure must prevent grey-zone spread. |
+| 80/20 High-Intensity Quality Block | `specific_version` | High-Intensity Quality Week; Hard-Easy Protection Week; High-Intensity Absorption Week | Hard work needs enough low-intensity support and recovery spacing that the weekly distribution still works. |
+| 80/20 Hill Strength Quality Block | `specific_version` | Hill-Strength Introduction Week; Hill-Strength Quality Week; Hill-Strength Recovery-Accounting Week | Hill strength is not automatically easy; the week must count muscular load and downhill cost as real stress. |
+| 80/20 Distribution-Safe Course Demands Block | `specific_version` | Distribution-Safe Course Exposure Week | Course specificity can easily become chronic moderate work, so the week needs explicit distribution guardrails. A separate audit week was rejected because auditing is app/detail guidance unless it changes the training week. |
+| 80/20 Race-Counted Recovery Block | `specific_version` | Race-Counted Reset Week | Races are counted as hard inputs before new training stress is added. A separate accounting week was rejected because the accounting should shape the reset week and the next-build decision. |
+| 80/20 Race-Season Distribution Maintenance Block | `specific_version` | Race-Season Easy-Volume Week; Sparse Quality Touch Week | The week maintains fitness by protecting easy volume and limiting quality between races. |
+| 80/20 Easy Discipline Maintenance Block | `specific_version` | Easy-Discipline Maintenance Week; Moderate-Drift Correction Week | Maintenance changes when the main risk is letting constrained training become too hard too often. |
+| 80/20 Quality Touchpoint Maintenance Block | `specific_version` | Quality-Touchpoint Protection Week | The small quality touch needs enough easy support that it does not become a hidden build week. A separate absorption week was rejected because the recovery logic belongs inside the protection week at maintenance level. |
+| Additional 80/20 special micro types | `no_special_addition` | None | The specific mezzo set already covers the week-level 80/20 distinctions. Calibration reminders and exact zone execution mostly belong in session cards or app guidance. |
+
+80/20 candidate count after final reduction: 21 philosophy-specific micro types.
+
+#### Lydiard Micro Review
+
+Coach decision: create Lydiard-specific micro cards where base-first sequencing, response-regulated effort, hill resistance, capacity integration, or final sequence expression changes the week structure. Do not create Lydiard micro cards merely because the week includes aerobic running or hills.
+
+| Parent mezzo | Decision | Accepted Lydiard micro types | Coach rationale |
+| --- | --- | --- | --- |
+| Inherited/reused mainstream mezzos | `inherit_or_reuse_mainstream` | Use mapped mainstream micro children later | Mainstream weeks remain adequate for shared return, competition, recovery, off-season, maintenance, strength support, trail familiarity, fueling, and readiness roles. |
+| Lydiard Response-Regulated Reduced-Load Block | `specific_version` | Response-Regulated Absorption Week | Recovery is governed by athlete response, not a fixed calendar. A separate readiness-check week was rejected because readiness checking belongs inside the absorption week unless training structure changes. |
+| Lydiard Sustainable Aerobic Conditioning Block | `specific_version` | Sustainable Aerobic Establishment Week; Aerobic Load Build Week; Aerobic Response Hold Week | The week structure is distinct because the base is built around the greatest aerobic work the athlete can consistently absorb. |
+| Lydiard Long Aerobic Conditioning Block | `specific_version` | Long Aerobic Extension Week; Long Aerobic Support Week; Long Aerobic Consolidation Week | The long run belongs inside a base-first sequence and should not become detached heroics. |
+| Lydiard Hill Resistance Development Block | `specific_version` | Hill Resistance Introduction Week; Hill Resistance Development Week; Hill Resistance Coordination Week | Hill work bridges base toward later faster work through resistance, mechanics, and coordination. |
+| Lydiard Hill Transition Absorption Block | `specific_version` | Hill Transition Absorption Week | The week checks whether the athlete has absorbed hill resistance before moving forward. A separate post-hill readiness week was rejected because it duplicates the absorption-week purpose. |
+| Lydiard Capacity Integration Block | `specific_version` | Capacity Integration Week; Race-Preparation Coordination Week | The week coordinates already built capacities rather than inventing fitness late. |
+| Lydiard Sequence Expression Taper Block | `specific_version` | Sequence Expression Sharpening Week; Lydiard Freshness Protection Week | The taper expresses completed preparation and protects freshness rather than forcing missing work. |
+| Additional Lydiard special micro types | `no_special_addition` | None | The accepted Lydiard mezzo set already contains the meaningful week-level distinctions. |
+
+Lydiard candidate count after final reduction: 15 philosophy-specific micro types.
+
+#### CTS Micro Review
+
+Coach decision: create CTS-specific micro cards where event demands, limiter focus, long-range workload cost, ultra durability, rehearsal strategy, or between-event adjustment changes the week structure. Do not create CTS cards for generic hard weeks or generic ultra language.
+
+| Parent mezzo | Decision | Accepted CTS micro types | Coach rationale |
+| --- | --- | --- | --- |
+| Inherited/reused mainstream mezzos | `inherit_or_reuse_mainstream` | Use mapped mainstream micro children later | Shared return, taper, recovery, off-season, maintenance, strength support, and trail-familiarity weeks do not need CTS duplicates. |
+| CTS Repeatable Workload Foundation Block | `specific_version` | Repeatable Workload Baseline Week; Workload Extension Week; Workload Cost Check Week | CTS changes the week by treating workload as useful only when repeatable and recoverable. |
+| CTS Long-Run Durability Block | `specific_version` | Long-Run Durability Build Week; Terrain-Durability Week; Durability Absorption Week | Long-run work is judged by durability for the real event, not by duration alone. |
+| CTS Limiter-Focused Quality Block | `specific_version` | Limiter-Focused Quality Week; Limiter Response Week | The week is built around the chosen performance limiter and the trade-off it creates. A separate limiter-selection week was rejected because selecting the limiter is block planning unless it changes the training week. |
+| CTS Ultra Strength-Endurance Limiter Block | `specific_version` | Ultra Strength-Endurance Introduction Week; Ultra Strength-Endurance Development Week; Muscular-Cost Absorption Week | Strength endurance is justified only when it solves an actual ultra limiter. |
+| CTS Event Demands Block | `specific_version` | Event-Demands Exposure Week; Event-Demands Integration Week | The week starts from what the event will require, then exposes and integrates only meaningful demands. A separate analysis week was rejected because analysis is preparation/app guidance unless paired with a real training structure. |
+| CTS Race Execution Rehearsal Block | `specific_version` | Race-Execution Planning Week; Race-Execution Rehearsal Week; Execution Adjustment Week | Rehearsal is tied to pacing, terrain decisions, gear, aid, and problem solving. |
+| CTS Fueling And Hydration Strategy Block | `specific_version` | Fueling Strategy Integration Week; Fueling Strategy Rehearsal Week; Fueling Problem-Solving Week | Nutrition work becomes planned strategy, not generic advice. |
+| CTS Race Stress Recovery Block | `specific_version` | Race-Stress Recovery Week | Each race is treated as a specific stress with its own recovery profile. A separate assessment week was rejected because assessment should shape the recovery week rather than stand alone. |
+| CTS Between-Event Adjustment Block | `specific_version` | Between-Event Decision Week; Between-Event Targeted Adjustment Week | The week is shaped by the next event, athlete readiness, and what the last race revealed. |
+| Additional CTS special micro types | `no_special_addition` | None | The accepted CTS mezzo set already covers the week-level distinctions. |
+
+CTS candidate count after final reduction: 22 philosophy-specific micro types.
+
+#### Evoke Endurance Micro Review
+
+Coach decision: create Evoke-specific micro cards where aerobic capacity, aerobic threshold control, strength reserve, muscular endurance, layer absorption, or objective utilisation changes the week structure. Do not create Evoke cards for ordinary hill or trail weeks.
+
+| Parent mezzo | Decision | Accepted Evoke micro types | Coach rationale |
+| --- | --- | --- | --- |
+| Inherited/reused mainstream mezzos | `inherit_or_reuse_mainstream` | Use mapped mainstream micro children later | Shared return, taper, competition, recovery, off-season, maintenance, trail familiarity, and fueling roles can reuse mainstream weeks. |
+| Evoke Layer Absorption Recovery Block | `specific_version` | Layer Absorption Week | Recovery is specific to absorbing prior mountain, strength, or muscular-endurance layers. A separate readiness-check week was rejected because readiness should be assessed inside the absorption week. |
+| Evoke Aerobic Capacity Development Block | `specific_version` | Aerobic Capacity Baseline Week; Aerobic Capacity Build Week; Aerobic Capacity Absorption Week | Aerobic capacity is the base layer that supports later mountain work. |
+| Evoke Strength Reserve Support Block | `specific_version` | Strength Reserve Development Week; Strength Reserve Integration Week; Strength Reserve Deload Week | Strength reserve supports later muscular endurance and must be placed without disrupting aerobic development. |
+| Evoke Aerobic Threshold Control Block | `specific_version` | Aerobic Threshold Calibration Week; Aerobic Threshold Development Week; Aerobic Threshold Drift Check Week | Intensity control changes the week because the goal is preserving the correct aerobic range. |
+| Evoke Uphill Muscular Endurance Block | `specific_version` | Uphill Muscular-Endurance Introduction Week; Uphill Muscular-Endurance Development Week; Uphill Muscular-Endurance Recovery Week | This is a defining Evoke week structure and must respect prerequisites and muscular cost. |
+| Evoke Muscular Endurance Absorption Block | `specific_version` | Muscular-Endurance Absorption Week | The week lets the prior ME dose become usable capacity rather than stacking stress. A separate transfer-check week was rejected because transfer signs belong inside absorption and later objective-utilisation weeks. |
+| Evoke Objective Utilisation Block | `specific_version` | Objective Utilisation Integration Week; Objective Simulation Week; Objective Readiness Week | Race/objective preparation uses developed capacity rather than creating capacity late. |
+| Additional Evoke special micro types | `no_special_addition` | None | The accepted Evoke mezzo set already captures the distinct weekly layer logic. |
+
+Evoke candidate count after final reduction: 17 philosophy-specific micro types.
+
+#### SWAP Micro Review
+
+Coach decision: create SWAP-specific micro cards where health, joy, confidence, athlete agency, speed/economy as skill, fatigue-resistance curiosity, or whole-athlete sustainability changes the week structure. Do not create SWAP cards only for warmer language.
+
+| Parent mezzo | Decision | Accepted SWAP micro types | Coach rationale |
+| --- | --- | --- | --- |
+| Inherited/reused mainstream mezzos | `inherit_or_reuse_mainstream` | Use mapped mainstream micro children later | Shared taper, reduced-load, maintenance, strength support, trail familiarity, and fueling roles can reuse mainstream micro cards unless SWAP changes the week structure. |
+| SWAP Supported Recovery Reset Block | `specific_version` | Supported Recovery Reset Week | Recovery includes health, agency, and emotional readiness rather than only physical load reduction. A separate agency-return check week was rejected because it is a coaching checkpoint inside the reset week. |
+| SWAP Confidence Re-Entry Block | `specific_version` | Confidence Anchor Week; Confidence Extension Week | Re-entry is distinct when the week is built to remove shame and restore trust. |
+| SWAP Sustainable Aerobic Rhythm Block | `specific_version` | Sustainable Aerobic Rhythm Week; Health-Protected Aerobic Build Week | Base rhythm is shaped by health, consistency, and positive response. A separate joy-check week was rejected because joy is a required review lens inside both accepted weeks, not a separate week structure. |
+| SWAP Adventure Endurance Block | `specific_version` | Adventure Endurance Exposure Week; Adventure Endurance Confidence Week; Adventure Recovery Week | Adventure is used as purposeful endurance and confidence development, not random overload. |
+| SWAP Economy Speed Skill Support Block | `specific_version` | Economy Skill Touch Week; Speed-Skill Support Week | Speed/economy touchpoints can support base without hijacking aerobic work. |
+| SWAP Speed Economy Development Block | `specific_version` | Speed Economy Introduction Week; Speed Economy Development Week; Speed Economy Absorption Week | Speed and economy become sustainable skills rather than punishment or maximal strain. |
+| SWAP Fatigue Resistance Development Block | `specific_version` | Fatigue-Resistance Development Week; Fatigue-Resistance Response Week | The week tests a coaching question about durability without chasing exhaustion. A separate question week was rejected because the coaching question should be set at block planning level. |
+| SWAP Confidence-Building Course Demands Block | `specific_version` | Confidence Course Exposure Week; Confidence Course Integration Week; Confidence Course Simulation Week | Course specificity is shaped by confidence and agency, not only demands. |
+| SWAP Agency Race Execution Practice Block | `specific_version` | Agency Execution Choice Week; Agency Rehearsal Week; Agency Feedback Week | Race execution practice helps the athlete make decisions, not just follow logistics. |
+| SWAP Whole-Athlete Between-Race Recovery Block | `specific_version` | Whole-Athlete Recovery Week | Between-race recovery weighs health, identity, excitement, and long-term consistency. A separate excitement-check week was rejected because it is a readiness lens inside the recovery week. |
+| SWAP Race-Season Health And Joy Block | `specific_version` | Race-Season Health Week; Race-Season Joy Touch Week; Race-Season Sustainability Week | Race-season structure protects health and joy across repeated competitions. |
+| SWAP Off-Season Identity And Play Block | `specific_version` | Off-Season Play Week; Playful Rhythm Week | Off-season is distinct when it restores identity and playful movement without hidden pressure. A separate identity-reconnect week was rejected because the identity lens should shape both accepted off-season weeks. |
+| Additional SWAP special micro types | `no_special_addition` | None | The accepted SWAP mezzo set already contains the meaningful special week structures. |
+
+SWAP candidate count after final reduction: 27 philosophy-specific micro types.
+
+#### Sharman Ultra Micro Review
+
+Coach decision: create Sharman Ultra-specific micro cards where practical ultra execution, course reality, athlete-specific constraints, fueling/gear/logistics, between-race recovery, or adaptive feedback changes the week structure. Stay conservative because the source base supports coaching stance and practical reasoning more than exact proprietary workout formulas.
+
+| Parent mezzo | Decision | Accepted Sharman Ultra micro types | Coach rationale |
+| --- | --- | --- | --- |
+| Inherited/reused mainstream mezzos | `inherit_or_reuse_mainstream` | Use mapped mainstream micro children later | Shared return, base, capacity, taper, recovery, off-season, maintenance, and race-season maintenance weeks can reuse mainstream structures. |
+| Sharman Course Reality Preparation Block | `specific_version` | Course Reality Exposure Week; Course Reality Integration Week | The week adapts course demands to the athlete's real terrain access, life constraints, and readiness. A separate constraint week was rejected because constraints should modify exposure and integration rather than create a distinct week. |
+| Sharman Practical Ultra Execution Block | `specific_version` | Practical Ultra Execution Week; Ultra Problem-Solving Rehearsal Week; Sustainable Pacing Practice Week | Ultra execution is practical and decision-oriented, not only fitness expression. |
+| Sharman Fueling Gear Logistics Block | `specific_version` | Fueling-Gear Integration Week; Logistics Rehearsal Week | Fueling, gear, and logistics become weekly practice targets before race day. A separate gear problem-solving week was rejected because troubleshooting belongs inside rehearsal unless it changes the week structure. |
+| Sharman Context-Aware Between-Race Recovery Block | `specific_version` | Context-Aware Recovery Week; Next-Race Readiness Week | Between-race recovery is shaped by event cost, athlete life, and the next race. |
+| Sharman Adaptive Race Feedback Block | `specific_version` | Adaptive Race Feedback Week; Practical Adjustment Week | Race feedback becomes a specific, practical next-step adjustment. |
+| Additional Sharman Ultra special micro types | `no_special_addition` | None | The accepted Sharman Ultra mezzo set already covers the useful public-source distinctions. |
+
+Sharman Ultra candidate count after final reduction: 11 philosophy-specific micro types.
+
+### Micro Philosophy Coverage Sanity Review
+
+| Philosophy profile | Specific micro candidates | Mainstream reuse expected | Coach verdict |
+| --- | ---: | ---: | --- |
+| `80_20_endurance` | 21 | High | Accept. The count is justified because 80/20 distinctions often operate at weekly distribution and recovery-spacing level. Audit-only candidates were folded into stronger week cards. |
+| `lydiard` | 15 | High | Accept. The distinct weeks are concentrated around sequence, aerobic base, hill resistance, integration, and taper expression. Readiness-only candidates were folded into absorption weeks. |
+| `cts` | 22 | Medium-high | Accept. CTS has many specific week decisions because limiter focus, event demands, fueling strategy, and between-event adjustment are operational at micro level. Planning-only candidates were removed. |
+| `evoke_endurance` | 17 | Medium-high | Accept. The weeks are concentrated around layer order, threshold control, strength reserve, muscular endurance, and objective utilisation. Check-only candidates were folded into absorption/utilisation cards. |
+| `swap` | 27 | Medium | Accept with strict drafting review. SWAP legitimately changes many weekly decisions through health, joy, agency, confidence, and speed/economy skill, but values-only candidates were folded into stronger week cards. |
+| `sharman_ultra` | 11 | High | Accept. Keep conservative because public source support is strongest for practical ultra execution and athlete-specific adjustment. Constraint/troubleshooting-only candidates were folded into practical weeks. |
+
+Total accepted named-philosophy micro candidates after final reduction: 113.
+
+Reduction review:
+
+- Keep the reduced candidate set because it follows the existing 50 named-philosophy mezzo cards rather than inventing unrelated weekly types.
+- Remove or fold candidates that were mostly check, audit, debrief, readiness, constraint, or planning labels without a distinct training-week structure.
+- During card drafting, merge or delete any candidate whose final content differs only by tone, reminder language, or exact session execution.
+- Watch SWAP and CTS most closely because they still have the highest counts and the greatest risk of values becoming duplicate card language instead of distinct week structure.
+- Do not build `mezzo_micro_reuse.json` until philosophy-specific micro cards exist; otherwise the mapping would point into an unstable target set.
+- Reused mainstream micro cards should stay mainstream card content and be surfaced by metadata, not copied into philosophy-specific folders.
+
+### Built Named-Philosophy Micro Card Set
+
+The 113 accepted named-philosophy micro candidates have been created as active Python seed cards.
+
+Build status:
+
+- `80_20_endurance`: 21 micro cards, `micro_065` through `micro_085`
+- `lydiard`: 15 micro cards, `micro_086` through `micro_100`
+- `cts`: 22 micro cards, `micro_101` through `micro_122`
+- `evoke_endurance`: 17 micro cards, `micro_123` through `micro_139`
+- `swap`: 27 micro cards, `micro_140` through `micro_166`
+- `sharman_ultra`: 11 micro cards, `micro_167` through `micro_177`
+- Exported cache count after build: 288 total cards, including 177 micro cards
+
+Next micro step: add `mezzo_micro_reuse.json` support so the app can show reused mainstream micro cards under named-philosophy mezzo contexts without duplicate card content.

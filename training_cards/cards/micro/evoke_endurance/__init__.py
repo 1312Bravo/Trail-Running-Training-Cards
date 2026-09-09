@@ -1,0 +1,1 @@
+from training_cards.cards.micro.evoke_endurance.evoke_micro_cards import EVOKE_MICRO_CARDS

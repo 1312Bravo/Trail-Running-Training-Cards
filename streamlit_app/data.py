@@ -9,6 +9,7 @@ from training_cards.json_store import (
     load_card_library_from_json,
     load_display_config,
     load_macro_mezzo_reuse_config,
+    load_mezzo_micro_reuse_config,
 )
 from training_cards.pathway import build_pathway_index
 from training_cards.philosophy_profiles import philosophy_profile_display_name
@@ -24,11 +25,12 @@ from streamlit_app.config import TYPE_ORDER
 # the live sync layer directly.
 
 @st.cache_data(show_spinner=False)
-def load_library(cache_dir: Path) -> tuple[list[Any], dict[str, Any], dict[str, Any]]:
+def load_library(cache_dir: Path) -> tuple[list[Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
     cards = load_card_library_from_json(cache_dir)
     display_config = load_display_config(cache_dir)
     macro_mezzo_reuse_config = load_macro_mezzo_reuse_config(cache_dir)
-    return cards, display_config, macro_mezzo_reuse_config
+    mezzo_micro_reuse_config = load_mezzo_micro_reuse_config(cache_dir)
+    return cards, display_config, macro_mezzo_reuse_config, mezzo_micro_reuse_config
 
 
 # ----------------------------------------------------------
@@ -111,8 +113,13 @@ def related_child_cards(
     parent_card: Any,
     child_type: str,
     macro_mezzo_reuse_config: dict[str, Any] | None = None,
+    mezzo_micro_reuse_config: dict[str, Any] | None = None,
 ) -> list[Any]:
-    return build_pathway_index(cards, macro_mezzo_reuse_config).children(parent_card.id, child_type)
+    return build_pathway_index(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+    ).children(parent_card.id, child_type)
 
 
 def reusable_mezzo_ids_for_philosophies(
@@ -130,6 +137,24 @@ def reusable_mezzo_ids_for_philosophies(
         and entry.get("macro_card_id") == parent_card_id
         and entry.get("philosophy_profile_id") in profile_ids
         and isinstance(entry.get("reused_mezzo_card_id"), str)
+    }
+
+
+def reusable_micro_ids_for_philosophies(
+    mezzo_micro_reuse_config: dict[str, Any] | None,
+    parent_card_id: str | None,
+    profile_ids: list[str],
+) -> set[str]:
+    if not mezzo_micro_reuse_config or not parent_card_id or not profile_ids:
+        return set()
+
+    return {
+        entry["reused_micro_card_id"]
+        for entry in mezzo_micro_reuse_config.get("entries", [])
+        if isinstance(entry, dict)
+        and entry.get("mezzo_card_id") == parent_card_id
+        and entry.get("philosophy_profile_id") in profile_ids
+        and isinstance(entry.get("reused_micro_card_id"), str)
     }
 
 
