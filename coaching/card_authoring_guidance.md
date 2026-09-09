@@ -121,7 +121,7 @@ Use `summary` as the preview-safe card sentence. It should be one concise senten
 
 The detail view may include a longer `additional_information` field. This should be used for readable in-depth coaching context, not a longer version of the preview.
 
-Session cards should include a structured workout guide when enough information is available. Use practical parts such as warm-up, main set, recovery, cooldown, and optional notes. Give duration and RPE guidance on a 1-10 scale, but keep ranges adaptable rather than falsely precise.
+Session cards should include a structured workout guide when enough information is available. Use `workout_blocks` to describe warm-up, main, recovery, cooldown, optional add-on, or note sections. Each block contains one or more options; each option contains the concrete session parts the athlete follows. Use `execution_mode = DO_ALL` for parts performed together, `CHOOSE_ONE` for selectable alternatives, and `OPTIONAL` for add-ons that should not always be used. Use `repeat` mechanically on a workout option when its parts repeat as rounds or sets. Give duration and RPE guidance on a 1-10 scale, but keep ranges adaptable rather than falsely precise.
 
 ## Card Relationships
 

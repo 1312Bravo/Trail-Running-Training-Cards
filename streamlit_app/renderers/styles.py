@@ -878,9 +878,53 @@ def css() -> None:
             color: #6f716b;
             margin-top: 0.38rem;
         }
+        .detail-workout-block {
+            padding: 0.72rem 0;
+            border-top: 1px solid rgb(111 113 107 / 22%);
+        }
+        .detail-workout-block:first-child {
+            border-top: 0;
+            padding-top: 0;
+        }
+        .detail-workout-block-title {
+            margin: 0;
+            color: var(--ink);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .detail-workout-block-mode {
+            margin: 0.12rem 0 0.48rem;
+            color: #6f716b;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.045em;
+            text-transform: uppercase;
+        }
+        .detail-workout-option {
+            margin-top: 0.5rem;
+            padding: 0.58rem 0.65rem;
+            border: 1px solid rgb(185 154 63 / 28%);
+            border-radius: 7px;
+            background: rgb(255 255 255 / 48%);
+        }
+        .detail-workout-option-title {
+            margin: 0 0 0.28rem;
+            color: var(--ink);
+            font-weight: 600;
+        }
+        .detail-workout-option-notes {
+            margin: 0.12rem 0 0.4rem;
+            padding-left: 1.05rem;
+            color: #555752;
+            font-size: 0.9rem;
+            line-height: 1.35;
+        }
+        .detail-workout-option-notes li + li {
+            margin-top: 0.14rem;
+        }
         .detail-workout-part {
-            padding: 0.62rem 0;
-            border-top: 1px solid rgb(111 113 107 / 18%);
+            padding: 0.5rem 0;
+            border-top: 1px solid rgb(111 113 107 / 16%);
         }
         .detail-workout-part:first-child {
             border-top: 0;

@@ -69,36 +69,97 @@ def render_reference_list(card: Any, card_by_id: dict[str, Any], is_last_section
                 st.rerun(scope="app")
 
 
-def render_workout_parts(parts: list[Any], is_last_section: bool = False) -> None:
-    if not parts:
+def render_workout_blocks(blocks: list[Any], is_last_section: bool = False) -> None:
+    if not blocks:
         return
 
-    rendered_parts = []
-    for part in parts:
-        rpe = as_text(part.rpe)
-        rpe_text = rpe if rpe.upper().startswith("RPE") else f"RPE {rpe}"
-        lines = []
-        lines.append(f'<p class="detail-workout-part-meta">{escape(part.duration)} | {escape(rpe_text)}</p>')
-        if part.instructions:
-            lines.append(f'<p class="detail-workout-part-line">{escape(part.instructions)}</p>')
-        if part.terrain_notes:
-            lines.append(
-                '<p class="detail-workout-part-line detail-workout-part-terrain">'
-                f'Terrain: {escape(part.terrain_notes)}'
-                '</p>'
+    rendered_blocks = []
+    for block in blocks:
+        rendered_options = []
+        for option in block.options:
+            option_notes = []
+            if option.repeat:
+                option_notes.append(f"Repeat: {option.repeat}")
+            if option.selection_notes:
+                option_notes.append(f"Best for: {option.selection_notes}")
+            if option.load_notes:
+                option_notes.append(f"Load: {option.load_notes}")
+
+            rendered_parts = []
+            for part in option.parts:
+                meta_items = []
+                if part.duration:
+                    meta_items.append(part.duration)
+                if part.rpe:
+                    rpe = as_text(part.rpe)
+                    meta_items.append(rpe if rpe.upper().startswith("RPE") else f"RPE {rpe}")
+
+                lines = []
+                if meta_items:
+                    lines.append(
+                        f'<p class="detail-workout-part-meta">{escape(" | ".join(meta_items))}</p>'
+                    )
+                if part.prescription:
+                    lines.append(f'<p class="detail-workout-part-line">{escape(part.prescription)}</p>')
+                if part.selection_notes:
+                    lines.append(
+                        '<p class="detail-workout-part-line">'
+                        f'Best for: {escape(part.selection_notes)}'
+                        '</p>'
+                    )
+                if part.coaching_notes:
+                    lines.append(
+                        '<p class="detail-workout-part-line">'
+                        f'Coach: {escape(part.coaching_notes)}'
+                        '</p>'
+                    )
+                if part.terrain_notes:
+                    lines.append(
+                        '<p class="detail-workout-part-line detail-workout-part-terrain">'
+                        f'Terrain: {escape(part.terrain_notes)}'
+                        '</p>'
+                    )
+                if part.adjustment_notes:
+                    lines.append(
+                        '<p class="detail-workout-part-line">'
+                        f'Adjust: {escape(part.adjustment_notes)}'
+                        '</p>'
+                    )
+                rendered_parts.append(
+                    '<div class="detail-workout-part">'
+                    f'<p class="detail-workout-part-title">{escape(part.title)}</p>'
+                    f'{"".join(lines)}'
+                    '</div>'
+                )
+
+            rendered_option_notes = (
+                '<ul class="detail-workout-option-notes">'
+                + "".join(f'<li>{escape(note)}</li>' for note in option_notes)
+                + "</ul>"
+                if option_notes
+                else ""
             )
-        rendered_parts.append(
-            '<div class="detail-workout-part">'
-            f'<p class="detail-workout-part-title">{escape(part.name)}</p>'
-            f'{"".join(lines)}'
+            rendered_options.append(
+                '<div class="detail-workout-option">'
+                f'<p class="detail-workout-option-title">{escape(option.title)}</p>'
+                f'{rendered_option_notes}'
+                f'<div class="detail-workout-parts">{"".join(rendered_parts)}</div>'
+                '</div>'
+            )
+
+        rendered_blocks.append(
+            '<div class="detail-workout-block">'
+            f'<p class="detail-workout-block-title">{escape(display_label_text(block.block_type))}</p>'
+            f'<p class="detail-workout-block-mode">{escape(display_label_text(block.execution_mode))}</p>'
+            f'{"".join(rendered_options)}'
             '</div>'
         )
 
     last_section_class = " detail-section-last" if is_last_section else ""
     st.html(
         f'<section class="detail-section detail-section-workout-parts{last_section_class}">'
-        '<div class="detail-section-label">Workout Parts</div>'
-        f'<div class="detail-workout-parts">{"".join(rendered_parts)}</div>'
+        '<div class="detail-section-label">Workout Guide</div>'
+        f'<div class="detail-workout-blocks">{"".join(rendered_blocks)}</div>'
         '</section>'
     )
 
@@ -211,7 +272,7 @@ def ordered_detail_fields(card: Any) -> list[str]:
         if field_name not in ordered and hasattr(card, field_name):
             ordered.append(field_name)
     if str(card.card_type).replace("_", "-") == "session":
-        promoted = [field for field in ["session_family", "workout_parts"] if field in ordered]
+        promoted = [field for field in ["session_family", "workout_blocks"] if field in ordered]
         ordered = [field for field in ordered if field not in promoted]
         insert_at = ordered.index("purpose") + 1 if "purpose" in ordered else 0
         ordered[insert_at:insert_at] = promoted
@@ -303,8 +364,8 @@ def render_detail(
         for index, field_name in enumerate(fields_to_render):
             is_last_section = index == len(fields_to_render) - 1
             value = getattr(card, field_name)
-            if field_name == "workout_parts":
-                render_workout_parts(value, is_last_section=is_last_section)
+            if field_name == "workout_blocks":
+                render_workout_blocks(value, is_last_section=is_last_section)
             elif field_name == "references":
                 render_reference_list(card, card_by_id, is_last_section=is_last_section)
             else:

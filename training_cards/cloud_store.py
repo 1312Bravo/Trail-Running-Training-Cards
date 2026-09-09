@@ -141,6 +141,28 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
         _upload_card_type_files(client, config, card_type, folder_id)
 
 
+# Upload only root metadata files, leaving all remote card JSON files untouched.
+def upload_cached_root_metadata(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
+    display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
+    macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
+    mezzo_micro_reuse_path = config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+
+    if not display_config_path.exists():
+        write_json(display_config_path, build_display_config())
+
+    cards = load_cached_cloud_library(config)
+    if not macro_mezzo_reuse_path.exists():
+        write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
+    if not mezzo_micro_reuse_path.exists():
+        write_mezzo_micro_reuse_config(config.local_cache_dir, cards)
+
+    validate_pathway_publish_ready(cards)
+    refresh_library_bundle(config.local_cache_dir)
+    root_items = client.list_folder(config.root_folder_id)
+
+    _upsert_root_library_files(client, config, root_items)
+
+
 # Upload root metadata plus only mezzo card files, leaving existing macro files untouched.
 def upload_cached_mezzo_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME

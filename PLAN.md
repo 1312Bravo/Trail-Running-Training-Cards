@@ -188,6 +188,9 @@ Current seed-library scope:
 - [x] Build micro cards after mezzo structure is accepted.
 - [x] Upload root metadata plus the 177 micro card files to Google Drive with the incremental micro-only upload command.
 - [x] Refresh the active local cache from Drive and validate the 288-card macro-plus-mezzo-plus-micro library.
+- [x] Redefine session workout structure as `SessionCard -> WorkoutBlock -> WorkoutOption -> SessionPart`, with controlled block types, execution modes, mechanical option repeats, JSON export/load support, and app detail rendering.
+- [x] Add a root-metadata-only cloud upload command so schema/display/bundle changes can be uploaded separately from card files.
+- [x] Upload the session-schema metadata update to Google Drive as root metadata only and verify Drive readback at schema `1.3.0`, library `0.7.0`, with 288 cards and 0 session cards.
 - [ ] Build session cards after micro structure is accepted.
 
 ## Phase 5: Card Expansion

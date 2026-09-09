@@ -155,9 +155,11 @@ For level-specific classes:
 - `MacroCard` requires the base fields and `card_type = macro`; `recommended_duration_weeks` and `timing_guidance` can stay optional.
 - `MezzoCard` requires the base fields and `card_type = mezzo`; `recommended_duration_weeks` and `placement_guidance` can stay optional.
 - `MicroCard` requires the base fields and `card_type = micro`; week structure, key sessions, load pattern, placement guidance, and recovery requirements can stay optional.
-- `SessionCard` requires the base fields, `card_type = session`, and `session_family`; `typical_duration` and `workout_parts` can stay optional.
+- `SessionCard` requires the base fields, `card_type = session`, and `session_family`; `typical_duration` and `workout_blocks` can stay optional.
 - `SessionFamily` requires `id`, `slug`, `title`, and `summary`; `description` and `tags` can stay optional.
-- `SessionPart` requires `name`, `duration`, and `rpe`; `instructions` and `terrain_notes` can stay optional.
+- `WorkoutBlock` requires a controlled `block_type`, a controlled `execution_mode`, and at least one `WorkoutOption`.
+- `WorkoutOption` requires a `title` and at least one `SessionPart`; `repeat`, `selection_notes`, and `load_notes` can stay optional.
+- `SessionPart` requires `title`; `prescription`, `duration`, `rpe`, `selection_notes`, `coaching_notes`, `terrain_notes`, and `adjustment_notes` can stay optional.
 
 ## Validation Hooks
 
@@ -177,6 +179,8 @@ Good places for controlled values:
 - `card_type`
 - `suitable_levels`
 - `relationship` in `CardReference`
+- `block_type` in `WorkoutBlock`
+- `execution_mode` in `WorkoutBlock`
 
 Good candidates for future controlled values:
 
@@ -304,17 +308,28 @@ It exposes:
 
 ## Session Workout Guides
 
-`SessionCard` includes `workout_parts` for TrainingPeaks-style workout guidance.
+`SessionCard` includes `workout_blocks` for structured workout guidance.
 
-Each `SessionPart` should describe:
+The workout guide has three nested concepts:
 
-- `name`
+- `WorkoutBlock`: the section of the workout, such as warm-up, main set, recovery, cooldown, optional add-on, or notes.
+- `WorkoutOption`: one complete required, optional, or selectable prescription inside that block.
+- `SessionPart`: the concrete work inside an option.
+
+Each `SessionPart` can describe:
+
+- `title`
+- `prescription`
 - `duration`
 - `rpe`
-- `instructions`
+- `selection_notes`
+- `coaching_notes`
 - `terrain_notes`
+- `adjustment_notes`
 
 RPE uses a 1-10 scale. Durations should usually be adaptable ranges, not overly precise prescriptions.
+
+`WorkoutBlock.execution_mode` tells the app how to interpret the options: `DO_ALL` means the options are performed together, `CHOOSE_ONE` means the coach or athlete selects one option, and `OPTIONAL` means the option is an add-on. `WorkoutOption.repeat` is mechanical and should be used only when the option's parts repeat as rounds or sets.
 
 ## Session Family Objects
 

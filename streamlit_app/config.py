@@ -40,7 +40,7 @@ DETAIL_SECTION_ORDER = [
     "week_structure",
     "key_sessions",
     "load_pattern",
-    "workout_parts",
+    "workout_blocks",
     "expected_adaptations",
     "recovery_requirements",
     "watchouts",

@@ -36,7 +36,7 @@ A database such as Supabase can wait until the app needs in-app editing, multi-u
 
 ## Current Google Drive Library
 
-Replaced in place and verified on 2026-09-06. The macro layer was uploaded first, then root metadata, mezzo files, and micro files were uploaded incrementally so existing accepted cloud files were not disturbed. The macro-plus-mezzo-plus-micro library was downloaded and verified from Drive on 2026-09-09.
+Replaced in place and verified on 2026-09-06. The macro layer was uploaded first, then root metadata, mezzo files, and micro files were uploaded incrementally so existing accepted cloud files were not disturbed. The macro-plus-mezzo-plus-micro library was downloaded and verified from Drive on 2026-09-09. The session-card schema/display metadata was then uploaded as root metadata only and verified from Drive as schema `1.3.0`, library `0.7.0`.
 
 ```text
 training_cards_library
@@ -155,6 +155,7 @@ py -m training_cards.scripts.validate_cache
 py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.download_cloud_library
 py -m training_cards.scripts.upload_cache
+py -m training_cards.scripts.upload_metadata_cache
 py -m training_cards.scripts.upload_mezzo_cache
 py -m training_cards.scripts.upload_micro_cache
 py -m training_cards.scripts.export_seed_to_cloud
@@ -169,6 +170,7 @@ Command meanings:
 - `build_bundle`: validate the local cache and write `training_cards_library.json`.
 - `download_cloud_library`: download Drive JSON into local cache and validate it.
 - `upload_cache`: refresh `training_cards_library.json`, then upload local cache files to Drive, updating existing files by name and creating missing files.
+- `upload_metadata_cache`: refresh and upload root metadata files only, leaving all cloud card JSON files untouched.
 - `upload_mezzo_cache`: refresh root metadata and upload only `cards/mezzo`, leaving existing cloud macro files untouched.
 - `upload_micro_cache`: refresh root metadata and upload only `cards/micro`, leaving existing cloud macro and mezzo files untouched.
 - `export_seed_to_cloud`: export Python seed cards to cache, validate, and upload to Drive.

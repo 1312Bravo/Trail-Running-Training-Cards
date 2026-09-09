@@ -21,9 +21,9 @@ MACRO_MEZZO_REUSE_FILE_NAME = "macro_mezzo_reuse.json"
 MEZZO_MICRO_REUSE_FILE_NAME = "mezzo_micro_reuse.json"
 LIBRARY_BUNDLE_FILE_NAME = "training_cards_library.json"
 LIBRARY_ID = "running_training_cards"
-SCHEMA_VERSION = "1.2.0"
-LIBRARY_VERSION = "0.6.0"
-LAST_UPDATED = "2026-09-06"
+SCHEMA_VERSION = "1.3.0"
+LIBRARY_VERSION = "0.7.0"
+LAST_UPDATED = "2026-09-09"
 CARDS_ROOT = "cards"
 MULTI_PROFILE_CARD_FOLDER = "multi_profile"
 
@@ -48,7 +48,7 @@ def card_storage_path(card: BaseTrainingCard) -> Path:
 # Define how consumers should present the card library without owning card meaning.
 def build_display_config() -> dict[str, Any]:
     return {
-        "display_config_version": "1.2.0",
+        "display_config_version": "1.3.0",
         "schema_version": SCHEMA_VERSION,
         "system_fields": [
             "id",
@@ -88,7 +88,7 @@ def build_display_config() -> dict[str, Any]:
             "watchouts",
             "progression_rules",
             "regression_rules",
-            "workout_parts",
+            "workout_blocks",
             "references",
         ],
         "field_labels": {
@@ -118,7 +118,7 @@ def build_display_config() -> dict[str, Any]:
             "watchouts": "Watchouts",
             "progression_rules": "Progression rules",
             "regression_rules": "Regression rules",
-            "workout_parts": "Workout guide",
+            "workout_blocks": "Workout guide",
             "references": "Linked cards",
         },
         "card_type_labels": {

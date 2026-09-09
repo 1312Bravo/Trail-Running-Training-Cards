@@ -18,6 +18,15 @@ from training_cards.json_store import (
 )
 from training_cards.philosophy_profiles import CTS, LYDIARD, MAINSTREAM_ENDURANCE
 from training_cards.schemas import CardType, MacroCard, TrainingLevel
+from training_cards.schemas import (
+    SessionCard,
+    SessionFamily,
+    SessionPart,
+    WorkoutBlock,
+    WorkoutBlockExecutionMode,
+    WorkoutBlockType,
+    WorkoutOption,
+)
 
 
 class JsonStorageTests(unittest.TestCase):
@@ -76,6 +85,37 @@ class JsonStorageTests(unittest.TestCase):
 
         self.assertEqual(["macro_001", "macro_002"], [card.id for card in loaded_cards])
 
+    def test_session_workout_blocks_round_trip(self) -> None:
+        cards = [_session("session_001")]
+
+        with tempfile.TemporaryDirectory(prefix="training_cards_session_storage_") as temp_dir:
+            output_dir = Path(temp_dir)
+            export_card_library_to_json(cards, output_dir)
+
+            session_json = read_json(
+                output_dir
+                / "cards"
+                / "session"
+                / MAINSTREAM_ENDURANCE
+                / "session-001.json"
+            )
+            self.assertIn("workout_blocks", session_json)
+            self.assertNotIn("workout_parts", session_json)
+
+            loaded_card = load_card_library_from_json(output_dir)[0]
+
+        self.assertIsInstance(loaded_card, SessionCard)
+        self.assertEqual(WorkoutBlockType.MAIN, loaded_card.workout_blocks[0].block_type)
+        self.assertEqual(
+            WorkoutBlockExecutionMode.CHOOSE_ONE,
+            loaded_card.workout_blocks[0].execution_mode,
+        )
+        self.assertEqual("4 rounds", loaded_card.workout_blocks[0].options[0].repeat)
+        self.assertEqual(
+            "Hard Repetition",
+            loaded_card.workout_blocks[0].options[0].parts[0].title,
+        )
+
 
 def _macro(card_id: str, philosophy_profile_ids: list[str]) -> MacroCard:
     return MacroCard(
@@ -87,6 +127,51 @@ def _macro(card_id: str, philosophy_profile_ids: list[str]) -> MacroCard:
         philosophy_profile_ids=philosophy_profile_ids,
         summary="Summary.",
         purpose="Purpose.",
+    )
+
+
+def _session(card_id: str) -> SessionCard:
+    return SessionCard(
+        id=card_id,
+        slug=card_id.replace("_", "-"),
+        title=card_id,
+        card_type=CardType.SESSION,
+        suitable_levels=[TrainingLevel.INTERMEDIATE],
+        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
+        summary="Summary.",
+        purpose="Purpose.",
+        session_family=SessionFamily(
+            id="session_family_test",
+            slug="test",
+            title="Test",
+            summary="Test family.",
+        ),
+        workout_blocks=[
+            WorkoutBlock(
+                block_type=WorkoutBlockType.MAIN,
+                execution_mode=WorkoutBlockExecutionMode.CHOOSE_ONE,
+                options=[
+                    WorkoutOption(
+                        title="4 x 4 Min Hard / 3 Min Easy",
+                        repeat="4 rounds",
+                        parts=[
+                            SessionPart(
+                                title="Hard Repetition",
+                                prescription="Run hard at controlled aerobic-power effort.",
+                                duration="4 minutes",
+                                rpe="8-9",
+                            ),
+                            SessionPart(
+                                title="Easy Recovery",
+                                prescription="Jog easily.",
+                                duration="3 minutes",
+                                rpe="1-3",
+                            ),
+                        ],
+                    )
+                ],
+            )
+        ],
     )
 
 
