@@ -1,219 +1,57 @@
-# Training Cards Coaching Plan
+# Training Cards Plan
 
-This file is the working plan for improving the coaching folder, technical notes, prompt system, and card content in the Training Cards library.
+This is the current working plan for the Training Cards library. Keep durable documentation in `notes/`, coaching knowledge in `coaching/`, and card taxonomy decisions in `training_cards/cards/card_matrix.md`.
 
-Keep this file updated whenever the work plan, ordering, decisions, or completed phases change.
+## Current State
 
-The current focus is content and coaching quality, not schema changes.
+- Google Drive JSON is the source of truth for accepted card content.
+- The local cache at `training_cards/local_cache/cloud_library/` is the temporary working copy.
+- The Drive-backed library has been verified at 365 cards: 33 macro, 78 mezzo, 177 micro, and 77 session cards.
+- Reuse metadata is active for macro-to-mezzo, mezzo-to-micro, and micro-to-session inheritance.
+- The old full Python seed-card library has been retired.
+- Four Python examples remain under `training_cards/cards/examples/` for macro, mezzo, micro, and session authoring.
+- Workflow templates exist for one-card cloud JSON to Python authoring and Python-authored card upload through the local cache.
 
-## Guiding Direction
+## Active Goals
 
-The card library should feel like it was built by a thoughtful endurance coach with trail-running and mountain-running expertise.
+- Keep the library source-of-truth structure clean: Drive JSON first, local cache second, Python examples only for authoring.
+- Keep card taxonomy and philosophy-review reasoning clear in `training_cards/cards/card_matrix.md`.
+- Keep cloud/cache workflow instructions centralized in `notes/cloud_library_storage_workflow.md`.
+- Keep schema and validation behavior centralized in `notes/schema_design_and_validation.md`.
+- Continue future card changes through validated cache JSON and targeted cloud upload scripts.
 
-Before rebuilding or expanding the cards, we first need to clarify:
+## Recently Completed
 
-- where the coach takes knowledge from
-- how coaching judgment is translated into cards
-- how coaching notes and prompts support consistent card creation
-- how card content should balance general running usefulness with trail-specific adaptation
-- how future cards should be reviewed before they become part of the library
-
-## Completed Work
-
-- Completed the initial read-only audit of existing notes and prompts.
-- Renamed unclear notes.
-- Replaced the old prompt-only folder with `coaching/`.
-- Moved coach-facing prompt and coaching notes into `coaching/`.
-- Kept technical and project notes in `notes/`.
-- Merged `schema_onboarding_notes.md` into `notes/schema_design_and_validation.md`.
-- Split `coach_guidance.md` into `coaching_philosophy.md` and `card_authoring_guidance.md`.
-- Lightly refined the current coaching files before moving into deeper coaching-foundation work.
-- Archived `coaching_philosophy.md` and `source_history.md` as `_old` reference files and created fresh working versions.
-- Established a shared coaching foundation and a folder-per-philosophy structure; preserved the active foundation and source-history scaffold through file moves rather than content rewrites.
-
-## Phase 1: Notes Structure
-
-Create a cleaner notes and coaching-folder structure from the audit.
-
-Status: completed for now. The `coaching/` folder will stay intentionally small, with a few larger files instead of many narrow files.
-
-Current coaching structure:
-
-- `coaching/coaching_foundation.md`: shared coach identity, trail and mountain context, claim integrity, and safety boundary that apply across every philosophy profile.
-- `coaching/philosophies/<profile>/philosophy.md`: a complete, internally consistent coaching approach.
-- `coaching/philosophies/<profile>/sources.md`: reviewed sources, interpretation boundaries, and outstanding evidence work for that specific philosophy.
-- `coaching/philosophies/_template/philosophy.md`: provisional topic structure for future philosophy profiles.
-- `coaching/philosophies/_template/sources.md`: source-record scaffold for creating future profile histories.
-- `coaching/card_authoring_guidance.md`: practical guidance for writing, reviewing, structuring, and displaying cards.
-- `coaching/card_hierarchy.md`: coach-facing explanation of macro, mezzo, micro, and session layers.
-
-Proposed structure from the audit:
-
-- `notes/cloud_library_storage_workflow.md`: renamed from `cloud_storage_notes.md`; owns Drive, cache, manifest, bundle, validation, upload/download.
-- `notes/schema_design_and_validation.md`: merged from `schema_notes.md` and `training_cards_object_definitions.md`; owns schema design, onboarding explanation, references, pathway indexing, registry, display assumptions, and validation behavior.
-- `notes/product_backlog.md`: renamed from `TODO.md`; owns future app/workflow/product ideas.
-
-Structure goals:
-
-- give each note one clear job
-- avoid duplicate explanations across files
-- make note names obvious from the filename
-- keep technical implementation notes separate from coaching notes
-- keep coach-facing prompts and coach notes together in `coaching/`
-- prefer a few larger coaching files until the content becomes too large to navigate
-- preserve useful existing content while moving it into better homes
-
-## Phase 2: Coaching Knowledge Foundation
-
-Define the shared coaching foundation, then establish philosophy-specific coaching approaches and their source history.
-
-Status: active. Keep the coach identity and responsible-guidance standards shared; define training models, knowledge stance, and source history inside individual philosophy profiles.
-
-Key questions:
-
-- What standards must apply across every coaching philosophy?
-- What complete coaching philosophy should be defined first?
-- How should each philosophy represent its own sources, evidence, coaching practice, and uncertainty?
-- How should athlete readiness, fatigue, injury history, and recovery influence card choice?
-- How should trail and mountain demands change otherwise general running guidance?
-- How should the library handle uncertainty, adaptation, and individual differences?
-
-Likely outputs:
-
-- a clear shared coaching foundation
-- one or more explicit philosophy profiles
-- philosophy-specific source histories
-- philosophy-specific trail-running adaptation, fatigue/readiness, and progression/regression frameworks
-
-Coaching foundation and philosophy-profile TODO:
-
-- [x] Define the coach identity as broadly reusable coaching guidance: an experienced, practical, athlete-centred and access-aware endurance-running coach with trail and mountain depth; aware of the runner's whole life and varied goals; focused on durable development, purposeful and enjoyable training, education, athlete agency, a calm but firm tone, and clear professional scope.
-- [x] Define the shared trail and mountain context as running-first guidance with terrain-specific interpretation, transferable training intent, intentional specificity, skill development, conditions-aware judgement, access-aware substitutions, and variable recovery cost.
-- [x] Define the shared claim-integrity and uncertainty standard: use sound knowledge, state what depends on the runner or context, avoid false certainty, and keep philosophy-specific reasoning traceable.
-- [x] Define the shared safety boundary for plan authoring: plans are general guidance, should be built conservatively, need cautions only when directly relevant, and do not replace professional care.
-- [x] Select `cts` as the first complete coaching philosophy profile.
-- [x] Create and expand the long-form `cts` interpretation, using mini-section headings with explanatory paragraphs for each substantive principle, plus section-level framing, practical application, boundaries, training load and adaptation model, trail and mountain approach, knowledge and decision-making stance, limits, and card implications.
-- [x] Add `cts/summary.md` as a short, practical entry point derived from the detailed CTS interpretation; make `summary.md` part of the documented profile structure.
-- [ ] Review and refine the CTS profile against the user's source material before using exact protocol details that need direct primary-source confirmation.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `evoke_endurance`; it is available for card authoring, with direct-source review still required for exact protocols.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `swap`; it is available for card authoring, with a deeper primary-source base still needed for exact workout structures.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `sharman_ultra`; it is available for card authoring, with a deeper primary-source base still needed for exact workout structures.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `80_20_endurance`; it is available for card authoring, with primary-book review still required for exact protocols.
-- [x] Build matching `summary.md`, `philosophy.md`, and `sources.md` files for `lydiard`; it is available for card authoring, with primary-source review still required for exact historical prescriptions.
-- [x] Expand all current system profiles into long-form interpretations with comparable structure: coaching principles, training load and adaptation, trail and mountain application, knowledge and decision-making, card implications, and current limits. All current profiles are available for card authoring; their source boundaries remain explicit.
-- [x] Expand each current profile's `summary.md` and `sources.md` alongside the long-form philosophy, separating reviewed material from direct-source work still required.
-- [x] Create and maintain a `sources.md` record inside each philosophy profile.
-- [x] Define philosophy profiles as documented, source-grounded interpretations of named coaching systems or teams; add `coaching/philosophies/README.md` to set folder structure, source standards, profile-ID rules, and the `common` boundary.
-- [x] Catalogue the planned coaching systems in `coaching/philosophies/coaching_systems.md`, with primary official resource links: `cts`, `evoke_endurance` (including the Uphill Athlete lineage), `swap`, `sharman_ultra`, `80_20_endurance`, and `lydiard`.
-- [x] Align the `_template/` filenames and contents with the documented `summary.md`, `philosophy.md`, and `sources.md` structure.
-- [ ] Update related files if needed: `card_authoring_guidance.md` and `card_hierarchy.md`.
-- [x] Add card-level philosophy provenance: `philosophy_profile_ids` is a structured list, uses `common` for cards shaped only by the shared foundation, uses exact philosophy-directory names for other values, supports multiple profiles, and is shown in card preview/detail and Browse-mode filtering.
-- [x] Create `training_cards/philosophy_profiles.py` as the single local registry of valid profile IDs and display names. Use it in card validation and Streamlit rendering/filtering; cards store only stable IDs, and `common` cannot be combined with named profiles.
-- [x] Define and enforce the card-relationship contract: adjacent-level `parent`/`child`, same-level `previous`/`next`/`alternative`, and cross-level non-structural `support`.
-- [x] Convert the existing skipped-level structural links to `support`, preserving their coaching meaning without changing the pathway hierarchy.
-- [x] Re-export and validate the 38-card local cache with schema 1.2 and `philosophy_profile_ids` set to `common`.
-- [x] Publish the validated schema-1.2 replacement library to Google Drive and configure it as the source of truth.
-- [x] Remove the obsolete one-off migration scripts after the verified replacement cutover.
-
-Reference files:
-
-- `coaching/coaching_philosophy_old.md`
-- `coaching/source_history_old.md`
-
-Active files:
-
-- `coaching/coaching_foundation.md`
-- `coaching/philosophies/_template/sources.md`
-
-## Phase 3: Coaching Prompt Structure
-
-Update the prompts after the note structure and coaching foundation are clearer.
-
-Possible prompt work:
-
-- improve `coaching/coaching_foundation.md`
-- improve `coaching/card_authoring_guidance.md`
-- separate card creation guidance from card review guidance if useful
-- make the prompt clearer about field purpose and coaching voice
-- define how much evidence, specificity, and trail adaptation each card needs
-
-## Phase 4: Card Rebuild Plan
-
-Status: completed. The 44-card library is the configured and validated source of truth; the former active contents and pre-rebuild archive have been permanently removed.
-
-Goals:
-
-- improve existing card content
-- add missing cards
-- make cards more specific and useful without becoming too narrow
-- improve consistency across macro, mezzo, micro, and session levels
-- strengthen references between cards
-- keep preview fields concise and detail fields genuinely useful
-
-Likely rebuild order:
-
-1. Macro cards
-2. Mezzo block cards
-3. Micro week cards
-4. Session workout cards
-5. Session family support content
-
-Rebuild and cutover workflow:
-
-- [x] Define the archive-and-swap rebuild workflow in `notes/card_library_rebuild_workflow.md`.
-- [x] Freeze the current active Google Drive library immediately before rebuild work begins.
-- [x] Create and independently verify dated local and Google Drive archives of the current library.
-- [x] Build the complete replacement library in a clean local staging location, with deliberate philosophy-profile provenance on every card.
-- [x] Validate and content-review the full staged replacement before any cloud change.
-- [x] Add explicit Drive archive, replacement-upload, verification, and cutover tooling. Do not change ordinary `upload_cache` into a deletion command.
-- [x] Create, upload, download, and validate a new replacement Drive library folder.
-- [x] Switch `training_cards/cloud_config.py` to the verified replacement library.
-- [x] Refresh the active local cache from the replacement; permanently delete the dated Drive archive after the rebuild is accepted.
-- [x] Permanently remove the former Drive `manifest.json` and `cards` folder from the shared container using the Drive-owner account. Only the verified replacement and dated archive remain.
-
-Replacement-library scope for this rebuild:
-
-- [x] Define the first replacement-library scope: 6 macro phases, 9 mezzo blocks, 9 micro weeks, and 20 session cards. This preserves a complete planning pathway while expanding the session layer from 14 to 20 cards.
-- [x] Author the replacement card set as a new library, not as edits to the previous generic cards.
-- [x] Use `common` only for genuinely shared-foundation cards. Give every named profile a strong, visible role in at least one macro, mezzo, micro, and/or session card: `cts` for event-demand and long-range specificity; `evoke_endurance` for aerobic capacity, strength reserve, and muscular endurance; `80_20_endurance` for intensity distribution and execution; `lydiard` for base-first sequence and response-led regulation; `swap` for economy, speed, fatigue resistance, and sustainable engagement; and `sharman_ultra` for individual adaptation and practical ultra execution.
-
-## Phase 5: Card Expansion
-
-Once the rebuilt style is established, expand the library with new cards.
-
-Potential expansion areas:
-
-- recovery and return-to-training patterns
-- climb-focused development
-- downhill conditioning
-- hiking and power-hiking progression
-- fueling practice
-- heat, altitude, and environmental preparation
-- race-specific simulation
-- strength and mobility support
-- technical terrain skill sessions
+- Added `mainstream_endurance` as a normal coaching philosophy profile.
+- Removed `common` as card-level provenance.
+- Built accepted macro, mezzo, micro, and session card layers.
+- Added app-facing reuse metadata files: `macro_mezzo_reuse.json`, `mezzo_micro_reuse.json`, and `micro_session_reuse.json`.
+- Redefined session cards as `SessionCard -> WorkoutBlock -> WorkoutOption -> SessionPart`.
+- Uploaded and verified the 365-card Drive library.
+- Removed generated Python card modules and old seed-export scripts.
+- Added four card-authoring examples and guarded workflow templates.
+- Refactored documentation ownership so README, notes, card matrix, AGENTS, and PLAN have clearer roles.
 
 ## Working Rules
 
-- Keep `PLAN.md` current as decisions are made and phases are completed.
-- Write substantial coaching-philosophy points under clear mini-section headings with explanatory paragraphs, so individual ideas are easy to find and revise without becoming fragmented bullets.
-- Discuss direction before editing broad coaching content.
-- Keep schema changes out of scope unless content work exposes a real need.
-- Treat Google Drive JSON as the source of truth for card content.
-- Use local card files as implementation artifacts, not the final authority.
-- Keep card titles broad and reusable.
-- Put trail-specific detail inside card content rather than making every card trail-only.
-- Review coaching notes and prompts before rebuilding cards.
-- Run validation after card JSON or synced content changes.
+- Treat Google Drive JSON as the accepted card-content source of truth.
+- Use the local cache as a temporary working copy, not as permanent storage.
+- Use Python card classes only as examples or temporary authoring scaffolding.
+- Validate after editing JSON, syncing with Drive, changing schema behavior, or changing reuse metadata.
+- Consult `coaching/coaching_foundation.md`, `coaching/card_authoring_guidance.md`, and the relevant philosophy profile before changing coaching content.
+- Apply the philosophy-specificity standard strictly: create named-philosophy cards only when they change app choice, explanation, structure, filtering, or sequencing meaningfully.
+- After each substantial work block, review for overlap, missing pieces, level fit, naming, local/cloud/doc alignment, and app impact.
 
-## Immediate Next Step
+## Next Step
 
-Review the rebuilt cards for coaching quality and expand the library from the new philosophy-grounded baseline. New cards may use any registered philosophy profile when its distinctive reasoning materially shapes the card; use `common` only for shared-foundation-only cards.
+Review the final cleanup state and decide whether empty old card folders should remain as structural placeholders or be removed now that real card content lives in Drive JSON.
 
-Each profile now uses three files:
+## Documentation Map
 
-- `summary.md`
-- `philosophy.md`
-- `sources.md`
-
-Keep related topics inside that profile's `philosophy.md` first. Split them out later only if the profile becomes too large or hard to navigate.
+- `README.md`: short repository orientation and common commands.
+- `AGENTS.md`: rules Codex should follow in this repository.
+- `notes/README.md`: documentation map.
+- `notes/cloud_library_storage_workflow.md`: cloud/cache workflow, Drive structure, and authoring helper workflow.
+- `notes/schema_design_and_validation.md`: schema fields, validation, registry, pathway, and session workout structure.
+- `notes/card_library_rebuild_workflow.md`: full-library replacement safeguards.
+- `training_cards/cards/card_matrix.md`: card taxonomy, coach reasoning, philosophy review, and build decisions.

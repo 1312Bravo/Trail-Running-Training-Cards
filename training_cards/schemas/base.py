@@ -1,10 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 
-from training_cards.philosophy_profiles import (
-    COMMON_PHILOSOPHY_PROFILE_ID,
-    validate_philosophy_profile_ids,
-)
+from training_cards.philosophy_profiles import validate_philosophy_profile_ids
 
 from .enums import CardType, TrainingLevel
 from .references import CardReference
@@ -25,9 +22,7 @@ class BaseTrainingCard:
     summary: str
     purpose: str
     tags: list[str] = field(default_factory=list)
-    philosophy_profile_ids: list[str] = field(
-        default_factory=lambda: [COMMON_PHILOSOPHY_PROFILE_ID]
-    )
+    philosophy_profile_ids: list[str] = field(default_factory=list)
     goal_race_context: list[str] = field(default_factory=list)
     training_profile: list[str] = field(default_factory=list)
     expected_adaptations: list[str] = field(default_factory=list)

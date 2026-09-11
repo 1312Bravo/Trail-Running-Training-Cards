@@ -144,7 +144,7 @@ They are useful for decisions like:
 - what terrain or execution detail matters
 - how to scale the workout up or down
 
-Session cards should be practical and coachable. They need enough structure to guide execution, but they should still be reusable workout concepts rather than one-off prescriptions.
+Session cards should be practical and coachable. They need enough structure to guide execution, but they should still be reusable workout concepts rather than one-off prescriptions. A session card uses workout blocks, options, and parts: the block gives the workout section, the option gives a complete selectable or required prescription, and the part gives the concrete work the athlete performs.
 
 Good session cards answer:
 
@@ -153,6 +153,8 @@ Good session cards answer:
 - What terrain or pacing guidance matters?
 - What are the common mistakes?
 - What should the coach change if the athlete is not ready?
+
+Use mechanical repeats only when the parts repeat. For example, a hill circuit option can repeat several rounds, while a simple continuous easy run usually has no repeat value.
 
 ## Trail And Mountain Context
 

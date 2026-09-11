@@ -32,11 +32,15 @@ SWAP's published overview identifies improved running economy and making stronge
 
 Speed in this interpretation is not automatically a high-volume interval programme. It may involve coordination, relaxed mechanics, strides, hills, short faster running, confidence at turnover, or carefully placed intensity. The coach must decide whether the runner has the durability, recovery, and movement quality to benefit from a speed-oriented stimulus now. Faster work earns its place by improving economy or event capability, not by making the session look advanced.
 
+The source base supports speed and economy as priorities, but not a single official workout recipe for this library. Cards should therefore describe the coaching purpose rather than copy a formula. A relaxed stride card, short interval card, hill-speed card, or economy-focused fartlek can be SWAP-shaped when it protects mechanics, confidence, recovery, and long-term engagement. It should not be SWAP-labelled just because the runner is moving fast.
+
 ### Treat Fatigue Resistance As A Performance Question
 
 SWAP highlights fatigue resistance as a meaningful question in endurance performance: athletes can have similar fresh-state capacity yet perform very differently after long duration, accumulated climbing, heat, fueling demands, or prior intensity. This is particularly relevant for trail and ultrarunning, where late-event movement quality, pacing judgement, nutrition, confidence, and terrain handling may determine the outcome.
 
 The concept should make coaching more curious, not more reckless. A difficult long run is not automatically fatigue-resistance training, and a runner does not need to practise maximal exhaustion to prepare for a long event. The useful question is which factors cause performance to deteriorate for this athlete and whether a chosen session develops durable economy, pacing, fueling, strength, terrain skill, or simply more consistent aerobic capacity.
+
+For card authoring, fatigue resistance should be framed as a diagnostic and developmental lens. The card should ask what degrades late: pace, form, climbing rhythm, fueling tolerance, decision-making, confidence, or recovery after the session. The intervention then targets that limiter with proportionate stress. This keeps the idea grounded in observation instead of turning it into a vague instruction to make long runs harder.
 
 ### Let Science And Practice Inform Each Other
 
@@ -44,11 +48,15 @@ SWAP explicitly presents its method as applying science, research, and training 
 
 The profile should distinguish three kinds of claim: established general coaching principles, a promising but still developing explanation, and a practical hypothesis tested through athlete response. The runner benefits when the card is clear about its purpose and uncertainty. Confident language is useful only when the evidence and context justify it.
 
+This makes revision part of the philosophy rather than an embarrassment. If new evidence, athlete response, or source review changes the explanation for a session, the card should be updated. SWAP-labelled guidance should sound curious and rigorous: state the hypothesis, prescribe a bounded dose, observe the response, and avoid pretending that a popular mechanism has already solved every athlete.
+
 ### Use Coaching Language That Builds Agency
 
 SWAP's public culture is encouraging and affirming. In this library, that should mean the runner receives understandable guidance, permission to use judgement, and an explanation of why the work matters. It should not mean hollow praise or avoidance of clear boundaries. The athlete needs direct feedback when a session is poorly placed, when recovery is being ignored, or when a goal needs more patience.
 
 An appropriate SWAP tone is warm, energetic, curious, and honest. It respects ambition while reminding the athlete that a missed target, slower day, or rerouted run is information rather than a verdict on their worth.
+
+Agency also means the runner is trusted with boundaries. A SWAP-informed card can invite play, route choice, or confidence-building, but it should still say when to stop, simplify, fuel, rest, or choose a less exciting route. Support is not the absence of structure; it is structure delivered in a way that protects the athlete's long-term relationship with training.
 
 ## Training Load And Adaptation
 
@@ -64,11 +72,21 @@ SWAP's public source list connects underfueling and overtraining, reinforcing a 
 
 This profile should not make medical claims or prescribe nutrition beyond its scope. It should, however, insist that a high-quality plan cannot ignore basic recovery and fueling practices. Where a session is long, demanding, or event-specific, the card can explain that execution includes supporting the work, not merely completing the movement.
 
+This is especially important for runners who respond well to enthusiasm and ambition. A joyful, high-engagement training culture can still drift into too much work if fueling, recovery, and health signals are treated as secondary. Cards should frame eating enough, recovering enough, and reducing work when needed as part of performance development, not as signs that the athlete is less committed.
+
 ### Keep Speed Compatible With The Rest Of Training
 
 Speed and economy work can be low in total volume yet still have meaningful neuromuscular and mechanical cost. A runner who adds it to a dense load of long runs, downhill work, strength, or life stress may not receive the intended benefit. The coach needs to protect placement, progression, technique quality, and recovery around the stimulus.
 
 This is especially important for less experienced runners. The card should make a simpler entry version available and give a clear stopping condition when mechanics deteriorate or the athlete cannot keep the effort relaxed and purposeful.
+
+Speed should also be scaled to the athlete's confidence and history. For one runner, speed development may start as relaxed strides after easy running. For another, it may be a structured aerobic-power session. For a runner returning from injury, it may be postponed while durability returns. The SWAP label fits when faster work is integrated as a sustainable skill, not as a demand that the athlete prove fitness.
+
+### Let Enjoyment Support Consistency Without Becoming The Only Metric
+
+SWAP's public emphasis on joyful adventures gives enjoyment a legitimate training role. Enjoyment can improve adherence, confidence, curiosity, and willingness to stay in the sport over years. It can also help a runner return from setbacks without shame or fear.
+
+The limit is that enjoyment alone does not define the right session. A beautiful route can be too hard for recovery. A favourite workout can be poorly timed. A playful downhill can create more damage than the week can absorb. Cards should use enjoyment as one ingredient in a sustainable plan while still protecting the training purpose.
 
 ## Trail And Mountain Application
 
@@ -83,6 +101,8 @@ Adventure does not make a session unstructured. The card should still state the 
 SWAP's published resources identify uphill and downhill running as a science-and-theory topic. This validates treating terrain as more than elevation gain. Uphill work can change force demands and pacing; downhill can create large eccentric, coordination, and confidence demands that are not captured by cardiovascular intensity alone.
 
 The current source base does not support a SWAP-specific downhill protocol in this library. It does support a broader question: how does terrain affect the athlete's economy, recovery, fatigue resistance, and ability to perform later work? Cards should introduce new terrain stress progressively and describe the purpose and cost rather than using descent difficulty as a badge of specificity.
+
+A SWAP-informed terrain card should also preserve the athlete's emotional response to terrain. Confidence, fear, curiosity, and playfulness affect how the runner moves and whether the session is productive. That does not make psychology a substitute for skill or progression; it means the coach should choose terrain that supports learning rather than overwhelming the athlete.
 
 ### Let Joy Improve Adherence, Not Hide Avoidance
 
@@ -104,6 +124,12 @@ Fatigue resistance, downhill mechanisms, and long-term adaptation are fruitful a
 
 When a card relies on an emerging idea, it should use proportionate language, identify the observable purpose, and offer a conservative progression. That keeps the library responsive to learning without turning it into an unreviewed collection of trends.
 
+### Learn From Positive Response Too
+
+Because SWAP emphasises fulfilment and long-term growth, response review should include more than fatigue and failure. A runner's confidence, eagerness to train, relaxed mechanics, better fueling behaviour, or renewed enjoyment can be useful information. Those observations do not replace performance data, but they help the coach understand whether the training process is becoming more sustainable.
+
+Cards can make this practical by asking what improved as well as what broke down. Did faster running feel smoother? Did the runner finish wanting to train again? Did a route choice improve confidence without distorting the effort? This kind of feedback fits the profile's whole-person performance stance.
+
 ## Implications For Cards
 
 ### Combine Clear Purpose With Athlete Agency
@@ -114,13 +140,15 @@ A SWAP-labelled card should tell the runner what must remain constant and what c
 
 Cards that include strides, faster running, hills, or descents should name the intended role in economy, coordination, skill, or event performance. They should explain the entry point, the reason to stop or reduce the dose, and the recovery relationship to other demanding work.
 
+The card should also distinguish fast from forced. SWAP-labelled speed should usually preserve relaxed mechanics, confidence, and a clear purpose. If the work becomes strained, punitive, or disconnected from the larger plan, the distinctive profile logic has probably been lost.
+
 ### Support Long-Term Engagement Honestly
 
 The profile label should only be used where the card visibly supports sustainable development, athlete confidence, and a healthy relationship with training alongside performance. A punitive, opaque, or rigid workout does not become SWAP because it includes an encouraging sentence.
 
 ### Reserve The Profile Label For Distinctive Influence
 
-Use `swap` when the card is materially shaped by SWAP's long-term fulfilment, economy-and-speed, fatigue-resistance, science-evolving, and agency-aware logic. A generic enjoyable trail run or generic supportive explanation remains `common`.
+Use `swap` when the card is materially shaped by SWAP's long-term fulfilment, economy-and-speed, fatigue-resistance, science-evolving, and agency-aware logic. A generic enjoyable trail run or generic supportive explanation should not carry the SWAP label unless that distinctive logic is visible.
 
 ## Current Limits And Review Questions
 

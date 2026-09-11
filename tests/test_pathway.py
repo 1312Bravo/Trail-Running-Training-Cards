@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 
+from training_cards.philosophy_profiles import ENDURANCE_80_20, MAINSTREAM_ENDURANCE
 from training_cards.pathway import (
     build_pathway_index,
     validate_pathway_publish_ready,
@@ -39,6 +40,89 @@ class PathwayIndexTests(unittest.TestCase):
         children = build_pathway_index(cards).children("macro_001", "mezzo")
 
         self.assertEqual(["mezzo_001"], [card.id for card in children])
+
+    def test_children_include_reused_macro_mezzo_mapping(self) -> None:
+        cards = [
+            _macro("macro_010", philosophy_profile_ids=[ENDURANCE_80_20]),
+            _mezzo("mezzo_001"),
+            _mezzo(
+                "mezzo_029",
+                philosophy_profile_ids=[ENDURANCE_80_20],
+                references=[_parent("macro_010")],
+            ),
+        ]
+        reuse_config = {
+            "entries": [
+                {
+                    "philosophy_profile_id": ENDURANCE_80_20,
+                    "macro_card_id": "macro_010",
+                    "macro_card_name": "80/20 Base Development",
+                    "reused_mezzo_card_id": "mezzo_001",
+                    "reused_mezzo_card_name": "Re-Entry Rhythm Block",
+                    "reuse_type": "reuse_mainstream",
+                }
+            ]
+        }
+
+        children = build_pathway_index(cards, reuse_config).children("macro_010", "mezzo")
+
+        self.assertEqual(["mezzo_001", "mezzo_029"], [card.id for card in children])
+
+    def test_children_include_reused_mezzo_micro_mapping(self) -> None:
+        cards = [
+            _mezzo("mezzo_001"),
+            _micro("micro_001", references=[_parent("mezzo_001")]),
+            _micro("micro_065", philosophy_profile_ids=[ENDURANCE_80_20], references=[_parent("mezzo_029")]),
+        ]
+        reuse_config = {
+            "entries": [
+                {
+                    "philosophy_profile_id": ENDURANCE_80_20,
+                    "mezzo_card_id": "mezzo_001",
+                    "mezzo_card_name": "Re-Entry Rhythm Block",
+                    "reused_micro_card_id": "micro_001",
+                    "reused_micro_card_name": "Routine Anchor Week",
+                    "reuse_type": "inherit_mainstream",
+                }
+            ]
+        }
+
+        children = build_pathway_index(
+            cards,
+            mezzo_micro_reuse_config=reuse_config,
+        ).children("mezzo_001", "micro")
+
+        self.assertEqual(["micro_001"], [card.id for card in children])
+
+    def test_children_include_reused_micro_session_mapping(self) -> None:
+        cards = [
+            _micro("micro_065", philosophy_profile_ids=[ENDURANCE_80_20]),
+            _session("session_001"),
+            _session(
+                "session_047",
+                philosophy_profile_ids=[ENDURANCE_80_20],
+                references=[_parent("micro_065")],
+            ),
+        ]
+        reuse_config = {
+            "entries": [
+                {
+                    "philosophy_profile_id": ENDURANCE_80_20,
+                    "micro_card_id": "micro_065",
+                    "micro_card_name": "80/20 Low-Intensity Baseline Week",
+                    "reused_session_card_id": "session_001",
+                    "reused_session_card_name": "Rest Day",
+                    "reuse_type": "reuse_mainstream",
+                }
+            ]
+        }
+
+        children = build_pathway_index(
+            cards,
+            micro_session_reuse_config=reuse_config,
+        ).children("micro_065", "session")
+
+        self.assertEqual(["session_001", "session_047"], [card.id for card in children])
 
     def test_shortcut_parent_child_references_are_publish_errors(self) -> None:
         cards = [
@@ -128,52 +212,72 @@ def _parent(card_id: str) -> CardReference:
     return CardReference(card_id=card_id, relationship=CardRelationship.PARENT)
 
 
-def _macro(card_id: str, references: list[CardReference] | None = None) -> MacroCard:
+def _macro(
+    card_id: str,
+    references: list[CardReference] | None = None,
+    philosophy_profile_ids: list[str] | None = None,
+) -> MacroCard:
     return MacroCard(
         id=card_id,
         slug=card_id,
         title=card_id,
         card_type=CardType.MACRO,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=philosophy_profile_ids or [MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],
     )
 
 
-def _mezzo(card_id: str, references: list[CardReference] | None = None) -> MezzoCard:
+def _mezzo(
+    card_id: str,
+    references: list[CardReference] | None = None,
+    philosophy_profile_ids: list[str] | None = None,
+) -> MezzoCard:
     return MezzoCard(
         id=card_id,
         slug=card_id,
         title=card_id,
         card_type=CardType.MEZZO,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=philosophy_profile_ids or [MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],
     )
 
 
-def _micro(card_id: str, references: list[CardReference] | None = None) -> MicroCard:
+def _micro(
+    card_id: str,
+    references: list[CardReference] | None = None,
+    philosophy_profile_ids: list[str] | None = None,
+) -> MicroCard:
     return MicroCard(
         id=card_id,
         slug=card_id,
         title=card_id,
         card_type=CardType.MICRO,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=philosophy_profile_ids or [MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],
     )
 
 
-def _session(card_id: str, references: list[CardReference] | None = None) -> SessionCard:
+def _session(
+    card_id: str,
+    references: list[CardReference] | None = None,
+    philosophy_profile_ids: list[str] | None = None,
+) -> SessionCard:
     return SessionCard(
         id=card_id,
         slug=card_id,
         title=card_id,
         card_type=CardType.SESSION,
         suitable_levels=[TrainingLevel.ALL],
+        philosophy_profile_ids=philosophy_profile_ids or [MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],

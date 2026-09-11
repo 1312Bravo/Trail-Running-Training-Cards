@@ -4,8 +4,6 @@ from pathlib import Path
 
 import streamlit as st
 
-from training_cards.philosophy_profiles import COMMON_PHILOSOPHY_PROFILE_ID
-
 
 # App summaries are deliberately separate from the detailed coaching notes. The
 # app can present both without making the source documentation its default view.
@@ -20,14 +18,10 @@ def app_summary_path(profile_id: str) -> Path:
 
 
 def detailed_note_path(profile_id: str) -> Path:
-    if profile_id == COMMON_PHILOSOPHY_PROFILE_ID:
-        return COACHING_DIR / "coaching_foundation.md"
     return COACHING_DIR / "philosophies" / profile_id / "philosophy.md"
 
 
 def sources_note_path(profile_id: str) -> Path | None:
-    if profile_id == COMMON_PHILOSOPHY_PROFILE_ID:
-        return None
     return COACHING_DIR / "philosophies" / profile_id / "sources.md"
 
 
@@ -37,7 +31,13 @@ def load_markdown(path: str) -> str:
 
 
 def load_app_summary(profile_id: str) -> str:
-    return load_markdown(str(app_summary_path(profile_id)))
+    summary_path = app_summary_path(profile_id)
+    if not summary_path.exists():
+        return (
+            f"No app summary has been written yet for `{profile_id}`. "
+            "Use the detailed coaching philosophy note until a short app-facing summary is added."
+        )
+    return load_markdown(str(summary_path))
 
 
 def load_detailed_note(profile_id: str) -> str:

@@ -20,6 +20,8 @@ The central 80/20 idea is that most endurance training should be low intensity, 
 
 The distribution is a macro-level framework, not a requirement that every day or training week must look mathematically identical. A race, a travel week, a recovery period, or a specific preparation block may temporarily alter the pattern. The useful question is whether the overall plan repeatedly preserves low-intensity work while assigning harder work a clear purpose, sufficient spacing, and an athlete-specific dose.
 
+This makes the accounting window important. A single session, single day, or unusual week may not express the intended distribution cleanly. The profile is better understood across a training block or plan phase, where the coach can see whether easy work is genuinely dominant and whether moderate or high intensity appears by design. Cards should not invite runners to perform arithmetic during every workout; they should make the role of the workout clear enough that the larger pattern can be reviewed.
+
 ### Keep Easy Work Truly Easy
 
 80/20's practical coaching value rests heavily on execution of the low-intensity majority. An easy day should support aerobic development, recovery, and the capacity to train again; it is not an opportunity to prove fitness or convert every run into a steady grind. The system is especially alert to the in-between effort that feels satisfying but creates enough fatigue to compromise later quality.
@@ -44,6 +46,8 @@ Precision should serve the stimulus, not create brittle instructions. A well-aut
 
 The coach should not overstate the accuracy of any one method. Heart rate lags in short repetitions and changes with heat, fatigue, altitude, hydration, and emotion. Pace is weak guidance on steep or technical terrain. Power and RPE also require interpretation. A card should select the metric that best preserves the intended effort, explain when it is unsuitable, and allow a sensible alternative rather than insisting that every terrain must produce the same number.
 
+Zone setting should also be revisited when the runner's response changes. If easy running becomes consistently easier at the same pace, if a familiar workout no longer reaches the intended effort, or if fatigue makes old targets feel unusually costly, the current zones may need review. The point is not constant testing. The point is to prevent stale zones from turning a structured plan into either under-dosed work or unintended stress.
+
 ### Use Feel To Apply The Structure Well
 
 Although 80/20 is visibly structured, its published material also encourages the athlete to adjust within a range according to how they feel. A runner who is fresh may sit near the top of an easy zone; a tired runner can remain lower. This is not an instruction to improvise the session's purpose away. It is a way of keeping the planned intensity from becoming an inappropriate demand on a particular day.
@@ -56,17 +60,23 @@ The coach should make that boundary explicit. If a session is intended as easy a
 
 For a card library, the important lesson is that a session cannot be evaluated in isolation. A hard workout's right dose depends on what came before, what follows, and how much low-intensity volume the athlete is already absorbing. The same named session can be a useful progression for one runner and a recovery-disrupting addition for another.
 
+Progression under this profile should preserve the distribution logic. If volume increases, most of that added work should not quietly become moderate effort. If intensity is added, surrounding low-intensity work may need to become easier or more protected. If terrain becomes more demanding, the cardiovascular label may no longer describe the whole stress. Cards should name the variable being progressed so the runner does not increase load, intensity, and terrain cost simultaneously without noticing.
+
 ### Adapt The Calendar To Durability
 
 80/20's published masters plans provide a useful example of its broader individualisation logic. For athletes who recover more slowly or have less durability, the system can extend the microcycle, use cross-training, add recovery days, or reduce the density of hard and long sessions. The goal is not merely to make a plan easier; it is to retain meaningful training while matching the spacing to the athlete's recovery rate.
 
 This principle transfers beyond age categories. An injury-prone runner, an athlete returning from illness, someone with demanding life stress, or a runner beginning trail load may require a different rhythm even when their motivation is high. A profile-informed card should make the main stimulus clear enough that the coach can change its placement, frequency, or density without losing its purpose.
 
+Durability adaptations should protect both sides of the method: the low-intensity majority and the selected quality. A less durable runner may need more days between harder workouts, cross-training for some aerobic volume, shorter long runs, or a longer cycle than seven days. Those changes are not failures of the model. They are ways to keep the intensity distribution useful for the actual athlete.
+
 ### Use Load Data As Context, Not A Verdict
 
 80/20's own material cautions that a load score can capture quantity without capturing specificity or quality. Sessions with similar numerical load may create very different adaptations. A large accumulated score is not proof that the runner has prepared the relevant duration, pace, terrain, strength, or technical skill.
 
 The profile therefore supports data use without data worship. The coach can track volume, intensity, and trend to understand exposure, while still asking what the training actually developed and whether it resembles the demands that remain. The runner should leave a card knowing what capability the work is intended to build, not only what number it will add to a platform.
+
+This is especially important when the athlete uses automated training platforms. A performance-management chart can show rising load while hiding whether the hard/easy contrast is intact, whether the course-specific demand has been practised, or whether the athlete is accumulating fatigue from terrain and life stress. Cards should encourage the runner to interpret load alongside distribution, specificity, and response.
 
 ## Training Load And Adaptation
 
@@ -75,6 +85,8 @@ The profile therefore supports data use without data worship. The coach can trac
 The 80/20 model depends on contrast. Hard days are hard enough to address a selected quality; easy days are easy enough to allow recovery and aerobic work. When that contrast disappears, the athlete often gets the cost of intensity without its benefit. The coach should protect the days around key work, including long runs that may be demanding even if their pace remains low.
 
 This does not reduce coaching to a fixed number of hard days. The relevant stress includes duration, vertical gain, surface, heat, travel, strength work, and life load. A long steep trail run can be a hard day because of its mechanical and energetic cost even when it is executed at aerobic effort. The calendar must account for total stress rather than labelling sessions from pace alone.
+
+For cards, the hard/easy rhythm should be stated as a placement rule. A threshold card should not stand alone as a workout recipe; it should also tell the runner what kind of surrounding days allow the session to work. An easy-run card should not be written as empty mileage; it is part of the architecture that lets quality sessions be executed with control.
 
 ### Recovery Is Built Into The Pattern
 
@@ -108,6 +120,8 @@ Trail routes can create a mismatch between cardiovascular intensity and musculos
 
 The profile therefore needs a broader definition of hard/easy in trail contexts. A card should flag the non-cardiovascular stress that may alter placement or recovery, and offer a lower-cost alternative when the runner needs the aerobic stimulus without the full terrain exposure.
 
+This also affects distribution accounting. A trail run may remain low intensity by heart rate while still functioning as a demanding day because of descent damage, technical focus, or unusually long duration. Conversely, an uphill effort may look slow by pace while sitting above the intended intensity. An 80/20-informed trail card should specify which stress is being counted and which hidden cost must still be respected.
+
 ## Knowledge And Decision-Making
 
 ### Use A Ratio As A Lens, Not A Doctrine
@@ -115,6 +129,8 @@ The profile therefore needs a broader definition of hard/easy in trail contexts.
 The profile takes intensity distribution seriously while recognising that research observations, plan categories, and individual circumstances do not create a single universal formula. The valuable commitment is to a low-intensity majority, meaningful quality, and adequate recovery. Exact accounting can vary with the chosen zone system, event, training phase, athlete history, and how duration is measured.
 
 Cards should not claim that every athlete must meet an exact percentage on every day. They should help the runner and coach see whether the plan's actual distribution is drifting away from its intended purpose.
+
+The ratio is most useful when it changes behaviour. It helps the runner slow easy days, stop hiding moderate work inside ordinary runs, and protect recovery before key sessions. It becomes less useful when it produces brittle compliance, anxiety over harmless deviations, or neglect of terrain and recovery cost. A card should use the profile to improve training decisions, not to turn the runner into a bookkeeper.
 
 ### Let Practical Data Serve The Athlete
 
@@ -138,7 +154,7 @@ Cards that create meaningful intensity, duration, or terrain stress should descr
 
 ### Reserve The Profile Label For Meaningful Influence
 
-Use `80_20_endurance` only when deliberate intensity distribution, structured execution, or a hard/easy and recovery pattern materially shapes the card. A generic interval or easy run is `common` unless this philosophy changes the way it is designed or used.
+Use `80_20_endurance` only when deliberate intensity distribution, structured execution, or a hard/easy and recovery pattern materially shapes the card. A generic interval or easy run should use a different training-method profile unless this philosophy changes the way it is designed or used.
 
 ## Current Limits And Review Questions
 

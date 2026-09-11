@@ -1,11 +1,12 @@
 # Card Authoring Guidance
 
-This note explains how to write and review training cards once the shared coaching foundation, selected philosophy profile, hierarchy, and relevant source history are understood.
+This note explains how to write and review training cards once the shared coaching foundation, selected training-method philosophy profile, hierarchy, and relevant source history are understood.
 
 Use this file with:
 
 - `coaching/coaching_foundation.md`
 - `coaching/card_hierarchy.md`
+- `coaching/card_storage_architecture.md`
 - `coaching/philosophies/<profile>/philosophy.md`
 - `coaching/philosophies/<profile>/sources.md`
 
@@ -19,7 +20,10 @@ Before writing or rebuilding a card, check:
 - the shared coach identity and standards in `coaching/coaching_foundation.md`
 - the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
 - any relevant source record in `coaching/philosophies/<profile>/sources.md`
-- the `philosophy_profile_ids` value: use `common` when only the shared foundation shaped the card; otherwise use the exact directory names of every philosophy profile that materially shaped it
+- the `philosophy_profile_ids` value: use the exact directory names of every actual training-method profile that materially shaped the card
+- in Python-authored seed cards, use the profile ID constants from `training_cards/philosophy_profiles.py` rather than raw profile strings
+- choose the profile ID from its documented method, source record, and actual influence on the card
+- do not use `common`; the shared coaching foundation is always-on and is not a card-level philosophy profile
 - whether the card should be broad and reusable or more specific inside the details only
 
 ## Card Quality Standard
@@ -34,6 +38,18 @@ Each card should answer these questions clearly:
 - What should the training feel like?
 - What are the main risks or mistakes?
 - What cards could logically come before or after it?
+
+## Philosophy Specificity Standard
+
+Use `mainstream_endurance` for the baseline evidence-informed version of a card type. Create a named-philosophy version only when that philosophy creates a meaningful distinction from the matching `mainstream_endurance` card.
+
+The distinction must be large enough that it would affect how the app chooses, explains, structures, filters, or sequences the card. This applies at every level: macro, mezzo, micro, and session.
+
+Use coaching common sense rather than a mechanical checklist. A separate named-philosophy card is justified when a coach using that philosophy would make a noticeably different coaching decision from a mainstream evidence-informed coach for the same athlete and situation.
+
+Small emphasis differences should stay in the relevant philosophy notes, card explanation, or lower-level cards. If the philosophy would only produce the same card with different language, tone, or minor watchouts, do not create a duplicate.
+
+When unsure, default to no separate named-philosophy card until the distinction becomes clear during coaching review or card drafting.
 
 ## Card Structure Standard
 
@@ -64,7 +80,7 @@ A good card should make it easy to understand:
 ## Field Discipline
 
 - `summary`: one preview-safe sentence for quick comparison.
-- `philosophy_profile_ids`: structured coaching-philosophy provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. `common` is the reserved shared-foundation value and cannot be combined with named profiles; every named ID matches a directory under `coaching/philosophies/` exactly.
+- `philosophy_profile_ids`: structured training-method provenance. Use only IDs defined in `training_cards/philosophy_profiles.py`. Profile IDs match directories under `coaching/philosophies/` exactly. In Python cards, use constants such as `MAINSTREAM_ENDURANCE`, `CTS`, `EVOKE_ENDURANCE`, `SWAP`, `SHARMAN_ULTRA`, `ENDURANCE_80_20`, and `LYDIARD`. Exported JSON stores the literal string values. `common` is not valid card provenance.
 - `purpose`: the coaching job of the card.
 - `goal_race_context`: when this card fits the athlete, goal, phase, or terrain context.
 - `training_profile`: the actual stress pattern, feel, terrain, and loading demand.
@@ -84,6 +100,14 @@ Create cards step by step.
 4. Review each card for repetition before accepting it.
 5. Check the source history and hierarchy notes when the card needs evidence, trail-specific reasoning, or placement logic.
 
+## Completion Review
+
+After finishing any substantial work block, do a coach-led completion review before moving to the next block. Here, "work block" means a meaningful set of decisions or content, such as an accepted type set, philosophy review pass, card batch, storage change, or sync checkpoint. It does not mean only a card hierarchy block.
+
+During the review, check whether the finished block has too much, is missing something important, duplicates nearby concepts, uses the wrong planning level, needs clearer naming, or should be merged, split, deleted, or refactored. Also check that local files, cloud structure, docs, and app-facing assumptions still agree.
+
+Make obvious cleanup adjustments immediately. If an adjustment has non-obvious consequences, pause and realign before changing it.
+
 ## App Display Assumption
 
 Cards will later be shown in the Training Platform app with two levels of detail:
@@ -97,7 +121,7 @@ Use `summary` as the preview-safe card sentence. It should be one concise senten
 
 The detail view may include a longer `additional_information` field. This should be used for readable in-depth coaching context, not a longer version of the preview.
 
-Session cards should include a structured workout guide when enough information is available. Use practical parts such as warm-up, main set, recovery, cooldown, and optional notes. Give duration and RPE guidance on a 1-10 scale, but keep ranges adaptable rather than falsely precise.
+Session cards should include a structured workout guide when enough information is available. Use `workout_blocks` to describe warm-up, main, recovery, cooldown, optional add-on, or note sections. Each block contains one or more options; each option contains the concrete session parts the athlete follows. Use `execution_mode = DO_ALL` for parts performed together, `CHOOSE_ONE` for selectable alternatives, and `OPTIONAL` for add-ons that should not always be used. Use `repeat` mechanically on a workout option when its parts repeat as rounds or sets. Give duration and RPE guidance on a 1-10 scale, but keep ranges adaptable rather than falsely precise.
 
 ## Card Relationships
 
@@ -106,6 +130,20 @@ Cards should be connected with structured references rather than loose string li
 Use `parent` and `child` only for directly adjacent planning levels. Use `previous`, `next`, and `alternative` only between cards at the same planning level. Use `support` for a meaningful cross-level connection that is not part of the direct Macro -> Mezzo -> Micro -> Session pathway.
 
 Use short tags on references when useful. Do not turn references into long explanations; longer reasoning belongs in the card content.
+
+## Naming And Storage
+
+Visible card titles should be readable coaching names. They do not need to include the philosophy name unless that is genuinely part of the card identity.
+
+Implementation identifiers need stronger uniqueness:
+
+- Python filenames for philosophy-specific variants should use a profile prefix when the card concept could exist in more than one philosophy, such as `mainstream_easy_aerobic_run.py`.
+- Python object names should follow the same uniqueness pattern when they are exported through a package-level registry.
+- Card `slug` values should also stay unique because cloud JSON files are written as `<slug>.json` inside the card-type folder.
+- Card `id` values remain the primary stable identity for references and app behavior.
+- Cloud JSON stores `philosophy_profile_ids` as literal strings, not Python constants, so it stays portable outside the Python authoring environment.
+
+Example: a mainstream and a Lydiard version may both display as `Easy Aerobic Run`, but their Python filenames, object names, slugs, IDs, and `philosophy_profile_ids` should make the distinction unambiguous.
 
 ## Output Expectations
 

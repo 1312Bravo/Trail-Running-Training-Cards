@@ -3,18 +3,25 @@ from __future__ import annotations
 from collections.abc import Iterable
 
 
-COMMON_PHILOSOPHY_PROFILE_ID = "common"
+MAINSTREAM_ENDURANCE = "mainstream_endurance"
+CTS = "cts"
+EVOKE_ENDURANCE = "evoke_endurance"
+SWAP = "swap"
+SHARMAN_ULTRA = "sharman_ultra"
+ENDURANCE_80_20 = "80_20_endurance"
+LYDIARD = "lydiard"
+
 
 # This is the canonical controlled vocabulary for card philosophy provenance.
 # IDs must match the corresponding coaching/philosophies directory names.
 PHILOSOPHY_PROFILES: dict[str, str] = {
-    COMMON_PHILOSOPHY_PROFILE_ID: "Common",
-    "cts": "CTS",
-    "evoke_endurance": "Evoke Endurance",
-    "swap": "Some Work, All Play",
-    "sharman_ultra": "Sharman Ultra",
-    "80_20_endurance": "80/20 Endurance",
-    "lydiard": "Lydiard",
+    MAINSTREAM_ENDURANCE: "Mainstream Endurance",
+    CTS: "CTS",
+    EVOKE_ENDURANCE: "Evoke Endurance",
+    SWAP: "Some Work, All Play",
+    SHARMAN_ULTRA: "Sharman Ultra",
+    ENDURANCE_80_20: "80/20 Endurance",
+    LYDIARD: "Lydiard",
 }
 
 PHILOSOPHY_PROFILE_IDS = frozenset(PHILOSOPHY_PROFILES)
@@ -31,11 +38,4 @@ def validate_philosophy_profile_ids(profile_ids: Iterable[str]) -> None:
         raise ValueError(
             "Training card philosophy_profile_ids contains unknown profile IDs: "
             + ", ".join(unknown_profile_ids)
-        )
-    if (
-        COMMON_PHILOSOPHY_PROFILE_ID in profile_id_list
-        and len(profile_id_list) != 1
-    ):
-        raise ValueError(
-            "Training card philosophy_profile_ids cannot combine common with named profiles."
         )

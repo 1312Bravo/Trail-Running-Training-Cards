@@ -1,4 +1,4 @@
-from .base import BaseTrainingCard, COMMON_PHILOSOPHY_PROFILE_ID
+from .base import BaseTrainingCard
 from training_cards.philosophy_profiles import (
     PHILOSOPHY_PROFILE_IDS,
     PHILOSOPHY_PROFILES,
@@ -9,12 +9,18 @@ from .macro import MacroCard
 from .mezzo import MezzoCard
 from .micro import MicroCard
 from .references import CardReference
-from .session import SessionCard, SessionPart
+from .session import (
+    SessionCard,
+    SessionPart,
+    WorkoutBlock,
+    WorkoutBlockExecutionMode,
+    WorkoutBlockType,
+    WorkoutOption,
+)
 from .session_family import SessionFamily
 
 __all__ = [
     "BaseTrainingCard",
-    "COMMON_PHILOSOPHY_PROFILE_ID",
     "PHILOSOPHY_PROFILE_IDS",
     "PHILOSOPHY_PROFILES",
     "CardReference",
@@ -26,6 +32,10 @@ __all__ = [
     "SessionFamily",
     "SessionCard",
     "SessionPart",
+    "WorkoutBlock",
+    "WorkoutBlockExecutionMode",
+    "WorkoutBlockType",
+    "WorkoutOption",
     "TrainingLevel",
     "philosophy_profile_display_name",
 ]

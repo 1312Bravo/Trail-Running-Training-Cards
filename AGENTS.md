@@ -6,6 +6,7 @@ This repository contains the standalone Training Cards library.
 ## Working Principles
 - Treat Google Drive JSON as the source of truth for card content.
 - Use training_cards/local_cache/ only as a temporary downloaded working copy.
+- Use training_cards/cards/examples/ as Python authoring references only; do not maintain a full duplicate Python seed-card library beside the Drive JSON library.
 - Run validation after editing JSON or syncing with Drive.
 - Keep routine checks proportional to the change:
   - Avatar-only SVG changes usually need visual preview, not automated tests.

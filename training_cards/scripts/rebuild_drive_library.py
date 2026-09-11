@@ -9,6 +9,7 @@ from training_cards.google_drive_client import GoogleDriveClient
 from training_cards.rebuild_store import (
     archive_active_library,
     publish_library,
+    replace_active_library_contents,
     verify_library,
     verify_raw_library,
     write_rebuild_target,
@@ -16,7 +17,9 @@ from training_cards.rebuild_store import (
 from training_cards.json_store import (
     DISPLAY_CONFIG_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
+    MACRO_MEZZO_REUSE_FILE_NAME,
     MANIFEST_FILE_NAME,
+    MEZZO_MICRO_REUSE_FILE_NAME,
 )
 
 
@@ -27,8 +30,9 @@ STAGING_DIR = PACKAGE_ROOT / "local_cache" / "rebuild_staging"
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("action", choices=("archive", "publish", "delete-old"))
+    parser.add_argument("action", choices=("archive", "publish", "replace-active", "delete-old"))
     parser.add_argument("--former-root-folder-id")
+    parser.add_argument("--source-dir", type=Path, default=STAGING_DIR)
     parser.add_argument("--target-file", type=Path, default=WORK_DIR / "replacement_target.json")
     parser.add_argument("--archive-file", type=Path, default=WORK_DIR / "archive_target.json")
     args = parser.parse_args()
@@ -50,13 +54,24 @@ def main() -> None:
             print("Current library parent is not accessible; creating the replacement inside its shared container.")
         replacement_config = publish_library(
             client,
-            STAGING_DIR,
+            args.source_dir,
             parent_folder_id,
             f"{GOOGLE_DRIVE_LIBRARY.library_name}_rebuild_{date.today():%Y-%m-%d}",
         )
         verified_count = verify_library(client, replacement_config, WORK_DIR / "verified_replacement")
         write_rebuild_target(args.target_file, replacement_config)
         print(f"Published and verified {verified_count} cards: {replacement_config.root_folder_url}")
+        return
+
+    if args.action == "replace-active":
+        replacement_config = replace_active_library_contents(
+            client,
+            args.source_dir,
+            GOOGLE_DRIVE_LIBRARY,
+        )
+        verified_count = verify_library(client, replacement_config, WORK_DIR / "verified_replacement")
+        write_rebuild_target(args.target_file, replacement_config)
+        print(f"Replaced and verified {verified_count} cards in active library: {replacement_config.root_folder_url}")
         return
 
     if not args.former_root_folder_id:
@@ -78,6 +93,8 @@ def _delete_nested_former_library_contents(client, former_items) -> None:
     expected_root_file_names = {
         MANIFEST_FILE_NAME,
         DISPLAY_CONFIG_FILE_NAME,
+        MACRO_MEZZO_REUSE_FILE_NAME,
+        MEZZO_MICRO_REUSE_FILE_NAME,
         LIBRARY_BUNDLE_FILE_NAME,
     }
     legacy_cards_folders = [

@@ -1,8 +1,14 @@
-# Coaching Philosophy
+# Shared Coaching Foundation
 
-This is the active working file for defining the broader coaching philosophy. It should stand on its own as reusable coaching guidance.
+This is the active working file for defining the shared coaching foundation. It should stand on its own as reusable coaching guidance.
 
-Use `coaching/coaching_philosophy_old.md` as reference material while rebuilding this file.
+## Relationship To Philosophy Profiles
+
+Every card in the library should follow this foundation. It defines the coaching identity, tone, professional scope, safety boundaries, access awareness, athlete agency, and trail-aware judgement that apply before any specific training method is selected.
+
+This foundation is not a card-level coaching philosophy profile. Card `philosophy_profile_ids` should record actual training-method influences, such as `mainstream_endurance`, `cts`, `evoke_endurance`, `swap`, `sharman_ultra`, `80_20_endurance`, or `lydiard`.
+
+Cards should not be based on `common`. The shared foundation affects every card by default and should not be stored as per-card philosophy provenance.
 
 ## Coach Identity
 

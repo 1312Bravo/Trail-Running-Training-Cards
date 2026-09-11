@@ -1,112 +1,94 @@
 # Card Library Rebuild Workflow
 
-This workflow governs the deliberate replacement of the current Training Cards library with a newly authored library. It applies when we rebuild the cards from the coaching foundation and philosophy profiles rather than incrementally editing the current library.
+This workflow governs deliberate replacement of the current Training Cards library with a newly authored library. It applies when we replace card content from the coaching foundation, card matrix, and philosophy profiles rather than incrementally editing the current library.
+
+For normal download, edit, validate, bundle, and upload work, use `cloud_library_storage_workflow.md` instead. For schema rules, use `schema_design_and_validation.md`.
 
 It does **not** author cards. It protects the current source of truth and defines the cutover process once the new cards are ready.
 
 ## Decision
 
-Use an **archive-and-swap** process, not an in-place deletion and ordinary upload.
+Use an explicit **validated replacement** process, not ordinary upload.
 
 The current upload command only creates or updates files that exist in the local cache. It does not delete remote card files that are no longer present locally. Clearing the local cache and running that command would therefore leave obsolete cards on Google Drive.
 
-The rebuilt library should instead be prepared as a complete, validated replacement in a staging location. After the current library has been archived and the replacement has been independently verified, the configured Google Drive source changes to the replacement folder. The previous folder stops being active but remains a recoverable archive.
+The replacement library should instead be prepared as a complete, validated source directory. The `replace-active` action then deletes only the known active root files and `cards` folder, recreates the expected folder structure, uploads the complete replacement, and verifies the result. This keeps the root Drive folder stable while still removing obsolete card files.
 
 ## Terms
 
 - **Active library:** the Google Drive folder configured in `training_cards/cloud_config.py`. It is the card-content source of truth used by the app and normal sync commands.
-- **Staging library:** a complete local JSON library built for the rebuild before any active cloud content changes.
-- **Archive library:** an immutable dated Drive copy of the active library immediately before cutover. It is not loaded by the app.
-- **Replacement library:** the new Drive folder populated from the validated staging library. It becomes active only after verification.
-- **Cutover:** the one deliberate configuration change that points the project from the old active library to the replacement library.
+- **Replacement source:** a complete local JSON library that has already been exported and validated.
+- **Verification cache:** a temporary downloaded copy of the replaced Drive library used to confirm the remote result.
+- **Archive library:** an optional dated Drive copy of the active library before replacement. It is not loaded by the app.
+- **Cutover:** the deliberate update that records any newly created Drive subfolder IDs in `training_cards/cloud_config.py`.
 
 ## Rebuild Principles
 
 - Do not delete or overwrite the active Google Drive library while cards are still being authored or reviewed.
 - Do not use `upload_cache` to clear a library. It cannot remove obsolete remote files.
-- Preserve one complete local archive and one complete Google Drive archive before changing the active source.
-- Create every replacement card with a valid `philosophy_profile_ids` value from `training_cards/philosophy_profiles.py`.
-- Use `common` only when the shared foundation alone materially shaped the card. Do not combine it with named profile IDs.
+- Use `replace-active` only with a complete replacement source, never a partial card export.
+- Create every replacement card with a valid training-method `philosophy_profile_ids` value from `training_cards/philosophy_profiles.py`.
+- Do not use `common`; the shared coaching foundation is always-on and is not card-level provenance.
 - Treat the replacement library as complete only when its manifest, card files, bundle, display configuration, schema validation, and reference validation agree.
-- Do not permanently delete the archived library without a separate, explicit approval after the replacement has been in use.
+- Do not permanently delete any archive or former active folder without separate, explicit approval.
 
-## Stage 1: Freeze The Existing Library
+## Stage 1: Prepare The Replacement Source
 
-1. Stop ordinary card edits and uploads for the current library.
-2. Download the active Drive library into the active local cache.
-3. Validate the downloaded cache when it uses the active schema. If a legacy library cannot pass the current validator, preserve its raw manifest and card files unchanged, record the incompatibility, and continue only with raw integrity checks for the archive.
-4. Record the active Drive URL and folder IDs in the rebuild record.
+1. Build or edit the replacement JSON library locally.
+2. Use temporary Python authoring scaffolding only when it makes new card creation safer.
+3. Validate schema, manifest count, duplicate IDs and slugs, philosophy IDs, and pathway references.
+4. Build reuse metadata files and the bundled `training_cards_library.json`.
+5. Review the replacement as content before any Drive operation.
 
-The freeze establishes exactly what is being replaced. If validation fails here, fix or document the existing state before creating an archive.
+The replacement source must be complete. It must not rely on files left behind from the old library.
 
-## Stage 2: Create And Verify The Archive
+## Stage 2: Optional Archive
 
-1. Copy the frozen local cache into a timestamped local archive outside the active cache, for example `training_cards/local_cache/archives/2026-08-18_pre-rebuild/`.
-2. Create a dated archive folder on Google Drive, for example `training_cards_library_archive_2026-08-18_pre-rebuild`.
-3. Copy the full library to that archive folder, including `manifest.json`, `display_config.json`, `training_cards_library.json`, and every card JSON file in every planning-level folder.
-4. Create `archive_metadata.json` with the archive date, reason, original Drive URL and folder IDs, manifest values, card count, and a file checksum list.
-5. Download the Drive archive into a separate temporary local location and verify its manifest card count and complete card-file set independently. Use full schema validation when the archived schema remains supported.
+1. Download the active Drive library before replacement if a recoverable snapshot is needed.
+2. Create a dated local or Drive archive from that frozen copy.
+3. Verify file count and manifest consistency.
+4. Record the archive location if retained.
 
-Only continue when the archive has the expected files, card count, and either passes schema validation or has a documented legacy-schema incompatibility with successful raw integrity checks.
+The archive stage is a safety choice. It is not required when we intentionally delete old content and have accepted that the new library is the source of truth.
 
-## Stage 3: Build The Replacement Locally
+## Stage 3: Replace The Active Drive Contents
 
-1. Create a clean staging directory, separate from the active local cache and the archive.
-2. Build the replacement cards from the coaching foundation, relevant philosophy profile, hierarchy, and authoring guidance.
-3. Assign `philosophy_profile_ids` deliberately on every card.
-4. Build the manifest, display configuration, and generated bundle from the replacement card set.
-5. Validate the staging library, including card schema, duplicate IDs and slugs, manifest count, philosophy IDs, and pathway references.
-6. Review the rebuilt library as content before any Drive upload.
+Run the explicit replacement command with the validated source directory:
 
-The replacement must be a complete library. It must not depend on files left behind from the old library.
+```powershell
+py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
+```
 
-## Stage 4: Publish A Replacement Library
+The replacement action must:
 
-1. Create a new Google Drive root folder and its `cards/macro`, `cards/mezzo`, `cards/micro`, and `cards/session` subfolders. If the service account can access the active shared folder but not its parent, create distinct archive and replacement folders inside that shared container instead.
-2. Upload the complete validated staging library into those new folders.
-3. Download the replacement Drive library into a separate verification cache.
-4. Validate that downloaded copy against its manifest and the active Python schemas.
-5. Confirm that the replacement card count, file list, and generated bundle match staging.
+- refuse to run against a missing or incomplete source directory
+- delete only known active root items: `manifest.json`, `display_config.json`, reuse metadata files, `training_cards_library.json`, and `cards`
+- refuse unexpected root files or unexpected root folder shape
+- recreate `cards/macro`, `cards/mezzo`, `cards/micro`, and `cards/session`
+- upload the complete replacement library
+- verify the uploaded library by downloading and validating it
 
-The previous library remains active during this stage. A failed replacement upload never alters its source-of-truth status.
+## Stage 4: Record New Folder IDs
 
-## Stage 5: Cut Over The Active Source
+The active root folder remains the same, but the `cards` and level subfolders are recreated. Update `training_cards/cloud_config.py` with the verified new folder IDs printed by the replacement workflow.
 
-1. Update `training_cards/cloud_config.py` with the verified replacement Drive folder IDs and URL.
-2. Clear the active local cache only after the archive and replacement verification have passed.
-3. Download the replacement library into the active local cache.
-4. Run the normal cache validator and load the Streamlit app against the replacement cache.
-5. Update `library_version` for the rebuilt content. Keep `schema_version` unchanged unless the JSON field contract changed.
-6. Record the replacement URL, archive URL, validation results, card count, and cutover date in `PLAN.md` and the rebuild record.
+Then refresh the active local cache from Drive and validate it.
 
-At this point the former library is no longer active. It is an archive, not a fallback silently loaded by the app. If the replacement is nested inside an inaccessible shared container, delete only the known former root files and `cards` folder, never the shared container itself.
-
-## Stage 6: Post-Cutover Review
+## Stage 5: Post-Replacement Review
 
 1. Open the app and verify preview, detail, search, pathway navigation, tags, and philosophy-profile filtering against the replacement cards.
 2. Confirm that every card renders a readable coaching philosophy display name from the local registry.
-3. Remove obsolete migration scripts only when no active or supported archive workflow needs them.
-4. Retain the archive until we explicitly decide that permanent deletion is appropriate. If the service account lacks permission to delete former content, record the remaining file IDs for the Drive owner rather than attempting a workaround.
+3. Remove obsolete one-off migration or staging scripts once the replacement is verified.
+4. Record the replacement date, card count, library version, and validation result in project notes.
 
 ## Required Approval Checkpoints
 
 The following actions require explicit approval in the moment; previous general agreement is not enough:
 
-1. Create the cloud archive and replacement folders.
-2. Upload the complete replacement library to the new Drive folder.
-3. Change `training_cards/cloud_config.py` to make the replacement the active source.
-4. Permanently delete any Drive archive or former active folder.
+1. Replace active Drive contents.
+2. Permanently delete any retained Drive archive or former active folder.
+3. Change the configured active root folder, if a future rebuild uses a new root instead of in-place replacement.
 
-## Implementation Work Needed Before Cutover
+## Current Replacement Record
 
-The current Drive client and upload workflow need dedicated rebuild support before we perform this process:
-
-- create Drive folders and subfolders
-- copy or upload a complete dated archive
-- list and verify every expected remote file
-- upload a replacement library to an explicitly supplied target configuration
-- download and validate an explicitly supplied target configuration
-- create archive metadata and checksums
-- switch the active Drive configuration only after verification
-
-Do not extend the normal `upload_cache` command into an implicit deletion command. Rebuild replacement must remain a separately named, explicit operation.
+On 2026-09-06, the active `training_cards_library` Drive folder was replaced in place with a 33-card macro JSON library. The library used schema `1.2.0`, library version `0.4.1`, and stored cards under level/profile folders.

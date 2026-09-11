@@ -4,7 +4,6 @@ from typing import Any
 
 from training_cards.schemas import (
     BaseTrainingCard,
-    COMMON_PHILOSOPHY_PROFILE_ID,
     CardReference,
     CardRelationship,
     CardType,
@@ -15,6 +14,10 @@ from training_cards.schemas import (
     SessionFamily,
     SessionPart,
     TrainingLevel,
+    WorkoutBlock,
+    WorkoutBlockExecutionMode,
+    WorkoutBlockType,
+    WorkoutOption,
 )
 from training_cards.session_families import get_session_family
 
@@ -40,17 +43,35 @@ def card_to_dict(card: BaseTrainingCard) -> dict[str, Any]:
         for reference in card.references
     ]
     if isinstance(card, SessionCard):
-        data["workout_parts"] = [
+        data["workout_blocks"] = [
             {
-                "name": part.name,
-                "duration": part.duration,
-                "rpe": part.rpe,
-                "instructions": part.instructions,
-                "terrain_notes": part.terrain_notes,
+                "block_type": str(block.block_type),
+                "execution_mode": str(block.execution_mode),
+                "options": [
+                    {
+                        "title": option.title,
+                        "repeat": option.repeat,
+                        "selection_notes": option.selection_notes,
+                        "load_notes": option.load_notes,
+                        "parts": [
+                            {
+                                "title": part.title,
+                                "prescription": part.prescription,
+                                "duration": part.duration,
+                                "rpe": part.rpe,
+                                "selection_notes": part.selection_notes,
+                                "coaching_notes": part.coaching_notes,
+                                "terrain_notes": part.terrain_notes,
+                                "adjustment_notes": part.adjustment_notes,
+                            }
+                            for part in option.parts
+                        ],
+                    }
+                    for option in block.options
+                ],
             }
-            for part in card.workout_parts
+            for block in card.workout_blocks
         ]
-
     return data
 
 # Convert JSON data back into the correct card dataclass.
@@ -59,7 +80,6 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
     card_type = CardType(card_data["card_type"])
 
     card_data.setdefault("slug", card_data["id"].replace("_", "-"))
-    card_data.setdefault("philosophy_profile_ids", [COMMON_PHILOSOPHY_PROFILE_ID])
     card_data["card_type"] = card_type
     card_data["suitable_levels"] = [TrainingLevel(level) for level in card_data["suitable_levels"]]
 
@@ -105,16 +125,9 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
             card_data["session_family"] = get_session_family(session_family)
         elif isinstance(session_family, dict):
             card_data["session_family"] = SessionFamily(**session_family)
-        card_data["workout_parts"] = [
-            SessionPart(
-                name = part["name"],
-                duration = part["duration"],
-                rpe = part["rpe"],
-                instructions = part.get("instructions", ""),
-                terrain_notes = part.get("terrain_notes", ""),
-            )
-            for part in card_data.get("workout_parts", [])
-        ]
+        card_data["workout_blocks"] = _workout_blocks_from_data(
+            card_data.get("workout_blocks", []),
+        )
         session_notes = []
         if legacy_intensity_guidance:
             session_notes.append("Intensity guidance: " + "; ".join(legacy_intensity_guidance))
@@ -128,9 +141,43 @@ def card_from_dict(data: dict[str, Any]) -> BaseTrainingCard:
                 + "\n".join(session_notes)
             )
     else:
-        card_data.pop("workout_parts", None)
+        card_data.pop("workout_blocks", None)
 
     card_class = CARD_CLASS_BY_TYPE[card_type]
 
     return card_class(**card_data)
+
+
+def _workout_blocks_from_data(workout_blocks: list[dict[str, Any]]) -> list[WorkoutBlock]:
+    return [
+        WorkoutBlock(
+            block_type=WorkoutBlockType(block["block_type"]),
+            execution_mode=WorkoutBlockExecutionMode(
+                block.get("execution_mode", WorkoutBlockExecutionMode.DO_ALL)
+            ),
+            options=[
+                WorkoutOption(
+                    title=option["title"],
+                    repeat=option.get("repeat", ""),
+                    selection_notes=option.get("selection_notes", ""),
+                    load_notes=option.get("load_notes", ""),
+                    parts=[
+                        SessionPart(
+                            title=part["title"],
+                            prescription=part.get("prescription", ""),
+                            duration=part.get("duration", ""),
+                            rpe=part.get("rpe", ""),
+                            selection_notes=part.get("selection_notes", ""),
+                            coaching_notes=part.get("coaching_notes", ""),
+                            terrain_notes=part.get("terrain_notes", ""),
+                            adjustment_notes=part.get("adjustment_notes", ""),
+                        )
+                        for part in option.get("parts", [])
+                    ],
+                )
+                for option in block.get("options", [])
+            ],
+        )
+        for block in workout_blocks
+    ]
 
