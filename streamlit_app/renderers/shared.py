@@ -151,6 +151,18 @@ def open_card(card_id: str) -> None:
     st.session_state.active_card_history = []
 
 
+def unique_tag_texts(tags: list[Any]) -> list[str]:
+    seen = set()
+    unique_tags = []
+    for tag in tags:
+        tag_text = as_text(tag)
+        if tag_text in seen:
+            continue
+        seen.add(tag_text)
+        unique_tags.append(tag_text)
+    return unique_tags
+
+
 def render_card_history_back(card_by_id: dict[str, Any]) -> None:
     history = list(st.session_state.get("active_card_history", []))
     if not history:
@@ -176,11 +188,10 @@ def render_tag_buttons(tags: list[Any], key_prefix: str) -> None:
         return
 
     with st.container(horizontal=True):
-        for tag in tags:
-            tag_text = as_text(tag)
+        for index, tag_text in enumerate(unique_tag_texts(tags)):
             st.button(
                 display_text(tag_text),
-                key=f"tag_{key_prefix}_{tag_text}",
+                key=f"tag_{key_prefix}_{index}_{tag_text}",
                 type="secondary",
                 width="content",
                 on_click=set_tag_filter,
@@ -193,11 +204,10 @@ def render_preview_tag_labels(tags: list[Any], key_prefix: str) -> None:
         return
 
     with st.container(horizontal=True, key=f"preview-tags-{key_prefix}"):
-        for tag in tags:
-            tag_text = as_text(tag)
+        for index, tag_text in enumerate(unique_tag_texts(tags)):
             st.button(
                 display_label_text(tag_text),
-                key=f"tag_preview_{key_prefix}_{tag_text}",
+                key=f"tag_preview_{key_prefix}_{index}_{tag_text}",
                 type="secondary",
                 width="content",
                 on_click=set_tag_filter,
@@ -214,11 +224,10 @@ def render_preview_footer_tag_labels(tags: list[Any], key_prefix: str) -> None:
         horizontal_alignment="right",
         key=f"preview-footer-tags-{key_prefix}",
     ):
-        for tag in tags:
-            tag_text = as_text(tag)
+        for index, tag_text in enumerate(unique_tag_texts(tags)):
             st.button(
                 display_label_text(tag_text),
-                key=f"tag_preview_footer_{key_prefix}_{tag_text}",
+                key=f"tag_preview_footer_{key_prefix}_{index}_{tag_text}",
                 type="secondary",
                 width="content",
                 on_click=set_tag_filter,

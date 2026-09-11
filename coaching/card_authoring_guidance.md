@@ -21,7 +21,7 @@ Before writing or rebuilding a card, check:
 - the selected coaching approach in `coaching/philosophies/<profile>/philosophy.md`
 - any relevant source record in `coaching/philosophies/<profile>/sources.md`
 - the `philosophy_profile_ids` value: use the exact directory names of every actual training-method profile that materially shaped the card
-- in Python-authored seed cards, use the profile ID constants from `training_cards/philosophy_profiles.py` rather than raw profile strings
+- in temporary Python-authored cards, use the profile ID constants from `training_cards/philosophy_profiles.py` rather than raw profile strings before converting to JSON
 - choose the profile ID from its documented method, source record, and actual influence on the card
 - do not use `common`; the shared coaching foundation is always-on and is not a card-level philosophy profile
 - whether the card should be broad and reusable or more specific inside the details only

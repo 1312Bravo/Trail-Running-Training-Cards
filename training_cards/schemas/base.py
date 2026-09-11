@@ -35,6 +35,7 @@ class BaseTrainingCard:
     # Keep validation light: only reject cards that cannot be identified,
     # displayed, or understood at a basic level.
     def __post_init__(self) -> None:
+        self.tags = list(dict.fromkeys(self.tags))
         if not self.id.strip():
             raise ValueError("Training card id cannot be empty.")
         if not self.slug.strip():
