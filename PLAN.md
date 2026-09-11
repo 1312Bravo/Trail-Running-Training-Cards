@@ -134,7 +134,7 @@ Possible prompt work:
 
 ## Phase 4: Card Build Plan
 
-Status: active. The configured cloud source of truth contains the verified 288-card macro-plus-mezzo-plus-micro library: 33 macro cards, 78 mezzo cards, 177 micro cards, 107 macro-to-mezzo reuse entries, and 224 mezzo-to-micro reuse entries. Session cards still need to be built from the same card-matrix and philosophy-specific review process.
+Status: active. The configured cloud source of truth contains the verified 365-card macro-plus-mezzo-plus-micro-plus-session library: 33 macro cards, 78 mezzo cards, 177 micro cards, 77 session cards, 107 macro-to-mezzo reuse entries, 224 mezzo-to-micro reuse entries, and 1087 micro-to-session reuse entries.
 
 Goals:
 
@@ -191,6 +191,8 @@ Current seed-library scope:
 - [x] Redefine session workout structure as `SessionCard -> WorkoutBlock -> WorkoutOption -> SessionPart`, with controlled block types, execution modes, mechanical option repeats, JSON export/load support, and app detail rendering.
 - [x] Add a root-metadata-only cloud upload command so schema/display/bundle changes can be uploaded separately from card files.
 - [x] Upload the session-schema metadata update to Google Drive as root metadata only and verify Drive readback at schema `1.3.0`, library `0.7.0`, with 288 cards and 0 session cards.
+- [x] Draft the mainstream `micro -> session` taxonomy in `card_matrix.md`: 46 reusable mainstream session types, mapped under all 64 mainstream micro cards, with coach-reviewed card-versus-option guidance.
+- [x] Build the 46 accepted mainstream session cards locally, add the needed strength/mobility and low-impact aerobic session families, and validate the exported 334-card cache.
 - [ ] Build session cards after micro structure is accepted.
 
 ## Phase 5: Card Expansion
@@ -222,10 +224,16 @@ Potential expansion areas:
 - Review coaching notes and prompts before building cards.
 - After finishing any substantial work block, do a coach-led completion review for overreach, missing pieces, overlap, level fit, naming, refactors, and local/cloud/doc alignment before moving on.
 - Run validation after card JSON or synced content changes.
+- [x] Review named philosophies against the 46 mainstream session cards and record the strict candidate set for philosophy-specific session cards.
+- [x] Run a second coach pass on named-philosophy session coverage and expand the authoring candidate set where the first pass compressed distinct session decisions too much.
+- [x] Run a third coach reduction pass on the 39 named-philosophy session candidates and reduce the build target to the strongest 31 candidates.
+- [x] Build the 31 reduced named-philosophy session cards locally and validate the exported 365-card cache.
+- [x] Create `micro_session_reuse.json`, wire it into JSON export/load/validation, and connect it to pathway/app filtering.
+- [x] Upload the session layer and updated root metadata to Drive, then verify by downloading and validating the Drive library readback.
 
 ## Immediate Next Step
 
-Begin the session-card planning pass from the accepted micro structure. The current Drive-backed cache validates at 288 cards: 33 macro, 78 mezzo, and 177 micro, with `macro_mezzo_reuse.json` and `mezzo_micro_reuse.json` included in the app-facing bundle.
+Review the app pathway behavior with the uploaded 365-card library, especially named-philosophy micro cards showing both specific sessions and reused mainstream sessions. The Drive-backed library now validates at 365 cards: 33 macro, 78 mezzo, 177 micro, and 77 sessions. The uploaded `micro_session_reuse.json` contains 1087 reuse entries and leaves 0 micro cards without session children.
 
 Each profile now uses three files:
 

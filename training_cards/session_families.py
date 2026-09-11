@@ -116,6 +116,24 @@ TRAIL_SPECIFIC_SESSION_FAMILY = SessionFamily(
     tags=["trail", "mountain", "skills"],
 )
 
+STRENGTH_MOBILITY_SUPPORT_SESSION_FAMILY = SessionFamily(
+    id="session_family_strength_mobility_support",
+    slug="strength_mobility_support",
+    title="Strength / Mobility Support",
+    summary="Strength, mobility, and activation work used to support durable running.",
+    description="Strength and mobility support sessions should improve readiness and durability without accidentally overwhelming the running plan.",
+    tags=["strength", "mobility", "activation", "support"],
+)
+
+LOW_IMPACT_AEROBIC_SUPPORT_SESSION_FAMILY = SessionFamily(
+    id="session_family_low_impact_aerobic_support",
+    slug="low_impact_aerobic_support",
+    title="Low-Impact Aerobic Support",
+    summary="Low-impact aerobic movement that supports endurance while reducing running load.",
+    description="Low-impact aerobic support includes cross-training and gentle movement choices that preserve aerobic rhythm with less impact cost.",
+    tags=["cross_training", "low_impact", "aerobic", "support"],
+)
+
 ALL_SESSION_FAMILIES = [
     EASY_SESSION_FAMILY,
     RECOVERY_SESSION_FAMILY,
@@ -129,6 +147,8 @@ ALL_SESSION_FAMILIES = [
     NEUROMUSCULAR_SESSION_FAMILY,
     RACE_PRACTICE_SESSION_FAMILY,
     TRAIL_SPECIFIC_SESSION_FAMILY,
+    STRENGTH_MOBILITY_SUPPORT_SESSION_FAMILY,
+    LOW_IMPACT_AEROBIC_SUPPORT_SESSION_FAMILY,
 ]
 
 SESSION_FAMILY_BY_ID = {family.id: family for family in ALL_SESSION_FAMILIES}

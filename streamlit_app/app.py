@@ -24,6 +24,7 @@ from streamlit_app.data import (
     related_child_cards,
     reusable_micro_ids_for_philosophies,
     reusable_mezzo_ids_for_philosophies,
+    reusable_session_ids_for_philosophies,
 )
 from streamlit_app.philosophies import (
     load_app_summary,
@@ -172,6 +173,7 @@ def cards_matching_philosophies(
     profile_ids: list[str],
     macro_mezzo_reuse_config: dict[str, Any] | None = None,
     mezzo_micro_reuse_config: dict[str, Any] | None = None,
+    micro_session_reuse_config: dict[str, Any] | None = None,
     parent_card_id: str | None = None,
 ) -> list[Any]:
     if not profile_ids:
@@ -186,11 +188,17 @@ def cards_matching_philosophies(
         parent_card_id,
         profile_ids,
     )
+    reused_session_ids = reusable_session_ids_for_philosophies(
+        micro_session_reuse_config,
+        parent_card_id,
+        profile_ids,
+    )
     return [
         card
         for card in cards
         if card.id in reused_mezzo_ids
         or card.id in reused_micro_ids
+        or card.id in reused_session_ids
         or any(
             profile_id in getattr(card, "philosophy_profile_ids", [])
             for profile_id in profile_ids
@@ -447,6 +455,7 @@ def pathway_candidates(
     selected_cards: dict[str, Any | None],
     macro_mezzo_reuse_config: dict[str, Any] | None = None,
     mezzo_micro_reuse_config: dict[str, Any] | None = None,
+    micro_session_reuse_config: dict[str, Any] | None = None,
 ) -> tuple[str, str, list[Any]]:
     next_step = next_pathway_step(selected_cards)
     if not next_step:
@@ -467,6 +476,7 @@ def pathway_candidates(
         next_level,
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
+        micro_session_reuse_config,
     )
 
 
@@ -511,6 +521,7 @@ def render_build_pathway(
     card_by_id: dict[str, Any],
     macro_mezzo_reuse_config: dict[str, Any],
     mezzo_micro_reuse_config: dict[str, Any],
+    micro_session_reuse_config: dict[str, Any],
 ) -> None:
     selected_cards = selected_pathway_cards(card_by_id)
     render_pathway_selection(selected_cards, display_config)
@@ -520,6 +531,7 @@ def render_build_pathway(
         selected_cards,
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
+        micro_session_reuse_config,
     )
     if not next_level:
         st.caption("Pathway complete. Use Open card on any selected card to inspect details, or Remove to revise one step.")
@@ -568,11 +580,14 @@ def render_build_pathway(
         st.session_state.philosophy_profile_filters,
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
+        micro_session_reuse_config,
         (
             selected_cards["macro"].id
             if next_level == "mezzo" and selected_cards["macro"]
             else selected_cards["mezzo"].id
             if next_level == "micro" and selected_cards["mezzo"]
+            else selected_cards["micro"].id
+            if next_level == "session" and selected_cards["micro"]
             else None
         ),
     )
@@ -650,7 +665,13 @@ def main() -> None:
     cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
 
     try:
-        cards, display_config, macro_mezzo_reuse_config, mezzo_micro_reuse_config = load_library(cache_dir)
+        (
+            cards,
+            display_config,
+            macro_mezzo_reuse_config,
+            mezzo_micro_reuse_config,
+            micro_session_reuse_config,
+        ) = load_library(cache_dir)
     except Exception as error:
         st.error(
             "The local card cache could not be loaded. "
@@ -688,6 +709,7 @@ def main() -> None:
             card_by_id,
             macro_mezzo_reuse_config,
             mezzo_micro_reuse_config,
+            micro_session_reuse_config,
         )
     elif st.session_state.app_mode == "Today session":
         render_today_session(cards, display_config)

@@ -38,11 +38,13 @@ class PathwayIndex:
         cards: Iterable[BaseTrainingCard],
         macro_mezzo_reuse_config: dict[str, object] | None = None,
         mezzo_micro_reuse_config: dict[str, object] | None = None,
+        micro_session_reuse_config: dict[str, object] | None = None,
     ) -> None:
         self.cards = sorted(cards, key=lambda card: (PATHWAY_CARD_TYPES.index(str(card.card_type)), card.title))
         self.by_id = {card.id: card for card in self.cards}
         self.macro_mezzo_reuse_config = macro_mezzo_reuse_config or {"entries": []}
         self.mezzo_micro_reuse_config = mezzo_micro_reuse_config or {"entries": []}
+        self.micro_session_reuse_config = micro_session_reuse_config or {"entries": []}
 
     def cards_of_type(self, card_type: str) -> list[BaseTrainingCard]:
         return [
@@ -84,6 +86,15 @@ class PathwayIndex:
                     reused_micro_id = entry.get("reused_micro_card_id")
                     if isinstance(reused_micro_id, str):
                         child_ids.add(reused_micro_id)
+
+        if child_type in {None, "session"}:
+            for entry in self.micro_session_reuse_config.get("entries", []):
+                if not isinstance(entry, dict):
+                    continue
+                if entry.get("micro_card_id") == parent_id:
+                    reused_session_id = entry.get("reused_session_card_id")
+                    if isinstance(reused_session_id, str):
+                        child_ids.add(reused_session_id)
 
         children = [self.by_id[card_id] for card_id in child_ids if card_id in self.by_id]
         if child_type is not None:
@@ -266,8 +277,14 @@ def build_pathway_index(
     cards: Iterable[BaseTrainingCard],
     macro_mezzo_reuse_config: dict[str, object] | None = None,
     mezzo_micro_reuse_config: dict[str, object] | None = None,
+    micro_session_reuse_config: dict[str, object] | None = None,
 ) -> PathwayIndex:
-    return PathwayIndex(cards, macro_mezzo_reuse_config, mezzo_micro_reuse_config)
+    return PathwayIndex(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+    )
 
 
 def validate_pathway_publish_ready(cards: Iterable[BaseTrainingCard]) -> None:

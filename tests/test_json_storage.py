@@ -8,12 +8,14 @@ from training_cards.json_store import (
     LIBRARY_BUNDLE_FILE_NAME,
     MACRO_MEZZO_REUSE_FILE_NAME,
     MEZZO_MICRO_REUSE_FILE_NAME,
+    MICRO_SESSION_REUSE_FILE_NAME,
     MULTI_PROFILE_CARD_FOLDER,
     card_storage_path,
     export_card_library_to_json,
     load_card_library_from_json,
     load_macro_mezzo_reuse_config,
     load_mezzo_micro_reuse_config,
+    load_micro_session_reuse_config,
     read_json,
 )
 from training_cards.philosophy_profiles import CTS, LYDIARD, MAINSTREAM_ENDURANCE
@@ -64,6 +66,7 @@ class JsonStorageTests(unittest.TestCase):
             )
             self.assertTrue((output_dir / MACRO_MEZZO_REUSE_FILE_NAME).exists())
             self.assertTrue((output_dir / MEZZO_MICRO_REUSE_FILE_NAME).exists())
+            self.assertTrue((output_dir / MICRO_SESSION_REUSE_FILE_NAME).exists())
             self.assertEqual(
                 0,
                 load_macro_mezzo_reuse_config(output_dir)["entry_count"],
@@ -72,12 +75,20 @@ class JsonStorageTests(unittest.TestCase):
                 0,
                 load_mezzo_micro_reuse_config(output_dir)["entry_count"],
             )
+            self.assertEqual(
+                0,
+                load_micro_session_reuse_config(output_dir)["entry_count"],
+            )
             self.assertIn(
                 "macro_mezzo_reuse",
                 read_json(output_dir / LIBRARY_BUNDLE_FILE_NAME),
             )
             self.assertIn(
                 "mezzo_micro_reuse",
+                read_json(output_dir / LIBRARY_BUNDLE_FILE_NAME),
+            )
+            self.assertIn(
+                "micro_session_reuse",
                 read_json(output_dir / LIBRARY_BUNDLE_FILE_NAME),
             )
 

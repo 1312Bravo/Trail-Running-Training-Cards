@@ -1,0 +1,1 @@
+from training_cards.cards.session.swap.swap_session_cards import SWAP_SESSION_CARDS

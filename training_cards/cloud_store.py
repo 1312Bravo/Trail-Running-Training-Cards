@@ -13,14 +13,17 @@ from training_cards.json_store import (
     MACRO_MEZZO_REUSE_FILE_NAME,
     MANIFEST_FILE_NAME,
     MEZZO_MICRO_REUSE_FILE_NAME,
+    MICRO_SESSION_REUSE_FILE_NAME,
     build_display_config,
     build_macro_mezzo_reuse_config_for_cards,
     build_mezzo_micro_reuse_config_for_cards,
+    build_micro_session_reuse_config_for_cards,
     export_card_library_to_json,
     load_card_library_from_json,
     refresh_library_bundle,
     write_macro_mezzo_reuse_config,
     write_mezzo_micro_reuse_config,
+    write_micro_session_reuse_config,
     write_json,
 )
 from training_cards.pathway import validate_pathway_publish_ready
@@ -96,6 +99,15 @@ def download_cloud_library(
     else:
         client.download_file(mezzo_micro_reuse.id, config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME)
 
+    micro_session_reuse = _maybe_find_drive_item(root_items, MICRO_SESSION_REUSE_FILE_NAME)
+    if micro_session_reuse is None:
+        write_json(
+            config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME,
+            build_micro_session_reuse_config_for_cards([]),
+        )
+    else:
+        client.download_file(micro_session_reuse.id, config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME)
+
     for card_type, folder_id in config.card_type_folder_ids.items():
         type_dir = cards_dir / card_type
         type_dir.mkdir(parents = True, exist_ok = True)
@@ -121,6 +133,7 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
     macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     mezzo_micro_reuse_path = config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+    micro_session_reuse_path = config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME
 
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
@@ -130,6 +143,8 @@ def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIV
         write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
     if not mezzo_micro_reuse_path.exists():
         write_mezzo_micro_reuse_config(config.local_cache_dir, cards)
+    if not micro_session_reuse_path.exists():
+        write_micro_session_reuse_config(config.local_cache_dir, cards)
 
     validate_pathway_publish_ready(cards)
     refresh_library_bundle(config.local_cache_dir)
@@ -146,6 +161,7 @@ def upload_cached_root_metadata(client, config: GoogleDriveLibraryConfig = GOOGL
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
     macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     mezzo_micro_reuse_path = config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+    micro_session_reuse_path = config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME
 
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
@@ -155,6 +171,8 @@ def upload_cached_root_metadata(client, config: GoogleDriveLibraryConfig = GOOGL
         write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
     if not mezzo_micro_reuse_path.exists():
         write_mezzo_micro_reuse_config(config.local_cache_dir, cards)
+    if not micro_session_reuse_path.exists():
+        write_micro_session_reuse_config(config.local_cache_dir, cards)
 
     validate_pathway_publish_ready(cards)
     refresh_library_bundle(config.local_cache_dir)
@@ -168,6 +186,7 @@ def upload_cached_mezzo_library(client, config: GoogleDriveLibraryConfig = GOOGL
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
     macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     mezzo_micro_reuse_path = config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+    micro_session_reuse_path = config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME
 
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
@@ -177,6 +196,8 @@ def upload_cached_mezzo_library(client, config: GoogleDriveLibraryConfig = GOOGL
         write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
     if not mezzo_micro_reuse_path.exists():
         write_mezzo_micro_reuse_config(config.local_cache_dir, cards)
+    if not micro_session_reuse_path.exists():
+        write_micro_session_reuse_config(config.local_cache_dir, cards)
 
     validate_pathway_publish_ready(cards)
     refresh_library_bundle(config.local_cache_dir)
@@ -191,6 +212,7 @@ def upload_cached_micro_library(client, config: GoogleDriveLibraryConfig = GOOGL
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
     macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     mezzo_micro_reuse_path = config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+    micro_session_reuse_path = config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME
 
     if not display_config_path.exists():
         write_json(display_config_path, build_display_config())
@@ -200,6 +222,8 @@ def upload_cached_micro_library(client, config: GoogleDriveLibraryConfig = GOOGL
         write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
     if not mezzo_micro_reuse_path.exists():
         write_mezzo_micro_reuse_config(config.local_cache_dir, cards)
+    if not micro_session_reuse_path.exists():
+        write_micro_session_reuse_config(config.local_cache_dir, cards)
 
     validate_pathway_publish_ready(cards)
     refresh_library_bundle(config.local_cache_dir)
@@ -207,6 +231,32 @@ def upload_cached_micro_library(client, config: GoogleDriveLibraryConfig = GOOGL
 
     _upsert_root_library_files(client, config, root_items)
     _upload_card_type_files(client, config, "micro", config.micro_folder_id)
+
+
+# Upload root metadata plus only session card files, leaving existing macro/mezzo/micro files untouched.
+def upload_cached_session_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
+    display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
+    macro_mezzo_reuse_path = config.local_cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
+    mezzo_micro_reuse_path = config.local_cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+    micro_session_reuse_path = config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME
+
+    if not display_config_path.exists():
+        write_json(display_config_path, build_display_config())
+
+    cards = load_cached_cloud_library(config)
+    if not macro_mezzo_reuse_path.exists():
+        write_macro_mezzo_reuse_config(config.local_cache_dir, cards)
+    if not mezzo_micro_reuse_path.exists():
+        write_mezzo_micro_reuse_config(config.local_cache_dir, cards)
+    if not micro_session_reuse_path.exists():
+        write_micro_session_reuse_config(config.local_cache_dir, cards)
+
+    validate_pathway_publish_ready(cards)
+    refresh_library_bundle(config.local_cache_dir)
+    root_items = client.list_folder(config.root_folder_id)
+
+    _upsert_root_library_files(client, config, root_items)
+    _upload_card_type_files(client, config, "session", config.session_folder_id)
 
 
 # Export seed cards into local cache, validate them, then upload to Drive.
@@ -240,6 +290,7 @@ def _upsert_root_library_files(
         DISPLAY_CONFIG_FILE_NAME,
         MACRO_MEZZO_REUSE_FILE_NAME,
         MEZZO_MICRO_REUSE_FILE_NAME,
+        MICRO_SESSION_REUSE_FILE_NAME,
         LIBRARY_BUNDLE_FILE_NAME,
     )
     for file_name in root_file_names:
@@ -288,6 +339,7 @@ def _clear_cached_json_files(cache_dir: Path) -> None:
     display_config_path = cache_dir / DISPLAY_CONFIG_FILE_NAME
     macro_mezzo_reuse_path = cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     mezzo_micro_reuse_path = cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
+    micro_session_reuse_path = cache_dir / MICRO_SESSION_REUSE_FILE_NAME
     bundle_path = cache_dir / LIBRARY_BUNDLE_FILE_NAME
 
     if manifest_path.exists():
@@ -301,6 +353,9 @@ def _clear_cached_json_files(cache_dir: Path) -> None:
 
     if mezzo_micro_reuse_path.exists():
         mezzo_micro_reuse_path.unlink()
+
+    if micro_session_reuse_path.exists():
+        micro_session_reuse_path.unlink()
 
     if bundle_path.exists():
         bundle_path.unlink()

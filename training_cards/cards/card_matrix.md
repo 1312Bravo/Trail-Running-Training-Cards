@@ -1048,4 +1048,407 @@ Build status:
 - `sharman_ultra`: 11 micro cards, `micro_167` through `micro_177`
 - Exported cache count after build: 288 total cards, including 177 micro cards
 
-Next micro step: add `mezzo_micro_reuse.json` support so the app can show reused mainstream micro cards under named-philosophy mezzo contexts without duplicate card content.
+## Session Level
+
+Session cards define reusable workout concepts inside micro weeks. They answer: what workout should the athlete do today, what stimulus should it create, how should the work be executed, what terrain or pacing details matter, and how should the coach scale the session when readiness or context changes?
+
+Session cards should be specific enough to guide a real workout, but not so narrow that every small prescription variant becomes a separate card. At session level, the coach must make one extra decision before creating a card: is this a genuinely different workout concept, or is it a workout option inside an existing session card?
+
+### Session Card Authoring Shape
+
+Use the current session structure:
+
+```text
+SessionCard
+  workout_blocks[]
+    WorkoutBlock
+      block_type
+      execution_mode
+      options[]
+        WorkoutOption
+          repeat
+          parts[]
+            SessionPart
+```
+
+`WorkoutBlock` describes the section of the workout:
+
+- `block_type`: `warmup`, `main`, `recovery`, `cooldown`, `optional_addon`, or `notes`
+- `execution_mode`: `do_all`, `choose_one`, or `optional`
+
+`WorkoutOption` describes one complete required, optional, or selectable prescription inside a block:
+
+- `title`
+- `repeat`, used mechanically when the option's parts repeat as rounds or sets
+- `selection_notes`, used when a coach needs to know when to choose this option
+- `load_notes`, used when the option's stress cost needs clarification
+
+`SessionPart` describes the concrete work inside an option:
+
+- `title`
+- `prescription`
+- `duration`
+- `rpe`
+- `selection_notes`
+- `coaching_notes`
+- `terrain_notes`
+- `adjustment_notes`
+
+### Card Versus Option Standard
+
+A separate session card is justified when the workout concept changes enough to affect how the app chooses, explains, structures, filters, or sequences the session. A workout option belongs inside an existing session card when it is a true prescription variant of the same coaching concept.
+
+Use coaching common sense rather than a mechanical rule. Small changes in repetition count, duration, or recovery usually belong as `WorkoutOption`s. Changes in terrain, execution style, risk profile, athlete readiness requirement, or intended adaptation may justify a separate session card.
+
+Examples:
+
+- `Aerobic Power Intervals` can be one session card.
+- `4 x 4`, `5 x 3`, and `6 x 2` can be `WorkoutOption`s inside that card when they are all controlled aerobic-power interval prescriptions.
+- `Uphill Aerobic Power Intervals` may be a separate session card if terrain, mechanics, pacing control, or recovery cost changes the coaching decision.
+- `Aerobic Power Fartlek` may be a separate session card because continuous/variable execution changes how the athlete controls effort compared with structured intervals.
+- `Technical Downhill Conditioning` should be a separate session card because the adaptation, terrain demand, mechanical risk, and readiness requirement differ from ordinary aerobic or interval work.
+
+### Mechanical Repeat Example
+
+Use `repeat` only when the option's parts mechanically repeat. A simple continuous easy run usually has no repeat value.
+
+```text
+WorkoutBlock: Main
+execution_mode: do_all
+
+WorkoutOption: 4 x 4 Min Hard / 3 Min Easy
+repeat: 4 rounds
+
+SessionPart:
+- Hard Repetition: 4 min, RPE 8-9
+- Easy Recovery: 3 min, RPE 1-3
+```
+
+Rendered meaning:
+
+```text
+Main Set
+Do all
+
+4 x 4 Min Hard / 3 Min Easy
+Repeat 4 rounds:
+- Hard Repetition: 4 min | RPE 8-9
+- Easy Recovery: 3 min | RPE 1-3
+```
+
+### Coach-Led Mainstream Session Type Work
+
+For each accepted mainstream micro card, the coach should define the session types that usually belong underneath it. The coach should decide:
+
+- whether the proposed session is a real workout concept
+- whether it belongs at session level rather than micro, mezzo, or app guidance level
+- whether similar prescriptions should become options inside the card
+- whether terrain or execution changes are large enough to justify a separate card
+- which workout blocks, options, repeats, and parts the card likely needs
+- whether `mainstream_endurance` should get a card for this session type
+- which named philosophies may need a distinct version later
+
+Do not create session card files until the mainstream session type set and option grouping have been reviewed.
+
+### Coach-Derived Mainstream Session Type Catalog
+
+This is the first accepted mainstream session-type catalog for the `micro -> session` layer. The purpose is not to invent every possible workout, but to define reusable session concepts that can sit under many mainstream micro weeks. Exact prescriptions belong inside a session card as `WorkoutOption`s when they are variants of the same coaching concept.
+
+Coach verdict after reduction: keep the catalog compact and reusable. The session layer should cover the actual daily training choices implied by the mainstream micro cards, while resisting separate cards for every small duration, repetition-count, or route variant.
+
+Before building session cards, review whether the current `SessionFamily` registry needs two support families: one for strength/mobility sessions and one for low-impact aerobic alternatives. The session concepts are accepted here, but the final family labels may need a small registry update before implementation.
+
+| Session type ID | Session type name | Likely family | Coach verdict | Why this is a real session concept | Option grouping guidance |
+| --- | --- | --- | --- | --- | --- |
+| `session_type_rest_day` | Rest Day | Recovery | Keep | Rest is an intentional daily prescription when recovery, taper, race aftermath, or constraints make non-training the correct training choice. | Options may distinguish full rest, sleep-focused rest, travel-day rest, or logistics-supported rest. |
+| `session_type_walk_or_gentle_movement` | Walk Or Gentle Movement | Recovery | Keep | Gentle movement can support recovery, re-entry, or post-race transition without becoming a run. | Options may include walk, gentle hike, or very light spin if the stimulus remains recovery. |
+| `session_type_mobility_reset` | Mobility Reset | Strength/mobility support | Keep | Mobility and tissue-care work is a real session when the day's purpose is movement quality or recovery support. | Options may include mobility flow, light activation, or tissue-care routine; do not split by exercise list unless the app later needs exercise-level programming. |
+| `session_type_light_activation_strength` | Light Activation Strength | Strength/mobility support | Keep | Low-dose strength can prepare or preserve movement without creating a main strength stress. | Options may include activation circuit, light general strength, or pre-run movement prep. |
+| `session_type_general_strength_session` | General Strength Session | Strength/mobility support | Keep | General strength is a distinct workout when it is the day's primary non-running support stress. | Options may cover introductory, standard, and reduced-load versions; exact exercises can stay inside parts. |
+| `session_type_strength_support_session` | Strength Support Session | Strength/mobility support | Keep | Running-support strength differs from general gym work because it must be placed around key running and soreness cost. | Options may distinguish durability circuit, single-leg control, or low-eccentric support. |
+| `session_type_run_walk_reentry` | Run-Walk Re-Entry | Easy | Keep | Run-walk is distinct from continuous easy running when the athlete is rebuilding tolerance or confidence. | Options may include short run-walk ratios and progression steps; keep them inside one card. |
+| `session_type_short_easy_run` | Short Easy Run | Easy | Keep | A short easy run is a useful low-cost session for re-entry, taper, maintenance, and constrained weeks. | Options may vary 15-20, 20-30, or 30-40 minutes. |
+| `session_type_easy_aerobic_run` | Easy Aerobic Run | Easy | Keep | This is the core low-intensity running session used across most phases. | Options may vary by duration, terrain simplicity, or route familiarity while preserving easy effort. |
+| `session_type_recovery_run` | Recovery Run | Recovery | Keep | Recovery running is intentionally easier and lower-cost than ordinary easy aerobic running. | Options may include very short jog, easy shuffle, or recovery run-walk. |
+| `session_type_aerobic_support_run` | Aerobic Support Run | Easy | Keep | Support runs maintain aerobic rhythm around key work without becoming the focal stress. | Options may vary by short, normal, and extended support dose. |
+| `session_type_long_easy_run` | Long Easy Run | Endurance | Keep | Long easy running is a major endurance session with its own recovery and fueling implications. | Options may distinguish introductory, standard, and extended versions by duration/time-on-feet. |
+| `session_type_time_on_feet_outing` | Time-On-Feet Outing | Endurance | Keep | Time-on-feet is distinct when duration, hiking, terrain, or fatigue tolerance matters more than running pace. | Options may include easy run-hike, hilly time-on-feet, or low-intensity long trail outing. |
+| `session_type_goal_terrain_endurance_run` | Goal-Terrain Endurance Run | Endurance | Keep | Goal terrain changes the session when vertical, surface, hiking, descent, or route cost matters. | Options may distinguish climb-focused, rolling trail, technical-surface, or descent-light versions. |
+| `session_type_low_impact_aerobic_alternative` | Low-Impact Aerobic Alternative | Low-impact aerobic support | Keep | Cross-training or low-impact aerobic work is a real session when it replaces or supports running load. | Options may include bike, elliptical, swim, ski, or hike if intensity and recovery cost match. |
+| `session_type_movement_variety_session` | Movement Variety Session | Low-impact aerobic support | Keep | Off-season or recovery variety is useful when the goal is freshness, general athleticism, or lower emotional pressure. | Options may include hike, cycling, skiing, easy gym circuit, or playful aerobic movement. |
+| `session_type_trail_familiarity_run` | Trail Familiarity Run | Trail Specific Skills | Keep | Controlled trail exposure teaches footing, rhythm, and confidence without making the session race-specific. | Options may vary by surface, mild grade, or technicality. |
+| `session_type_trail_skill_drills` | Trail Skill Drills | Trail Specific Skills | Keep | Drills, strides, and focused terrain practice are distinct when skill rather than fitness is the main stimulus. | Options may include uphill cadence, foot-placement practice, relaxed trail strides, or balance-focused terrain. |
+| `session_type_power_hike_practice` | Power-Hike Practice | Trail Specific Skills | Keep | Power hiking is a distinct mountain-running skill and load pattern, especially for trail and ultra goals. | Options may include short steep hiking repeats, sustained hike intervals, or hike-run transitions. |
+| `session_type_downhill_skill_conditioning` | Downhill Skill Conditioning | Trail Specific Skills | Keep | Downhill work has distinct mechanical risk, coordination demand, and recovery cost. | Keep separate from ordinary trail running; options may cover technical skill, controlled descent repeats, or low-cost downhill exposure. |
+| `session_type_steady_aerobic_run` | Steady Aerobic Run | Steady | Keep | Steady running is stronger than easy but below threshold, useful when a controlled aerobic stimulus is needed. | Options may include short steady finish, continuous steady run, or steady segments. |
+| `session_type_controlled_threshold_session` | Controlled Threshold Session | Threshold | Keep | Threshold work is a distinct sustainable hard session that teaches restraint and pacing discipline. | Options may include continuous tempo, cruise intervals, or progression tempo when they share threshold intent. |
+| `session_type_short_threshold_touch` | Short Threshold Touch | Threshold | Keep | A small threshold dose is different from a development threshold workout because the goal is touchpoint, not build. | Options may include short cruise intervals, short tempo insert, or uphill threshold touch. |
+| `session_type_aerobic_power_intervals` | Aerobic Power Intervals | Aerobic Power | Keep | Aerobic-power intervals create high-end aerobic stress that needs deliberate spacing and control. | `4 x 4`, `5 x 3`, `6 x 2`, and similar structured intervals can be options inside this card. |
+| `session_type_aerobic_power_touch` | Aerobic Power Touch | Aerobic Power | Keep | A small aerobic-power touch maintains or introduces intensity without becoming a full stimulus workout. | Options may include short hard repeats, reduced repetition count, or brief hill equivalent. |
+| `session_type_aerobic_power_fartlek` | Aerobic Power Fartlek | Aerobic Power | Keep separate | Fartlek execution changes pacing control, continuity, and athlete perception enough to justify a separate card from structured intervals. | Options may include 10 x 1 min, 8 x 90 sec, or variable short-hard/easy patterns. |
+| `session_type_intro_uphill_endurance_repeats` | Intro Uphill Endurance Repeats | Strength Endurance | Keep | Shorter uphill endurance work introduces force and grade without a full muscular-endurance load. | Options may vary duration, grade, and recovery conservatively. |
+| `session_type_strength_endurance_climb_session` | Strength-Endurance Climb Session | Strength Endurance | Keep | Sustained uphill or resistance work creates a distinct muscular-endurance stimulus and recovery cost. | Options may include sustained climb intervals, hike-run climbs, or treadmill/stair alternatives when the same stress is preserved. |
+| `session_type_hill_strength_circuit` | Hill Strength Circuit | Strength Endurance | Keep | Circuit structure is needed when several hill-force parts repeat as rounds. | Options may include intro and advanced circuits; `repeat` should describe rounds mechanically. |
+| `session_type_short_hill_power` | Short Hill Power | Hill Power | Keep | Short hill power is neuromuscular and mechanical, not a long grinding hill session. | Options may include short hill sprints, relaxed uphill strides, or low-volume power touches. |
+| `session_type_neuromuscular_strides` | Neuromuscular Strides | Neuromuscular | Keep | Strides preserve rhythm, coordination, and leg speed at low cost when kept relaxed. | Options may vary number, duration, flat/upright terrain, or gentle uphill. |
+| `session_type_sharpening_touch` | Sharpening Touch | Controlled Quality | Keep | Sharpening before racing is a small familiar quality signal rather than a development workout. | Options may include short strides, short controlled intervals, or race-pace feel depending on event. |
+| `session_type_pre_race_shakeout` | Pre-Race Shakeout | Easy | Keep | A shakeout is a very short, confidence-preserving session close to racing. | Options may include easy shakeout only or easy shakeout plus a few relaxed strides. |
+| `session_type_gear_fueling_check` | Gear And Fueling Check | Race Practice | Keep | Gear and fueling checks are trainable execution tasks when paired with movement or low-cost rehearsal. | Options may include shoe/pack check, bottle/gel timing, poles, lights, or weather kit check. |
+| `session_type_fueling_habit_run` | Fueling Habit Run | Race Practice | Keep | Fueling practice can be low-key habit formation before it becomes tolerance testing. | Options may include easy run with planned intake or hydration timing. |
+| `session_type_long_run_fueling_practice` | Long-Run Fueling Practice | Race Practice | Keep | Fueling under longer duration is a distinct session because gut tolerance, logistics, and effort interact. | Options may vary intake timing, product practice, heat/hydration emphasis, or event-specific format. |
+| `session_type_controlled_fueling_test` | Controlled Fueling Test | Race Practice | Keep | A controlled fueling test isolates nutrition tolerance more than fitness progression. | Options may include simple product test, timing test, or hydration/electrolyte check. |
+| `session_type_race_execution_cue_run` | Race Execution Cue Run | Race Practice | Keep | Pacing, gear, hiking transitions, and decision cues can be practiced at low cost. | Options may include pacing cue run, hiking-transition practice, aid-flow rehearsal, or mental checkpoint practice. |
+| `session_type_race_rehearsal_session` | Race Rehearsal Session | Race Practice | Keep | Rehearsal combines several race demands in a controlled session without becoming a race. | Options may include short rehearsal, long rehearsal, terrain rehearsal, or gear/fueling rehearsal. |
+| `session_type_course_demands_exposure_run` | Course-Demands Exposure Run | Race Practice | Keep | Course demand exposure prepares the athlete for a specific requirement without full simulation. | Options may focus on climb, descent, technical surface, heat, altitude, or duration. |
+| `session_type_course_demands_simulation_outing` | Course-Demands Simulation Outing | Race Practice | Keep | Simulation combines multiple demands at higher cost and needs different placement than exposure. | Options may vary simulation size and demand combination. |
+| `session_type_easy_run_with_response_check` | Easy Run With Response Check | Easy | Keep | Response-check runs use simple movement to assess readiness without adding a hard test. | Options may include easy run with soreness check, stairs/downhill check, or perceived-effort check. |
+| `session_type_transition_preview_session` | Transition Preview Session | Controlled Quality | Keep | A small preview of the next emphasis helps bridge blocks without jumping to full demand. | Options depend on the next block: small threshold touch, short hill touch, short terrain exposure, or easy endurance preview. |
+| `session_type_targeted_lesson_practice` | Targeted Lesson Practice | Race Practice | Keep | Race lessons become useful when one clear behavior is practiced, not when every lesson becomes a new plan. | Options may include pacing correction, gear fix, fueling timing, hiking transition, or descent-control practice. |
+| `session_type_race_debrief_easy_run` | Race Debrief Easy Run | Recovery | Keep | Easy movement after competition can pair recovery with practical reflection. | Options may include easy recovery run, walk-and-reflect, or one low-cost lesson cue. |
+| `session_type_constraint_priority_session` | Constraint Priority Session | Easy | Keep | Constraints require choosing the highest-value short session rather than forcing a normal template. | Options may include short easy run, minimum aerobic dose, or short support session. |
+
+### Mainstream Session Type Coverage By Micro Week
+
+This table defines the baseline session concepts that can sit under each mainstream micro card. It is not a fixed weekly schedule. It tells the later card build which session cards should exist and which session types each micro week can point to as children.
+
+| Micro card | Baseline session types under this week | Coach notes on options and grouping |
+| --- | --- | --- |
+| `micro_001` Routine Anchor Week | `session_type_run_walk_reentry`; `session_type_walk_or_gentle_movement`; `session_type_rest_day` | Keep prescriptions short and confidence-building. Run-walk ratios are options, not separate cards. |
+| `micro_002` Frequency Extension Week | `session_type_short_easy_run`; `session_type_run_walk_reentry`; `session_type_rest_day` | The extra exposure is an option inside the short/easy concept, not a new session type. |
+| `micro_003` Easy Aerobic Reconditioning Week | `session_type_easy_aerobic_run`; `session_type_low_impact_aerobic_alternative`; `session_type_recovery_run` | Low-impact alternatives may need their own family before building. |
+| `micro_004` Aerobic Reconditioning Hold Week | `session_type_easy_aerobic_run`; `session_type_low_impact_aerobic_alternative`; `session_type_rest_day` | The hold decision belongs to the micro card; the session stays ordinary and repeatable. |
+| `micro_005` Strength Reintroduction Week | `session_type_light_activation_strength`; `session_type_easy_aerobic_run`; `session_type_mobility_reset` | Exercise details should be parts/options inside the support session, not separate cards. |
+| `micro_006` Movement Tolerance Check Week | `session_type_light_activation_strength`; `session_type_easy_run_with_response_check`; `session_type_mobility_reset` | Response checking belongs in notes/options; avoid a separate check-only workout card unless movement changes. |
+| `micro_007` Aerobic Volume Baseline Week | `session_type_easy_aerobic_run`; `session_type_long_easy_run`; `session_type_recovery_run` | Long-run duration options stay inside long easy run. |
+| `micro_008` Aerobic Volume Build Week | `session_type_easy_aerobic_run`; `session_type_long_easy_run`; `session_type_recovery_run` | Progression is mostly duration/frequency options, not new card types. |
+| `micro_009` Aerobic Volume Absorption Week | `session_type_short_easy_run`; `session_type_easy_aerobic_run`; `session_type_low_impact_aerobic_alternative`; `session_type_rest_day` | Reduced dose belongs as option selection inside easy/support cards. |
+| `micro_010` Long Run Extension Week | `session_type_long_easy_run`; `session_type_aerobic_support_run`; `session_type_recovery_run` | Extension variants are long-run options unless terrain changes the coaching decision. |
+| `micro_011` Long Endurance Specificity Week | `session_type_goal_terrain_endurance_run`; `session_type_power_hike_practice`; `session_type_long_run_fueling_practice`; `session_type_recovery_run` | Goal-terrain and fueling may both appear, but avoid making every long run a simulation card. |
+| `micro_012` Long Run Consolidation Week | `session_type_long_easy_run`; `session_type_short_easy_run`; `session_type_rest_day`; `session_type_mobility_reset` | Familiarity and reduced novelty are micro-level instructions; session cards stay reusable. |
+| `micro_013` Strength Support Integration Week | `session_type_strength_support_session`; `session_type_easy_aerobic_run`; `session_type_mobility_reset` | Strength support needs options for low/moderate dose and soreness management. |
+| `micro_014` Strength Support Deload Week | `session_type_light_activation_strength`; `session_type_easy_aerobic_run`; `session_type_mobility_reset` | Deload versions are options inside light activation and mobility cards. |
+| `micro_015` Trail Familiarity Exposure Week | `session_type_trail_familiarity_run`; `session_type_easy_aerobic_run`; `session_type_trail_skill_drills` | Surface and technicality variants stay options until risk/adaptation changes enough for downhill conditioning. |
+| `micro_016` Trail Skill Consolidation Week | `session_type_trail_familiarity_run`; `session_type_easy_aerobic_run`; `session_type_mobility_reset` | Repetition of familiar terrain is a micro placement choice, not a separate session card. |
+| `micro_017` Threshold Introduction Week | `session_type_controlled_threshold_session`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Shorter cruise/tempo prescriptions are options inside controlled threshold. |
+| `micro_018` Threshold Development Week | `session_type_controlled_threshold_session`; `session_type_aerobic_support_run`; `session_type_long_easy_run` | Continuous tempo, cruise intervals, and progression tempo can be options if the intent remains threshold control. |
+| `micro_019` Threshold Absorption Week | `session_type_short_threshold_touch`; `session_type_easy_aerobic_run`; `session_type_recovery_run`; `session_type_rest_day` | No-quality absorption can use easy/rest cards rather than a special threshold card. |
+| `micro_020` Aerobic Power Introduction Week | `session_type_aerobic_power_touch`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Intro prescriptions are options inside aerobic-power touch. |
+| `micro_021` Aerobic Power Stimulus Week | `session_type_aerobic_power_intervals`; `session_type_aerobic_support_run`; `session_type_long_easy_run`; `session_type_recovery_run` | `4 x 4`, `5 x 3`, and `6 x 2` belong as options when structured interval intent is the same. |
+| `micro_022` Aerobic Power Recovery-Spacing Week | `session_type_aerobic_power_touch`; `session_type_easy_aerobic_run`; `session_type_low_impact_aerobic_alternative`; `session_type_rest_day` | Small touches are options, not separate development sessions. |
+| `micro_023` Strength Endurance Introduction Week | `session_type_intro_uphill_endurance_repeats`; `session_type_easy_aerobic_run`; `session_type_light_activation_strength` | Uphill intro variants stay grouped unless they become true hill circuits or ME climb sessions. |
+| `micro_024` Strength Endurance Stimulus Week | `session_type_strength_endurance_climb_session`; `session_type_hill_strength_circuit`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Sustained climb sessions and circuits are separate cards because execution structure differs. |
+| `micro_025` Strength Endurance Absorption Week | `session_type_easy_aerobic_run`; `session_type_walk_or_gentle_movement`; `session_type_short_hill_power`; `session_type_mobility_reset` | The hill touch is optional and should use a low-volume option inside short hill power. |
+| `micro_026` Course Demands Exposure Week | `session_type_course_demands_exposure_run`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Climb, descent, heat, altitude, and technicality can be options only when exposure remains controlled. |
+| `micro_027` Course Demands Integration Week | `session_type_goal_terrain_endurance_run`; `session_type_course_demands_exposure_run`; `session_type_mobility_reset`; `session_type_recovery_run` | If multiple demands are combined at high cost, use simulation instead of exposure. |
+| `micro_028` Course Demands Simulation Week | `session_type_course_demands_simulation_outing`; `session_type_long_run_fueling_practice`; `session_type_recovery_run`; `session_type_rest_day` | Simulation size is an option; do not split every route profile into a card. |
+| `micro_029` Race Execution Integration Week | `session_type_race_execution_cue_run`; `session_type_gear_fueling_check`; `session_type_long_easy_run` | Cue categories are options inside the execution cue card. |
+| `micro_030` Race Execution Rehearsal Week | `session_type_race_rehearsal_session`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Rehearsal options can vary by terrain, gear, fueling, pacing, or aid-flow emphasis. |
+| `micro_031` Execution Feedback Week | `session_type_race_execution_cue_run`; `session_type_targeted_lesson_practice`; `session_type_recovery_run` | Feedback analysis alone is app/coach note; a session card exists only when there is movement practice. |
+| `micro_032` Fueling Integration Week | `session_type_fueling_habit_run`; `session_type_long_run_fueling_practice`; `session_type_gear_fueling_check` | Habit and long-run practice stay separate because the training cost and context differ. |
+| `micro_033` Fueling Practice Week | `session_type_long_run_fueling_practice`; `session_type_controlled_fueling_test`; `session_type_recovery_run` | Product/timing variants belong as options inside the fueling cards. |
+| `micro_034` Fueling Tolerance Check Week | `session_type_controlled_fueling_test`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Keep physical load simple so tolerance is interpretable. |
+| `micro_035` Taper Load Reduction Week | `session_type_short_easy_run`; `session_type_sharpening_touch`; `session_type_rest_day`; `session_type_mobility_reset` | Taper doses are options; do not create separate taper cards by exact minute count. |
+| `micro_036` Final Freshness Week | `session_type_pre_race_shakeout`; `session_type_neuromuscular_strides`; `session_type_rest_day`; `session_type_gear_fueling_check` | Shakeout plus strides can be one option if both are meant to be done together. |
+| `micro_037` Sharpening Touchpoint Week | `session_type_sharpening_touch`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Event-specific sharpening variants stay options if they are low-cost and familiar. |
+| `micro_038` Sharpening Absorption Week | `session_type_easy_aerobic_run`; `session_type_neuromuscular_strides`; `session_type_rest_day`; `session_type_mobility_reset` | Strides are optional; no need for a separate absorption-only session. |
+| `micro_039` Readiness Confirmation Week | `session_type_short_easy_run`; `session_type_gear_fueling_check`; `session_type_race_execution_cue_run` | Readiness checks belong inside low-cost sessions, not as standalone analysis cards. |
+| `micro_040` Pre-Race Settle Week | `session_type_pre_race_shakeout`; `session_type_neuromuscular_strides`; `session_type_rest_day`; `session_type_gear_fueling_check` | Keep all options familiar and low risk. |
+| `micro_041` Post-Competition Reset Week | `session_type_rest_day`; `session_type_walk_or_gentle_movement`; `session_type_mobility_reset`; `session_type_recovery_run` | Race cost determines whether recovery run appears at all. |
+| `micro_042` Between-Race Bridge Week | `session_type_easy_aerobic_run`; `session_type_transition_preview_session`; `session_type_recovery_run`; `session_type_rest_day` | Race-relevant touches should be small preview options, not development workouts. |
+| `micro_043` Race Season Rhythm Week | `session_type_easy_aerobic_run`; `session_type_long_easy_run`; `session_type_recovery_run` | Shorter long-run and endurance-touch versions are long-run options. |
+| `micro_044` Low-Cost Quality Touch Week | `session_type_sharpening_touch`; `session_type_short_threshold_touch`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Choose one quality touch; do not stack touchpoint cards. |
+| `micro_045` Race Debrief Learning Week | `session_type_race_debrief_easy_run`; `session_type_targeted_lesson_practice`; `session_type_rest_day`; `session_type_mobility_reset` | Debrief is not a session unless paired with easy movement or one concrete rehearsal. |
+| `micro_046` Race Lesson Integration Week | `session_type_targeted_lesson_practice`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Lesson categories are options, not separate cards unless execution/risk changes strongly. |
+| `micro_047` Immediate Post-Race Recovery Week | `session_type_rest_day`; `session_type_walk_or_gentle_movement`; `session_type_mobility_reset` | No running session is required in this week. |
+| `micro_048` Post-Race Return-To-Movement Week | `session_type_walk_or_gentle_movement`; `session_type_recovery_run`; `session_type_run_walk_reentry`; `session_type_rest_day` | Return options depend on soreness and motivation, not a fixed calendar. |
+| `micro_049` Reduced-Load Absorption Week | `session_type_easy_aerobic_run`; `session_type_rest_day`; `session_type_mobility_reset`; `session_type_low_impact_aerobic_alternative` | Reduced load is expressed by choosing lower-cost options. |
+| `micro_050` Reduced-Load Readiness Check Week | `session_type_easy_run_with_response_check`; `session_type_sharpening_touch`; `session_type_rest_day`; `session_type_mobility_reset` | Short familiar touch is optional only if readiness is already plausible. |
+| `micro_051` Transition Reorientation Week | `session_type_easy_aerobic_run`; `session_type_transition_preview_session`; `session_type_recovery_run` | Preview options depend on the next block; keep the card generic but option notes specific. |
+| `micro_052` Transition Rhythm Week | `session_type_easy_aerobic_run`; `session_type_aerobic_support_run`; `session_type_rest_day`; `session_type_mobility_reset` | Normal rhythm support is an easy/support session, not a new card. |
+| `micro_053` Low-Pressure Aerobic Week | `session_type_easy_aerobic_run`; `session_type_low_impact_aerobic_alternative`; `session_type_rest_day` | Emotional pressure is handled in card notes and option selection. |
+| `micro_054` Unstructured Aerobic Option Week | `session_type_easy_aerobic_run`; `session_type_walk_or_gentle_movement`; `session_type_low_impact_aerobic_alternative`; `session_type_rest_day` | Flexible choices should still have intensity and cost guardrails. |
+| `micro_055` General Strength Foundation Week | `session_type_general_strength_session`; `session_type_mobility_reset`; `session_type_easy_aerobic_run`; `session_type_low_impact_aerobic_alternative` | Strength progression options belong inside the general strength card. |
+| `micro_056` General Mobility Recovery Week | `session_type_mobility_reset`; `session_type_walk_or_gentle_movement`; `session_type_light_activation_strength` | Keep very low load; avoid creating too many exercise-list variants. |
+| `micro_057` Movement Variety Exploration Week | `session_type_movement_variety_session`; `session_type_easy_aerobic_run`; `session_type_rest_day` | Activity types are options if the training effect stays low-pressure and aerobic. |
+| `micro_058` Movement Variety Rhythm Week | `session_type_easy_aerobic_run`; `session_type_movement_variety_session`; `session_type_mobility_reset`; `session_type_rest_day` | Rhythm is a weekly pattern; session cards stay broad. |
+| `micro_059` Aerobic Maintenance Week | `session_type_easy_aerobic_run`; `session_type_long_easy_run`; `session_type_recovery_run` | Maintenance uses familiar options and avoids development-style escalation. |
+| `micro_060` Aerobic Maintenance Refresh Week | `session_type_easy_aerobic_run`; `session_type_long_easy_run`; `session_type_walk_or_gentle_movement`; `session_type_mobility_reset` | Route variety belongs as an option unless it changes terrain demand substantially. |
+| `micro_061` Quality Touchpoint Week | `session_type_short_threshold_touch`; `session_type_aerobic_power_touch`; `session_type_sharpening_touch`; `session_type_easy_aerobic_run`; `session_type_recovery_run` | Choose one quality-touch family according to the goal; exact touch prescriptions are options. |
+| `micro_062` Quality Touchpoint Recovery Week | `session_type_sharpening_touch`; `session_type_recovery_run`; `session_type_rest_day`; `session_type_mobility_reset` | Recovery protection is the micro decision; the quality touch remains small. |
+| `micro_063` Constraint-Friendly Week | `session_type_constraint_priority_session`; `session_type_short_easy_run`; `session_type_light_activation_strength`; `session_type_low_impact_aerobic_alternative` | Use options that preserve the highest-value work under real constraints. |
+| `micro_064` Minimum Effective Rhythm Week | `session_type_short_easy_run`; `session_type_walk_or_gentle_movement`; `session_type_mobility_reset`; `session_type_rest_day` | The minimum should be honest and repeatable; optional second exposure is an option, not another card. |
+
+### Mainstream Session Taxonomy Completion Review
+
+Coach review after defining the first mainstream session catalog:
+
+- Keep 46 mainstream session types. This is enough to cover the 64 mainstream micro weeks without creating a unique session card for every micro card.
+- Treat exact duration, repetition count, and recovery choices as `WorkoutOption`s when they preserve the same workout concept.
+- Keep separate cards when execution meaning changes: structured intervals versus fartlek, sustained climb work versus hill circuit, trail familiarity versus downhill conditioning, course exposure versus simulation, fueling habit versus controlled fueling test.
+- Add session-family support before building if needed for strength/mobility and low-impact aerobic alternatives; forcing those sessions into unrelated families would make the app less clear.
+- Before building, review the taxonomy once more for missing concepts, over-splitting, and whether any accepted type should be merged. After that review, build only the accepted mainstream session cards.
+
+### Built Mainstream Session Card Set
+
+The 46 accepted mainstream session types have been created as active Python seed cards.
+
+Build status:
+
+- `mainstream_endurance`: 46 session cards, `session_001` through `session_046`
+- Added session-family support for `Strength / Mobility Support` and `Low-Impact Aerobic Support`
+- Exported cache count after build: 334 total cards, including 46 session cards
+- Session-to-micro parent references: 217 total; every mainstream session card has at least one parent micro card
+
+This mainstream build checkpoint was followed by the named-philosophy session review below. Reuse mainstream session cards where execution stays the same, and create philosophy-specific session cards only when the philosophy changes the workout decision.
+
+### Named-Philosophy Session Specificity Standard
+
+At session level the specificity standard must be stricter than at macro, mezzo, or micro level because workout variants can multiply quickly. A named-philosophy session card should exist only when the philosophy creates a meaningful distinction from the mainstream session card that changes how the app should choose, explain, or structure the workout.
+
+A named-philosophy session card is justified when it changes at least one of these:
+
+- the actual workout execution, not only the language around it
+- the option grouping inside the card
+- the intended intensity control or load accounting enough to affect selection
+- the terrain, technical, or muscular-risk management enough to change prescription
+- the recovery placement or readiness gate enough to change whether the session should appear
+- the athlete-facing decision process enough that the session would be misleading as a generic mainstream workout
+
+A named-philosophy session card is not justified when the only difference is emphasis, tone, a reminder, a small duration change, or a normal variant that fits cleanly inside an existing mainstream `WorkoutOption`.
+
+Coach verdict: keep this stricter standard for all philosophies. Most named-philosophy micro cards should still be able to reuse many mainstream session cards. Build specific session cards only where the session itself becomes different, not where the week or block already carries the philosophy-specific logic.
+
+### Named-Philosophy Session Review Matrix
+
+This review compares the named-philosophy micro cards against the 46 mainstream session cards. It does not build the cards yet. It decides which specific session concepts are strong enough to become card candidates and which concepts should reuse mainstream sessions through future `micro_session_reuse.json` metadata.
+
+| Philosophy | Specific micro cards reviewed | Mainstream session reuse expectation | Candidate specific session cards after strict review | Coach verdict |
+| --- | ---: | --- | --- | --- |
+| `80_20_endurance` | 21 | High reuse for easy running, recovery, rest, fueling, race execution, trail familiarity, and ordinary long-run support. | 4 candidates: `80/20 Low-Intensity Discipline Run`, `80/20 Planned Moderate Session`, `80/20 Distribution-Protected High-Intensity Session`, `80/20 Distribution-Protected Hill-Strength Session`. | Keep candidates only where intensity-distribution accounting changes session selection or execution. Do not duplicate every easy, hard, or hill session just because it belongs inside an 80/20 week. |
+| `lydiard` | 15 | High reuse for recovery, basic easy running, long easy running, fueling, readiness checks, and ordinary sharpening touches. | 3 candidates: `Lydiard Sustainable Aerobic Conditioning Run`, `Lydiard Hill Resistance Circuit`, `Lydiard Sequence-Expression Sharpening Session`. | Keep hill resistance as the clearest specific session. Keep aerobic conditioning and sharpening only if the final card preserves Lydiard sequence logic rather than becoming generic steady running or generic sharpening. |
+| `cts` | 22 | High reuse for recovery, easy support, fueling checks, course exposure, and many race-practice sessions. | 4 candidates: `CTS Repeatable Workload Session`, `CTS Limiter-Focused Quality Session`, `CTS Event-Demands Durability Session`, `CTS Between-Event Adjustment Session`. | Keep candidates where CTS changes the practical limiter decision. Reuse mainstream cards when the workout is simply a normal threshold, aerobic-power, long-run, fueling, or recovery session. |
+| `evoke_endurance` | 17 | Moderate reuse for recovery, easy running, long aerobic support, race logistics, and some course-demand exposure. | 4 candidates: `Evoke Aerobic Threshold Calibration Run`, `Evoke Strength Reserve Session`, `Evoke Uphill Muscular-Endurance Session`, `Evoke Objective Utilisation Session`. | Keep candidates where the session expresses Evoke layer logic, uphill muscular endurance, or objective utilisation. Reuse mainstream sessions for ordinary easy, recovery, fueling, and general endurance support. |
+| `swap` | 27 | Moderate reuse for rest, recovery, easy running, mobility, fueling, and many race-practice basics. | 5 candidates: `SWAP Confidence Re-Entry Session`, `SWAP Health-Protected Aerobic Session`, `SWAP Speed-Economy Play Session`, `SWAP Adventure Endurance Session`, `SWAP Agency Race-Practice Session`. | Keep candidates where health, joy, confidence, agency, or speed-as-skill changes session execution. Avoid turning every supportive tone difference into a separate card. |
+| `sharman_ultra` | 11 | Moderate-to-high reuse for easy running, recovery, maintenance, fueling basics, and standard long-run support. | 4 candidates: `Sharman Course-Reality Exposure Session`, `Sharman Practical Ultra Execution Session`, `Sharman Ultra Problem-Solving Rehearsal`, `Sharman Logistics Rehearsal Session`. | Keep candidates where practical ultra constraints change the workout design. Reuse mainstream race-practice cards when the only difference is race-distance context or wording. |
+
+### Named-Philosophy Session Candidate Review
+
+These candidates are accepted for the next build pass only if the card authoring step can preserve the distinction named here. If a candidate collapses into an existing mainstream session during writing, do not build it; map the named-philosophy micro cards to the mainstream session instead.
+
+| Candidate session | Philosophy | Coach verdict | Why it may need a specific card | Mainstream sessions it must not duplicate |
+| --- | --- | --- | --- | --- |
+| `80/20 Low-Intensity Discipline Run` | `80_20_endurance` | Provisional keep | The session may need a firm low-intensity ceiling, drift correction, and distribution-aware selection notes that affect whether the workout should appear in 80/20 easy-discipline weeks. | `Easy Aerobic Run`; `Short Easy Run`; `Recovery Run` |
+| `80/20 Planned Moderate Session` | `80_20_endurance` | Keep | Deliberate moderate work is distinct from accidental grey-zone drift and should be structured as a controlled exception inside the 80/20 distribution. | `Steady Aerobic Run`; `Controlled Threshold Session`; `Short Threshold Touch` |
+| `80/20 Distribution-Protected High-Intensity Session` | `80_20_endurance` | Provisional keep | The hard work may be similar to mainstream intervals, but the session must preserve polarized load accounting, avoid moderate spillover, and protect low-intensity volume around it. | `Aerobic Power Intervals`; `Aerobic Power Touch`; `Aerobic Power Fartlek` |
+| `80/20 Distribution-Protected Hill-Strength Session` | `80_20_endurance` | Provisional keep | Uphill muscular load can hide intensity cost. A specific card is justified only if it changes option size, recovery, or accounting compared with mainstream hill strength. | `Intro Uphill Endurance Repeats`; `Strength-Endurance Climb Session`; `Hill Strength Circuit` |
+| `Lydiard Sustainable Aerobic Conditioning Run` | `lydiard` | Provisional keep | It may express Lydiard aerobic conditioning as a sustainable system-building run rather than a generic easy or steady session. Build only if the session clearly carries sequence-aware aerobic conditioning. | `Easy Aerobic Run`; `Steady Aerobic Run`; `Long Easy Run` |
+| `Lydiard Hill Resistance Circuit` | `lydiard` | Keep | Hill resistance is a distinctive bridge between aerobic conditioning and later faster work, with specific circuit-style mechanics and sequencing. | `Hill Strength Circuit`; `Strength-Endurance Climb Session` |
+| `Lydiard Sequence-Expression Sharpening Session` | `lydiard` | Provisional keep | Sharpening should express the completed sequence without chasing missing fitness. Build only if it differs from a generic sharpening touch. | `Sharpening Touch`; `Pre-Race Shakeout`; `Neuromuscular Strides` |
+| `CTS Repeatable Workload Session` | `cts` | Provisional keep | CTS often starts from repeatable workload under real-life constraints; this is specific only if the session uses workload repeatability as the primary selection rule. | `Easy Aerobic Run`; `Aerobic Support Run`; `Constraint Priority Session` |
+| `CTS Limiter-Focused Quality Session` | `cts` | Keep | The session is chosen by the athlete's limiter and should make trade-offs explicit rather than assuming one generic quality type. | `Controlled Threshold Session`; `Aerobic Power Intervals`; `Strength-Endurance Climb Session` |
+| `CTS Event-Demands Durability Session` | `cts` | Keep | CTS event-demand work should target the course or race limiter that matters most, with practical cost control. | `Goal-Terrain Endurance Run`; `Course-Demands Exposure Run`; `Course-Demands Simulation Outing` |
+| `CTS Between-Event Adjustment Session` | `cts` | Provisional keep | Between-event sessions are justified only when the session adapts recovery, maintenance, or limiter work based on the next event. | `Transition Preview Session`; `Targeted Lesson Practice`; `Recovery Run` |
+| `Evoke Aerobic Threshold Calibration Run` | `evoke_endurance` | Keep | Aerobic threshold calibration can change the effort target and feedback loop enough to differ from generic steady or easy running. | `Steady Aerobic Run`; `Easy Aerobic Run` |
+| `Evoke Strength Reserve Session` | `evoke_endurance` | Keep | Strength reserve is not generic strength; it supports later mountain capacity and must avoid replacing aerobic development. | `General Strength Session`; `Strength Support Session` |
+| `Evoke Uphill Muscular-Endurance Session` | `evoke_endurance` | Keep | Evoke ME work is a distinctive uphill force-endurance stimulus and should be more specific than mainstream hill strength. | `Strength-Endurance Climb Session`; `Hill Strength Circuit`; `Intro Uphill Endurance Repeats` |
+| `Evoke Objective Utilisation Session` | `evoke_endurance` | Keep | The session should use existing capacity for mountain-objective demands instead of proving fitness through more development load. | `Race Rehearsal Session`; `Course-Demands Simulation Outing`; `Goal-Terrain Endurance Run` |
+| `SWAP Confidence Re-Entry Session` | `swap` | Keep | The session should rebuild safety, possibility, and ownership, not only prescribe a run-walk return. | `Run-Walk Re-Entry`; `Short Easy Run`; `Walk Or Gentle Movement` |
+| `SWAP Health-Protected Aerobic Session` | `swap` | Provisional keep | It is specific only if health protection changes the session gate, option size, or stop rules. | `Easy Aerobic Run`; `Aerobic Support Run`; `Constraint Priority Session` |
+| `SWAP Speed-Economy Play Session` | `swap` | Keep | SWAP speed work should feel like relaxed skill and economy practice, not a strain contest or generic interval session. | `Neuromuscular Strides`; `Short Hill Power`; `Sharpening Touch` |
+| `SWAP Adventure Endurance Session` | `swap` | Keep | Adventure endurance changes the emotional and practical structure of long aerobic work while still protecting health. | `Long Easy Run`; `Time-On-Feet Outing`; `Goal-Terrain Endurance Run` |
+| `SWAP Agency Race-Practice Session` | `swap` | Keep | Agency-centered race practice should train choices and confidence, not just rehearse compliance with a plan. | `Race Execution Cue Run`; `Race Rehearsal Session`; `Targeted Lesson Practice` |
+| `Sharman Course-Reality Exposure Session` | `sharman_ultra` | Keep | The session should reflect practical course preparation under real access constraints instead of idealized specificity. | `Course-Demands Exposure Run`; `Goal-Terrain Endurance Run` |
+| `Sharman Practical Ultra Execution Session` | `sharman_ultra` | Keep | Ultra execution should be trained through realistic pacing, hiking, fueling, and restraint under practical conditions. | `Race Execution Cue Run`; `Race Rehearsal Session` |
+| `Sharman Ultra Problem-Solving Rehearsal` | `sharman_ultra` | Keep | The session should rehearse foreseeable race problems and calm adaptations, not only ordinary execution cues. | `Targeted Lesson Practice`; `Race Execution Cue Run` |
+| `Sharman Logistics Rehearsal Session` | `sharman_ultra` | Provisional keep | Logistics are specific only when gear, fueling, aid-flow, weather, or route constraints change the workout design. | `Gear And Fueling Check`; `Long-Run Fueling Practice`; `Race Rehearsal Session` |
+
+Session review conclusion: the first strict pass accepts 24 named-philosophy session candidates for the next authoring pass, with several marked provisional. This is intentionally smaller than the 113 named-philosophy micro cards because most micro cards should reuse mainstream sessions through metadata rather than duplicate daily workouts.
+
+### Second Coach Pass On Named-Philosophy Session Coverage
+
+Concern reviewed: 24 specific session candidates may be too small if broad candidates hide materially different session decisions. The coach review agrees with keeping a strict standard, but also finds that the first pass compressed several concepts too much. Some named philosophies change not only the weekly structure, but the daily workout gate, terrain choice, option grouping, intensity accounting, or athlete decision process.
+
+Second-pass verdict: increase the next authoring candidate set from 24 to 39. This is still intentionally selective because 39 candidates sit underneath 113 named-philosophy micro cards; most specific micro cards should continue to reuse mainstream session cards through metadata.
+
+| Philosophy | First-pass candidates | Second-pass candidates | Coach adjustment |
+| --- | ---: | ---: | --- |
+| `80_20_endurance` | 4 | 6 | Split easy-discipline work from long low-intensity distribution, and add course exposure where vertical or terrain cost can distort 80/20 accounting. |
+| `lydiard` | 3 | 5 | Add long aerobic conditioning and capacity integration because they are more sequence-specific than generic easy, long, or sharpening sessions. |
+| `cts` | 4 | 8 | Split practical limiter work into workload, long-run durability, ultra strength-endurance, event demands, race execution, fueling strategy, and between-event adjustment where the workout decision changes. |
+| `evoke_endurance` | 4 | 5 | Add aerobic capacity development separately from aerobic-threshold calibration because Evoke's layer model can make those distinct session roles. |
+| `swap` | 5 | 9 | Add supported recovery, fatigue-resistance, confidence course practice, and off-season play because SWAP may change gates, emotional load, agency, and stop rules at session level. |
+| `sharman_ultra` | 4 | 6 | Add fueling-gear integration and context-aware between-race recovery because Sharman's practical ultra context can change the session design. |
+
+Revised next authoring candidates:
+
+| Philosophy | Candidate specific session cards to author or final-check |
+| --- | --- |
+| `80_20_endurance` | `80/20 Low-Intensity Discipline Run`; `80/20 Distribution-Protected Long Endurance Run`; `80/20 Planned Moderate Session`; `80/20 Distribution-Protected High-Intensity Session`; `80/20 Distribution-Protected Hill-Strength Session`; `80/20 Distribution-Safe Course Exposure Session` |
+| `lydiard` | `Lydiard Sustainable Aerobic Conditioning Run`; `Lydiard Long Aerobic Conditioning Run`; `Lydiard Hill Resistance Circuit`; `Lydiard Capacity Integration Session`; `Lydiard Sequence-Expression Sharpening Session` |
+| `cts` | `CTS Repeatable Workload Session`; `CTS Limiter-Focused Quality Session`; `CTS Long-Run Durability Session`; `CTS Ultra Strength-Endurance Limiter Session`; `CTS Event-Demands Session`; `CTS Race-Execution Strategy Rehearsal`; `CTS Fueling Strategy Rehearsal`; `CTS Between-Event Adjustment Session` |
+| `evoke_endurance` | `Evoke Aerobic Capacity Development Run`; `Evoke Aerobic Threshold Calibration Run`; `Evoke Strength Reserve Session`; `Evoke Uphill Muscular-Endurance Session`; `Evoke Objective Utilisation Session` |
+| `swap` | `SWAP Supported Recovery Session`; `SWAP Confidence Re-Entry Session`; `SWAP Health-Protected Aerobic Session`; `SWAP Speed-Economy Play Session`; `SWAP Adventure Endurance Session`; `SWAP Fatigue-Resistance Session`; `SWAP Confidence Course-Practice Session`; `SWAP Agency Race-Practice Session`; `SWAP Off-Season Play Session` |
+| `sharman_ultra` | `Sharman Course-Reality Exposure Session`; `Sharman Practical Ultra Execution Session`; `Sharman Ultra Problem-Solving Rehearsal`; `Sharman Fueling-Gear Integration Session`; `Sharman Logistics Rehearsal Session`; `Sharman Context-Aware Between-Race Recovery Session` |
+
+Second-pass guardrail: this expanded list is not permission to duplicate mainstream sessions. During authoring, each card must still prove that its `WorkoutBlock`s, `WorkoutOption`s, gates, stop rules, terrain notes, or selection logic differ meaningfully from the corresponding mainstream session. If the difference disappears while writing the card, remove that candidate and map the relevant micro card to the mainstream session instead.
+
+### Third Coach Pass On Named-Philosophy Session Reduction
+
+Concern reviewed: the second pass only looked for missing candidates, so it may have over-corrected. The reduction pass challenges each of the 39 candidates against the same strict session-level standard.
+
+Coach verdict: reduce the build candidate set from 39 to 31. This keeps the session layer richer than the first pass while removing candidates whose difference mostly belongs in a micro card, reuse mapping, or `WorkoutOption` inside another card.
+
+| Philosophy | Second-pass candidates | Reduced build candidates | Reduction verdict |
+| --- | ---: | ---: | --- |
+| `80_20_endurance` | 6 | 5 | Remove separate `80/20 Distribution-Safe Course Exposure Session`; the course-demand idea should usually map to mainstream course exposure or the 80/20 long/hill cards depending on the actual limiter. |
+| `lydiard` | 5 | 4 | Remove separate `Lydiard Capacity Integration Session`; integration is mostly a week/block sequencing decision unless the final workout becomes hill resistance, sharpening, or aerobic conditioning. |
+| `cts` | 8 | 6 | Remove separate `CTS Repeatable Workload Session` and `CTS Between-Event Adjustment Session`; both are better handled by selecting existing easy, recovery, preview, or limiter sessions unless a sharper workout decision appears. |
+| `evoke_endurance` | 5 | 4 | Remove separate `Evoke Aerobic Capacity Development Run`; capacity development can usually reuse mainstream easy, long, or steady sessions while Evoke-specific control is clearer in threshold, strength reserve, ME, and objective-utilisation cards. |
+| `swap` | 9 | 8 | Remove separate `SWAP Supported Recovery Session`; recovery support should usually reuse rest, walk, mobility, or recovery run cards with SWAP micro-level framing unless health gates change the workout itself. |
+| `sharman_ultra` | 6 | 4 | Merge `Sharman Fueling-Gear Integration Session` and `Sharman Logistics Rehearsal Session` into one logistics-focused candidate; remove separate context-aware recovery because the workout choices are usually mainstream recovery choices selected through Sharman context. |
+
+Final reduced authoring candidates:
+
+| Philosophy | Candidate specific session cards to build next |
+| --- | --- |
+| `80_20_endurance` | `80/20 Low-Intensity Discipline Run`; `80/20 Distribution-Protected Long Endurance Run`; `80/20 Planned Moderate Session`; `80/20 Distribution-Protected High-Intensity Session`; `80/20 Distribution-Protected Hill-Strength Session` |
+| `lydiard` | `Lydiard Sustainable Aerobic Conditioning Run`; `Lydiard Long Aerobic Conditioning Run`; `Lydiard Hill Resistance Circuit`; `Lydiard Sequence-Expression Sharpening Session` |
+| `cts` | `CTS Limiter-Focused Quality Session`; `CTS Long-Run Durability Session`; `CTS Ultra Strength-Endurance Limiter Session`; `CTS Event-Demands Session`; `CTS Race-Execution Strategy Rehearsal`; `CTS Fueling Strategy Rehearsal` |
+| `evoke_endurance` | `Evoke Aerobic Threshold Calibration Run`; `Evoke Strength Reserve Session`; `Evoke Uphill Muscular-Endurance Session`; `Evoke Objective Utilisation Session` |
+| `swap` | `SWAP Confidence Re-Entry Session`; `SWAP Health-Protected Aerobic Session`; `SWAP Speed-Economy Play Session`; `SWAP Adventure Endurance Session`; `SWAP Fatigue-Resistance Session`; `SWAP Confidence Course-Practice Session`; `SWAP Agency Race-Practice Session`; `SWAP Off-Season Play Session` |
+| `sharman_ultra` | `Sharman Course-Reality Exposure Session`; `Sharman Practical Ultra Execution Session`; `Sharman Ultra Problem-Solving Rehearsal`; `Sharman Fueling-Gear Logistics Rehearsal Session` |
+
+Reduction guardrail: the removed candidates are intentionally not active card candidates. Their coaching content should be handled by parent micro cards, mainstream session reuse, or options inside the retained specific cards rather than kept as a watchlist.
+
+### Built Named-Philosophy Session Card Set
+
+The 31 reduced named-philosophy session candidates have been created as active Python seed cards.
+
+Build status:
+
+- `80_20_endurance`: 5 session cards, `session_047` through `session_051`
+- `lydiard`: 4 session cards, `session_052` through `session_055`
+- `cts`: 6 session cards, `session_056` through `session_061`
+- `evoke_endurance`: 4 session cards, `session_062` through `session_065`
+- `swap`: 8 session cards, `session_066` through `session_073`
+- `sharman_ultra`: 4 session cards, `session_074` through `session_077`
+- Exported cache count after build: 365 total cards, including 77 session cards
+
+The `micro_session_reuse.json` metadata has been added locally so named-philosophy micro cards can surface reused mainstream session cards without duplicate session content.
+
+### Micro-Session Reuse Metadata
+
+When a named philosophy uses mainstream session cards under either reused mainstream micro cards or philosophy-specific micro cards, the app should use explicit reuse metadata instead of duplicated session files. The metadata lives in `micro_session_reuse.json` and is also included in the app-facing `training_cards_library.json` bundle.
+
+Each reuse entry records the philosophy profile, micro card ID and name, reused mainstream session card ID and name, and whether the relationship is `inherit_mainstream` or `reuse_mainstream`. This keeps shared session content as one source of truth while allowing the pathway UI to show ordinary easy, recovery, support, fueling, skill, and race-practice sessions under named-philosophy micro contexts.
+
+Build status:
+
+- `micro_session_reuse.json`: 1087 entries in the local exported cache
+- Source coverage: automatic reuse from `mezzo_micro_reuse.json` plus explicit named-philosophy micro-to-mainstream-session mappings
+- Pathway reachability after build: 0 dead-end micro cards
+- App wiring: pathway children and philosophy filters now read the micro-to-session reuse layer
+
+Cloud status: the session layer and updated root metadata have been uploaded to Drive and verified by download/readback validation. The Drive-backed library now contains 365 cards and `micro_session_reuse.json` with 1087 entries.
+
+Next session step: review app pathway behavior with named-philosophy micro cards to confirm reused mainstream sessions and specific session cards appear together correctly.

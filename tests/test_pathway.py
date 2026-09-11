@@ -94,6 +94,36 @@ class PathwayIndexTests(unittest.TestCase):
 
         self.assertEqual(["micro_001"], [card.id for card in children])
 
+    def test_children_include_reused_micro_session_mapping(self) -> None:
+        cards = [
+            _micro("micro_065", philosophy_profile_ids=[ENDURANCE_80_20]),
+            _session("session_001"),
+            _session(
+                "session_047",
+                philosophy_profile_ids=[ENDURANCE_80_20],
+                references=[_parent("micro_065")],
+            ),
+        ]
+        reuse_config = {
+            "entries": [
+                {
+                    "philosophy_profile_id": ENDURANCE_80_20,
+                    "micro_card_id": "micro_065",
+                    "micro_card_name": "80/20 Low-Intensity Baseline Week",
+                    "reused_session_card_id": "session_001",
+                    "reused_session_card_name": "Rest Day",
+                    "reuse_type": "reuse_mainstream",
+                }
+            ]
+        }
+
+        children = build_pathway_index(
+            cards,
+            micro_session_reuse_config=reuse_config,
+        ).children("micro_065", "session")
+
+        self.assertEqual(["session_001", "session_047"], [card.id for card in children])
+
     def test_shortcut_parent_child_references_are_publish_errors(self) -> None:
         cards = [
             _macro("macro_001", references=[_child("micro_001")]),
@@ -236,14 +266,18 @@ def _micro(
     )
 
 
-def _session(card_id: str, references: list[CardReference] | None = None) -> SessionCard:
+def _session(
+    card_id: str,
+    references: list[CardReference] | None = None,
+    philosophy_profile_ids: list[str] | None = None,
+) -> SessionCard:
     return SessionCard(
         id=card_id,
         slug=card_id,
         title=card_id,
         card_type=CardType.SESSION,
         suitable_levels=[TrainingLevel.ALL],
-        philosophy_profile_ids=[MAINSTREAM_ENDURANCE],
+        philosophy_profile_ids=philosophy_profile_ids or [MAINSTREAM_ENDURANCE],
         summary="Summary.",
         purpose="Purpose.",
         references=references or [],

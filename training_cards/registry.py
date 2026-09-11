@@ -5,6 +5,7 @@ from training_cards.json_store import (
     load_card_library_from_json,
     load_macro_mezzo_reuse_config,
     load_mezzo_micro_reuse_config,
+    load_micro_session_reuse_config,
 )
 from training_cards.schemas import (
     BaseTrainingCard,
@@ -32,6 +33,7 @@ ALL_CARDS = load_active_cards()
 CARD_BY_ID = {card.id: card for card in ALL_CARDS}
 MACRO_MEZZO_REUSE_CONFIG = load_macro_mezzo_reuse_config(GOOGLE_DRIVE_LIBRARY.local_cache_dir)
 MEZZO_MICRO_REUSE_CONFIG = load_mezzo_micro_reuse_config(GOOGLE_DRIVE_LIBRARY.local_cache_dir)
+MICRO_SESSION_REUSE_CONFIG = load_micro_session_reuse_config(GOOGLE_DRIVE_LIBRARY.local_cache_dir)
 
 
 # Return a single card by stable ID.
@@ -81,6 +83,11 @@ def get_mezzo_micro_reuse_config() -> dict[str, object]:
     return MEZZO_MICRO_REUSE_CONFIG
 
 
+# Return app-facing micro-to-session reuse metadata from the active JSON cache.
+def get_micro_session_reuse_config() -> dict[str, object]:
+    return MICRO_SESSION_REUSE_CONFIG
+
+
 # Return reused mainstream mezzo cards for a profile within a macro context.
 def get_reused_mezzo_cards(profile_id: str, macro_card_id: str) -> list[BaseTrainingCard]:
     reused_ids = {
@@ -103,5 +110,18 @@ def get_reused_micro_cards(profile_id: str, mezzo_card_id: str) -> list[BaseTrai
         and entry.get("philosophy_profile_id") == profile_id
         and entry.get("mezzo_card_id") == mezzo_card_id
         and isinstance(entry.get("reused_micro_card_id"), str)
+    }
+    return [CARD_BY_ID[card_id] for card_id in sorted(reused_ids) if card_id in CARD_BY_ID]
+
+
+# Return reused mainstream session cards for a profile within a micro context.
+def get_reused_session_cards(profile_id: str, micro_card_id: str) -> list[BaseTrainingCard]:
+    reused_ids = {
+        entry["reused_session_card_id"]
+        for entry in MICRO_SESSION_REUSE_CONFIG.get("entries", [])
+        if isinstance(entry, dict)
+        and entry.get("philosophy_profile_id") == profile_id
+        and entry.get("micro_card_id") == micro_card_id
+        and isinstance(entry.get("reused_session_card_id"), str)
     }
     return [CARD_BY_ID[card_id] for card_id in sorted(reused_ids) if card_id in CARD_BY_ID]

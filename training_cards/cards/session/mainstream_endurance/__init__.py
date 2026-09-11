@@ -1,0 +1,1 @@
+from training_cards.cards.session.mainstream_endurance.mainstream_session_cards import MAINSTREAM_SESSION_CARDS

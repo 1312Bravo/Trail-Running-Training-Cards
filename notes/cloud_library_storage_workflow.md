@@ -36,7 +36,7 @@ A database such as Supabase can wait until the app needs in-app editing, multi-u
 
 ## Current Google Drive Library
 
-Replaced in place and verified on 2026-09-06. The macro layer was uploaded first, then root metadata, mezzo files, and micro files were uploaded incrementally so existing accepted cloud files were not disturbed. The macro-plus-mezzo-plus-micro library was downloaded and verified from Drive on 2026-09-09. The session-card schema/display metadata was then uploaded as root metadata only and verified from Drive as schema `1.3.0`, library `0.7.0`.
+Replaced in place and verified on 2026-09-06. The macro layer was uploaded first, then root metadata, mezzo files, and micro files were uploaded incrementally so existing accepted cloud files were not disturbed. The macro-plus-mezzo-plus-micro library was downloaded and verified from Drive on 2026-09-09. The session-card schema/display metadata was then uploaded as root metadata only and verified from Drive as schema `1.3.0`, library `0.7.0`. The session layer and updated root metadata were uploaded and verified by Drive readback on 2026-09-10.
 
 ```text
 training_cards_library
@@ -52,19 +52,22 @@ Folder IDs:
 - `cards/micro`: `14uD_WS3RosZeQ8HRP6xOvBDA41lVi16N`
 - `cards/session`: `1NuzKGJSHSis0jNQkPUhsLenfp00fjlV2`
 
-Current library contents:
+Current Drive library contents:
 
 - `manifest.json`: 1 file
 - `display_config.json`: 1 file
 - `macro_mezzo_reuse.json`: 1 app-facing reuse metadata file
 - `mezzo_micro_reuse.json`: 1 app-facing reuse metadata file
+- `micro_session_reuse.json`: 1 app-facing reuse metadata file
 - `training_cards_library.json`: 1 bundled app-facing file
 - `cards/macro`: 33 files
 - `cards/mezzo`: 78 files
 - `cards/micro`: 177 files
-- `cards/session`: 0 files
+- `cards/session`: 77 files
 
-The current Drive library contains accepted macro cards, accepted mezzo cards, accepted micro cards, explicit macro-to-reused-mezzo mapping metadata, and explicit mezzo-to-reused-micro mapping metadata. The session layer is not built yet.
+The current Drive library contains accepted macro cards, accepted mezzo cards, accepted micro cards, accepted session cards, explicit macro-to-reused-mezzo mapping metadata, explicit mezzo-to-reused-micro mapping metadata, and explicit micro-to-reused-session mapping metadata.
+
+Verified Drive/readback status: the library contains 365 cards: 33 macro, 78 mezzo, 177 micro, and 77 session cards. The session cards include 46 mainstream session cards and 31 named-philosophy session cards. The uploaded `micro_session_reuse.json` contains 1087 entries and is included in `training_cards_library.json`.
 
 ## Python Cloud Reference
 
