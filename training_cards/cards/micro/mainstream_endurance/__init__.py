@@ -1,1 +1,0 @@
-from training_cards.cards.micro.mainstream_endurance.mainstream_micro_cards import MAINSTREAM_MICRO_CARDS

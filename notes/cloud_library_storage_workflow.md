@@ -1,18 +1,20 @@
 # Cloud Library Storage Workflow
 
-These notes describe the storage and sync workflow for the training-card cloud library.
+These notes own storage and sync workflow for the training-card cloud library. Keep schema details in `schema_design_and_validation.md`, full replacement safeguards in `card_library_rebuild_workflow.md`, and card taxonomy decisions in `training_cards/cards/card_matrix.md`.
 
 ## Direction
 
 The source of truth is the cloud JSON card library.
 
-Python should be the tooling layer around that library:
+Python is the tooling layer around that library. It validates, downloads, uploads, bundles, and can help author new card content, but real accepted cards should not be maintained as a full duplicate Python seed library.
 
-- Download the cloud library into a local cache.
-- Validate the downloaded JSON against the Python schemas.
-- Create or edit cards locally through Python helpers.
-- Export the edited cards back to JSON.
-- Upload the updated JSON library back to cloud storage.
+There are three supported workflow paths:
+
+1. Existing-card edits use the Drive/cache path.
+2. New-card authoring can use temporary Python class-based scaffolding when it makes complex card creation safer.
+3. Existing cloud/cache JSON cards can be converted one at a time into temporary Python authoring files when Python editing is useful.
+
+In both workflows, the accepted result must be JSON in the local cache, validated by the Python schemas, bundled, uploaded to Drive, and verified when the change is substantial.
 
 The Training Platform app should eventually load cards from cloud JSON, validate them with the Python schemas, and then use the validated card objects in the app.
 
@@ -93,11 +95,13 @@ training_cards/cloud_store.py
 
 Core helper functions:
 
-- `export_seed_library_to_cache()`
 - `load_cached_cloud_library()`
 - `download_cloud_library(client)`
 - `upload_cached_library(client)`
-- `export_and_upload_seed_library(client)`
+- `upload_cached_root_metadata(client)`
+- `upload_cached_mezzo_library(client)`
+- `upload_cached_micro_library(client)`
+- `upload_cached_session_library(client)`
 
 ## Drive Client Boundary
 
@@ -153,7 +157,6 @@ Run these from the repository root.
 
 ```powershell
 py -m training_cards.scripts.print_cloud_config
-py -m training_cards.scripts.export_cache
 py -m training_cards.scripts.validate_cache
 py -m training_cards.scripts.build_bundle
 py -m training_cards.scripts.download_cloud_library
@@ -161,14 +164,17 @@ py -m training_cards.scripts.upload_cache
 py -m training_cards.scripts.upload_metadata_cache
 py -m training_cards.scripts.upload_mezzo_cache
 py -m training_cards.scripts.upload_micro_cache
-py -m training_cards.scripts.export_seed_to_cloud
+py -m training_cards.scripts.upload_session_cache
+py -m training_cards.scripts.workflow_edit_existing_cards
+py -m training_cards.scripts.workflow_author_new_cards
+py -m training_cards.scripts.template_cloud_json_to_python_card --card-id macro_001
+py -m training_cards.scripts.template_targeted_authoring_helper
 py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
 ```
 
 Command meanings:
 
 - `print_cloud_config`: show the configured Drive folder IDs, URL, and local cache path.
-- `export_cache`: export Python seed cards into the ignored local cache.
 - `validate_cache`: validate the local cache against `manifest.json`.
 - `build_bundle`: validate the local cache and write `training_cards_library.json`.
 - `download_cloud_library`: download Drive JSON into local cache and validate it.
@@ -176,8 +182,87 @@ Command meanings:
 - `upload_metadata_cache`: refresh and upload root metadata files only, leaving all cloud card JSON files untouched.
 - `upload_mezzo_cache`: refresh root metadata and upload only `cards/mezzo`, leaving existing cloud macro files untouched.
 - `upload_micro_cache`: refresh root metadata and upload only `cards/micro`, leaving existing cloud macro and mezzo files untouched.
-- `export_seed_to_cloud`: export Python seed cards to cache, validate, and upload to Drive.
+- `upload_session_cache`: refresh root metadata and upload only `cards/session`, leaving existing cloud macro, mezzo, and micro files untouched.
+- `workflow_edit_existing_cards`: print the normal existing-card edit checklist.
+- `workflow_author_new_cards`: print the new-card authoring checklist.
+- `template_cloud_json_to_python_card`: convert one downloaded cloud/cache JSON card into a temporary local Python authoring file.
+- `template_targeted_authoring_helper`: export the four example cards to a disposable example folder and show the guarded publish-to-cache plus cloud-upload path for future real authored cards.
 - `rebuild_drive_library replace-active`: replace the known active Drive library contents with a complete validated source directory, deleting obsolete remote files first.
+
+## Existing-Card Edit Workflow
+
+Use this for normal card corrections, wording changes, reference edits, taxonomy edits, and app-facing metadata updates.
+
+```powershell
+py -m training_cards.scripts.download_cloud_library
+# edit JSON in training_cards\local_cache\cloud_library\
+py -m training_cards.scripts.validate_cache
+py -m training_cards.scripts.build_bundle
+py -m training_cards.scripts.upload_cache
+```
+
+For layer-specific additions, use the narrower upload command after validation, such as `upload_mezzo_cache`, `upload_micro_cache`, or `upload_session_cache`.
+
+## New-Card Authoring Workflow
+
+Use Python classes only when they help create new content safely, such as a batch of cards with repeated structure or a session card with several workout blocks and options.
+
+The four reusable examples live in:
+
+```text
+training_cards/cards/examples/
+  macro_example.py
+  mezzo_example.py
+  micro_example.py
+  session_example.py
+```
+
+New authoring flow:
+
+1. Start from the relevant example.
+2. Write temporary Python authoring code only for the card or batch being created.
+3. Convert accepted cards into JSON under `training_cards/local_cache/cloud_library/`.
+4. Validate the cache.
+5. Build the bundle.
+6. Upload the relevant cache files to Drive.
+7. Verify by Drive readback for substantial card-library changes.
+
+After upload and verification, keep only reusable examples or deliberate tooling. Do not keep the full accepted library as Python seed-card files.
+
+## Cloud JSON To Python Authoring File
+
+Use this when an existing Drive card should be edited with Python structure instead of raw JSON.
+
+```powershell
+py -m training_cards.scripts.download_cloud_library
+py -m training_cards.scripts.template_cloud_json_to_python_card --card-id macro_001
+```
+
+The generated file goes under:
+
+```text
+training_cards/local_cache/python_authoring/
+```
+
+It contains the downloaded card JSON as `CARD_DATA` and exposes `AUTHORED_CARD = card_from_dict(CARD_DATA)`. This gives a real card object that can be imported by a targeted helper.
+
+This is intentionally one card at a time. Do not use it to recreate the whole cloud library as Python files.
+
+The helper template is:
+
+```text
+training_cards/scripts/template_targeted_authoring_helper.py
+```
+
+It demonstrates the full path:
+
+1. Import or define the authored card objects.
+2. Refuse to publish `example_*` cards into the active cache.
+3. Merge real authored cards into the downloaded local cache.
+4. Rebuild manifest, display config, reuse metadata, and bundle.
+5. Print the correct upload command for the authored layer.
+
+The helper is intentionally a template. For a real batch, copy or adapt it so the accepted cards are explicit and reviewable.
 
 ## Cloud Folder Shape
 
@@ -188,6 +273,8 @@ training_cards_library/
   manifest.json
   display_config.json
   macro_mezzo_reuse.json
+  mezzo_micro_reuse.json
+  micro_session_reuse.json
   training_cards_library.json
   cards/
     macro/
@@ -270,6 +357,7 @@ Example:
   "display_config": {},
   "macro_mezzo_reuse": {},
   "mezzo_micro_reuse": {},
+  "micro_session_reuse": {},
   "cards": []
 }
 ```
@@ -318,7 +406,7 @@ Recommended app behavior:
 - Check `card_count`, duplicate IDs, duplicate slugs, missing files, and broken references.
 - Use validated cards inside the app.
 
-The active `training_cards/registry.py` no longer depends on Python seed card files. It loads the local JSON cache, which should be refreshed from Google Drive.
+The active `training_cards/registry.py` does not depend on Python seed card files. It loads the local JSON cache, which should be refreshed from Google Drive.
 
 ## Manifest Strictness
 
@@ -366,14 +454,14 @@ Current expectation:
 - The schema can stay stable unless we redefine fields.
 - Library starts at `0.1.0` while content is still draft.
 
-## Current Transition
+## Current Source-Of-Truth Structure
 
-Python seed cards still exist and can export the JSON library, but they are now backup/export material rather than the active registry source.
+The previous full Python seed-card library has been retired. Python examples remain as authoring references, not as a second accepted card library.
 
 Current state:
 
 1. Google Drive JSON is the source of truth.
 2. Local cache is downloaded from Google Drive.
 3. `training_cards/registry.py` loads the local JSON cache.
-4. Python seed cards remain available through `training_cards/seed_registry.py`.
-5. Later, the Training Platform app can import from `training_cards/registry.py` without caring whether cards started as JSON or Python.
+4. `training_cards/cards/examples/` shows how to author each card block with Python classes.
+5. New accepted cards must be converted to JSON, validated, uploaded, and verified before they are treated as real library content.

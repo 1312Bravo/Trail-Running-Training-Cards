@@ -1,6 +1,6 @@
 # Card Matrix
 
-This file is the working build map for the training card library.
+This file is the working build map for the training card library. It owns card taxonomy, coach review decisions, philosophy-specific card justification, and build-status notes. It does not own cloud upload/download workflow or schema rules; those live in `notes/cloud_library_storage_workflow.md` and `notes/schema_design_and_validation.md`.
 
 It has four connected roles:
 
@@ -126,7 +126,7 @@ Use this to decide, later, whether an accepted baseline macro type needs a disti
 
 ### Built Macro Card Set
 
-The justified macro cards have been created as active Python seed cards. This section records build status without duplicating the full card content.
+The justified macro cards have been created and published as Drive/cache JSON cards. This section records build status without duplicating the full card content.
 
 | Philosophy profile | Built macro cards |
 | --- | --- |
@@ -330,7 +330,7 @@ For each proposed mainstream mezzo type, the coach asked:
 
 ### Built Mainstream Mezzo Card Set
 
-The accepted mainstream mezzo cards have been created as active Python seed cards. This section records build status without duplicating the full card content.
+The accepted mainstream mezzo cards have been created and published as Drive/cache JSON cards. This section records build status without duplicating the full card content.
 
 | Parent macro card | Built mainstream mezzo cards |
 | --- | --- |
@@ -856,7 +856,7 @@ Common low-complexity blocks often need two week roles: one to create or maintai
 
 ### Built Mainstream Micro Card Set
 
-The 64 accepted mainstream micro types have been created as active Python seed cards in `training_cards/cards/micro/mainstream_endurance/mainstream_micro_cards.py`.
+The 64 accepted mainstream micro types have been created and published as Drive/cache JSON cards.
 
 Build status:
 
@@ -1036,7 +1036,7 @@ Reduction review:
 
 ### Built Named-Philosophy Micro Card Set
 
-The 113 accepted named-philosophy micro candidates have been created as active Python seed cards.
+The 113 accepted named-philosophy micro candidates have been created and published as Drive/cache JSON cards.
 
 Build status:
 
@@ -1290,7 +1290,7 @@ Coach review after defining the first mainstream session catalog:
 
 ### Built Mainstream Session Card Set
 
-The 46 accepted mainstream session types have been created as active Python seed cards.
+The 46 accepted mainstream session types have been created and published as Drive/cache JSON cards.
 
 Build status:
 
@@ -1422,7 +1422,7 @@ Reduction guardrail: the removed candidates are intentionally not active card ca
 
 ### Built Named-Philosophy Session Card Set
 
-The 31 reduced named-philosophy session candidates have been created as active Python seed cards.
+The 31 reduced named-philosophy session candidates have been created and published as Drive/cache JSON cards.
 
 Build status:
 

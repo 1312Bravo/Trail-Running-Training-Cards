@@ -2,6 +2,8 @@
 
 This workflow governs deliberate replacement of the current Training Cards library with a newly authored library. It applies when we replace card content from the coaching foundation, card matrix, and philosophy profiles rather than incrementally editing the current library.
 
+For normal download, edit, validate, bundle, and upload work, use `cloud_library_storage_workflow.md` instead. For schema rules, use `schema_design_and_validation.md`.
+
 It does **not** author cards. It protects the current source of truth and defines the cutover process once the new cards are ready.
 
 ## Decision
@@ -32,10 +34,10 @@ The replacement library should instead be prepared as a complete, validated sour
 
 ## Stage 1: Prepare The Replacement Source
 
-1. Build or edit the replacement card modules locally.
-2. Export seed cards into the local cache.
+1. Build or edit the replacement JSON library locally.
+2. Use temporary Python authoring scaffolding only when it makes new card creation safer.
 3. Validate schema, manifest count, duplicate IDs and slugs, philosophy IDs, and pathway references.
-4. Build `macro_mezzo_reuse.json` and the bundled `training_cards_library.json`.
+4. Build reuse metadata files and the bundled `training_cards_library.json`.
 5. Review the replacement as content before any Drive operation.
 
 The replacement source must be complete. It must not rely on files left behind from the old library.
@@ -60,7 +62,7 @@ py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir t
 The replacement action must:
 
 - refuse to run against a missing or incomplete source directory
-- delete only known active root items: `manifest.json`, `display_config.json`, `macro_mezzo_reuse.json`, `training_cards_library.json`, and `cards`
+- delete only known active root items: `manifest.json`, `display_config.json`, reuse metadata files, `training_cards_library.json`, and `cards`
 - refuse unexpected root files or unexpected root folder shape
 - recreate `cards/macro`, `cards/mezzo`, `cards/micro`, and `cards/session`
 - upload the complete replacement library
@@ -89,4 +91,4 @@ The following actions require explicit approval in the moment; previous general 
 
 ## Current Replacement Record
 
-On 2026-09-06, the active `training_cards_library` Drive folder was replaced in place with a 33-card macro seed library. The library uses schema `1.2.0`, library version `0.4.1`, and stores cards under level/profile folders.
+On 2026-09-06, the active `training_cards_library` Drive folder was replaced in place with a 33-card macro JSON library. The library used schema `1.2.0`, library version `0.4.1`, and stored cards under level/profile folders.

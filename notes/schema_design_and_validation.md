@@ -1,6 +1,6 @@
 # Schema Design And Validation
 
-These notes explain the current card-class structure, reference model, validation behavior, and reasoning behind them.
+These notes explain the current card-class structure, reference model, validation behavior, and reasoning behind them. Keep cloud upload/download workflow in `cloud_library_storage_workflow.md`, full Drive replacement safeguards in `card_library_rebuild_workflow.md`, and card taxonomy decisions in `training_cards/cards/card_matrix.md`.
 
 ## Coaching Guidance
 
@@ -289,7 +289,7 @@ Use `training_cards/scripts/report_reachability.py` when we want to inspect path
 
 Publish/export flows also run pathway validation automatically:
 
-- seed-card export validates before writing the local cache
+- cache export and upload tooling validates before writing or publishing card JSON
 - cache upload validates before rebuilding the bundle and uploading to Google Drive
 - the Streamlit app can still read the current cache while we are cleaning pathway issues
 

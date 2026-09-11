@@ -1,1 +1,0 @@
-from training_cards.cards.mezzo.lydiard.lydiard_mezzo_cards import LYDIARD_MEZZO_CARDS

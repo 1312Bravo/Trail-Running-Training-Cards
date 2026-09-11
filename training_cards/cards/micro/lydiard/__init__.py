@@ -1,1 +1,0 @@
-from training_cards.cards.micro.lydiard.lydiard_micro_cards import LYDIARD_MICRO_CARDS
