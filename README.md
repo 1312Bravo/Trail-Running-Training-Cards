@@ -20,15 +20,15 @@ For detailed workflows, see `notes/cloud_library_storage_workflow.md`.
 ## Useful Commands
 
 ```powershell
-py -m training_cards.scripts.print_cloud_config
-py -m training_cards.scripts.download_cloud_library
-py -m training_cards.scripts.validate_cache
-py -m training_cards.scripts.build_bundle
-py -m training_cards.scripts.upload_cache
-py -m training_cards.scripts.upload_metadata_cache
-py -m training_cards.scripts.upload_mezzo_cache
-py -m training_cards.scripts.upload_micro_cache
-py -m training_cards.scripts.upload_session_cache
+py -m training_cards.scripts.cloud.print_cloud_config
+py -m training_cards.scripts.cloud.download_cloud_library
+py -m training_cards.scripts.cache.validate_cache
+py -m training_cards.scripts.cache.build_bundle
+py -m training_cards.scripts.cloud.upload_cache
+py -m training_cards.scripts.cloud.upload_metadata_cache
+py -m training_cards.scripts.cloud.upload_mezzo_cache
+py -m training_cards.scripts.cloud.upload_micro_cache
+py -m training_cards.scripts.cloud.upload_session_cache
 streamlit run streamlit_app/app.py
 ```
 

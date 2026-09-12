@@ -147,6 +147,7 @@ def set_tag_filter(tag: str) -> None:
 
 
 def open_card(card_id: str) -> None:
+    st.session_state.active_library_preview_card_id = None
     st.session_state.active_card_id = card_id
     st.session_state.active_card_history = []
 

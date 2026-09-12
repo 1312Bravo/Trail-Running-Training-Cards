@@ -68,6 +68,18 @@ The current planning levels are:
 
 This structure may change later if real card creation shows that another layer is needed.
 
+## Card Library Index
+
+`card_library_index.json` is app-facing browse metadata generated from the validated card cache plus the reuse maps. It is not a separate content source.
+
+The index groups cards by planning level and philosophy profile:
+
+- `source = "direct"` means the card is owned by that philosophy profile through `philosophy_profile_ids`.
+- `source = "reused"` means the card is shown under that philosophy profile through an explicit reuse map.
+- `source_profile` is included only for reused entries and tells the app which profile owns the reused card, usually `mainstream_endurance`.
+
+The app can use this file for a compact card-library page: title, short description, and whether an item is direct or reused from another profile. The full card JSON remains the detail source.
+
 ## How To Read The Schema Classes
 
 The classes in `training_cards.schemas` are not mainly about behavior. They are definitions.
@@ -283,9 +295,9 @@ Validation is deliberately relaxed about coverage, but strict about hierarchy me
 - orphan cards are allowed because the library is still growing
 - cards do not need to be connected both above and below to be valid
 
-Use `training_cards/scripts/validate_cache.py` for the normal quick cache validation. It should fail only when the cached library has real errors.
+Use `training_cards/scripts/cache/validate_cache.py` for the normal quick cache validation. It should fail only when the cached library has real errors.
 
-Use `training_cards/scripts/report_reachability.py` when we want to inspect pathway coverage. It reports card counts, reference warnings, macro reachability, and orphan cards without treating incomplete coverage as a failure.
+Use `training_cards/scripts/reports/report_reachability.py` when we want to inspect pathway coverage. It reports card counts, reference warnings, macro reachability, and orphan cards without treating incomplete coverage as a failure.
 
 Publish/export flows also run pathway validation automatically:
 

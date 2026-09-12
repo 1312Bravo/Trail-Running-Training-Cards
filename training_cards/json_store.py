@@ -13,6 +13,10 @@ from training_cards.macro_mezzo_reuse import (
 )
 from training_cards.mezzo_micro_reuse import build_mezzo_micro_reuse_config
 from training_cards.micro_session_reuse import build_micro_session_reuse_config
+from training_cards.card_library_index import (
+    build_card_library_index,
+    validate_card_library_index,
+)
 from training_cards.philosophy_profiles import validate_philosophy_profile_ids
 from training_cards.schemas import BaseTrainingCard
 
@@ -21,6 +25,7 @@ DISPLAY_CONFIG_FILE_NAME = "display_config.json"
 MACRO_MEZZO_REUSE_FILE_NAME = "macro_mezzo_reuse.json"
 MEZZO_MICRO_REUSE_FILE_NAME = "mezzo_micro_reuse.json"
 MICRO_SESSION_REUSE_FILE_NAME = "micro_session_reuse.json"
+CARD_LIBRARY_INDEX_FILE_NAME = "card_library_index.json"
 LIBRARY_BUNDLE_FILE_NAME = "training_cards_library.json"
 LIBRARY_ID = "running_training_cards"
 SCHEMA_VERSION = "1.3.0"
@@ -177,6 +182,7 @@ def build_library_bundle(
     macro_mezzo_reuse_config: dict[str, Any],
     mezzo_micro_reuse_config: dict[str, Any],
     micro_session_reuse_config: dict[str, Any],
+    card_library_index: dict[str, Any],
 ) -> dict[str, Any]:
     return {
         "manifest": manifest,
@@ -184,6 +190,7 @@ def build_library_bundle(
         "macro_mezzo_reuse": macro_mezzo_reuse_config,
         "mezzo_micro_reuse": mezzo_micro_reuse_config,
         "micro_session_reuse": micro_session_reuse_config,
+        "card_library_index": card_library_index,
         "cards": [
             card_to_dict(card)
             for card in sorted(cards, key = lambda card: card.id)
@@ -197,6 +204,50 @@ def load_manifest(input_dir: Path) -> dict[str, Any]:
 # Read display rules from a local cloud-library cache.
 def load_display_config(input_dir: Path) -> dict[str, Any]:
     return read_json(input_dir / DISPLAY_CONFIG_FILE_NAME)
+
+
+def build_card_library_index_for_cards(
+    cards: list[BaseTrainingCard],
+    macro_mezzo_reuse_config: dict[str, Any] | None = None,
+    mezzo_micro_reuse_config: dict[str, Any] | None = None,
+    micro_session_reuse_config: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    macro_mezzo_reuse_config = (
+        macro_mezzo_reuse_config or build_macro_mezzo_reuse_config_for_cards(cards)
+    )
+    mezzo_micro_reuse_config = (
+        mezzo_micro_reuse_config or build_mezzo_micro_reuse_config_for_cards(cards)
+    )
+    micro_session_reuse_config = (
+        micro_session_reuse_config or build_micro_session_reuse_config_for_cards(cards)
+    )
+    return build_card_library_index(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+        schema_version=SCHEMA_VERSION,
+        library_version=LIBRARY_VERSION,
+        updated_at=LAST_UPDATED,
+    )
+
+
+def write_card_library_index(
+    output_dir: Path,
+    cards: list[BaseTrainingCard],
+    macro_mezzo_reuse_config: dict[str, Any] | None = None,
+    mezzo_micro_reuse_config: dict[str, Any] | None = None,
+    micro_session_reuse_config: dict[str, Any] | None = None,
+) -> Path:
+    card_library_index = build_card_library_index_for_cards(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+    )
+    path = output_dir / CARD_LIBRARY_INDEX_FILE_NAME
+    write_json(path, card_library_index)
+    return path
 
 
 # Read macro-to-mezzo reuse metadata from a local cloud-library cache.
@@ -510,6 +561,7 @@ def write_library_bundle(
     macro_mezzo_reuse_config: dict[str, Any] | None = None,
     mezzo_micro_reuse_config: dict[str, Any] | None = None,
     micro_session_reuse_config: dict[str, Any] | None = None,
+    card_library_index: dict[str, Any] | None = None,
 ) -> Path:
     manifest = manifest or build_manifest(cards)
     display_config = display_config or build_display_config()
@@ -522,6 +574,12 @@ def write_library_bundle(
     micro_session_reuse_config = (
         micro_session_reuse_config or build_micro_session_reuse_config_for_cards(cards)
     )
+    card_library_index = card_library_index or build_card_library_index_for_cards(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+    )
     bundle = build_library_bundle(
         cards,
         manifest,
@@ -529,6 +587,7 @@ def write_library_bundle(
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
         micro_session_reuse_config,
+        card_library_index,
     )
     bundle_path = output_dir / LIBRARY_BUNDLE_FILE_NAME
 
@@ -548,12 +607,19 @@ def export_card_library_to_json(cards: list[BaseTrainingCard], output_dir: Path)
     macro_mezzo_reuse_config = build_macro_mezzo_reuse_config_for_cards(cards)
     mezzo_micro_reuse_config = build_mezzo_micro_reuse_config_for_cards(cards)
     micro_session_reuse_config = build_micro_session_reuse_config_for_cards(cards)
+    card_library_index = build_card_library_index_for_cards(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+    )
 
     write_json(output_dir / MANIFEST_FILE_NAME, manifest)
     write_json(output_dir / DISPLAY_CONFIG_FILE_NAME, display_config)
     write_json(output_dir / MACRO_MEZZO_REUSE_FILE_NAME, macro_mezzo_reuse_config)
     write_json(output_dir / MEZZO_MICRO_REUSE_FILE_NAME, mezzo_micro_reuse_config)
     write_json(output_dir / MICRO_SESSION_REUSE_FILE_NAME, micro_session_reuse_config)
+    write_json(output_dir / CARD_LIBRARY_INDEX_FILE_NAME, card_library_index)
     export_cards_to_json(cards, output_dir / CARDS_ROOT)
     write_library_bundle(
         output_dir,
@@ -563,6 +629,7 @@ def export_card_library_to_json(cards: list[BaseTrainingCard], output_dir: Path)
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
         micro_session_reuse_config,
+        card_library_index,
     )
 
 # Load JSON card files under macro/mezzo/micro/session folders and validate them
@@ -584,25 +651,44 @@ def load_card_library_from_json(input_dir: Path) -> list[BaseTrainingCard]:
     mezzo_micro_reuse_config = load_mezzo_micro_reuse_config(input_dir)
     micro_session_reuse_config = load_micro_session_reuse_config(input_dir)
     cards = load_cards_from_json(input_dir / manifest["cards_root"])
+    card_library_index_path = input_dir / CARD_LIBRARY_INDEX_FILE_NAME
 
     validate_display_config(display_config, manifest)
     validate_macro_mezzo_reuse_config(macro_mezzo_reuse_config, manifest)
     validate_mezzo_micro_reuse_config(mezzo_micro_reuse_config, manifest)
     validate_micro_session_reuse_config(micro_session_reuse_config, manifest)
     validate_card_library(cards, manifest)
+    if card_library_index_path.exists():
+        validate_card_library_index(
+            read_json(card_library_index_path),
+            cards,
+            schema_version=manifest["schema_version"],
+            library_version=manifest["library_version"],
+        )
 
     return cards
 
 # Validate the local cache, then refresh the app-facing one-file bundle.
 def refresh_library_bundle(input_dir: Path) -> Path:
     cards = load_card_library_from_json(input_dir)
+    macro_mezzo_reuse_config = load_macro_mezzo_reuse_config(input_dir)
+    mezzo_micro_reuse_config = load_mezzo_micro_reuse_config(input_dir)
+    micro_session_reuse_config = load_micro_session_reuse_config(input_dir)
+    card_library_index = build_card_library_index_for_cards(
+        cards,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+    )
+    write_json(input_dir / CARD_LIBRARY_INDEX_FILE_NAME, card_library_index)
     return write_library_bundle(
         input_dir,
         cards,
         load_manifest(input_dir),
         load_display_config(input_dir),
-        load_macro_mezzo_reuse_config(input_dir),
-        load_mezzo_micro_reuse_config(input_dir),
-        load_micro_session_reuse_config(input_dir),
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+        card_library_index,
     )
 

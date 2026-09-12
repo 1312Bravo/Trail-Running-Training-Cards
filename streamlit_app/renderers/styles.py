@@ -1018,6 +1018,113 @@ def css() -> None:
         [class*="st-key-pathway-card-session"] div[data-testid="stVerticalBlockBorderWrapper"] {
             border-left: 4px solid #d7b829 !important;
         }
+        [class*="st-key-pagination-"] {
+            margin-top: 1.25rem !important;
+            padding: 0.95rem 0 0.15rem;
+            border-top: 1px solid rgb(111 113 107 / 20%);
+        }
+        .pagination-status {
+            display: flex;
+            align-items: baseline;
+            gap: 0.42rem;
+            color: #4f514d;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+        .pagination-status strong {
+            color: #252725;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .pagination-page {
+            color: #444641;
+            font-size: 0.9rem;
+            line-height: 2.05rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+        [class*="st-key-pagination_"] button {
+            min-height: 2.05rem;
+            border-color: #a8aaa2;
+            border-radius: 7px;
+            background: linear-gradient(180deg, rgb(255 255 255 / 88%), rgb(247 247 247 / 72%));
+            box-shadow: inset 0 1px 0 rgb(255 255 255 / 90%), 0 1px 2px rgb(40 41 35 / 7%);
+            font-size: 0.9rem;
+        }
+        [class*="st-key-pagination_"] button:hover {
+            border-color: #575a53;
+            background: linear-gradient(180deg, #ffffff, #f1f1ef);
+        }
+        [class*="st-key-pagination-"] [data-testid="stSegmentedControl"] {
+            margin: 0;
+        }
+        [class*="st-key-pagination-"] [data-testid="stSegmentedControl"] label {
+            font-size: 0.85rem;
+        }
+        .library-header {
+            color: #5b5c56;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 0 0 0.25rem;
+            text-transform: uppercase;
+        }
+        .library-bullet {
+            color: var(--card-gold);
+            font-size: 1.05rem;
+            line-height: 1;
+            text-align: center;
+        }
+        .library-description {
+            color: #3f403c;
+            font-size: 0.94rem;
+            line-height: 1.35;
+        }
+        .library-source {
+            color: #62635d;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+        .library-level {
+            color: #74756e;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            line-height: 1.25;
+            text-transform: uppercase;
+        }
+        [class*="st-key-library_open_"] button {
+            justify-content: flex-start;
+            min-height: 1.35rem;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: #22231f;
+            box-shadow: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: left;
+            text-decoration: underline;
+            text-decoration-color: rgb(185 154 63 / 70%);
+            text-underline-offset: 0.18rem;
+        }
+        [class*="st-key-library_open_"] button:hover {
+            border: 0;
+            background: transparent;
+            color: #111111;
+            text-decoration-color: var(--card-gold);
+        }
+        @media (max-width: 760px) {
+            .pagination-status {
+                justify-content: center;
+                margin-bottom: 0.15rem;
+                text-align: center;
+            }
+            .pagination-page {
+                line-height: 1.4;
+            }
+        }
         </style>
         """
     )

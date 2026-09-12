@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from html import escape
 from typing import Any
 
 import streamlit as st
@@ -37,16 +38,20 @@ from streamlit_app.renderers import (
     render_contact_links,
     render_detail,
     render_grid,
+    render_preview_card,
 )
 
 
 APP_MODES = [
     "Browse cards",
+    "Card library",
     "Build pathway",
     "Today session",
     "Coaching philosophies",
 ]
 PHILOSOPHY_SUMMARY_HEIGHT = 380
+DEFAULT_CARDS_PER_PAGE = 8
+CARD_PAGE_SIZE_OPTIONS = [6, 8, 12]
 PATHWAY_STEPS = [
     ("macro", "Macro"),
     ("mezzo", "Mezzo"),
@@ -63,6 +68,7 @@ PATHWAY_STEPS = [
 def set_active_card(card_id: str) -> None:
     st.session_state.active_philosophy_profile_id = None
     st.session_state.active_philosophy_sources_profile_id = None
+    st.session_state.active_library_preview_card_id = None
     st.session_state.active_card_id = card_id
     st.session_state.active_card_history = []
 
@@ -70,6 +76,14 @@ def set_active_card(card_id: str) -> None:
 def clear_active_card() -> None:
     st.session_state.active_card_id = None
     st.session_state.active_card_history = []
+
+
+def set_active_library_preview(card_id: str) -> None:
+    st.session_state.active_library_preview_card_id = card_id
+
+
+def clear_active_library_preview() -> None:
+    st.session_state.active_library_preview_card_id = None
 
 
 def set_active_philosophy(profile_id: str) -> None:
@@ -221,6 +235,7 @@ def init_state() -> None:
     st.session_state.setdefault("today_search_input", "")
     st.session_state.setdefault("today_search_terms", [])
     st.session_state.setdefault("active_card_id", None)
+    st.session_state.setdefault("active_library_preview_card_id", None)
     st.session_state.setdefault("active_card_history", [])
     st.session_state.setdefault("active_philosophy_profile_id", None)
     st.session_state.setdefault("active_philosophy_sources_profile_id", None)
@@ -228,14 +243,136 @@ def init_state() -> None:
     st.session_state.setdefault("card_scope_label", None)
     st.session_state.setdefault("tag_filters", [])
     st.session_state.setdefault("philosophy_profile_filters", [])
+    st.session_state.setdefault("library_level_label", "Macro")
+    st.session_state.setdefault("library_search_query", "")
+    st.session_state.setdefault("library_profile_filters", [])
     for level, _ in PATHWAY_STEPS:
         st.session_state.setdefault(state_key_for_level(level), None)
+
+
+def page_signature(cards: list[Any]) -> tuple[str, ...]:
+    return tuple(card.id for card in cards)
+
+
+def render_pagination_controls(
+    total_cards: int,
+    page_size: int,
+    page: int,
+    state_prefix: str,
+) -> None:
+    total_pages = max(1, (total_cards + page_size - 1) // page_size)
+    page_state_key = f"{state_prefix}_page"
+
+    start_item = page * page_size + 1 if total_cards else 0
+    end_item = min((page + 1) * page_size, total_cards)
+
+    with st.container(key=f"pagination-{state_prefix}"):
+        controls = st.columns([0.28, 1, 0.26, 0.22, 0.26], gap="small", vertical_alignment="center")
+        with controls[0]:
+            st.segmented_control(
+                "Cards per page",
+                CARD_PAGE_SIZE_OPTIONS,
+                key=f"{state_prefix}_page_size",
+                selection_mode="single",
+                width="stretch",
+                label_visibility="collapsed",
+            )
+        with controls[1]:
+            st.html(
+                '<div class="pagination-status">'
+                f'<span>Showing {start_item}-{end_item}</span>'
+                f'<strong>{total_cards} cards</strong>'
+                '</div>'
+            )
+        with controls[2]:
+            st.button(
+                "Previous",
+                key=f"pagination_{state_prefix}_previous_page",
+                type="secondary",
+                width="stretch",
+                disabled=page <= 0,
+                on_click=set_session_state_value,
+                args=(page_state_key, max(0, page - 1)),
+            )
+        with controls[3]:
+            st.html(f'<div class="pagination-page">Page {page + 1} / {total_pages}</div>')
+        with controls[4]:
+            st.button(
+                "Next",
+                key=f"pagination_{state_prefix}_next_page",
+                type="secondary",
+                width="stretch",
+                disabled=page >= total_pages - 1,
+                on_click=set_session_state_value,
+                args=(page_state_key, min(total_pages - 1, page + 1)),
+            )
+
+
+def set_session_state_value(key: str, value: Any) -> None:
+    st.session_state[key] = value
+
+
+def render_paginated_grid(
+    cards: list[Any],
+    display_config: dict[str, Any],
+    state_prefix: str,
+    key_prefix: str,
+    select_label: str | None = None,
+    open_label: str = "Open card",
+    on_select: Any | None = None,
+    select_level: str | None = None,
+) -> None:
+    page_size_key = f"{state_prefix}_page_size"
+    page_key = f"{state_prefix}_page"
+    signature_key = f"{state_prefix}_signature"
+
+    st.session_state.setdefault(page_size_key, DEFAULT_CARDS_PER_PAGE)
+    st.session_state.setdefault(page_key, 0)
+    st.session_state.setdefault(signature_key, ())
+
+    current_signature = page_signature(cards)
+    if st.session_state[signature_key] != current_signature:
+        st.session_state[signature_key] = current_signature
+        st.session_state[page_key] = 0
+
+    page_size = int(st.session_state.get(page_size_key) or DEFAULT_CARDS_PER_PAGE)
+    total_pages = max(1, (len(cards) + page_size - 1) // page_size)
+    page = min(max(0, int(st.session_state.get(page_key, 0))), total_pages - 1)
+    st.session_state[page_key] = page
+
+    start = page * page_size
+    end = start + page_size
+    page_cards = cards[start:end]
+
+    render_grid(
+        page_cards,
+        display_config,
+        key_prefix=f"{key_prefix}_page_{page}",
+        select_label=select_label,
+        open_label=open_label,
+        on_select=on_select,
+        select_level=select_level,
+    )
+    render_pagination_controls(len(cards), page_size, page, state_prefix)
 
 
 def open_card_dialog(card: object, display_config: dict[str, object], card_by_id: dict[str, object]) -> None:
     @st.dialog(" ", width="medium", on_dismiss=clear_active_card)
     def dialog_content() -> None:
         render_detail(card, display_config, card_by_id, show_header=True)
+
+    dialog_content()
+
+
+def open_library_preview_dialog(card: object, display_config: dict[str, object]) -> None:
+    @st.dialog("Card preview", width="medium", on_dismiss=clear_active_library_preview)
+    def dialog_content() -> None:
+        render_preview_card(
+            card,
+            display_config,
+            key_prefix="library_preview_dialog",
+            open_label="Open full card",
+        )
 
     dialog_content()
 
@@ -313,9 +450,183 @@ def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> Non
         philosophy_profile_filters=st.session_state.philosophy_profile_filters,
     )
     if cards_for_view:
-        render_grid(cards_for_view, display_config, key_prefix=st.session_state.card_scope)
+        render_paginated_grid(
+            cards_for_view,
+            display_config,
+            state_prefix="browse_cards",
+            key_prefix=st.session_state.card_scope,
+        )
     else:
         st.caption("No cards match the current filters.")
+
+
+# ----------------------------------------------------------
+# Card Library Mode
+# ----------------------------------------------------------
+
+def render_card_library(card_library_index: dict[str, Any]) -> None:
+    level_labels = ["All", "Macro", "Mezzo", "Micro", "Session"]
+    level_to_value = {label: label.lower() for label in level_labels if label != "All"}
+    if st.session_state.library_level_label not in level_labels:
+        st.session_state.library_level_label = "All"
+
+    st.caption(
+        "Compact library index. Direct cards belong to the selected philosophy; reused cards are shown with their source profile."
+    )
+    controls = st.columns([0.75, 1, 1], gap="large", vertical_alignment="center")
+    with controls[0]:
+        chosen_level = st.segmented_control(
+            "Library level",
+            level_labels,
+            key="library_level_label",
+            selection_mode="single",
+            width="stretch",
+            label_visibility="collapsed",
+        )
+    selected_level = level_to_value.get(chosen_level)
+    levels_index = card_library_index.get("levels", {})
+    level_names = [selected_level] if selected_level else ["macro", "mezzo", "micro", "session"]
+    level_index = _combine_library_levels(levels_index, level_names)
+    profile_ids = [
+        profile_id
+        for profile_id in PHILOSOPHY_PROFILES
+        if profile_id in level_index
+    ]
+    st.session_state.library_profile_filters = [
+        profile_id
+        for profile_id in st.session_state.library_profile_filters
+        if profile_id in profile_ids
+    ]
+
+    with controls[1]:
+        st.multiselect(
+            "Philosophy",
+            profile_ids,
+            key="library_profile_filters",
+            format_func=philosophy_profile_display_name,
+            placeholder="All philosophies",
+            label_visibility="collapsed",
+            width="stretch",
+        )
+    with controls[2]:
+        st.text_input(
+            "Search library",
+            key="library_search_query",
+            placeholder="Search titles, descriptions, IDs, or source",
+            label_visibility="collapsed",
+            width="stretch",
+        )
+
+    selected_profiles = st.session_state.library_profile_filters or profile_ids
+    total_visible = 0
+    for profile_id in selected_profiles:
+        entries = _filtered_library_entries(
+            level_index.get(profile_id, []),
+            st.session_state.library_search_query,
+        )
+        if not entries:
+            continue
+        total_visible += len(entries)
+        direct_count = sum(entry.get("source") == "direct" for entry in entries)
+        reused_count = len(entries) - direct_count
+        with st.expander(
+            f"{philosophy_profile_display_name(profile_id)} · {len(entries)} cards",
+            expanded=bool(st.session_state.library_profile_filters),
+        ):
+            st.caption(f"{direct_count} direct · {reused_count} reused")
+            render_library_header()
+            for entry in entries:
+                render_library_entry(entry, profile_id)
+
+    if total_visible == 0:
+        st.caption("No library entries match the current filters.")
+
+
+def render_library_entry(entry: dict[str, Any], profile_id: str) -> None:
+    source = entry.get("source", "direct")
+    source_profile = entry.get("source_profile")
+    source_label = ""
+    if source == "reused" and source_profile:
+        source_label = f"reused from {philosophy_profile_display_name(source_profile)}"
+    elif source == "direct":
+        source_label = "direct"
+
+    row = st.columns([0.03, 0.28, 0.49, 0.12, 0.08], gap="small", vertical_alignment="center")
+    with row[0]:
+        st.html('<div class="library-bullet">•</div>')
+    with row[1]:
+        st.button(
+            entry["title"],
+            key=f"library_open_{profile_id}_{entry['card_id']}",
+            type="secondary",
+            width="stretch",
+            on_click=set_active_card,
+            args=(entry["card_id"],),
+        )
+    with row[2]:
+        st.html(
+            '<div class="library-description">'
+            f'{escape(entry.get("description", ""))}'
+            '</div>'
+        )
+    with row[3]:
+        st.html(
+            '<div class="library-source">'
+            f'{escape(source_label)}'
+            '</div>'
+        )
+    with row[4]:
+        st.html(
+            '<div class="library-level">'
+            f'{escape(display_text(entry.get("level", "")))}'
+            '</div>'
+        )
+
+
+def render_library_header() -> None:
+    row = st.columns([0.03, 0.28, 0.49, 0.12, 0.08], gap="small")
+    labels = ["", "Title", "Description", "Source", "Block"]
+    for column, label in zip(row, labels, strict=True):
+        with column:
+            st.html(f'<div class="library-header">{escape(label)}</div>')
+
+
+def _combine_library_levels(
+    levels_index: dict[str, dict[str, list[dict[str, Any]]]],
+    level_names: list[str],
+) -> dict[str, list[dict[str, Any]]]:
+    combined: dict[str, list[dict[str, Any]]] = {}
+    for level_name in level_names:
+        for profile_id, entries in levels_index.get(level_name, {}).items():
+            combined.setdefault(profile_id, []).extend(
+                dict(entry, level=level_name)
+                for entry in entries
+            )
+    return combined
+
+
+def _filtered_library_entries(entries: list[dict[str, Any]], query: str) -> list[dict[str, Any]]:
+    normalized_query = query.strip().lower().replace("_", " ")
+    if not normalized_query:
+        return entries
+
+    return [
+        entry
+        for entry in entries
+        if normalized_query in _library_entry_search_text(entry)
+    ]
+
+
+def _library_entry_search_text(entry: dict[str, Any]) -> str:
+    values = [
+        entry.get("card_id", ""),
+        entry.get("title", ""),
+        entry.get("description", ""),
+        entry.get("source", ""),
+        entry.get("source_profile", ""),
+        entry.get("source_profile", "").replace("_", " "),
+    ]
+    return " ".join(values).lower()
 
 
 # ----------------------------------------------------------
@@ -592,9 +903,10 @@ def render_build_pathway(
         ),
     )
     if visible_candidates:
-        render_grid(
+        render_paginated_grid(
             visible_candidates,
             display_config,
+            state_prefix=f"pathway_{next_level}_cards",
             key_prefix=f"pathway_{next_level}",
             select_label="Select",
             on_select=select_pathway_card,
@@ -643,9 +955,10 @@ def render_today_session(cards: list[Any], display_config: dict[str, Any]) -> No
     )
 
     if visible_sessions:
-        render_grid(
+        render_paginated_grid(
             visible_sessions,
             display_config,
+            state_prefix="today_session_cards",
             key_prefix="today_session",
         )
     else:
@@ -671,11 +984,12 @@ def main() -> None:
             macro_mezzo_reuse_config,
             mezzo_micro_reuse_config,
             micro_session_reuse_config,
+            card_library_index,
         ) = load_library(cache_dir)
     except Exception as error:
         st.error(
             "The local card cache could not be loaded. "
-            "Run `py -m training_cards.scripts.download_cloud_library` and `py -m training_cards.scripts.validate_cache`."
+            "Run `py -m training_cards.scripts.cloud.download_cloud_library` and `py -m training_cards.scripts.cache.validate_cache`."
         )
         st.exception(error)
         return
@@ -711,6 +1025,8 @@ def main() -> None:
             mezzo_micro_reuse_config,
             micro_session_reuse_config,
         )
+    elif st.session_state.app_mode == "Card library":
+        render_card_library(card_library_index)
     elif st.session_state.app_mode == "Today session":
         render_today_session(cards, display_config)
     elif st.session_state.app_mode == "Coaching philosophies":
@@ -721,6 +1037,10 @@ def main() -> None:
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:
         open_card_dialog(active_card, display_config, card_by_id)
+
+    active_library_preview_card = card_by_id.get(st.session_state.active_library_preview_card_id)
+    if active_library_preview_card:
+        open_library_preview_dialog(active_library_preview_card, display_config)
 
     active_philosophy_profile_id = st.session_state.active_philosophy_profile_id
     if active_philosophy_profile_id:
