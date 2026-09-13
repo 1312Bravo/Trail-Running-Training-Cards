@@ -44,9 +44,9 @@ from streamlit_app.renderers import (
 
 APP_MODES = [
     "Browse cards",
+    "Today session",
     "Card library",
     "Build pathway",
-    "Today session",
     "Coaching philosophies",
 ]
 PHILOSOPHY_SUMMARY_HEIGHT = 330
