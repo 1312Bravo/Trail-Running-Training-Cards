@@ -247,6 +247,66 @@ def css() -> None:
             background: transparent !important;
             box-shadow: none !important;
         }
+        [class*="st-key-mode-toolbar-"] [data-testid="stMultiSelect"] [data-tag] {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.28rem;
+            margin: 0 0.3rem 0 0;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            color: #555752 !important;
+            box-shadow: none !important;
+        }
+        [class*="st-key-philosophy_profile_filters"] [data-testid="stMultiSelect"] [data-tag] {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.28rem;
+            margin: 0 0.3rem 0 0;
+            padding: 0 !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            color: #555752 !important;
+            box-shadow: none !important;
+        }
+        [class*="st-key-mode-toolbar-"] [data-testid="stMultiSelect"] [data-tag] > span[title] {
+            color: #555752 !important;
+            font-size: 0.86rem;
+            line-height: 1.35;
+            text-decoration: underline;
+            text-decoration-color: #777a72;
+            text-underline-offset: 0.18rem;
+        }
+        [class*="st-key-philosophy_profile_filters"] [data-testid="stMultiSelect"] [data-tag] > span[title] {
+            color: #555752 !important;
+            font-size: 0.86rem;
+            line-height: 1.35;
+            text-decoration: underline;
+            text-decoration-color: #777a72;
+            text-underline-offset: 0.18rem;
+        }
+        [class*="st-key-mode-toolbar-"] [data-testid="stMultiSelect"] [data-tag] button {
+            min-width: 0;
+            min-height: 1rem;
+            margin: 0;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            color: #777a72 !important;
+            box-shadow: none !important;
+        }
+        [class*="st-key-philosophy_profile_filters"] [data-testid="stMultiSelect"] [data-tag] button {
+            min-width: 0;
+            min-height: 1rem;
+            margin: 0;
+            padding: 0 !important;
+            border: 0 !important;
+            background: transparent !important;
+            color: #777a72 !important;
+            box-shadow: none !important;
+        }
         [class*="st-key-browse-toolbar"] [data-testid="stTextInputRootElement"]:has(input:focus),
         [class*="st-key-browse-toolbar"] [data-testid="stMultiSelect"] .react-aria-ComboBox > div[role="group"]:has(input:focus),
         [class*="st-key-library_search_query"] [data-testid="stTextInputRootElement"]:has(input:focus),
@@ -331,8 +391,33 @@ def css() -> None:
         [class*="st-key-card-"][class*="library_preview_dialog"] {
             width: 100%;
             max-width: 484px;
+            min-height: 470px;
             margin-right: auto;
             margin-left: auto;
+        }
+        section[role="dialog"]:has([class*="library_preview_dialog"]) {
+            width: min(540px, calc(100vw - 2rem)) !important;
+            max-width: calc(100vw - 2rem) !important;
+            border: 1px solid #d5d6d1 !important;
+            border-radius: 16px !important;
+            background: #ffffff !important;
+            box-shadow: 0 10px 26px rgb(40 41 35 / 12%) !important;
+        }
+        section[role="dialog"]:has([class*="library_preview_dialog"]) > div,
+        [data-testid="stDialog"]:has([class*="library_preview_dialog"]) > div {
+            width: min(540px, calc(100vw - 2rem)) !important;
+            max-width: calc(100vw - 2rem) !important;
+            padding: 0.35rem 0.65rem 2rem !important;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            overflow: visible !important;
+        }
+        [data-testid="stDialog"]:has([class*="library_preview_dialog"]) section[role="dialog"] {
+            border: 1px solid #d5d6d1 !important;
+            border-radius: 16px !important;
+            background: #ffffff !important;
+            box-shadow: 0 10px 26px rgb(40 41 35 / 12%) !important;
         }
         [class*="st-key-mode-toolbar-"] [data-testid="stCaptionContainer"] {
             display: flex;
@@ -611,7 +696,9 @@ def css() -> None:
             font-size: 0.76rem;
             box-shadow: inset 0 1px 0 rgb(255 255 255 / 82%), 0 1px 1px rgb(40 41 35 / 10%);
         }
-        [class*="st-key-open_"] button {
+        [class*="st-key-open_"] button,
+        [class*="st-key-pathway_open_"] button,
+        [class*="st-key-pathway_change_"] button {
             min-height: 1.55rem;
             padding: 0.05rem 0.2rem;
             border: 0 !important;
@@ -626,22 +713,13 @@ def css() -> None:
             text-underline-offset: 0.18rem;
             white-space: nowrap;
         }
-        [class*="st-key-open_"] button:hover {
+        [class*="st-key-open_"] button:hover,
+        [class*="st-key-pathway_open_"] button:hover,
+        [class*="st-key-pathway_change_"] button:hover {
             border: 0 !important;
             background: transparent !important;
             color: #000000;
             text-decoration-color: #20221f;
-        }
-        [class*="st-key-pathway_open_"] button,
-        [class*="st-key-pathway_change_"] button {
-            border: 1px solid var(--line);
-            background: var(--surface);
-            color: var(--ink);
-            font-weight: 400;
-            min-height: 1.55rem;
-            padding: 0.05rem 0.4rem;
-            font-size: 0.78rem;
-            box-shadow: none;
         }
         [class*="st-key-pathway-selection"] {
             position: sticky;
@@ -717,9 +795,9 @@ def css() -> None:
             text-align: center;
         }
         .pathway-selected-title {
-            color: #20221f;
+            color: #555752;
             font-size: 0.84rem;
-            font-weight: 600;
+            font-weight: 400;
             line-height: 1.25;
             text-align: center;
         }
@@ -728,6 +806,7 @@ def css() -> None:
             border-top: 1px solid #e1e2dd;
         }
         [class*="st-key-pathway-card-"] {
+            min-height: 7.5rem;
             padding: 0.26rem 0.5rem;
             border-bottom: 0;
             background: transparent;

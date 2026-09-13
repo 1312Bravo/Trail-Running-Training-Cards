@@ -397,12 +397,13 @@ def open_card_dialog(card: object, display_config: dict[str, object], card_by_id
 
 
 def open_library_preview_dialog(card: object, display_config: dict[str, object]) -> None:
-    @st.dialog("Card preview", width="medium", on_dismiss=clear_active_library_preview)
+    @st.dialog(" ", width="medium", on_dismiss=clear_active_library_preview)
     def dialog_content() -> None:
         render_preview_card(
             card,
             display_config,
             key_prefix="library_preview_dialog",
+            height=None,
             open_label="Open full card",
             open_callback=open_full_card_from_library_preview,
         )
@@ -906,7 +907,7 @@ def render_pathway_selection(selected_cards: dict[str, Any | None], display_conf
         for index, (level, label) in enumerate(PATHWAY_STEPS):
             card = selected_cards[level]
             with cols[index]:
-                with st.container(border=False, height=88, key=f"pathway-card-{level}"):
+                with st.container(border=False, key=f"pathway-card-{level}"):
                     st.html(
                         '<div class="pathway-level-label">'
                         f"{escape(label)}"

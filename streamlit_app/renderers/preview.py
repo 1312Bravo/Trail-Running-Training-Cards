@@ -80,6 +80,7 @@ def render_preview_card(
     card: Any,
     display_config: dict[str, Any],
     key_prefix: str,
+    height: int | None = 470,
     select_label: str | None = None,
     open_label: str = "Open card",
     on_select: Any | None = None,
@@ -95,7 +96,14 @@ def render_preview_card(
     card_type_key = str(card.card_type).replace("_", "-")
     card_type_meta = display_label_text(card_type_label(card.card_type, display_config))
 
-    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=470):
+    container_args = {
+        "border": True,
+        "key": f"card-{card_type_key}-{key_prefix}-{card.id}",
+    }
+    if height is not None:
+        container_args["height"] = height
+
+    with st.container(**container_args):
         st.html(
             '<div class="preview-card-title">'
             f'<span class="preview-card-title-text">{escape(card.title)}</span>'
