@@ -8,6 +8,7 @@ import streamlit as st
 
 from training_cards.philosophy_profiles import philosophy_profile_display_name
 from streamlit_app.config import DETAIL_SECTION_ORDER
+from streamlit_app.data import card_type_label
 
 from .shared import (
     as_text,
@@ -15,7 +16,6 @@ from .shared import (
     display_text,
     field_label,
     format_field_value,
-    preview_card_meta_text,
     preview_card_pips_html,
     render_card_history_back,
     render_preview_tag_labels,
@@ -288,8 +288,16 @@ def render_detail_header(card: Any, display_config: dict[str, Any]) -> None:
         f'<h2 class="detail-card-title">{escape(card.title)}</h2>'
         f'{preview_card_pips_html(card_type_key)}'
         '</div>'
-        f'<div class="detail-card-type">{escape(preview_card_meta_text(card, display_config))}</div>'
         '</section>'
+    )
+
+
+def render_detail_type_line(card: Any, display_config: dict[str, Any]) -> None:
+    card_type = display_label_text(card_type_label(card.card_type, display_config))
+    st.html(
+        '<div class=\"detail-card-type-line\">'
+        f'<span class=\"detail-card-level\">{escape(card_type)}</span>'
+        '</div>'
     )
 
 
@@ -347,6 +355,7 @@ def render_detail(
         render_card_history_back(card_by_id)
         if show_header:
             render_detail_header(card, display_config)
+            render_detail_type_line(card, display_config)
             render_field("summary", card.summary, display_config, f"detail_{card.id}")
             render_detail_key_facts(card)
 

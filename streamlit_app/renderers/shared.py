@@ -117,24 +117,25 @@ def preview_card_meta_text(card: Any, display_config: dict[str, Any]) -> str:
 
 
 # ----------------------------------------------------------
-# Contact Links
+# Author Footer
 # ----------------------------------------------------------
 
-def render_contact_links() -> None:
+def render_author_footer() -> None:
     mail_icon = svg_data_uri(MAIL_ICON_SVG)
     github_icon = svg_data_uri(GITHUB_ICON_SVG)
     st.html(
         f"""
-        <div class="contact-links">
-            <a href="mailto:pecek.urh@gmail.com">
+        <footer class="author-footer">
+            <span class="author-footer-label">About the author</span>
+            <a href="mailto:pecek.urh@gmail.com" aria-label="Contact the author">
                 <img class="contact-icon" src="{mail_icon}" alt="">
-                <span>pecek.urh@gmail.com</span>
+                <span>Contact</span>
             </a>
-            <a href="https://github.com/1312Bravo/Trail-Running-Training-Cards" target="_blank">
+            <a href="https://github.com/1312Bravo/Trail-Running-Training-Cards" target="_blank" rel="noopener noreferrer">
                 <img class="contact-icon" src="{github_icon}" alt="">
                 <span>GitHub</span>
             </a>
-        </div>
+        </footer>
         """
     )
 

@@ -84,6 +84,7 @@ def render_preview_card(
     open_label: str = "Open card",
     on_select: Any | None = None,
     select_args: tuple[Any, ...] = (),
+    open_callback: Any | None = None,
 ) -> None:
     preview_fields = display_config.get("preview_fields", [])
     ordered_preview_fields = [
@@ -124,14 +125,23 @@ def render_preview_card(
                         on_click=on_select,
                         args=select_args,
                     )
-                st.button(
-                    open_label,
-                    key=f"open_{key_prefix}_{card.id}",
-                    type="secondary",
-                    width="content",
-                    on_click=open_card,
-                    args=(card.id,),
-                )
+                if open_callback:
+                    if st.button(
+                        open_label,
+                        key=f"open_{key_prefix}_{card.id}",
+                        type="secondary",
+                        width="content",
+                    ):
+                        open_callback(card.id)
+                else:
+                    st.button(
+                        open_label,
+                        key=f"open_{key_prefix}_{card.id}",
+                        type="secondary",
+                        width="content",
+                        on_click=open_card,
+                        args=(card.id,),
+                    )
 
         for field_name in ordered_preview_fields:
             if field_name == "tags":

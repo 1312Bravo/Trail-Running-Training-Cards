@@ -35,7 +35,7 @@ from streamlit_app.philosophies import (
 from streamlit_app.renderers import (
     css,
     display_text,
-    render_contact_links,
+    render_author_footer,
     render_detail,
     render_grid,
     render_preview_card,
@@ -49,9 +49,9 @@ APP_MODES = [
     "Today session",
     "Coaching philosophies",
 ]
-PHILOSOPHY_SUMMARY_HEIGHT = 380
+PHILOSOPHY_SUMMARY_HEIGHT = 330
 DEFAULT_CARDS_PER_PAGE = 8
-CARD_PAGE_SIZE_OPTIONS = [6, 8, 12]
+LIBRARY_DEFAULT_CARDS_PER_PAGE = 10
 PATHWAY_STEPS = [
     ("macro", "Macro"),
     ("mezzo", "Mezzo"),
@@ -79,11 +79,20 @@ def clear_active_card() -> None:
 
 
 def set_active_library_preview(card_id: str) -> None:
+    st.session_state.active_card_id = None
+    st.session_state.active_card_history = []
     st.session_state.active_library_preview_card_id = card_id
 
 
 def clear_active_library_preview() -> None:
     st.session_state.active_library_preview_card_id = None
+
+
+def open_full_card_from_library_preview(card_id: str) -> None:
+    st.session_state.active_library_preview_card_id = None
+    st.session_state.active_card_id = card_id
+    st.session_state.active_card_history = []
+    st.rerun(scope="app")
 
 
 def set_active_philosophy(profile_id: str) -> None:
@@ -106,9 +115,29 @@ def clear_active_philosophy_sources() -> None:
     st.session_state.active_philosophy_sources_profile_id = None
 
 
+def clear_open_views() -> None:
+    """Close modal views when the user changes the top-level app mode."""
+    st.session_state.active_card_id = None
+    st.session_state.active_library_preview_card_id = None
+    st.session_state.active_philosophy_profile_id = None
+    st.session_state.active_philosophy_sources_profile_id = None
+    st.session_state.active_card_history = []
+
+
+def toggle_library_profile(profile_id: str) -> None:
+    if profile_id in st.session_state.library_expanded_profiles:
+        st.session_state.library_expanded_profiles = []
+    else:
+        st.session_state.library_expanded_profiles = [profile_id]
+
+
+def set_card_scope(scope_label: str) -> None:
+    st.session_state.card_scope_label = scope_label
+
+
 def browse_philosophy_cards(profile_id: str) -> None:
     st.session_state.app_mode = "Browse cards"
-    st.session_state.card_scope_label = None
+    st.session_state.card_scope_label = "All"
     st.session_state.philosophy_profile_filters = [profile_id]
 
 
@@ -240,12 +269,26 @@ def init_state() -> None:
     st.session_state.setdefault("active_philosophy_profile_id", None)
     st.session_state.setdefault("active_philosophy_sources_profile_id", None)
     st.session_state.setdefault("app_mode", APP_MODES[0])
-    st.session_state.setdefault("card_scope_label", None)
+    if "last_app_mode" not in st.session_state:
+        if any(
+            st.session_state.get(key)
+            for key in (
+                "active_card_id",
+                "active_library_preview_card_id",
+                "active_philosophy_profile_id",
+                "active_philosophy_sources_profile_id",
+            )
+        ):
+            clear_open_views()
+        st.session_state.last_app_mode = st.session_state.app_mode
+    st.session_state.setdefault("card_scope_label", "All")
+    if st.session_state.card_scope_label not in {"All", "Macro", "Mezzo", "Micro", "Session"}:
+        st.session_state.card_scope_label = "All"
     st.session_state.setdefault("tag_filters", [])
     st.session_state.setdefault("philosophy_profile_filters", [])
-    st.session_state.setdefault("library_level_label", "Macro")
+    st.session_state.setdefault("library_level_label", "All")
     st.session_state.setdefault("library_search_query", "")
-    st.session_state.setdefault("library_profile_filters", [])
+    st.session_state.setdefault("library_expanded_profiles", [])
     for level, _ in PATHWAY_STEPS:
         st.session_state.setdefault(state_key_for_level(level), None)
 
@@ -267,36 +310,27 @@ def render_pagination_controls(
     end_item = min((page + 1) * page_size, total_cards)
 
     with st.container(key=f"pagination-{state_prefix}"):
-        controls = st.columns([0.28, 1, 0.26, 0.22, 0.26], gap="small", vertical_alignment="center")
+        controls = st.columns([1, 0.1, 0.12, 0.1], gap="small", vertical_alignment="center")
         with controls[0]:
-            st.segmented_control(
-                "Cards per page",
-                CARD_PAGE_SIZE_OPTIONS,
-                key=f"{state_prefix}_page_size",
-                selection_mode="single",
-                width="stretch",
-                label_visibility="collapsed",
-            )
-        with controls[1]:
             st.html(
                 '<div class="pagination-status">'
                 f'<span>Showing {start_item}-{end_item}</span>'
                 f'<strong>{total_cards} cards</strong>'
                 '</div>'
             )
-        with controls[2]:
+        with controls[1]:
             st.button(
                 "Previous",
                 key=f"pagination_{state_prefix}_previous_page",
                 type="secondary",
-                width="stretch",
+                width="content",
                 disabled=page <= 0,
                 on_click=set_session_state_value,
                 args=(page_state_key, max(0, page - 1)),
             )
-        with controls[3]:
+        with controls[2]:
             st.html(f'<div class="pagination-page">Page {page + 1} / {total_pages}</div>')
-        with controls[4]:
+        with controls[3]:
             st.button(
                 "Next",
                 key=f"pagination_{state_prefix}_next_page",
@@ -322,11 +356,9 @@ def render_paginated_grid(
     on_select: Any | None = None,
     select_level: str | None = None,
 ) -> None:
-    page_size_key = f"{state_prefix}_page_size"
     page_key = f"{state_prefix}_page"
     signature_key = f"{state_prefix}_signature"
 
-    st.session_state.setdefault(page_size_key, DEFAULT_CARDS_PER_PAGE)
     st.session_state.setdefault(page_key, 0)
     st.session_state.setdefault(signature_key, ())
 
@@ -335,7 +367,7 @@ def render_paginated_grid(
         st.session_state[signature_key] = current_signature
         st.session_state[page_key] = 0
 
-    page_size = int(st.session_state.get(page_size_key) or DEFAULT_CARDS_PER_PAGE)
+    page_size = DEFAULT_CARDS_PER_PAGE
     total_pages = max(1, (len(cards) + page_size - 1) // page_size)
     page = min(max(0, int(st.session_state.get(page_key, 0))), total_pages - 1)
     st.session_state[page_key] = page
@@ -372,6 +404,7 @@ def open_library_preview_dialog(card: object, display_config: dict[str, object])
             display_config,
             key_prefix="library_preview_dialog",
             open_label="Open full card",
+            open_callback=open_full_card_from_library_preview,
         )
 
     dialog_content()
@@ -397,7 +430,7 @@ def open_philosophy_sources_dialog(profile_id: str) -> None:
     )
     def dialog_content() -> None:
         st.caption(
-            "Reviewed official material used to inform this library's interpretation."
+            "Reviewed sources used to inform this library's interpretation."
         )
         st.markdown(load_reviewed_source_bullets(profile_id))
 
@@ -409,37 +442,44 @@ def open_philosophy_sources_dialog(profile_id: str) -> None:
 # ----------------------------------------------------------
 
 def render_browse_cards(cards: list[Any], display_config: dict[str, Any]) -> None:
-    scope_labels = ["Macro", "Mezzo", "Micro", "Session"]
-    scope_to_value = {label: label.lower() for label in scope_labels}
+    scope_labels = ["All", "Macro", "Mezzo", "Micro", "Session"]
+    scope_to_value = {
+        label: label.lower()
+        for label in scope_labels
+        if label != "All"
+    }
     if st.session_state.card_scope_label not in scope_labels:
-        st.session_state.card_scope_label = None
+        st.session_state.card_scope_label = "All"
 
     with st.container(border=False, key="browse-toolbar"):
-        controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
-        with controls[0]:
-            chosen_scope = st.segmented_control(
-                "Block",
-                scope_labels,
-                key="card_scope_label",
-                selection_mode="single",
-                width="stretch",
-                label_visibility="collapsed",
-            )
-        with controls[1]:
-            st.session_state.search_query = st.text_input(
-                "Search",
-                value=st.session_state.search_query,
-                placeholder=SEARCH_PLACEHOLDER,
-                help="Searches across titles, block types, summary, purpose, coaching philosophy, levels, tags, and notes.",
-                width="stretch",
-                label_visibility="collapsed",
-            )
+        with st.container(border=False, key="browse-scope-row"):
+            with st.container(horizontal=True, key="browse-scope-links"):
+                for label in scope_labels:
+                    selected_prefix = "selected-" if st.session_state.card_scope_label == label else ""
+                    st.button(
+                        label,
+                        key=f"browse-scope-{selected_prefix}{label.lower()}",
+                        type="tertiary",
+                        width="content",
+                        on_click=set_card_scope,
+                        args=(label,),
+                    )
+            chosen_scope = st.session_state.card_scope_label
 
-        filter_controls = st.columns([1.05, 1], gap="large", vertical_alignment="bottom")
-        with filter_controls[0]:
-            render_active_tag_filters(show_label=False)
-        with filter_controls[1]:
-            render_philosophy_profile_filter(label_visibility="collapsed")
+        with st.container(border=False, key="browse-filter-row"):
+            controls = st.columns([1, 1], gap="large", vertical_alignment="center")
+            with controls[0]:
+                st.session_state.search_query = st.text_input(
+                    "Search",
+                    value=st.session_state.search_query,
+                    placeholder=SEARCH_PLACEHOLDER,
+                    help="Searches across titles, block types, summary, purpose, coaching philosophy, levels, tags, and notes.",
+                    width="stretch",
+                    label_visibility="collapsed",
+                )
+            with controls[1]:
+                render_philosophy_profile_filter(label_visibility="collapsed")
+        render_active_tag_filters(show_label=False)
     st.session_state.card_scope = scope_to_value.get(chosen_scope, "all")
 
     cards_for_view = filtered_cards(
@@ -470,19 +510,20 @@ def render_card_library(card_library_index: dict[str, Any]) -> None:
     if st.session_state.library_level_label not in level_labels:
         st.session_state.library_level_label = "All"
 
-    st.caption(
-        "Compact library index. Direct cards belong to the selected philosophy; reused cards are shown with their source profile."
-    )
-    controls = st.columns([0.75, 1, 1], gap="large", vertical_alignment="center")
+    controls = st.columns([1.25, 1], gap="large", vertical_alignment="center")
     with controls[0]:
-        chosen_level = st.segmented_control(
-            "Library level",
-            level_labels,
-            key="library_level_label",
-            selection_mode="single",
-            width="stretch",
-            label_visibility="collapsed",
-        )
+        with st.container(horizontal=True, key="library-level-links"):
+            for label in level_labels:
+                selected_prefix = "selected-" if st.session_state.library_level_label == label else ""
+                st.button(
+                    label,
+                    key=f"library-level-{selected_prefix}{label.lower()}",
+                    type="tertiary",
+                    width="content",
+                    on_click=set_session_state_value,
+                    args=("library_level_label", label),
+                )
+        chosen_level = st.session_state.library_level_label
     selected_level = level_to_value.get(chosen_level)
     levels_index = card_library_index.get("levels", {})
     level_names = [selected_level] if selected_level else ["macro", "mezzo", "micro", "session"]
@@ -492,23 +533,13 @@ def render_card_library(card_library_index: dict[str, Any]) -> None:
         for profile_id in PHILOSOPHY_PROFILES
         if profile_id in level_index
     ]
-    st.session_state.library_profile_filters = [
+    st.session_state.library_expanded_profiles = [
         profile_id
-        for profile_id in st.session_state.library_profile_filters
+        for profile_id in st.session_state.library_expanded_profiles
         if profile_id in profile_ids
     ]
 
     with controls[1]:
-        st.multiselect(
-            "Philosophy",
-            profile_ids,
-            key="library_profile_filters",
-            format_func=philosophy_profile_display_name,
-            placeholder="All philosophies",
-            label_visibility="collapsed",
-            width="stretch",
-        )
-    with controls[2]:
         st.text_input(
             "Search library",
             key="library_search_query",
@@ -517,8 +548,10 @@ def render_card_library(card_library_index: dict[str, Any]) -> None:
             width="stretch",
         )
 
-    selected_profiles = st.session_state.library_profile_filters or profile_ids
-    total_visible = 0
+    selected_profiles = profile_ids
+    expanded_profiles = set(st.session_state.library_expanded_profiles)
+
+    visible_profile_entries: list[tuple[str, list[dict[str, Any]]]] = []
     for profile_id in selected_profiles:
         entries = _filtered_library_entries(
             level_index.get(profile_id, []),
@@ -526,69 +559,122 @@ def render_card_library(card_library_index: dict[str, Any]) -> None:
         )
         if not entries:
             continue
-        total_visible += len(entries)
+        visible_profile_entries.append((profile_id, entries))
+
+    with st.container(border=False, key="library-profile-grid"):
+        profile_columns = st.columns(2, gap="medium")
+        for index, (profile_id, entries) in enumerate(visible_profile_entries):
+            is_expanded = profile_id in expanded_profiles
+            with profile_columns[index % 2]:
+                with st.container(border=False, key=f"library-group-{profile_id}"):
+                    st.button(
+                        f'{"v" if is_expanded else ">"}  '
+                        f"{philosophy_profile_display_name(profile_id)} · {len(entries)} cards",
+                        key=f"library-group-toggle-{profile_id}",
+                        type="tertiary",
+                        width="stretch",
+                        on_click=toggle_library_profile,
+                        args=(profile_id,),
+                    )
+
+    for profile_id, entries in visible_profile_entries:
+        if profile_id not in expanded_profiles:
+            continue
         direct_count = sum(entry.get("source") == "direct" for entry in entries)
         reused_count = len(entries) - direct_count
-        with st.expander(
-            f"{philosophy_profile_display_name(profile_id)} · {len(entries)} cards",
-            expanded=bool(st.session_state.library_profile_filters),
-        ):
+        with st.container(border=False, key=f"library-expanded-{profile_id}"):
+            st.html(
+                '<div class="library-expanded-title">'
+                f"{escape(philosophy_profile_display_name(profile_id))}"
+                "</div>"
+            )
             st.caption(f"{direct_count} direct · {reused_count} reused")
-            render_library_header()
-            for entry in entries:
-                render_library_entry(entry, profile_id)
+            header = st.columns([1.35, 2.45, 0.8, 1], gap="medium")
+            with header[0]:
+                st.html('<div class="library-table-heading">Card</div>')
+            with header[1]:
+                st.html('<div class="library-table-heading">Description</div>')
+            with header[2]:
+                st.html('<div class="library-table-heading">Level</div>')
+            with header[3]:
+                st.html('<div class="library-table-heading">Source</div>')
+            render_paginated_library_entries(entries, profile_id)
 
-    if total_visible == 0:
+    if not visible_profile_entries:
         st.caption("No library entries match the current filters.")
 
 
 def render_library_entry(entry: dict[str, Any], profile_id: str) -> None:
     source = entry.get("source", "direct")
     source_profile = entry.get("source_profile")
-    source_label = ""
+    source_label = "Direct"
     if source == "reused" and source_profile:
-        source_label = f"reused from {philosophy_profile_display_name(source_profile)}"
-    elif source == "direct":
-        source_label = "direct"
+        source_label = f"From {philosophy_profile_display_name(source_profile)}"
 
-    row = st.columns([0.03, 0.28, 0.49, 0.12, 0.08], gap="small", vertical_alignment="center")
-    with row[0]:
-        st.html('<div class="library-bullet">•</div>')
-    with row[1]:
-        st.button(
-            entry["title"],
-            key=f"library_open_{profile_id}_{entry['card_id']}",
-            type="secondary",
-            width="stretch",
-            on_click=set_active_card,
-            args=(entry["card_id"],),
-        )
-    with row[2]:
-        st.html(
-            '<div class="library-description">'
-            f'{escape(entry.get("description", ""))}'
-            '</div>'
-        )
-    with row[3]:
-        st.html(
-            '<div class="library-source">'
-            f'{escape(source_label)}'
-            '</div>'
-        )
-    with row[4]:
-        st.html(
-            '<div class="library-level">'
-            f'{escape(display_text(entry.get("level", "")))}'
-            '</div>'
-        )
+    with st.container(key=f"library-entry-{profile_id}-{entry['card_id']}"):
+        row = st.columns([1.35, 2.45, 0.8, 1], gap="medium", vertical_alignment="center")
+        with row[0]:
+            st.button(
+                entry["title"],
+                key=f"library_open_{profile_id}_{entry['card_id']}",
+                type="tertiary",
+                width="content",
+                on_click=set_active_library_preview,
+                args=(entry["card_id"],),
+            )
+        with row[1]:
+            st.html(
+                '<div class="library-description">'
+                f'{escape(entry.get("description", ""))}'
+                '</div>'
+            )
+        with row[2]:
+            st.html(
+                '<div class="library-meta">'
+                f'{escape(display_text(entry.get("level", "")).title())}'
+                '</div>'
+            )
+        with row[3]:
+            st.html(
+                '<div class="library-meta">'
+                f'{escape(source_label)}'
+                '</div>'
+            )
 
 
-def render_library_header() -> None:
-    row = st.columns([0.03, 0.28, 0.49, 0.12, 0.08], gap="small")
-    labels = ["", "Title", "Description", "Source", "Block"]
-    for column, label in zip(row, labels, strict=True):
-        with column:
-            st.html(f'<div class="library-header">{escape(label)}</div>')
+def render_paginated_library_entries(
+    entries: list[dict[str, Any]],
+    profile_id: str,
+) -> None:
+    state_prefix = f"library_{profile_id}"
+    page_key = f"{state_prefix}_page"
+    signature_key = f"{state_prefix}_signature"
+
+    st.session_state.setdefault(page_key, 0)
+    st.session_state.setdefault(signature_key, ())
+
+    current_signature = tuple(entry.get("card_id", "") for entry in entries)
+    if st.session_state[signature_key] != current_signature:
+        st.session_state[signature_key] = current_signature
+        st.session_state[page_key] = 0
+
+    page_size = LIBRARY_DEFAULT_CARDS_PER_PAGE
+
+    total_pages = max(1, (len(entries) + page_size - 1) // page_size)
+    page = min(max(0, int(st.session_state.get(page_key, 0))), total_pages - 1)
+    st.session_state[page_key] = page
+
+    start = page * page_size
+    end = start + page_size
+    for entry in entries[start:end]:
+        render_library_entry(entry, profile_id)
+
+    render_pagination_controls(
+        len(entries),
+        page_size,
+        page,
+        state_prefix,
+    )
 
 
 def _combine_library_levels(
@@ -634,9 +720,6 @@ def _library_entry_search_text(entry: dict[str, Any]) -> str:
 # ----------------------------------------------------------
 
 def render_coaching_philosophies(cards: list[Any]) -> None:
-    st.caption(
-        "Every card follows the shared coaching foundation. These profiles show the training methods that shape card content."
-    )
     profile_ids = list(PHILOSOPHY_PROFILES)
 
     for row_start in range(0, len(profile_ids), 2):
@@ -645,45 +728,73 @@ def render_coaching_philosophies(cards: list[Any]) -> None:
             with cols[1 + offset * 2]:
                 with st.container(border=True, key=f"philosophy-{profile_id}"):
                     with st.container(
-                        height=PHILOSOPHY_SUMMARY_HEIGHT,
                         border=False,
                         key=f"philosophy-summary-{profile_id}",
                     ):
-                        st.markdown(load_app_summary(profile_id))
-                    st.divider()
-                    card_count = sum(
-                        profile_id in getattr(card, "philosophy_profile_ids", [])
-                        for card in cards
-                    )
-                    st.caption(f"{card_count} cards in this profile")
-                    actions = st.columns(3)
-                    with actions[0]:
-                        st.button(
-                            "Show cards",
-                            key=f"philosophy_show_cards_{profile_id}",
-                            type="secondary",
-                            width="stretch",
-                            on_click=browse_philosophy_cards,
-                            args=(profile_id,),
+                        summary = load_app_summary(profile_id)
+                        summary_lines = summary.splitlines()
+                        summary_title = (
+                            summary_lines[0][2:].strip()
+                            if summary_lines and summary_lines[0].startswith("# ")
+                            else philosophy_profile_display_name(profile_id)
                         )
-                    with actions[1]:
-                        st.button(
-                            "Read full philosophy",
-                            key=f"philosophy_read_{profile_id}",
-                            type="secondary",
-                            width="stretch",
-                            on_click=set_active_philosophy,
-                            args=(profile_id,),
+                        summary_body = (
+                            "\n".join(summary_lines[1:]).lstrip()
+                            if summary_lines and summary_lines[0].startswith("# ")
+                            else summary
                         )
-                    with actions[2]:
-                        st.button(
-                            "View sources",
-                            key=f"philosophy_sources_{profile_id}",
-                            type="secondary",
-                            width="stretch",
-                            on_click=set_active_philosophy_sources,
-                            args=(profile_id,),
+                        st.html(
+                            '<div class="philosophy-card-title">'
+                            f"{escape(summary_title)}"
+                            "</div>"
                         )
+                    with st.container(
+                        border=False,
+                        key=f"philosophy-actions-{profile_id}",
+                    ):
+                        card_count = sum(
+                            profile_id in getattr(card, "philosophy_profile_ids", [])
+                            for card in cards
+                        )
+                        st.html(
+                            '<div class="philosophy-card-count">'
+                            f"{card_count} cards in this profile"
+                            "</div>"
+                        )
+                        actions = st.columns(3)
+                        with actions[0]:
+                            st.button(
+                                "Show cards",
+                                key=f"philosophy_show_cards_{profile_id}",
+                                type="secondary",
+                                width="content",
+                                on_click=browse_philosophy_cards,
+                                args=(profile_id,),
+                            )
+                        with actions[1]:
+                            st.button(
+                                "Read full philosophy",
+                                key=f"philosophy_read_{profile_id}",
+                                type="secondary",
+                                width="content",
+                                on_click=set_active_philosophy,
+                                args=(profile_id,),
+                            )
+                        with actions[2]:
+                            st.button(
+                                "View sources",
+                                key=f"philosophy_sources_{profile_id}",
+                                type="secondary",
+                                width="content",
+                                on_click=set_active_philosophy_sources,
+                                args=(profile_id,),
+                            )
+                    with st.container(
+                        height=PHILOSOPHY_SUMMARY_HEIGHT,
+                        border=False,
+                        key=f"philosophy-summary-content-{profile_id}",
+                    ):
+                        st.markdown(summary_body)
 
 
 def render_search_terms(terms_key: str) -> None:
@@ -792,10 +903,10 @@ def pathway_candidates(
 
 
 def render_pathway_selection(selected_cards: dict[str, Any | None], display_config: dict[str, Any]) -> None:
-    with st.container(border=True, key="pathway-selection"):
+    with st.container(border=False, key="pathway-selection"):
         top_cols = st.columns([1, 0.12], vertical_alignment="center")
         with top_cols[0]:
-            st.caption("Selected pathway")
+            st.html('<div class="section-label">Selected pathway</div>')
         with top_cols[1]:
             st.button("Clear", key="clear_pathway", width="stretch", on_click=clear_pathway)
 
@@ -803,10 +914,14 @@ def render_pathway_selection(selected_cards: dict[str, Any | None], display_conf
         for index, (level, label) in enumerate(PATHWAY_STEPS):
             card = selected_cards[level]
             with cols[index]:
-                with st.container(border=True, height=135, key=f"pathway-card-{level}"):
-                    st.caption(label)
+                with st.container(border=False, height=104, key=f"pathway-card-{level}"):
+                    st.html(
+                        '<div class="pathway-level-label">'
+                        f"{escape(label)}"
+                        "</div>"
+                    )
                     if card is None:
-                        st.caption("Not selected")
+                        st.html('<div class="pathway-empty">Not selected</div>')
                         continue
                     st.markdown(f"**{card.title}**")
                     with st.container(horizontal=True):
@@ -863,7 +978,11 @@ def render_build_pathway(
     with st.container(border=False, key="mode-toolbar-pathway"):
         controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
         with controls[0]:
-            st.caption(f"Choose {next_label.lower()}")
+            st.html(
+                '<div class="toolbar-label">'
+                f"Choose {escape(next_label.lower())}"
+                "</div>"
+            )
         with controls[1]:
             st.text_input(
                 "Search current cards",
@@ -924,27 +1043,27 @@ def render_today_session(cards: list[Any], display_config: dict[str, Any]) -> No
     session_cards = cards_of_type(cards, "session")
 
     with st.container(border=False, key="mode-toolbar-today"):
-        controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
-        with controls[0]:
-            st.caption("Quick choose for today")
-        with controls[1]:
-            st.text_input(
-                "Search session cards",
-                key="today_search_input",
-                placeholder="Search today's session",
-                help="Add one or more search terms. Terms combine with AND.",
-                label_visibility="collapsed",
-                width="stretch",
-                on_change=add_search_term,
-                args=("today_search_input", "today_search_terms"),
-            )
+        with st.container(border=False, key="today-filter-row"):
+            controls = st.columns([1, 1], gap="large", vertical_alignment="center")
+            with controls[0]:
+                st.text_input(
+                    "Search session cards",
+                    key="today_search_input",
+                    placeholder="Search today's session",
+                    help="Add one or more search terms. Terms combine with AND.",
+                    label_visibility="collapsed",
+                    width="stretch",
+                    on_change=add_search_term,
+                    args=("today_search_input", "today_search_terms"),
+                )
+            with controls[1]:
+                render_philosophy_profile_filter(label_visibility="collapsed")
 
         filter_controls = st.columns([1.05, 1], gap="large", vertical_alignment="bottom")
         with filter_controls[0]:
             render_active_tag_filters(show_label=False)
         with filter_controls[1]:
             render_search_terms("today_search_terms")
-            render_philosophy_profile_filter(label_visibility="collapsed")
 
     visible_sessions = cards_matching_philosophies(
         cards_matching_tags(
@@ -998,12 +1117,8 @@ def main() -> None:
 
     counts = card_counts(cards)
     count_line = " · ".join(f"{label} {count}" for label, count in counts.items())
-    header_cols = st.columns([2, 1], vertical_alignment="center")
-    with header_cols[0]:
-        st.title(APP_TITLE)
-        st.caption(count_line)
-    with header_cols[1]:
-        render_contact_links()
+    st.title(APP_TITLE)
+    st.html(f'<div class="app-card-count">{escape(count_line)}</div>')
 
     mode_cols = st.columns([0.13, 0.74, 0.13])
     with mode_cols[1]:
@@ -1014,7 +1129,11 @@ def main() -> None:
             selection_mode="single",
             width="stretch",
             label_visibility="collapsed",
+            on_change=clear_open_views,
         )
+    if st.session_state.app_mode != st.session_state.last_app_mode:
+        clear_open_views()
+        st.session_state.last_app_mode = st.session_state.app_mode
 
     if st.session_state.app_mode == "Build pathway":
         render_build_pathway(
@@ -1033,6 +1152,8 @@ def main() -> None:
         render_coaching_philosophies(cards)
     else:
         render_browse_cards(cards, display_config)
+
+    render_author_footer()
 
     active_card = card_by_id.get(st.session_state.active_card_id)
     if active_card:
