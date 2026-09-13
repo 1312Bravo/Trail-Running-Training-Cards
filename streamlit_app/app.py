@@ -411,28 +411,26 @@ def open_library_preview_dialog(card: object, display_config: dict[str, object])
 
 
 def open_philosophy_dialog(profile_id: str) -> None:
-    profile_name = philosophy_profile_display_name(profile_id)
-
-    @st.dialog(f"{profile_name} philosophy", width="large", on_dismiss=clear_active_philosophy)
+    @st.dialog(" ", width="medium", on_dismiss=clear_active_philosophy)
     def dialog_content() -> None:
-        st.markdown(load_detailed_note(profile_id))
+        with st.container(border=False, key=f"full-philosophy-{profile_id}"):
+            st.markdown(load_detailed_note(profile_id))
 
     dialog_content()
 
 
 def open_philosophy_sources_dialog(profile_id: str) -> None:
-    profile_name = philosophy_profile_display_name(profile_id)
-
     @st.dialog(
-        f"{profile_name} reviewed sources",
-        width="large",
+        " ",
+        width="medium",
         on_dismiss=clear_active_philosophy_sources,
     )
     def dialog_content() -> None:
-        st.caption(
-            "Reviewed sources used to inform this library's interpretation."
-        )
-        st.markdown(load_reviewed_source_bullets(profile_id))
+        with st.container(border=False, key=f"philosophy-sources-{profile_id}"):
+            st.caption(
+                "Reviewed sources used to inform this library's interpretation."
+            )
+            st.markdown(load_reviewed_source_bullets(profile_id))
 
     dialog_content()
 
@@ -766,8 +764,8 @@ def render_coaching_philosophies(cards: list[Any]) -> None:
                             st.button(
                                 "Show cards",
                                 key=f"philosophy_show_cards_{profile_id}",
-                                type="secondary",
-                                width="content",
+                                type="tertiary",
+                                width="stretch",
                                 on_click=browse_philosophy_cards,
                                 args=(profile_id,),
                             )
@@ -775,8 +773,8 @@ def render_coaching_philosophies(cards: list[Any]) -> None:
                             st.button(
                                 "Read full philosophy",
                                 key=f"philosophy_read_{profile_id}",
-                                type="secondary",
-                                width="content",
+                                type="tertiary",
+                                width="stretch",
                                 on_click=set_active_philosophy,
                                 args=(profile_id,),
                             )
@@ -784,8 +782,8 @@ def render_coaching_philosophies(cards: list[Any]) -> None:
                             st.button(
                                 "View sources",
                                 key=f"philosophy_sources_{profile_id}",
-                                type="secondary",
-                                width="content",
+                                type="tertiary",
+                                width="stretch",
                                 on_click=set_active_philosophy_sources,
                                 args=(profile_id,),
                             )
@@ -904,27 +902,26 @@ def pathway_candidates(
 
 def render_pathway_selection(selected_cards: dict[str, Any | None], display_config: dict[str, Any]) -> None:
     with st.container(border=False, key="pathway-selection"):
-        top_cols = st.columns([1, 0.12], vertical_alignment="center")
-        with top_cols[0]:
-            st.html('<div class="section-label">Selected pathway</div>')
-        with top_cols[1]:
-            st.button("Clear", key="clear_pathway", width="stretch", on_click=clear_pathway)
-
         cols = st.columns(4, gap="small")
         for index, (level, label) in enumerate(PATHWAY_STEPS):
             card = selected_cards[level]
             with cols[index]:
-                with st.container(border=False, height=104, key=f"pathway-card-{level}"):
+                with st.container(border=False, height=88, key=f"pathway-card-{level}"):
                     st.html(
                         '<div class="pathway-level-label">'
                         f"{escape(label)}"
                         "</div>"
                     )
+                    st.html('<div class="pathway-level-rule"></div>')
                     if card is None:
                         st.html('<div class="pathway-empty">Not selected</div>')
                         continue
-                    st.markdown(f"**{card.title}**")
-                    with st.container(horizontal=True):
+                    st.html(
+                        '<div class="pathway-selected-title">'
+                        f"{escape(card.title)}"
+                        "</div>"
+                    )
+                    with st.container(horizontal=True, horizontal_alignment="center"):
                         st.button(
                             "Open card",
                             key=f"pathway_open_{level}",
@@ -939,6 +936,15 @@ def render_pathway_selection(selected_cards: dict[str, Any | None], display_conf
                             on_click=clear_pathway_from,
                             args=(level,),
                         )
+        st.html('<div class="pathway-summary-footer-rule"></div>')
+        with st.container(horizontal=True, horizontal_alignment="center"):
+            st.button(
+                "Clear pathway",
+                key="clear_pathway",
+                type="tertiary",
+                width="content",
+                on_click=clear_pathway,
+            )
 
 
 def render_build_pathway(
@@ -976,31 +982,27 @@ def render_build_pathway(
         return
 
     with st.container(border=False, key="mode-toolbar-pathway"):
-        controls = st.columns([1.05, 1], gap="large", vertical_alignment="center")
-        with controls[0]:
-            st.html(
-                '<div class="toolbar-label">'
-                f"Choose {escape(next_label.lower())}"
-                "</div>"
-            )
-        with controls[1]:
-            st.text_input(
-                "Search current cards",
-                key="pathway_search_input",
-                placeholder=f"Search {next_label.lower()} cards",
-                help="Searches only the cards available for the current pathway step, including tags.",
-                label_visibility="collapsed",
-                width="stretch",
-                on_change=add_search_term,
-                args=("pathway_search_input", "pathway_search_terms"),
-            )
+        with st.container(border=False, key="pathway-filter-row"):
+            controls = st.columns([1, 1], gap="large", vertical_alignment="center")
+            with controls[0]:
+                st.text_input(
+                    "Search current cards",
+                    key="pathway_search_input",
+                    placeholder=f"Search {next_label.lower()} cards",
+                    help="Searches only the cards available for the current pathway step, including tags.",
+                    label_visibility="collapsed",
+                    width="stretch",
+                    on_change=add_search_term,
+                    args=("pathway_search_input", "pathway_search_terms"),
+                )
+            with controls[1]:
+                render_philosophy_profile_filter(label_visibility="collapsed")
 
         filter_controls = st.columns([1.05, 1], gap="large", vertical_alignment="bottom")
         with filter_controls[0]:
             render_active_tag_filters(show_label=False)
         with filter_controls[1]:
             render_search_terms("pathway_search_terms")
-            render_philosophy_profile_filter(label_visibility="collapsed")
 
     visible_candidates = cards_matching_philosophies(
         cards_matching_tags(

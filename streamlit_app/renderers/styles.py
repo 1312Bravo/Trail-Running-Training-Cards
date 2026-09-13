@@ -172,7 +172,8 @@ def css() -> None:
             margin-bottom: 0.18rem;
         }
         [class*="st-key-browse-filter-row"],
-        [class*="st-key-today-filter-row"] {
+        [class*="st-key-today-filter-row"],
+        [class*="st-key-pathway-filter-row"] {
             max-width: 980px;
             margin: 0 auto;
         }
@@ -266,10 +267,11 @@ def css() -> None:
         }
         [class*="st-key-library-group-"]:not([class*="st-key-library-group-toggle-"]) {
             width: 100%;
-            margin: 0;
-            padding: 0.12rem 0.18rem 0.18rem;
-            border: 1px solid #d5d6d1;
-            border-radius: 8px;
+            margin: 0 0 0.7rem;
+            padding: 0 0 0.3rem;
+            border: 0 !important;
+            border-bottom: 1px solid #dedfd9 !important;
+            border-radius: 0;
             background: #ffffff;
         }
         [class*="st-key-library-group-toggle-"] button {
@@ -327,7 +329,8 @@ def css() -> None:
             text-transform: uppercase;
         }
         [class*="st-key-card-"][class*="library_preview_dialog"] {
-            width: min(640px, 100%);
+            width: 100%;
+            max-width: 484px;
             margin-right: auto;
             margin-left: auto;
         }
@@ -384,11 +387,18 @@ def css() -> None:
             font-weight: 600;
             letter-spacing: -0.02em;
         }
-        [class*="st-key-philosophy-"] {
+        div[class*="st-key-philosophy-"]:not([class*="st-key-philosophy-summary-"]):not([class*="st-key-philosophy-actions-"]):not([class*="st-key-philosophy-summary-content-"]) {
             background: var(--surface) !important;
+            border: 0 !important;
+            border-top: 1px solid #d5d6d1 !important;
+            border-bottom: 1px solid #d5d6d1 !important;
+            border-radius: 0 !important;
+            box-shadow: none;
+            margin-bottom: 1.15rem;
         }
         .philosophy-card-title {
-            margin: 0.35rem 0 0.75rem;
+            margin: 0.35rem 0 0.65rem;
+            padding: 0 0.35rem;
             color: var(--ink);
             font-family: Georgia, "Times New Roman", serif;
             font-size: 1.35rem;
@@ -398,10 +408,10 @@ def css() -> None:
             text-align: center;
         }
         [class*="st-key-philosophy-actions-"] {
-            margin-bottom: 0.1rem;
-            padding: 0.28rem 0.35rem 0.52rem;
-            border-top: 1px solid rgb(111 113 107 / 18%);
-            border-bottom: 1px solid rgb(111 113 107 / 18%);
+            margin-bottom: 0.08rem;
+            padding: 0.34rem 0.35rem 0.56rem;
+            border-top: 1px solid #e1e2dd;
+            border-bottom: 1px solid #e1e2dd;
             background: var(--surface);
         }
         [class*="st-key-philosophy-actions-"] [data-testid="stButton"] {
@@ -409,23 +419,140 @@ def css() -> None:
             justify-content: center;
         }
         .philosophy-card-count {
-            margin-bottom: 0.45rem;
-            color: var(--muted-ink);
+            margin-bottom: 0.4rem;
+            color: #666862;
             font-size: 0.8rem;
             text-align: center;
         }
         [class*="st-key-philosophy-actions-"] [data-testid="stButton"] > button {
             min-height: 1.72rem;
-            padding: 0.12rem 0.48rem;
+            padding: 0.12rem 0.35rem;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none;
+            color: #454740;
             font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        [class*="st-key-philosophy-actions-"] [data-testid="stButton"] > button:hover {
+            border: 0 !important;
+            background: transparent !important;
+            color: #20221f;
+            text-decoration: underline;
+            text-decoration-color: #b6b8b1;
+            text-underline-offset: 0.18rem;
         }
         [class*="st-key-philosophy-summary-content-"] {
-            padding-top: 0 !important;
+            padding: 0.05rem 0.15rem 0.2rem !important;
             background: var(--surface) !important;
-            scrollbar-color: #bfc0b8 transparent;
+            scrollbar-color: #c4c6be transparent;
+            scrollbar-width: thin;
+        }
+        [class*="st-key-philosophy-summary-content-"]::-webkit-scrollbar {
+            width: 6px;
+        }
+        [class*="st-key-philosophy-summary-content-"]::-webkit-scrollbar-thumb {
+            border-radius: 999px;
+            background: #c4c6be;
         }
         [class*="st-key-philosophy-summary-content-"] [data-testid="stMarkdownContainer"] > h2:first-child {
             margin-top: 0.2rem !important;
+        }
+        section[role="dialog"]:has([class*="st-key-full-philosophy-"]) {
+            width: min(760px, calc(100vw - 2rem)) !important;
+            max-width: calc(100vw - 2rem) !important;
+            margin-right: auto !important;
+            margin-left: auto !important;
+        }
+        section[role="dialog"]:has([class*="st-key-full-philosophy-"]) > div {
+            padding: 0.75rem 1rem 1.1rem !important;
+        }
+        [class*="st-key-full-philosophy-"] {
+            min-width: 0;
+            max-width: 660px;
+            margin: 0 auto;
+        }
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] {
+            min-width: 0;
+            max-width: 660px;
+            margin: 0 auto;
+        }
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] h1 {
+            margin: 0.15rem 0 1.1rem;
+            color: #20221f;
+            font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+            line-height: 1.12;
+            text-align: center;
+            white-space: normal !important;
+            overflow-wrap: anywhere;
+            text-wrap: balance;
+        }
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] h2 {
+            margin: 1.35rem 0 0.48rem;
+            color: #30322e;
+            font-size: 1.08rem;
+            line-height: 1.25;
+            text-align: center;
+        }
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] h3 {
+            margin: 1rem 0 0.35rem;
+            color: #30322e;
+            font-size: 0.98rem;
+            line-height: 1.3;
+        }
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] p,
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] li {
+            color: #41433e;
+            font-size: 0.94rem;
+            line-height: 1.52;
+        }
+        [class*="st-key-full-philosophy-"] [data-testid="stMarkdownContainer"] p {
+            margin: 0.55rem 0;
+        }
+        section[role="dialog"]:has([class*="st-key-philosophy-sources-"]) {
+            width: min(760px, calc(100vw - 2rem)) !important;
+            max-width: calc(100vw - 2rem) !important;
+            margin-right: auto !important;
+            margin-left: auto !important;
+        }
+        section[role="dialog"]:has([class*="st-key-philosophy-sources-"]) > div {
+            padding: 0.75rem 1rem 1.1rem !important;
+        }
+        [class*="st-key-philosophy-sources-"] {
+            min-width: 0;
+            max-width: 660px;
+            margin: 0 auto;
+        }
+        [class*="st-key-philosophy-sources-"] [data-testid="stCaptionContainer"] {
+            margin: 0 0 1rem;
+            color: #41433e;
+            font-size: 0.88rem;
+            text-align: center;
+        }
+        [class*="st-key-philosophy-sources-"] [data-testid="stMarkdownContainer"] {
+            min-width: 0;
+            max-width: 660px;
+            margin: 0 auto;
+        }
+        [class*="st-key-philosophy-sources-"] [data-testid="stMarkdownContainer"] ul {
+            margin: 0;
+            padding-left: 1.1rem;
+        }
+        [class*="st-key-philosophy-sources-"] [data-testid="stMarkdownContainer"] li {
+            margin: 0;
+            padding: 0 0 0.9rem;
+            color: #41433e;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+        [class*="st-key-philosophy-sources-"] [data-testid="stMarkdownContainer"] li + li {
+            padding-top: 0.9rem;
+            border-top: 1px solid #e0e1dc;
+        }
+        [class*="st-key-philosophy-sources-"] [data-testid="stMarkdownContainer"] a {
+            overflow-wrap: anywhere;
         }
         [class*="st-key-philosophy-"] h2 {
             margin: 1rem 0 0.45rem;
@@ -464,7 +591,6 @@ def css() -> None:
         [class*="st-key-selected_tag_"] button:hover,
         [class*="st-key-pathway_search_terms_"] button:hover,
         [class*="st-key-today_search_terms_"] button:hover,
-        [class*="st-key-open_"] button:hover,
         [class*="st-key-select_"] button:hover {
             background: linear-gradient(180deg, rgb(255 255 255 / 96%), rgb(255 255 255 / 64%));
             border-color: #6f716b;
@@ -474,7 +600,6 @@ def css() -> None:
             background: transparent;
             padding-bottom: 0;
         }
-        [class*="st-key-open_"] button,
         [class*="st-key-select_"] button {
             border: 1px solid #6f716b;
             border-radius: 6px;
@@ -485,6 +610,27 @@ def css() -> None:
             padding: 0.08rem 0.5rem;
             font-size: 0.76rem;
             box-shadow: inset 0 1px 0 rgb(255 255 255 / 82%), 0 1px 1px rgb(40 41 35 / 10%);
+        }
+        [class*="st-key-open_"] button {
+            min-height: 1.55rem;
+            padding: 0.05rem 0.2rem;
+            border: 0 !important;
+            border-radius: 0;
+            background: transparent !important;
+            color: #111111;
+            box-shadow: none !important;
+            font-size: 0.78rem;
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: #4f514c;
+            text-underline-offset: 0.18rem;
+            white-space: nowrap;
+        }
+        [class*="st-key-open_"] button:hover {
+            border: 0 !important;
+            background: transparent !important;
+            color: #000000;
+            text-decoration-color: #20221f;
         }
         [class*="st-key-pathway_open_"] button,
         [class*="st-key-pathway_change_"] button {
@@ -502,12 +648,39 @@ def css() -> None:
             top: 0;
             z-index: 4;
             max-width: 88%;
-            margin: 0.1rem auto 0.9rem;
-            padding: 0.62rem 0.72rem 0.66rem;
-            border: 1px solid #d5d6d1;
-            border-radius: 10px;
+            margin: 0.1rem auto 0.35rem;
+            padding: 0.28rem 0.5rem 0.3rem;
+            border: 0 !important;
+            border-radius: 0;
             background: #ffffff;
             box-shadow: none;
+        }
+        [class*="st-key-clear_pathway"] {
+            display: flex;
+            justify-content: center;
+        }
+        [class*="st-key-clear_pathway"] button {
+            min-height: 1.55rem;
+            padding: 0.05rem 0.1rem;
+            border: 0 !important;
+            background: transparent !important;
+            color: #111111;
+            box-shadow: none !important;
+            font-size: 0.78rem;
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: #4f514c;
+            text-underline-offset: 0.18rem;
+        }
+        [class*="st-key-clear_pathway"] button:hover {
+            border: 0 !important;
+            background: transparent !important;
+            color: #000000;
+            text-decoration-color: #20221f;
+        }
+        .pathway-summary-footer-rule {
+            margin: 0.18rem 0.2rem 0.08rem;
+            border-top: 1px solid #e1e2dd;
         }
         [class*="st-key-pathway-selection"] [data-testid="stCaptionContainer"] {
             margin: 0;
@@ -536,15 +709,34 @@ def css() -> None:
             text-align: center;
         }
         .pathway-level-label {
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.25rem;
+            text-align: center;
         }
         .pathway-empty {
             color: #555752;
+            text-align: center;
+        }
+        .pathway-selected-title {
+            color: #20221f;
+            font-size: 0.84rem;
+            font-weight: 600;
+            line-height: 1.25;
+            text-align: center;
+        }
+        .pathway-level-rule {
+            margin: 0.12rem 0.15rem 0.28rem;
+            border-top: 1px solid #e1e2dd;
         }
         [class*="st-key-pathway-card-"] {
-            padding: 0.52rem 0.62rem;
-            border-bottom: 1px solid rgb(111 113 107 / 18%);
+            padding: 0.26rem 0.5rem;
+            border-bottom: 0;
             background: transparent;
+        }
+        [class*="st-key-pathway-card-mezzo"],
+        [class*="st-key-pathway-card-micro"],
+        [class*="st-key-pathway-card-session"] {
+            border-left: 1px solid #dedfd9;
+            padding-left: 0.85rem;
         }
         [class*="st-key-pathway-card-"]:last-child {
             border-bottom: 0;
@@ -1392,17 +1584,31 @@ def css() -> None:
             white-space: nowrap;
         }
         [class*="st-key-pagination_"] button {
-            min-height: 1.72rem;
-            padding: 0.08rem 0.48rem;
-            border-color: #a8aaa2;
-            border-radius: 6px;
-            background: linear-gradient(180deg, rgb(255 255 255 / 88%), rgb(247 247 247 / 72%));
-            box-shadow: inset 0 1px 0 rgb(255 255 255 / 90%), 0 1px 2px rgb(40 41 35 / 7%);
+            min-height: 1.55rem;
+            padding: 0.05rem 0.15rem;
+            border: 0 !important;
+            border-radius: 0;
+            background: transparent !important;
+            color: #111111;
+            box-shadow: none !important;
             font-size: 0.82rem;
+            font-weight: 500;
+            text-decoration: underline;
+            text-decoration-color: #4f514c;
+            text-underline-offset: 0.18rem;
         }
         [class*="st-key-pagination_"] button:hover {
-            border-color: #575a53;
-            background: linear-gradient(180deg, #ffffff, #f1f1ef);
+            border: 0 !important;
+            background: transparent !important;
+            color: #000000;
+            text-decoration-color: #20221f;
+        }
+        [class*="st-key-pagination_"] button:disabled {
+            border: 0 !important;
+            background: transparent !important;
+            color: #a5a6a1;
+            opacity: 1;
+            text-decoration-color: #cfd0cb;
         }
         [class*="st-key-pagination-"] [data-testid="stSegmentedControl"] {
             margin: 0;
@@ -1466,7 +1672,8 @@ def css() -> None:
                 padding-left: 0;
             }
             [class*="st-key-browse-filter-row"],
-            [class*="st-key-today-filter-row"] {
+            [class*="st-key-today-filter-row"],
+            [class*="st-key-pathway-filter-row"] {
                 max-width: 100%;
             }
             [class*="st-key-library-profile-grid"] {
