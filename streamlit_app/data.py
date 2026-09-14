@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import tempfile
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
 import streamlit as st
 
+from training_cards.cloud_store import download_cloud_library
 from training_cards.json_store import (
     CARD_LIBRARY_INDEX_FILE_NAME,
+    MANIFEST_FILE_NAME,
     load_card_library_from_json,
     load_display_config,
     load_macro_mezzo_reuse_config,
@@ -14,6 +18,8 @@ from training_cards.json_store import (
     load_micro_session_reuse_config,
     read_json,
 )
+from training_cards.google_drive_client import GoogleDriveClient
+from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.pathway import build_pathway_index
 from training_cards.philosophy_profiles import philosophy_profile_display_name
 from training_cards.schemas import CardType
@@ -27,6 +33,35 @@ from streamlit_app.config import TYPE_ORDER
 # The UI reads from the validated local JSON cache rather than reaching into
 # the live sync layer directly.
 
+DEPLOYED_CACHE_DIR = Path(tempfile.gettempdir()) / "training_cards_cloud_library"
+
+
+def runtime_cache_dir() -> Path:
+    """Return the local cache when available, otherwise a deployable temp path."""
+    local_cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
+    if (local_cache_dir / MANIFEST_FILE_NAME).exists():
+        return local_cache_dir
+    return DEPLOYED_CACHE_DIR
+
+
+@st.cache_resource(show_spinner=False)
+def ensure_library_cache(cache_dir: str) -> str:
+    """Ensure the validated Drive library exists for this app process."""
+    cache_path = Path(cache_dir)
+    if (cache_path / MANIFEST_FILE_NAME).exists():
+        return str(cache_path)
+
+    credentials_info = None
+    if "gcp_service_account" in st.secrets:
+        credentials_info = dict(st.secrets["gcp_service_account"])
+
+    config = replace(GOOGLE_DRIVE_LIBRARY, local_cache_dir=cache_path)
+    download_cloud_library(
+        GoogleDriveClient(credentials_info=credentials_info),
+        config,
+    )
+    return str(cache_path)
+
 @st.cache_data(show_spinner=False)
 def load_library(
     cache_dir: Path,
@@ -38,6 +73,7 @@ def load_library(
     dict[str, Any],
     dict[str, Any],
 ]:
+    cache_dir = Path(ensure_library_cache(str(cache_dir)))
     cards = load_card_library_from_json(cache_dir)
     display_config = load_display_config(cache_dir)
     macro_mezzo_reuse_config = load_macro_mezzo_reuse_config(cache_dir)

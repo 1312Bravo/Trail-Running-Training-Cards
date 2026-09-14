@@ -7,7 +7,7 @@ import streamlit as st
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 
 from streamlit_app.config import APP_MODES, APP_TITLE
-from streamlit_app.data import card_counts, card_index, load_library
+from streamlit_app.data import card_counts, card_index, load_library, runtime_cache_dir
 from streamlit_app.renderers import css, render_author_footer
 from streamlit_app.state import clear_open_views, init_state
 from streamlit_app.ui import (
@@ -36,11 +36,12 @@ def main() -> None:
             mezzo_micro_reuse_config,
             micro_session_reuse_config,
             card_library_index,
-        ) = load_library(GOOGLE_DRIVE_LIBRARY.local_cache_dir)
+        ) = load_library(runtime_cache_dir())
     except Exception as error:
         st.error(
             "The local card cache could not be loaded. "
-            "Run `py -m training_cards.scripts.cloud.download_cloud_library` and `py -m training_cards.scripts.cache.validate_cache`."
+            "Run the local cloud-library download command, or configure the "
+            "`gcp_service_account` secrets block when running on Streamlit Cloud."
         )
         st.exception(error)
         return

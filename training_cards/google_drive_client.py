@@ -1,5 +1,6 @@
 from __future__ import annotations
 import os
+from collections.abc import Mapping
 from pathlib import Path
 
 from google.oauth2 import service_account
@@ -15,7 +16,13 @@ DEFAULT_SERVICE_ACCOUNT_FILE = REPO_ROOT / "googleDrive_secrets.json"
 
 
 # Load service-account credentials using the same pattern as the existing Google jobs.
-def get_google_drive_credentials():
+def get_google_drive_credentials(credentials_info: Mapping[str, str] | None = None):
+    if credentials_info is not None:
+        return service_account.Credentials.from_service_account_info(
+            dict(credentials_info),
+            scopes = GOOGLE_DRIVE_SCOPES,
+        )
+
     credentials_file = os.getenv("TRAINING_CARDS_GOOGLE_SERVICE_ACCOUNT_FILE") or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
     credentials_path = Path(credentials_file).expanduser() if credentials_file else DEFAULT_SERVICE_ACCOUNT_FILE
 
@@ -26,13 +33,18 @@ def get_google_drive_credentials():
 
 
 # Build the Google Drive API service used by the training-card cloud client.
-def build_drive_service():
-    return build("drive", "v3", credentials = get_google_drive_credentials(), cache_discovery = False)
+def build_drive_service(credentials_info: Mapping[str, str] | None = None):
+    return build(
+        "drive",
+        "v3",
+        credentials = get_google_drive_credentials(credentials_info),
+        cache_discovery = False,
+    )
 
 
 class GoogleDriveClient:
-    def __init__(self):
-        self.service = build_drive_service()
+    def __init__(self, credentials_info: Mapping[str, str] | None = None):
+        self.service = build_drive_service(credentials_info)
 
     # List direct children of one Google Drive folder.
     def list_folder(self, folder_id: str) -> list[DriveItem]:

@@ -1,5 +1,6 @@
 .env
 googleDrive_secrets.json
+streamlit_app/.streamlit/secrets.toml
 __pycache__/
 *.pyc
 training_cards/local_cache/
