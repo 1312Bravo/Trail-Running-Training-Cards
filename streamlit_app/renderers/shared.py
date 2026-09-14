@@ -117,24 +117,25 @@ def preview_card_meta_text(card: Any, display_config: dict[str, Any]) -> str:
 
 
 # ----------------------------------------------------------
-# Contact Links
+# Author Footer
 # ----------------------------------------------------------
 
-def render_contact_links() -> None:
+def render_author_footer() -> None:
     mail_icon = svg_data_uri(MAIL_ICON_SVG)
     github_icon = svg_data_uri(GITHUB_ICON_SVG)
     st.html(
         f"""
-        <div class="contact-links">
-            <a href="mailto:pecek.urh@gmail.com">
+        <footer class="author-footer">
+            <span class="author-footer-label">About the author</span>
+            <a href="mailto:pecek.urh@gmail.com" aria-label="Contact the author">
                 <img class="contact-icon" src="{mail_icon}" alt="">
-                <span>pecek.urh@gmail.com</span>
+                <span>Contact</span>
             </a>
-            <a href="https://github.com/1312Bravo/Trail-Running-Training-Cards" target="_blank">
+            <a href="https://github.com/1312Bravo/Trail-Running-Training-Cards" target="_blank" rel="noopener noreferrer">
                 <img class="contact-icon" src="{github_icon}" alt="">
                 <span>GitHub</span>
             </a>
-        </div>
+        </footer>
         """
     )
 
@@ -147,8 +148,21 @@ def set_tag_filter(tag: str) -> None:
 
 
 def open_card(card_id: str) -> None:
+    st.session_state.active_library_preview_card_id = None
     st.session_state.active_card_id = card_id
     st.session_state.active_card_history = []
+
+
+def unique_tag_texts(tags: list[Any]) -> list[str]:
+    seen = set()
+    unique_tags = []
+    for tag in tags:
+        tag_text = as_text(tag)
+        if tag_text in seen:
+            continue
+        seen.add(tag_text)
+        unique_tags.append(tag_text)
+    return unique_tags
 
 
 def render_card_history_back(card_by_id: dict[str, Any]) -> None:
@@ -176,11 +190,10 @@ def render_tag_buttons(tags: list[Any], key_prefix: str) -> None:
         return
 
     with st.container(horizontal=True):
-        for tag in tags:
-            tag_text = as_text(tag)
+        for index, tag_text in enumerate(unique_tag_texts(tags)):
             st.button(
                 display_text(tag_text),
-                key=f"tag_{key_prefix}_{tag_text}",
+                key=f"tag_{key_prefix}_{index}_{tag_text}",
                 type="secondary",
                 width="content",
                 on_click=set_tag_filter,
@@ -193,11 +206,10 @@ def render_preview_tag_labels(tags: list[Any], key_prefix: str) -> None:
         return
 
     with st.container(horizontal=True, key=f"preview-tags-{key_prefix}"):
-        for tag in tags:
-            tag_text = as_text(tag)
+        for index, tag_text in enumerate(unique_tag_texts(tags)):
             st.button(
                 display_label_text(tag_text),
-                key=f"tag_preview_{key_prefix}_{tag_text}",
+                key=f"tag_preview_{key_prefix}_{index}_{tag_text}",
                 type="secondary",
                 width="content",
                 on_click=set_tag_filter,
@@ -214,11 +226,10 @@ def render_preview_footer_tag_labels(tags: list[Any], key_prefix: str) -> None:
         horizontal_alignment="right",
         key=f"preview-footer-tags-{key_prefix}",
     ):
-        for tag in tags:
-            tag_text = as_text(tag)
+        for index, tag_text in enumerate(unique_tag_texts(tags)):
             st.button(
                 display_label_text(tag_text),
-                key=f"tag_preview_footer_{key_prefix}_{tag_text}",
+                key=f"tag_preview_footer_{key_prefix}_{index}_{tag_text}",
                 type="secondary",
                 width="content",
                 on_click=set_tag_filter,

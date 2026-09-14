@@ -6,11 +6,13 @@ from typing import Any
 import streamlit as st
 
 from training_cards.json_store import (
+    CARD_LIBRARY_INDEX_FILE_NAME,
     load_card_library_from_json,
     load_display_config,
     load_macro_mezzo_reuse_config,
     load_mezzo_micro_reuse_config,
     load_micro_session_reuse_config,
+    read_json,
 )
 from training_cards.pathway import build_pathway_index
 from training_cards.philosophy_profiles import philosophy_profile_display_name
@@ -28,18 +30,27 @@ from streamlit_app.config import TYPE_ORDER
 @st.cache_data(show_spinner=False)
 def load_library(
     cache_dir: Path,
-) -> tuple[list[Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+) -> tuple[
+    list[Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+]:
     cards = load_card_library_from_json(cache_dir)
     display_config = load_display_config(cache_dir)
     macro_mezzo_reuse_config = load_macro_mezzo_reuse_config(cache_dir)
     mezzo_micro_reuse_config = load_mezzo_micro_reuse_config(cache_dir)
     micro_session_reuse_config = load_micro_session_reuse_config(cache_dir)
+    card_library_index = read_json(cache_dir / CARD_LIBRARY_INDEX_FILE_NAME)
     return (
         cards,
         display_config,
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
         micro_session_reuse_config,
+        card_library_index,
     )
 
 

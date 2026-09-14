@@ -80,10 +80,12 @@ def render_preview_card(
     card: Any,
     display_config: dict[str, Any],
     key_prefix: str,
+    height: int | None = 470,
     select_label: str | None = None,
     open_label: str = "Open card",
     on_select: Any | None = None,
     select_args: tuple[Any, ...] = (),
+    open_callback: Any | None = None,
 ) -> None:
     preview_fields = display_config.get("preview_fields", [])
     ordered_preview_fields = [
@@ -94,7 +96,14 @@ def render_preview_card(
     card_type_key = str(card.card_type).replace("_", "-")
     card_type_meta = display_label_text(card_type_label(card.card_type, display_config))
 
-    with st.container(border=True, key=f"card-{card_type_key}-{key_prefix}-{card.id}", height=470):
+    container_args = {
+        "border": True,
+        "key": f"card-{card_type_key}-{key_prefix}-{card.id}",
+    }
+    if height is not None:
+        container_args["height"] = height
+
+    with st.container(**container_args):
         st.html(
             '<div class="preview-card-title">'
             f'<span class="preview-card-title-text">{escape(card.title)}</span>'
@@ -124,14 +133,23 @@ def render_preview_card(
                         on_click=on_select,
                         args=select_args,
                     )
-                st.button(
-                    open_label,
-                    key=f"open_{key_prefix}_{card.id}",
-                    type="secondary",
-                    width="content",
-                    on_click=open_card,
-                    args=(card.id,),
-                )
+                if open_callback:
+                    if st.button(
+                        open_label,
+                        key=f"open_{key_prefix}_{card.id}",
+                        type="secondary",
+                        width="content",
+                    ):
+                        open_callback(card.id)
+                else:
+                    st.button(
+                        open_label,
+                        key=f"open_{key_prefix}_{card.id}",
+                        type="secondary",
+                        width="content",
+                        on_click=open_card,
+                        args=(card.id,),
+                    )
 
         for field_name in ordered_preview_fields:
             if field_name == "tags":

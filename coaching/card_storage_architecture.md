@@ -10,23 +10,30 @@ This note defines how training cards are stored locally and in the cloud-style J
 - Reserve a clear home for genuinely integrated multi-profile cards.
 - Keep the app and JSON exports driven by card metadata, not by folder inference.
 
-## Local Python Source
+## Local Python Authoring Examples
 
-Python-authored seed cards live under:
+Accepted card content does not live as a full Python seed library anymore. Google Drive JSON is the source of truth, and `training_cards/local_cache/cloud_library/` is the temporary working copy.
 
-```text
-training_cards/cards/<level>/<profile_folder>/<profile_prefixed_card_file>.py
-```
-
-Examples:
+Python card files are now only examples or temporary authoring scaffolds. The permanent examples live under:
 
 ```text
-training_cards/cards/session/mainstream_endurance/mainstream_easy_aerobic_run.py
-training_cards/cards/session/evoke_endurance/evoke_climbing_muscular_endurance.py
-training_cards/cards/session/multi_profile/cts_lydiard_taper_activation.py
+training_cards/cards/examples/
+  macro_example.py
+  mezzo_example.py
+  micro_example.py
+  session_example.py
 ```
 
-The folder makes authorship and review easier. The card metadata remains authoritative.
+When Python authoring is helpful, use one of the workflow templates:
+
+```text
+training_cards/scripts/template_cloud_json_to_python_card.py
+training_cards/scripts/template_targeted_authoring_helper.py
+```
+
+The temporary Python object must be converted back into cache JSON, validated, bundled, uploaded, and verified before it becomes accepted library content.
+
+The hierarchy/profile folders under `training_cards/cards/<level>/<profile>/` are kept with `.gitkeep` placeholders so the intended local authoring structure remains visible in Git. They do not contain accepted card content.
 
 ## Cloud-Style JSON Cache
 
@@ -76,15 +83,7 @@ The card `id` remains the stable reference identity. The `slug` remains the app/
 
 Folder location does not replace card metadata.
 
-Every card must still declare:
-
-```python
-philosophy_profile_ids = [
-    MAINSTREAM_ENDURANCE
-]
-```
-
-Exported JSON stores the literal string value:
+Every card JSON record must still include:
 
 ```json
 "philosophy_profile_ids": [
@@ -96,6 +95,10 @@ This keeps the JSON portable outside Python and keeps app filtering independent 
 
 ## Current Library Shape
 
-The active seed library now starts with macro cards organised by planning level and philosophy folder. Empty profile folders at mezzo, micro, and session levels are intentional placeholders for the next card-building passes.
+The active Drive/cache library stores accepted cards by planning level and philosophy folder:
 
-The current macro cards were authored from `training_cards/cards/card_matrix.md`. Future mezzo, micro, and session cards should follow the same specificity standard: create a named-philosophy version only when that philosophy meaningfully changes the app choice, explanation, structure, filtering, or sequencing.
+```text
+cards/<level>/<profile_folder>/<slug>.json
+```
+
+The current Drive-backed library has 365 accepted cards across macro, mezzo, micro, and session levels. The cards were planned from `training_cards/cards/card_matrix.md`. Future cards should follow the same specificity standard: create a named-philosophy version only when that philosophy meaningfully changes the app choice, explanation, structure, filtering, or sequencing.

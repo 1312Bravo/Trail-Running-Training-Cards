@@ -10,6 +10,7 @@ This is the current working plan for the Training Cards library. Keep durable do
 - Reuse metadata is active for macro-to-mezzo, mezzo-to-micro, and micro-to-session inheritance.
 - The old full Python seed-card library has been retired.
 - Four Python examples remain under `training_cards/cards/examples/` for macro, mezzo, micro, and session authoring.
+- Empty hierarchy/profile folders remain under `training_cards/cards/<level>/<profile>/` with `.gitkeep` placeholders so the intended structure is visible in Git.
 - Workflow templates exist for one-card cloud JSON to Python authoring and Python-authored card upload through the local cache.
 
 ## Active Goals
@@ -31,6 +32,7 @@ This is the current working plan for the Training Cards library. Keep durable do
 - Removed generated Python card modules and old seed-export scripts.
 - Added four card-authoring examples and guarded workflow templates.
 - Refactored documentation ownership so README, notes, card matrix, AGENTS, and PLAN have clearer roles.
+- Kept local card hierarchy folders with `.gitkeep` placeholders while keeping accepted card content in Drive/cache JSON.
 
 ## Working Rules
 
@@ -44,7 +46,7 @@ This is the current working plan for the Training Cards library. Keep durable do
 
 ## Next Step
 
-Review the final cleanup state and decide whether empty old card folders should remain as structural placeholders or be removed now that real card content lives in Drive JSON.
+Use the app and continue card/content work from the Drive/cache JSON workflow. The local card hierarchy folders are structural placeholders only.
 
 ## Documentation Map
 

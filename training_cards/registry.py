@@ -25,7 +25,7 @@ def load_active_cards() -> list[BaseTrainingCard]:
         return load_card_library_from_json(GOOGLE_DRIVE_LIBRARY.local_cache_dir)
     except FileNotFoundError as error:
         raise RuntimeError(
-            "Training card JSON cache is missing. Run: py -m training_cards.scripts.download_cloud_library"
+            "Training card JSON cache is missing. Run: py -m training_cards.scripts.cloud.download_cloud_library"
         ) from error
 
 

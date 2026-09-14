@@ -61,13 +61,14 @@ Current Drive library contents:
 - `macro_mezzo_reuse.json`: 1 app-facing reuse metadata file
 - `mezzo_micro_reuse.json`: 1 app-facing reuse metadata file
 - `micro_session_reuse.json`: 1 app-facing reuse metadata file
+- `card_library_index.json`: 1 app-facing browse/index metadata file
 - `training_cards_library.json`: 1 bundled app-facing file
 - `cards/macro`: 33 files
 - `cards/mezzo`: 78 files
 - `cards/micro`: 177 files
 - `cards/session`: 77 files
 
-The current Drive library contains accepted macro cards, accepted mezzo cards, accepted micro cards, accepted session cards, explicit macro-to-reused-mezzo mapping metadata, explicit mezzo-to-reused-micro mapping metadata, and explicit micro-to-reused-session mapping metadata.
+The current Drive library contains accepted macro cards, accepted mezzo cards, accepted micro cards, accepted session cards, explicit macro-to-reused-mezzo mapping metadata, explicit mezzo-to-reused-micro mapping metadata, explicit micro-to-reused-session mapping metadata, and an app-facing card library index for quick philosophy/block browsing.
 
 Verified Drive/readback status: the library contains 365 cards: 33 macro, 78 mezzo, 177 micro, and 77 session cards. The session cards include 46 mainstream session cards and 31 named-philosophy session cards. The uploaded `micro_session_reuse.json` contains 1087 entries and is included in `training_cards_library.json`.
 
@@ -156,20 +157,23 @@ The important project logic already exists separately from the authentication ch
 Run these from the repository root.
 
 ```powershell
-py -m training_cards.scripts.print_cloud_config
-py -m training_cards.scripts.validate_cache
-py -m training_cards.scripts.build_bundle
-py -m training_cards.scripts.download_cloud_library
-py -m training_cards.scripts.upload_cache
-py -m training_cards.scripts.upload_metadata_cache
-py -m training_cards.scripts.upload_mezzo_cache
-py -m training_cards.scripts.upload_micro_cache
-py -m training_cards.scripts.upload_session_cache
-py -m training_cards.scripts.workflow_edit_existing_cards
-py -m training_cards.scripts.workflow_author_new_cards
-py -m training_cards.scripts.template_cloud_json_to_python_card --card-id macro_001
-py -m training_cards.scripts.template_targeted_authoring_helper
-py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
+py -m training_cards.scripts.cloud.print_cloud_config
+py -m training_cards.scripts.cache.validate_cache
+py -m training_cards.scripts.cache.build_bundle
+py -m training_cards.scripts.cache.build_card_library_index
+py -m training_cards.scripts.cloud.download_cloud_library
+py -m training_cards.scripts.cache.add_cards_to_cache path\to\card.json
+py -m training_cards.scripts.cache.remove_cards_from_cache card_id_001
+py -m training_cards.scripts.cloud.upload_cache
+py -m training_cards.scripts.cloud.upload_metadata_cache
+py -m training_cards.scripts.cloud.upload_mezzo_cache
+py -m training_cards.scripts.cloud.upload_micro_cache
+py -m training_cards.scripts.cloud.upload_session_cache
+py -m training_cards.scripts.workflow.workflow_edit_existing_cards
+py -m training_cards.scripts.workflow.workflow_author_new_cards
+py -m training_cards.scripts.authoring.template_cloud_json_to_python_card --card-id macro_001
+py -m training_cards.scripts.authoring.template_targeted_authoring_helper
+py -m training_cards.scripts.cloud.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
 ```
 
 Command meanings:
@@ -177,7 +181,10 @@ Command meanings:
 - `print_cloud_config`: show the configured Drive folder IDs, URL, and local cache path.
 - `validate_cache`: validate the local cache against `manifest.json`.
 - `build_bundle`: validate the local cache and write `training_cards_library.json`.
+- `build_card_library_index`: validate the local cache and write `card_library_index.json`.
 - `download_cloud_library`: download Drive JSON into local cache and validate it.
+- `add_cards_to_cache`: add or replace card JSON/Python authoring files in the downloaded local cache, then validate and refresh root metadata.
+- `remove_cards_from_cache`: remove card JSON files from the downloaded local cache by card ID, then validate and refresh root metadata.
 - `upload_cache`: refresh `training_cards_library.json`, then upload local cache files to Drive, updating existing files by name and creating missing files.
 - `upload_metadata_cache`: refresh and upload root metadata files only, leaving all cloud card JSON files untouched.
 - `upload_mezzo_cache`: refresh root metadata and upload only `cards/mezzo`, leaving existing cloud macro files untouched.
@@ -194,12 +201,34 @@ Command meanings:
 Use this for normal card corrections, wording changes, reference edits, taxonomy edits, and app-facing metadata updates.
 
 ```powershell
-py -m training_cards.scripts.download_cloud_library
+py -m training_cards.scripts.cloud.download_cloud_library
 # edit JSON in training_cards\local_cache\cloud_library\
-py -m training_cards.scripts.validate_cache
-py -m training_cards.scripts.build_bundle
-py -m training_cards.scripts.upload_cache
+py -m training_cards.scripts.cache.validate_cache
+py -m training_cards.scripts.cache.build_bundle
+py -m training_cards.scripts.cloud.upload_cache
 ```
+
+To add or update prepared cards without hand-copying files into the cache:
+
+```powershell
+py -m training_cards.scripts.cloud.download_cloud_library
+py -m training_cards.scripts.cache.add_cards_to_cache path\to\new_or_updated_card.json
+py -m training_cards.scripts.cache.validate_cache
+py -m training_cards.scripts.cloud.upload_cache
+```
+
+`add_cards_to_cache` accepts a single card JSON object, a JSON list of cards, a bundle-style JSON object with a `cards` list, or a temporary Python file exposing `AUTHORED_CARD` or `AUTHORED_CARDS`.
+
+To remove cards from the cache by ID:
+
+```powershell
+py -m training_cards.scripts.cloud.download_cloud_library
+py -m training_cards.scripts.cache.remove_cards_from_cache session_999
+py -m training_cards.scripts.cache.validate_cache
+py -m training_cards.scripts.cloud.upload_cache
+```
+
+The removal helper validates the remaining library before writing, so it should fail before deletion if other cards still depend on the removed card.
 
 For layer-specific additions, use the narrower upload command after validation, such as `upload_mezzo_cache`, `upload_micro_cache`, or `upload_session_cache`.
 
@@ -234,8 +263,8 @@ After upload and verification, keep only reusable examples or deliberate tooling
 Use this when an existing Drive card should be edited with Python structure instead of raw JSON.
 
 ```powershell
-py -m training_cards.scripts.download_cloud_library
-py -m training_cards.scripts.template_cloud_json_to_python_card --card-id macro_001
+py -m training_cards.scripts.cloud.download_cloud_library
+py -m training_cards.scripts.authoring.template_cloud_json_to_python_card --card-id macro_001
 ```
 
 The generated file goes under:
@@ -251,7 +280,7 @@ This is intentionally one card at a time. Do not use it to recreate the whole cl
 The helper template is:
 
 ```text
-training_cards/scripts/template_targeted_authoring_helper.py
+training_cards/scripts/authoring/template_targeted_authoring_helper.py
 ```
 
 It demonstrates the full path:

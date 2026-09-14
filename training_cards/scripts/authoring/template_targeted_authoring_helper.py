@@ -29,11 +29,11 @@ AUTHORED_CARDS: list[BaseTrainingCard] = [
 EXAMPLE_OUTPUT_DIR = Path("training_cards/local_cache/authoring_template_output")
 
 UPLOAD_COMMAND_BY_LAYER = {
-    "macro": "py -m training_cards.scripts.upload_cache",
-    "mezzo": "py -m training_cards.scripts.upload_mezzo_cache",
-    "micro": "py -m training_cards.scripts.upload_micro_cache",
-    "session": "py -m training_cards.scripts.upload_session_cache",
-    "mixed": "py -m training_cards.scripts.upload_cache",
+    "macro": "py -m training_cards.scripts.cloud.upload_cache",
+    "mezzo": "py -m training_cards.scripts.cloud.upload_mezzo_cache",
+    "micro": "py -m training_cards.scripts.cloud.upload_micro_cache",
+    "session": "py -m training_cards.scripts.cloud.upload_session_cache",
+    "mixed": "py -m training_cards.scripts.cloud.upload_cache",
 }
 
 
@@ -87,11 +87,11 @@ def print_publish_instructions(cards: list[BaseTrainingCard]) -> None:
 
     print("")
     print("Publishing steps for real authored cards:")
-    print("1. py -m training_cards.scripts.download_cloud_library")
+    print("1. py -m training_cards.scripts.cloud.download_cloud_library")
     print("2. Replace AUTHORED_CARDS in this template with real accepted cards.")
-    print("3. py -m training_cards.scripts.template_targeted_authoring_helper --publish-to-cache")
-    print("4. py -m training_cards.scripts.validate_cache")
-    print("5. py -m training_cards.scripts.build_bundle")
+    print("3. py -m training_cards.scripts.authoring.template_targeted_authoring_helper --publish-to-cache")
+    print("4. py -m training_cards.scripts.cache.validate_cache")
+    print("5. py -m training_cards.scripts.cache.build_bundle")
     print(f"6. {upload_command}")
     print("7. For substantial changes, download again and validate the Drive readback.")
     print("")

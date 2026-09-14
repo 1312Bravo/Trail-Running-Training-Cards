@@ -11,6 +11,24 @@ from training_cards.schemas import CardType
 
 APP_TITLE = "Run & Train with Deck of Cards"
 
+APP_MODES = [
+    "Browse cards",
+    "Today session",
+    "Card library",
+    "Build pathway",
+    "Coaching philosophies",
+]
+
+PHILOSOPHY_SUMMARY_HEIGHT = 330
+DEFAULT_CARDS_PER_PAGE = 8
+LIBRARY_DEFAULT_CARDS_PER_PAGE = 10
+PATHWAY_STEPS = [
+    ("macro", "Macro"),
+    ("mezzo", "Mezzo"),
+    ("micro", "Micro"),
+    ("session", "Session"),
+]
+
 # ----------------------------------------------------------
 # Card Ordering and Detail
 # ----------------------------------------------------------

@@ -56,7 +56,7 @@ The archive stage is a safety choice. It is not required when we intentionally d
 Run the explicit replacement command with the validated source directory:
 
 ```powershell
-py -m training_cards.scripts.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
+py -m training_cards.scripts.cloud.rebuild_drive_library replace-active --source-dir training_cards\local_cache\cloud_library
 ```
 
 The replacement action must:

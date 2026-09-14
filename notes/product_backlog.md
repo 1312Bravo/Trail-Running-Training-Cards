@@ -54,4 +54,4 @@ Questions to resolve:
 
 - should this repo use GitHub Actions?
 - should upload scripts run tests, or only validation?
-- should there be one command such as `py -m training_cards.scripts.check_project`?
+- should there be one command such as `py -m training_cards.scripts.reports.check_project`?

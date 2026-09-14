@@ -8,6 +8,7 @@ from training_cards.cloud_config import (
 )
 from training_cards.json_store import (
     CARDS_ROOT,
+    CARD_LIBRARY_INDEX_FILE_NAME,
     DISPLAY_CONFIG_FILE_NAME,
     LIBRARY_BUNDLE_FILE_NAME,
     MACRO_MEZZO_REUSE_FILE_NAME,
@@ -96,6 +97,10 @@ def download_cloud_library(
         )
     else:
         client.download_file(micro_session_reuse.id, config.local_cache_dir / MICRO_SESSION_REUSE_FILE_NAME)
+
+    card_library_index = _maybe_find_drive_item(root_items, CARD_LIBRARY_INDEX_FILE_NAME)
+    if card_library_index is not None:
+        client.download_file(card_library_index.id, config.local_cache_dir / CARD_LIBRARY_INDEX_FILE_NAME)
 
     for card_type, folder_id in config.card_type_folder_ids.items():
         type_dir = cards_dir / card_type
@@ -274,6 +279,7 @@ def _upsert_root_library_files(
         MACRO_MEZZO_REUSE_FILE_NAME,
         MEZZO_MICRO_REUSE_FILE_NAME,
         MICRO_SESSION_REUSE_FILE_NAME,
+        CARD_LIBRARY_INDEX_FILE_NAME,
         LIBRARY_BUNDLE_FILE_NAME,
     )
     for file_name in root_file_names:
@@ -323,6 +329,7 @@ def _clear_cached_json_files(cache_dir: Path) -> None:
     macro_mezzo_reuse_path = cache_dir / MACRO_MEZZO_REUSE_FILE_NAME
     mezzo_micro_reuse_path = cache_dir / MEZZO_MICRO_REUSE_FILE_NAME
     micro_session_reuse_path = cache_dir / MICRO_SESSION_REUSE_FILE_NAME
+    card_library_index_path = cache_dir / CARD_LIBRARY_INDEX_FILE_NAME
     bundle_path = cache_dir / LIBRARY_BUNDLE_FILE_NAME
 
     if manifest_path.exists():
@@ -339,6 +346,9 @@ def _clear_cached_json_files(cache_dir: Path) -> None:
 
     if micro_session_reuse_path.exists():
         micro_session_reuse_path.unlink()
+
+    if card_library_index_path.exists():
+        card_library_index_path.unlink()
 
     if bundle_path.exists():
         bundle_path.unlink()
