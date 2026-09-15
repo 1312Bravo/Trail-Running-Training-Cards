@@ -8,12 +8,19 @@ import streamlit as st
 
 from training_cards.json_store import (
     LIBRARY_BUNDLE_FILE_NAME,
-    load_library_bundle_from_json,
+    read_json,
+    validate_card_library,
+    validate_display_config,
+    validate_macro_mezzo_reuse_config,
+    validate_mezzo_micro_reuse_config,
+    validate_micro_session_reuse_config,
 )
+from training_cards.card_library_index import validate_card_library_index
 from training_cards.google_drive_client import GoogleDriveClient
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.pathway import build_pathway_index
 from training_cards.philosophy_profiles import philosophy_profile_display_name
+from training_cards.serialization import card_from_dict
 from training_cards.schemas import CardType
 
 from streamlit_app.config import TYPE_ORDER
@@ -55,6 +62,48 @@ def download_deployed_library_bundle(
     client.download_file(bundle.id, bundle_path)
 
 
+def load_deployed_library_bundle(
+    bundle_path: Path,
+) -> tuple[
+    list[Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+]:
+    """Read and validate the one-file library bundle used by the deployed app."""
+    bundle = read_json(bundle_path)
+    manifest = bundle["manifest"]
+    display_config = bundle["display_config"]
+    macro_mezzo_reuse_config = bundle["macro_mezzo_reuse"]
+    mezzo_micro_reuse_config = bundle["mezzo_micro_reuse"]
+    micro_session_reuse_config = bundle["micro_session_reuse"]
+    cards = [card_from_dict(card_data) for card_data in bundle["cards"]]
+    card_library_index = bundle["card_library_index"]
+
+    validate_display_config(display_config, manifest)
+    validate_macro_mezzo_reuse_config(macro_mezzo_reuse_config, manifest)
+    validate_mezzo_micro_reuse_config(mezzo_micro_reuse_config, manifest)
+    validate_micro_session_reuse_config(micro_session_reuse_config, manifest)
+    validate_card_library(cards, manifest)
+    validate_card_library_index(
+        card_library_index,
+        cards,
+        schema_version=manifest["schema_version"],
+        library_version=manifest["library_version"],
+    )
+
+    return (
+        cards,
+        display_config,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+        card_library_index,
+    )
+
+
 def runtime_cache_dir() -> Path:
     """Return the local cache when available, otherwise a deployable temp path."""
     local_cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
@@ -92,7 +141,7 @@ def load_library(
     dict[str, Any],
 ]:
     cache_dir = Path(ensure_library_cache(str(cache_dir)))
-    return load_library_bundle_from_json(cache_dir / LIBRARY_BUNDLE_FILE_NAME)
+    return load_deployed_library_bundle(cache_dir / LIBRARY_BUNDLE_FILE_NAME)
 
 
 # ----------------------------------------------------------
