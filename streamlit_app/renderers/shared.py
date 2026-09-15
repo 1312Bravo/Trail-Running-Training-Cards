@@ -126,10 +126,10 @@ def render_author_footer() -> None:
     st.html(
         f"""
         <footer class="author-footer">
-            <span class="author-footer-label">About the author</span>
-            <a href="mailto:pecek.urh@gmail.com" aria-label="Contact the author">
+            <span class="author-footer-label">Contact</span>
+            <a href="mailto:pecek.urh@gmail.com" aria-label="Email pecek.urh@gmail.com">
                 <img class="contact-icon" src="{mail_icon}" alt="">
-                <span>Contact</span>
+                <span>pecek.urh@gmail.com</span>
             </a>
             <a href="https://github.com/1312Bravo/Trail-Running-Training-Cards" target="_blank" rel="noopener noreferrer">
                 <img class="contact-icon" src="{github_icon}" alt="">
