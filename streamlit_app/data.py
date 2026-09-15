@@ -7,16 +7,10 @@ from typing import Any
 
 import streamlit as st
 
-from training_cards.cloud_store import download_cloud_library
+from training_cards.cloud_store import download_cloud_library_bundle
 from training_cards.json_store import (
-    CARD_LIBRARY_INDEX_FILE_NAME,
-    MANIFEST_FILE_NAME,
-    load_card_library_from_json,
-    load_display_config,
-    load_macro_mezzo_reuse_config,
-    load_mezzo_micro_reuse_config,
-    load_micro_session_reuse_config,
-    read_json,
+    LIBRARY_BUNDLE_FILE_NAME,
+    load_library_bundle_from_json,
 )
 from training_cards.google_drive_client import GoogleDriveClient
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
@@ -39,7 +33,7 @@ DEPLOYED_CACHE_DIR = Path(tempfile.gettempdir()) / "training_cards_cloud_library
 def runtime_cache_dir() -> Path:
     """Return the local cache when available, otherwise a deployable temp path."""
     local_cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
-    if (local_cache_dir / MANIFEST_FILE_NAME).exists():
+    if (local_cache_dir / LIBRARY_BUNDLE_FILE_NAME).exists():
         return local_cache_dir
     return DEPLOYED_CACHE_DIR
 
@@ -48,7 +42,7 @@ def runtime_cache_dir() -> Path:
 def ensure_library_cache(cache_dir: str) -> str:
     """Ensure the validated Drive library exists for this app process."""
     cache_path = Path(cache_dir)
-    if (cache_path / MANIFEST_FILE_NAME).exists():
+    if (cache_path / LIBRARY_BUNDLE_FILE_NAME).exists():
         return str(cache_path)
 
     credentials_info = None
@@ -56,7 +50,7 @@ def ensure_library_cache(cache_dir: str) -> str:
         credentials_info = dict(st.secrets["gcp_service_account"])
 
     config = replace(GOOGLE_DRIVE_LIBRARY, local_cache_dir=cache_path)
-    download_cloud_library(
+    download_cloud_library_bundle(
         GoogleDriveClient(credentials_info=credentials_info),
         config,
     )
@@ -74,20 +68,7 @@ def load_library(
     dict[str, Any],
 ]:
     cache_dir = Path(ensure_library_cache(str(cache_dir)))
-    cards = load_card_library_from_json(cache_dir)
-    display_config = load_display_config(cache_dir)
-    macro_mezzo_reuse_config = load_macro_mezzo_reuse_config(cache_dir)
-    mezzo_micro_reuse_config = load_mezzo_micro_reuse_config(cache_dir)
-    micro_session_reuse_config = load_micro_session_reuse_config(cache_dir)
-    card_library_index = read_json(cache_dir / CARD_LIBRARY_INDEX_FILE_NAME)
-    return (
-        cards,
-        display_config,
-        macro_mezzo_reuse_config,
-        mezzo_micro_reuse_config,
-        micro_session_reuse_config,
-        card_library_index,
-    )
+    return load_library_bundle_from_json(cache_dir / LIBRARY_BUNDLE_FILE_NAME)
 
 
 # ----------------------------------------------------------

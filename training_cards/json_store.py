@@ -668,6 +668,48 @@ def load_card_library_from_json(input_dir: Path) -> list[BaseTrainingCard]:
 
     return cards
 
+
+# Load the complete app-facing library bundle without traversing card files.
+def load_library_bundle_from_json(
+    bundle_path: Path,
+) -> tuple[
+    list[BaseTrainingCard],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+    dict[str, Any],
+]:
+    bundle = read_json(bundle_path)
+    manifest = bundle["manifest"]
+    display_config = bundle["display_config"]
+    macro_mezzo_reuse_config = bundle["macro_mezzo_reuse"]
+    mezzo_micro_reuse_config = bundle["mezzo_micro_reuse"]
+    micro_session_reuse_config = bundle["micro_session_reuse"]
+    cards = [card_from_dict(card_data) for card_data in bundle["cards"]]
+    card_library_index = bundle["card_library_index"]
+
+    validate_display_config(display_config, manifest)
+    validate_macro_mezzo_reuse_config(macro_mezzo_reuse_config, manifest)
+    validate_mezzo_micro_reuse_config(mezzo_micro_reuse_config, manifest)
+    validate_micro_session_reuse_config(micro_session_reuse_config, manifest)
+    validate_card_library(cards, manifest)
+    validate_card_library_index(
+        card_library_index,
+        cards,
+        schema_version=manifest["schema_version"],
+        library_version=manifest["library_version"],
+    )
+
+    return (
+        cards,
+        display_config,
+        macro_mezzo_reuse_config,
+        mezzo_micro_reuse_config,
+        micro_session_reuse_config,
+        card_library_index,
+    )
+
 # Validate the local cache, then refresh the app-facing one-file bundle.
 def refresh_library_bundle(input_dir: Path) -> Path:
     cards = load_card_library_from_json(input_dir)

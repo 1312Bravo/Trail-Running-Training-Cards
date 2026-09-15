@@ -122,6 +122,22 @@ def download_cloud_library(
     return config.local_cache_dir
 
 
+# Download the validated one-file library bundle for lightweight app startup.
+def download_cloud_library_bundle(
+    client,
+    config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY,
+) -> Path:
+    config.local_cache_dir.mkdir(parents = True, exist_ok = True)
+    bundle_path = config.local_cache_dir / LIBRARY_BUNDLE_FILE_NAME
+    if bundle_path.exists():
+        bundle_path.unlink()
+
+    root_items = client.list_folder(config.root_folder_id)
+    bundle = _find_drive_item(root_items, LIBRARY_BUNDLE_FILE_NAME)
+    client.download_file(bundle.id, bundle_path)
+    return bundle_path
+
+
 # Upload local cache files to Drive, updating existing files and creating missing ones.
 def upload_cached_library(client, config: GoogleDriveLibraryConfig = GOOGLE_DRIVE_LIBRARY) -> None:
     display_config_path = config.local_cache_dir / DISPLAY_CONFIG_FILE_NAME
