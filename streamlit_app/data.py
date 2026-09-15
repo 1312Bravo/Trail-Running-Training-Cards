@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import tempfile
-from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
 import streamlit as st
 
-from training_cards.cloud_store import download_cloud_library_bundle
 from training_cards.json_store import (
     LIBRARY_BUNDLE_FILE_NAME,
     load_library_bundle_from_json,
@@ -30,6 +28,33 @@ from streamlit_app.config import TYPE_ORDER
 DEPLOYED_CACHE_DIR = Path(tempfile.gettempdir()) / "training_cards_cloud_library"
 
 
+def download_deployed_library_bundle(
+    client: GoogleDriveClient,
+    cache_dir: Path,
+) -> None:
+    """Download the single validated bundle needed by the deployed app."""
+    cache_dir.mkdir(parents = True, exist_ok = True)
+    bundle_path = cache_dir / LIBRARY_BUNDLE_FILE_NAME
+    if bundle_path.exists():
+        bundle_path.unlink()
+
+    root_items = client.list_folder(GOOGLE_DRIVE_LIBRARY.root_folder_id)
+    bundle = next(
+        (
+            item
+            for item in root_items
+            if item.file_or_folder == "file" and item.title == LIBRARY_BUNDLE_FILE_NAME
+        ),
+        None,
+    )
+    if bundle is None:
+        raise FileNotFoundError(
+            f"Google Drive library bundle not found: {LIBRARY_BUNDLE_FILE_NAME}"
+        )
+
+    client.download_file(bundle.id, bundle_path)
+
+
 def runtime_cache_dir() -> Path:
     """Return the local cache when available, otherwise a deployable temp path."""
     local_cache_dir = GOOGLE_DRIVE_LIBRARY.local_cache_dir
@@ -49,10 +74,9 @@ def ensure_library_cache(cache_dir: str) -> str:
     if "gcp_service_account" in st.secrets:
         credentials_info = dict(st.secrets["gcp_service_account"])
 
-    config = replace(GOOGLE_DRIVE_LIBRARY, local_cache_dir=cache_path)
-    download_cloud_library_bundle(
+    download_deployed_library_bundle(
         GoogleDriveClient(credentials_info=credentials_info),
-        config,
+        cache_path,
     )
     return str(cache_path)
 
