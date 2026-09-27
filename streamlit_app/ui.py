@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from html import escape
 from typing import Any
 
 import streamlit as st
@@ -76,20 +77,21 @@ def render_pagination_controls(
 
 
 def render_mode_info(mode: str) -> None:
-    info_lines = APP_MODE_INFO.get(mode, [])
-    if not info_lines:
+    info = APP_MODE_INFO.get(mode)
+    if not info:
         return
 
     with st.popover(
         ":material/info:",
-        help=f"About {mode}",
         use_container_width=False,
         key="mode-info-popover",
     ):
-        items = "".join(f"<li>{line}</li>" for line in info_lines)
+        intro = escape(info["intro"])
+        items = "".join(f"<li>{escape(line)}</li>" for line in info["bullets"])
         st.html(
             '<div class="mode-info-copy">'
             f"<strong>{mode}</strong>"
+            f'<p class="mode-info-intro">{intro}</p>'
             f"<ul>{items}</ul>"
             "</div>"
         )

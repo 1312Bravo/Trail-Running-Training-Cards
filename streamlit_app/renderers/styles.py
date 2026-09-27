@@ -152,7 +152,7 @@ def css() -> None:
             font-size: inherit !important;
         }
         .mode-info-copy {
-            max-width: 19rem;
+            width: min(26rem, calc(100vw - 3rem));
             color: #666961;
             font-size: 0.82rem;
             line-height: 1.45;
@@ -163,6 +163,10 @@ def css() -> None:
             color: #4f514c;
             font-size: 0.86rem;
             font-weight: 600;
+        }
+        .mode-info-intro {
+            margin: 0 0 0.55rem;
+            color: #666961;
         }
         .mode-info-copy ul {
             margin: 0;
