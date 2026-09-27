@@ -130,6 +130,47 @@ def css() -> None:
         [class*="st-key-app_mode"] [role="radiogroup"] button[data-variant="segmented_control"] [data-testid="stMarkdownContainer"] p {
             color: inherit;
         }
+        [class*="st-key-mode-info-popover"] {
+            margin: 0.7rem 0 1.05rem;
+        }
+        [class*="st-key-mode-info-popover"] button {
+            min-height: 2.25rem;
+            padding: 0.25rem 0.35rem;
+            border: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            color: #74766f !important;
+            font-size: 0.78rem;
+        }
+        [class*="st-key-mode-info-popover"] button:hover {
+            border: 0 !important;
+            background: transparent !important;
+            color: #30322e !important;
+        }
+        [class*="st-key-mode-info-popover"] button * {
+            color: inherit !important;
+            font-size: inherit !important;
+        }
+        .mode-info-copy {
+            max-width: 19rem;
+            color: #666961;
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+        .mode-info-copy strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: #4f514c;
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+        .mode-info-copy ul {
+            margin: 0;
+            padding-left: 1rem;
+        }
+        .mode-info-copy li + li {
+            margin-top: 0.25rem;
+        }
         @media (max-width: 760px) {
             [data-testid="stMainBlockContainer"],
             .block-container {

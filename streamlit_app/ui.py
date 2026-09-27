@@ -80,10 +80,19 @@ def render_mode_info(mode: str) -> None:
     if not info_lines:
         return
 
-    with st.popover(":material/info:", help=f"About {mode}", use_container_width=False):
-        st.markdown(f"#### {mode}")
-        for line in info_lines:
-            st.markdown(f"- {line}")
+    with st.popover(
+        ":material/info:",
+        help=f"About {mode}",
+        use_container_width=False,
+        key="mode-info-popover",
+    ):
+        items = "".join(f"<li>{line}</li>" for line in info_lines)
+        st.html(
+            '<div class="mode-info-copy">'
+            f"<strong>{mode}</strong>"
+            f"<ul>{items}</ul>"
+            "</div>"
+        )
 
 
 def render_paginated_grid(
