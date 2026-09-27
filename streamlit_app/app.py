@@ -22,6 +22,7 @@ from streamlit_app.ui import (
     open_library_preview_dialog,
     open_philosophy_dialog,
     open_philosophy_sources_dialog,
+    render_mode_info,
 )
 from streamlit_app.views.browse import render_browse_cards
 from streamlit_app.views.library import render_card_library
@@ -59,7 +60,7 @@ def main() -> None:
     st.title(APP_TITLE)
     st.html(f'<div class="app-card-count">{escape(count_line)}</div>')
 
-    mode_cols = st.columns([0.13, 0.74, 0.13])
+    mode_cols = st.columns([0.13, 0.68, 0.06, 0.13], vertical_alignment="center")
     with mode_cols[1]:
         st.segmented_control(
             "Mode",
@@ -70,6 +71,8 @@ def main() -> None:
             label_visibility="collapsed",
             on_change=clear_open_views,
         )
+    with mode_cols[2]:
+        render_mode_info(st.session_state.app_mode)
     if st.session_state.app_mode != st.session_state.last_app_mode:
         clear_open_views()
         st.session_state.last_app_mode = st.session_state.app_mode

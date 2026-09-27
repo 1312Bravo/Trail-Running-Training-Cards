@@ -7,6 +7,7 @@ import streamlit as st
 from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES, philosophy_profile_display_name
 
 from streamlit_app.config import (
+    APP_MODE_INFO,
     DEFAULT_CARDS_PER_PAGE,
 )
 from streamlit_app.philosophies import load_detailed_note, load_reviewed_source_bullets
@@ -72,6 +73,17 @@ def render_pagination_controls(
                 on_click=set_session_state_value,
                 args=(page_state_key, min(total_pages - 1, page + 1)),
             )
+
+
+def render_mode_info(mode: str) -> None:
+    info_lines = APP_MODE_INFO.get(mode, [])
+    if not info_lines:
+        return
+
+    with st.popover(":material/info:", help=f"About {mode}", use_container_width=False):
+        st.markdown(f"#### {mode}")
+        for line in info_lines:
+            st.markdown(f"- {line}")
 
 
 def render_paginated_grid(
