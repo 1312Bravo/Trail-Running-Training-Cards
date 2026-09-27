@@ -13,6 +13,7 @@ from training_cards.philosophy_profiles import (
 from streamlit_app.config import (
     DEFAULT_CARDS_PER_PAGE,
 )
+from streamlit_app.data import primary_philosophy_profile_id
 from streamlit_app.philosophies import load_detailed_note, load_reviewed_source_bullets
 from streamlit_app.renderers import render_detail, render_grid, render_preview_card
 from streamlit_app.state import (
@@ -104,7 +105,7 @@ def render_paginated_grid(
     st.session_state[page_key] = page
     page_cards = cards[page * page_size: (page + 1) * page_size]
 
-    render_grid(
+    render_grouped_grid(
         page_cards,
         display_config,
         key_prefix=f"{key_prefix}_page_{page}",
@@ -114,6 +115,52 @@ def render_paginated_grid(
         select_level=select_level,
     )
     render_pagination_controls(len(cards), page_size, page, state_prefix)
+
+
+def render_grouped_grid(
+    cards: list[Any],
+    display_config: dict[str, Any],
+    key_prefix: str,
+    select_label: str | None = None,
+    open_label: str = "Open card",
+    on_select: Any | None = None,
+    select_level: str | None = None,
+) -> None:
+    groups: list[tuple[str, str | None, list[Any]]] = []
+    group_lookup: dict[tuple[str, str | None], list[Any]] = {}
+
+    for card in cards:
+        card_type = getattr(card.card_type, "value", str(card.card_type))
+        profile_id = primary_philosophy_profile_id(card)
+        group_key = (card_type, profile_id)
+        if group_key not in group_lookup:
+            group_lookup[group_key] = []
+            groups.append((card_type, profile_id, group_lookup[group_key]))
+        group_lookup[group_key].append(card)
+
+    multiple_levels = len({card_type for card_type, _, _ in groups}) > 1
+    for card_type, profile_id, group_cards in groups:
+        profile_label = (
+            philosophy_profile_display_name(profile_id)
+            if profile_id
+            else "Unassigned"
+        )
+        heading = (
+            f"{card_type.title()} · {profile_label}"
+            if multiple_levels
+            else profile_label
+        )
+        st.html(f'<div class="card-group-title">{escape(heading)}</div>')
+        profile_key = profile_id or "unassigned"
+        render_grid(
+            group_cards,
+            display_config,
+            key_prefix=f"{key_prefix}_{card_type}_{profile_key}",
+            select_label=select_label,
+            open_label=open_label,
+            on_select=on_select,
+            select_level=select_level,
+        )
 
 
 def render_search_terms(terms_key: str) -> None:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES
 from training_cards.schemas import CardType
 
 
@@ -40,6 +41,9 @@ TYPE_ORDER = [
     CardType.MICRO,
     CardType.SESSION,
 ]
+
+# Keep the philosophy order consistent across every card view.
+PHILOSOPHY_ORDER = tuple(PHILOSOPHY_PROFILES)
 
 # Full-card detail follows coaching use rather than raw JSON key order. Fields
 # missing on a card type are skipped, while future schema fields still append.

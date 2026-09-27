@@ -8,7 +8,7 @@ import streamlit as st
 from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES, philosophy_profile_display_name
 
 from streamlit_app.config import LIBRARY_DEFAULT_CARDS_PER_PAGE
-from streamlit_app.filters import combine_library_levels, filtered_library_entries
+from streamlit_app.filters import filtered_library_entries
 from streamlit_app.renderers import display_text
 from streamlit_app.state import set_active_library_preview, set_session_state_value, toggle_library_profile
 from streamlit_app.ui import render_pagination_controls
@@ -35,16 +35,9 @@ def render_card_library(card_library_index: dict[str, Any]) -> None:
                 )
         chosen_level = st.session_state.library_level_label
 
-    selected_level = level_to_value.get(chosen_level)
     levels_index = card_library_index.get("levels", {})
+    selected_level = level_to_value.get(chosen_level)
     level_names = [selected_level] if selected_level else ["macro", "mezzo", "micro", "session"]
-    level_index = combine_library_levels(levels_index, level_names)
-    profile_ids = [profile_id for profile_id in PHILOSOPHY_PROFILES if profile_id in level_index]
-    st.session_state.library_expanded_profiles = [
-        profile_id
-        for profile_id in st.session_state.library_expanded_profiles
-        if profile_id in profile_ids
-    ]
 
     with controls[1]:
         st.text_input(
@@ -56,48 +49,69 @@ def render_card_library(card_library_index: dict[str, Any]) -> None:
         )
 
     expanded_profiles = set(st.session_state.library_expanded_profiles)
-    visible_profile_entries: list[tuple[str, list[dict[str, Any]]]] = []
-    for profile_id in profile_ids:
-        entries = filtered_library_entries(
-            level_index.get(profile_id, []),
-            st.session_state.library_search_query,
-        )
-        if entries:
-            visible_profile_entries.append((profile_id, entries))
+    valid_expanded_profiles = {
+        f"{level_name}_{profile_id}"
+        for level_name in level_names
+        for profile_id in PHILOSOPHY_PROFILES
+        if profile_id in levels_index.get(level_name, {})
+    }
+    st.session_state.library_expanded_profiles = [
+        profile_key
+        for profile_key in st.session_state.library_expanded_profiles
+        if profile_key in valid_expanded_profiles
+    ]
+    expanded_profiles = set(st.session_state.library_expanded_profiles)
 
-    with st.container(border=False, key="library-profile-grid"):
-        profile_columns = st.columns(2, gap="medium")
-        for index, (profile_id, entries) in enumerate(visible_profile_entries):
-            is_expanded = profile_id in expanded_profiles
-            with profile_columns[index % 2]:
-                with st.container(border=False, key=f"library-group-{profile_id}"):
-                    st.button(
-                        f'{"v" if is_expanded else ">"}  '
-                        f"{philosophy_profile_display_name(profile_id)} · {len(entries)} cards",
-                        key=f"library-group-toggle-{profile_id}",
-                        type="tertiary",
-                        width="stretch",
-                        on_click=toggle_library_profile,
-                        args=(profile_id,),
-                    )
-
-    for profile_id, entries in visible_profile_entries:
-        if profile_id not in expanded_profiles:
-            continue
-        direct_count = sum(entry.get("source") == "direct" for entry in entries)
-        reused_count = len(entries) - direct_count
-        with st.container(border=False, key=f"library-expanded-{profile_id}"):
-            st.html(
-                '<div class="library-expanded-title">'
-                f"{escape(philosophy_profile_display_name(profile_id))}"
-                "</div>"
+    for level_name in level_names:
+        level_index = levels_index.get(level_name, {})
+        visible_profile_entries: list[tuple[str, str, list[dict[str, Any]]]] = []
+        for profile_id in PHILOSOPHY_PROFILES:
+            entries = filtered_library_entries(
+                level_index.get(profile_id, []),
+                st.session_state.library_search_query,
             )
-            st.caption(f"{direct_count} direct · {reused_count} reused")
-            header = st.columns([1.35, 2.45, 0.8, 1], gap="medium")
-            for column, heading in zip(header, ("Card", "Description", "Level", "Source")):
-                with column:
-                    st.html(f'<div class="library-table-heading">{heading}</div>')
-            render_paginated_library_entries(entries, profile_id)
+            if entries:
+                visible_profile_entries.append((level_name, profile_id, entries))
+
+        if not visible_profile_entries:
+            continue
+
+        st.html(f'<div class="library-level-title">{escape(level_name.title())}</div>')
+        with st.container(border=False, key=f"library-profile-grid-{level_name}"):
+            profile_columns = st.columns(2, gap="medium")
+            for index, (_, profile_id, entries) in enumerate(visible_profile_entries):
+                profile_key = f"{level_name}_{profile_id}"
+                is_expanded = profile_key in expanded_profiles
+                with profile_columns[index % 2]:
+                    with st.container(border=False, key=f"library-group-{profile_key}"):
+                        st.button(
+                            f'{"v" if is_expanded else ">"}  '
+                            f"{philosophy_profile_display_name(profile_id)} · {len(entries)} cards",
+                            key=f"library-group-toggle-{profile_key}",
+                            type="tertiary",
+                            width="stretch",
+                            on_click=toggle_library_profile,
+                            args=(profile_key,),
+                        )
+
+        for _, profile_id, entries in visible_profile_entries:
+            profile_key = f"{level_name}_{profile_id}"
+            if profile_key not in expanded_profiles:
+                continue
+            direct_count = sum(entry.get("source") == "direct" for entry in entries)
+            reused_count = len(entries) - direct_count
+            with st.container(border=False, key=f"library-expanded-{profile_key}"):
+                st.html(
+                    '<div class="library-expanded-title">'
+                    f"{philosophy_profile_display_name(profile_id)}"
+                    "</div>"
+                )
+                st.caption(f"{direct_count} direct · {reused_count} reused")
+                header = st.columns([1.35, 2.45, 0.8, 1], gap="medium")
+                for column, heading in zip(header, ("Card", "Description", "Level", "Source")):
+                    with column:
+                        st.html(f'<div class="library-table-heading">{heading}</div>')
+                render_paginated_library_entries(entries, profile_key)
 
 
 def render_library_entry(entry: dict[str, Any], profile_id: str) -> None:

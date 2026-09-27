@@ -7,7 +7,7 @@ import streamlit as st
 
 from training_cards.philosophy_profiles import philosophy_profile_display_name
 from streamlit_app.config import DETAIL_FIELD_LABEL_OVERRIDES
-from streamlit_app.data import card_type_label
+from streamlit_app.data import card_type_label, ordered_philosophy_profile_ids
 
 from .shared import (
     as_text,
@@ -50,7 +50,7 @@ def render_preview_field(
     elif field_name == "philosophy_profile_ids" and isinstance(value, list):
         rendered_value = ", ".join(
             philosophy_profile_display_name(profile_id)
-            for profile_id in value
+            for profile_id in ordered_philosophy_profile_ids(value)
         )
         st.html(
             '<div class="preview-field">'

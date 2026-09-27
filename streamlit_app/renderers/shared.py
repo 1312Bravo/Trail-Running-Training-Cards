@@ -7,7 +7,7 @@ from typing import Any
 import streamlit as st
 
 from training_cards.philosophy_profiles import philosophy_profile_display_name
-from streamlit_app.data import card_type_label
+from streamlit_app.data import card_type_label, ordered_philosophy_profile_ids
 
 
 MAIL_ICON_SVG = """
@@ -112,7 +112,11 @@ def preview_card_meta_text(card: Any, display_config: dict[str, Any]) -> str:
     values = [card_type]
     philosophy_ids = getattr(card, "philosophy_profile_ids", [])
     if philosophy_ids:
-        values.append(philosophy_profile_display_name(philosophy_ids[0]))
+        values.append(
+            philosophy_profile_display_name(
+                ordered_philosophy_profile_ids(philosophy_ids)[0]
+            )
+        )
     return " | ".join(display_label_text(value) for value in values)
 
 

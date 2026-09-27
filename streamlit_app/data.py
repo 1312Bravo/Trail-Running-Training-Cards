@@ -23,7 +23,7 @@ from training_cards.philosophy_profiles import philosophy_profile_display_name
 from training_cards.serialization import card_from_dict
 from training_cards.schemas import CardType
 
-from streamlit_app.config import TYPE_ORDER
+from streamlit_app.config import PHILOSOPHY_ORDER, TYPE_ORDER
 
 
 # ----------------------------------------------------------
@@ -212,11 +212,11 @@ def filtered_cards(
                 for profile_id in philosophy_profile_filters
             )
         ]
-    return sorted(result, key=lambda card: (TYPE_ORDER.index(card.card_type), card.title))
+    return sort_cards_for_display(result)
 
 
 def cards_of_type(cards: list[Any], card_type: str) -> list[Any]:
-    return build_pathway_index(cards).cards_of_type(card_type)
+    return sort_cards_for_display(build_pathway_index(cards).cards_of_type(card_type))
 
 
 def related_child_cards(
@@ -227,12 +227,44 @@ def related_child_cards(
     mezzo_micro_reuse_config: dict[str, Any] | None = None,
     micro_session_reuse_config: dict[str, Any] | None = None,
 ) -> list[Any]:
-    return build_pathway_index(
+    children = build_pathway_index(
         cards,
         macro_mezzo_reuse_config,
         mezzo_micro_reuse_config,
         micro_session_reuse_config,
     ).children(parent_card.id, child_type)
+    return sort_cards_for_display(children)
+
+
+def philosophy_order_index(profile_id: str) -> int:
+    try:
+        return PHILOSOPHY_ORDER.index(profile_id)
+    except ValueError:
+        return len(PHILOSOPHY_ORDER)
+
+
+def ordered_philosophy_profile_ids(profile_ids: list[str]) -> list[str]:
+    return sorted(profile_ids, key=philosophy_order_index)
+
+
+def primary_philosophy_profile_id(card: Any) -> str | None:
+    profile_ids = getattr(card, "philosophy_profile_ids", [])
+    if not profile_ids:
+        return None
+    return min(profile_ids, key=philosophy_order_index)
+
+
+def sort_cards_for_display(cards: list[Any]) -> list[Any]:
+    """Order cards by planning level, then canonical philosophy, then title."""
+    return sorted(
+        cards,
+        key=lambda card: (
+            TYPE_ORDER.index(card.card_type),
+            philosophy_order_index(primary_philosophy_profile_id(card) or ""),
+            card.title.casefold(),
+            card.id,
+        ),
+    )
 
 
 def reusable_mezzo_ids_for_philosophies(

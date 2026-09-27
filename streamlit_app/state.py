@@ -66,11 +66,11 @@ def clear_open_views() -> None:
     st.session_state.active_card_history = []
 
 
-def toggle_library_profile(profile_id: str) -> None:
-    if profile_id in st.session_state.library_expanded_profiles:
+def toggle_library_profile(profile_key: str) -> None:
+    if profile_key in st.session_state.library_expanded_profiles:
         st.session_state.library_expanded_profiles = []
     else:
-        st.session_state.library_expanded_profiles = [profile_id]
+        st.session_state.library_expanded_profiles = [profile_key]
 
 
 def set_card_scope(scope_label: str) -> None:

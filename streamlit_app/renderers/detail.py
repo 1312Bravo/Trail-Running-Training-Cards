@@ -8,7 +8,7 @@ import streamlit as st
 
 from training_cards.philosophy_profiles import philosophy_profile_display_name
 from streamlit_app.config import DETAIL_SECTION_ORDER
-from streamlit_app.data import card_type_label
+from streamlit_app.data import card_type_label, ordered_philosophy_profile_ids
 
 from .shared import (
     as_text,
@@ -239,7 +239,7 @@ def render_field(
     if field_name == "philosophy_profile_ids" and isinstance(value, list):
         rendered_value = ", ".join(
             philosophy_profile_display_name(profile_id)
-            for profile_id in value
+            for profile_id in ordered_philosophy_profile_ids(value)
         )
         value_html = escape(rendered_value)
     elif isinstance(value, list):
@@ -313,7 +313,10 @@ def detail_key_fact_value(card: Any, field_name: str) -> str:
         if field_name == "suitable_levels":
             return ", ".join(display_label_text(item) for item in value)
         if field_name == "philosophy_profile_ids":
-            return ", ".join(philosophy_profile_display_name(profile_id) for profile_id in value)
+            return ", ".join(
+                philosophy_profile_display_name(profile_id)
+                for profile_id in ordered_philosophy_profile_ids(value)
+            )
         return ", ".join(display_text(item) for item in value)
     return format_field_value(field_name, value)
 

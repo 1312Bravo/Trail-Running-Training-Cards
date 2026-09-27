@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Any
 
+from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES
 from training_cards.schemas import BaseTrainingCard
 
 MAINSTREAM_PROFILE_ID = "mainstream_endurance"
@@ -62,7 +63,8 @@ def build_card_library_index(
         "levels": {
             level: {
                 profile_id: sorted(entries.values(), key=_entry_sort_key)
-                for profile_id, entries in sorted(profiles.items())
+                for profile_id in PHILOSOPHY_PROFILES
+                if (entries := profiles.get(profile_id)) is not None
             }
             for level, profiles in sorted(level_entries.items())
         },

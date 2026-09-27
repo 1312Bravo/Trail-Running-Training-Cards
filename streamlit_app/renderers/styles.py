@@ -380,6 +380,16 @@ def css() -> None:
         .page-intro-centered {
             text-align: center;
         }
+        .library-level-title {
+            max-width: 1120px;
+            margin: 1.1rem auto 0.35rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 1px solid #cfd1ca;
+            color: #252725;
+            font-size: 1.08rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
         [class*="st-key-library-expanded-"] {
             max-width: 1120px;
             margin: 0.85rem auto 0;
@@ -834,6 +844,18 @@ def css() -> None:
         }
         [class*="st-key-pathway-card-"]:last-child {
             border-bottom: 0;
+        }
+        .card-group-title {
+            max-width: 1220px;
+            margin: 1.05rem auto 0.45rem;
+            padding: 0.35rem 0.35rem 0.4rem;
+            border-bottom: 1px solid #cfd1ca;
+            color: #555750;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            line-height: 1.2;
+            text-transform: uppercase;
         }
         .preview-card-title {
             position: relative;
