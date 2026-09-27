@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from html import escape
 from typing import Any
 
 import streamlit as st
@@ -122,29 +121,15 @@ def render_grouped_grid(
     on_select: Any | None = None,
     select_level: str | None = None,
 ) -> None:
-    groups: list[tuple[str, list[Any]]] = []
-    group_lookup: dict[str, list[Any]] = {}
-
-    for card in cards:
-        card_type = getattr(card.card_type, "value", str(card.card_type))
-        if card_type not in group_lookup:
-            group_lookup[card_type] = []
-            groups.append((card_type, group_lookup[card_type]))
-        group_lookup[card_type].append(card)
-
-    multiple_levels = len(groups) > 1
-    for card_type, group_cards in groups:
-        if multiple_levels:
-            st.html(f'<div class="card-group-title">{escape(card_type.title())}</div>')
-        render_grid(
-            group_cards,
-            display_config,
-            key_prefix=f"{key_prefix}_{card_type}",
-            select_label=select_label,
-            open_label=open_label,
-            on_select=on_select,
-            select_level=select_level,
-        )
+    render_grid(
+        cards,
+        display_config,
+        key_prefix=key_prefix,
+        select_label=select_label,
+        open_label=open_label,
+        on_select=on_select,
+        select_level=select_level,
+    )
 
 
 def render_search_terms(terms_key: str) -> None:
