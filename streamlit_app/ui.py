@@ -7,9 +7,9 @@ import streamlit as st
 from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES, philosophy_profile_display_name
 
 from streamlit_app.config import (
-    APP_MODE_INFO,
     DEFAULT_CARDS_PER_PAGE,
 )
+from streamlit_app.content.mode_info import APP_MODE_INFO
 from streamlit_app.philosophies import load_detailed_note, load_reviewed_source_bullets
 from streamlit_app.renderers import render_detail, render_grid, render_preview_card
 from streamlit_app.state import (
