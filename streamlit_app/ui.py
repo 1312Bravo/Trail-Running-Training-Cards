@@ -5,15 +5,11 @@ from typing import Any
 
 import streamlit as st
 
-from training_cards.philosophy_profiles import (
-    PHILOSOPHY_PROFILES,
-    philosophy_profile_display_name,
-)
+from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES, philosophy_profile_display_name
 
 from streamlit_app.config import (
     DEFAULT_CARDS_PER_PAGE,
 )
-from streamlit_app.data import primary_philosophy_profile_id
 from streamlit_app.philosophies import load_detailed_note, load_reviewed_source_bullets
 from streamlit_app.renderers import render_detail, render_grid, render_preview_card
 from streamlit_app.state import (
@@ -126,36 +122,24 @@ def render_grouped_grid(
     on_select: Any | None = None,
     select_level: str | None = None,
 ) -> None:
-    groups: list[tuple[str, str | None, list[Any]]] = []
-    group_lookup: dict[tuple[str, str | None], list[Any]] = {}
+    groups: list[tuple[str, list[Any]]] = []
+    group_lookup: dict[str, list[Any]] = {}
 
     for card in cards:
         card_type = getattr(card.card_type, "value", str(card.card_type))
-        profile_id = primary_philosophy_profile_id(card)
-        group_key = (card_type, profile_id)
-        if group_key not in group_lookup:
-            group_lookup[group_key] = []
-            groups.append((card_type, profile_id, group_lookup[group_key]))
-        group_lookup[group_key].append(card)
+        if card_type not in group_lookup:
+            group_lookup[card_type] = []
+            groups.append((card_type, group_lookup[card_type]))
+        group_lookup[card_type].append(card)
 
-    multiple_levels = len({card_type for card_type, _, _ in groups}) > 1
-    for card_type, profile_id, group_cards in groups:
-        profile_label = (
-            philosophy_profile_display_name(profile_id)
-            if profile_id
-            else "Unassigned"
-        )
-        heading = (
-            f"{card_type.title()} · {profile_label}"
-            if multiple_levels
-            else profile_label
-        )
-        st.html(f'<div class="card-group-title">{escape(heading)}</div>')
-        profile_key = profile_id or "unassigned"
+    multiple_levels = len(groups) > 1
+    for card_type, group_cards in groups:
+        if multiple_levels:
+            st.html(f'<div class="card-group-title">{escape(card_type.title())}</div>')
         render_grid(
             group_cards,
             display_config,
-            key_prefix=f"{key_prefix}_{card_type}_{profile_key}",
+            key_prefix=f"{key_prefix}_{card_type}",
             select_label=select_label,
             open_label=open_label,
             on_select=on_select,

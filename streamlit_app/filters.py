@@ -91,6 +91,7 @@ def library_entry_search_text(entry: dict[str, Any]) -> str:
         entry.get("card_id", ""),
         entry.get("title", ""),
         entry.get("description", ""),
+        entry.get("level", ""),
         entry.get("source", ""),
         entry.get("source_profile", ""),
         entry.get("source_profile", "").replace("_", " "),
