@@ -16,7 +16,6 @@ from training_cards.json_store import (
     validate_micro_session_reuse_config,
 )
 from training_cards.card_library_index import validate_card_library_index
-from training_cards.google_drive_client import GoogleDriveClient
 from training_cards.cloud_config import GOOGLE_DRIVE_LIBRARY
 from training_cards.pathway import build_pathway_index
 from training_cards.philosophy_profiles import philosophy_profile_display_name
@@ -122,6 +121,9 @@ def ensure_library_cache(cache_dir: str) -> str:
     credentials_info = None
     if "gcp_service_account" in st.secrets:
         credentials_info = dict(st.secrets["gcp_service_account"])
+
+    # Keep local-cache startup independent of optional cloud-sync packages.
+    from training_cards.google_drive_client import GoogleDriveClient
 
     download_deployed_library_bundle(
         GoogleDriveClient(credentials_info=credentials_info),
