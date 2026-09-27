@@ -20,6 +20,8 @@ jobs:
           STREAMLIT_APP_URL: ${{ vars.STREAMLIT_APP_URL }}
 
       - name: Ping Streamlit app
-        run: curl --fail --silent --show-error --location --max-time 60 "$STREAMLIT_APP_URL"
+        run: |
+          app_url="${STREAMLIT_APP_URL%/}"
+          curl --fail --silent --show-error --location --max-time 60 "$app_url/healthz"
         env:
           STREAMLIT_APP_URL: ${{ vars.STREAMLIT_APP_URL }}
