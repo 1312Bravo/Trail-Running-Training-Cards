@@ -19,9 +19,59 @@ jobs:
         env:
           STREAMLIT_APP_URL: ${{ vars.STREAMLIT_APP_URL }}
 
-      - name: Ping Streamlit app
+      - name: Check Streamlit service
         run: |
           app_url="${STREAMLIT_APP_URL%/}"
           curl --fail --silent --show-error --location --max-time 60 "$app_url/healthz"
         env:
           STREAMLIT_APP_URL: ${{ vars.STREAMLIT_APP_URL }}
+
+      - name: Open Streamlit session
+        env:
+          STREAMLIT_APP_URL: ${{ vars.STREAMLIT_APP_URL }}
+        run: |
+          warm_dir="$(mktemp -d)"
+          cd "$warm_dir"
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          node <<'NODE'
+          const { chromium } = require("playwright");
+
+          (async () => {
+            const appUrl = process.env.STREAMLIT_APP_URL.replace(/\/$/, "");
+            const target = new URL(`${appUrl}/`);
+            target.searchParams.set("embed", "true");
+
+            const browser = await chromium.launch({
+              headless: true,
+              args: ["--no-sandbox"],
+            });
+            const page = await browser.newPage();
+
+            try {
+              await page.goto(target.toString(), {
+                waitUntil: "domcontentloaded",
+                timeout: 60000,
+              });
+
+              const wakeButton = page.getByRole("button", {
+                name: /get this app back up/i,
+              });
+              if (await wakeButton.isVisible({ timeout: 5000 }).catch(() => false)) {
+                await wakeButton.click();
+              }
+
+              await page.waitForTimeout(30000);
+              const pageText = await page.locator("body").innerText();
+              if (/Oh no\. Error running your app|ImportError|ModuleNotFoundError/i.test(pageText)) {
+                throw new Error("The Streamlit page displayed an application error.");
+              }
+            } finally {
+              await browser.close();
+            }
+          })().catch((error) => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
