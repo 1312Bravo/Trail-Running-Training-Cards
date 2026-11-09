@@ -1,6 +1,10 @@
 .env
 googleDrive_secrets.json
 streamlit_app/.streamlit/secrets.toml
+vite_app/public/data/library.json
+vite_app/node_modules/
+vite_app/.pnpm-store/
+vite_app/dist/
 __pycache__/
 *.pyc
 training_cards/local_cache/
