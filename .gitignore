@@ -5,6 +5,7 @@ vite_app/public/data/library.json
 vite_app/node_modules/
 vite_app/.pnpm-store/
 vite_app/dist/
+vite_app/training-cards-vite-dist.zip
 __pycache__/
 *.pyc
 training_cards/local_cache/

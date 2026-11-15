@@ -290,13 +290,13 @@ export default function App() {
   const renderLibrary = () => {
     const levels = libraryLevel === "All" ? CARD_TYPES : [libraryLevel.toLowerCase() as CardType];
     const profileEntries = Object.keys(data.philosophies).map((profileId) => {
-      const merged = new Map<string, LibraryEntry>();
+      const merged = new Map<string, LibraryEntry & { level: string }>();
       for (const level of levels) {
-        for (const entry of data.card_library_index.levels[level]?.[profileId] ?? []) merged.set(entry.card_id, entry);
+        for (const entry of data.card_library_index.levels[level]?.[profileId] ?? []) merged.set(entry.card_id, { ...entry, level });
       }
       const entries = [...merged.values()].filter((entry) => {
-        const haystack = [entry.title, entry.description, entry.card_id, entry.source, entry.source_profile].join(" ").toLowerCase();
-        return haystack.includes(librarySearch.toLowerCase());
+        const haystack = [entry.title, entry.description, entry.card_id, entry.level, entry.source, entry.source_profile, entry.source_profile?.replaceAll("_", " ")].join(" ").toLowerCase();
+        return haystack.includes(librarySearch.trim().toLowerCase().replaceAll("_", " "));
       });
       return [profileId, entries] as const;
     }).filter(([, entries]) => entries.length > 0);
@@ -454,7 +454,7 @@ function LibraryGroup({
     <div className="library-table">
       <div className="library-table-head"><span>Card</span><span>Description</span><span>Level</span><span>Source</span></div>
       {entries.slice(safePage * LIBRARY_PAGE_SIZE, (safePage + 1) * LIBRARY_PAGE_SIZE).map((entry) => {
-        const level = data.cards.find((card) => card.id === entry.card_id)?.card_type ?? "";
+        const level = entry.level ?? data.cards.find((card) => card.id === entry.card_id)?.card_type ?? "";
         const source = entry.source === "reused" && entry.source_profile
           ? `From ${philosophyName(data, entry.source_profile)}`
           : "Direct";

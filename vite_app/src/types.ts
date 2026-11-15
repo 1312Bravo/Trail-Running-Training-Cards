@@ -30,6 +30,7 @@ export interface PhilosophyProfile {
 
 export interface LibraryEntry extends JsonRecord {
   card_id: string;
+  level?: string;
   title: string;
   description: string;
   source: "direct" | "reused";

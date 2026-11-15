@@ -25,4 +25,23 @@ Create a production build with:
 pnpm build
 ```
 
-The generated `public/data/library.json` is ignored by Git because the accepted card library remains in Google Drive and the local cache remains a working copy. Before a public deployment, the hosting build needs to download or otherwise receive the current validated bundle, then run the web build.
+The generated `public/data/library.json` is ignored by Git because the accepted card library remains in Google Drive and the local cache remains a working copy.
+
+## Publish updated cards
+
+After cards change in Google Drive, run this from the repository root:
+
+```powershell
+./vite_app/scripts/publish.ps1
+```
+
+The command downloads and validates the current Drive library, builds the Vite app, and creates `vite_app/training-cards-vite-dist.zip`. In the [existing Netlify project](https://app.netlify.com/projects/run-companion-deck), upload that ZIP as a new deploy. Upload to this project so the public URL stays `https://run-companion-deck.netlify.app/`. The ZIP and downloaded card cache are ignored by Git.
+
+To publish from the same command, set a Netlify personal access token in your local terminal and add `-Deploy`:
+
+```powershell
+$env:NETLIFY_AUTH_TOKEN = "your-token"
+./vite_app/scripts/publish.ps1 -Deploy
+```
+
+The script sends the built ZIP to the existing Netlify project and waits for Netlify to report that it is live. Keep the token in your terminal or a private credential store; do not put it in Git or the app's public environment. This deployment remains manual or command driven until a separate continuous deployment workflow is configured.
