@@ -1,6 +1,6 @@
-# Vite Web App
+# Run Companion Deck
 
-This is the browser-based interface for the training-card library.
+Run Companion Deck is the browser app for browsing the training-card library, exploring coaching philosophies, and building training pathways.
 
 The Python package remains responsible for Google Drive sync, JSON validation, card schemas, and library authoring. The web app reads a public static bundle prepared from the validated local cache; no Drive credentials are used by the browser.
 
