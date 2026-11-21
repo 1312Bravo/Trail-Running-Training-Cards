@@ -3,9 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 
 
-PACKAGE_ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = PACKAGE_ROOT.parent
-APP_PHILOSOPHIES_DIR = PACKAGE_ROOT / "philosophy_summaries"
+APP_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = APP_ROOT.parent
+APP_PHILOSOPHIES_DIR = APP_ROOT / "content" / "philosophies"
 COACHING_DIR = PROJECT_ROOT / "coaching"
 
 REVIEWED_SOURCE_SECTIONS = {
