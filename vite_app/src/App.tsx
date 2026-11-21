@@ -387,7 +387,7 @@ export default function App() {
       <header className="app-header">
         <h1 className="app-title" aria-label={APP_TITLE}>
           <span>Run Companion</span>
-          <img className="title-deck-mark" src="/favicon.svg" alt="" />
+          <img className="title-deck-mark" src="/runner-deck-mark.png" alt="" />
           <span>Deck</span>
         </h1>
         <p className="app-subtitle">Run &amp; Train with Deck of Cards</p>
