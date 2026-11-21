@@ -11,6 +11,7 @@
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
+    "@fontsource/nunito-sans": "^5.3.0",
     "@fontsource/source-sans-pro": "^5.3.0",
     "dompurify": "^3.2.6",
     "marked": "^15.0.12",

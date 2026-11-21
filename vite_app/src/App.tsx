@@ -159,8 +159,6 @@ export default function App() {
     Micro: cardsOfType(data.cards, "micro").length,
     Session: cardsOfType(data.cards, "session").length,
   };
-  const countLine = `All ${counts.All} · Macro ${counts.Macro} · Mezzo ${counts.Mezzo} · Micro ${counts.Micro} · Session ${counts.Session}`;
-
   const filtered = (items: TrainingCard[], query: string, andTerms: string[] = [], parentId?: string) =>
     sortCards(data, items.filter((card) =>
       cardMatchesSearch(data, card, query) &&
@@ -191,7 +189,13 @@ export default function App() {
     return <>
       <section className="mode-toolbar browse-toolbar">
         <nav className="scope-tabs" aria-label="Card level">
-          {LEVEL_LABELS.map((level) => <button type="button" key={level} className={scope === level ? "scope-tab is-selected" : "scope-tab"} onClick={() => { setScope(level); resetPages(); }}>{level}</button>)}
+          {LEVEL_LABELS.map((level) => {
+            const count = counts[level as keyof typeof counts];
+            return <button type="button" key={level} className={scope === level ? "scope-tab is-selected" : "scope-tab"} aria-label={`${level}, ${count} cards`} onClick={() => { setScope(level); resetPages(); }}>
+              <span className="scope-tab-label">{level}</span>
+              <span className="scope-tab-count">{count}</span>
+            </button>;
+          })}
         </nav>
         <div className="toolbar-controls">
           <input aria-label="Search cards" value={search} onChange={(event) => { setSearch(event.target.value); resetPages(); }} placeholder="Search cards" />
@@ -305,7 +309,13 @@ export default function App() {
     return <>
       <div className="library-toolbar">
         <nav className="scope-tabs" aria-label="Card level">
-          {LEVEL_LABELS.map((level) => <button type="button" key={level} className={libraryLevel === level ? "scope-tab is-selected" : "scope-tab"} onClick={() => { setLibraryLevel(level); setExpandedProfiles([]); resetPages(); }}>{level}</button>)}
+          {LEVEL_LABELS.map((level) => {
+            const count = counts[level as keyof typeof counts];
+            return <button type="button" key={level} className={libraryLevel === level ? "scope-tab is-selected" : "scope-tab"} aria-label={`${level}, ${count} cards`} onClick={() => { setLibraryLevel(level); setExpandedProfiles([]); resetPages(); }}>
+              <span className="scope-tab-label">{level}</span>
+              <span className="scope-tab-count">{count}</span>
+            </button>;
+          })}
         </nav>
         <input aria-label="Search library" value={librarySearch} onChange={(event) => setLibrarySearch(event.target.value)} placeholder="Search titles, descriptions, IDs, or source" />
       </div>
@@ -375,9 +385,12 @@ export default function App() {
   return <>
     <main className="app-shell">
       <header className="app-header">
-        <h1>{APP_TITLE}</h1>
+        <h1 className="app-title" aria-label={APP_TITLE}>
+          <span>Run Companion</span>
+          <img className="title-deck-mark" src="/favicon.svg" alt="" />
+          <span>Deck</span>
+        </h1>
         <p className="app-subtitle">Run &amp; Train with Deck of Cards</p>
-        <div className="app-card-count">{countLine}</div>
         <div className="mode-navigation-row">
           <nav className="mode-navigation" aria-label="App mode">
             {APP_MODES.map((item) => <button type="button" key={item} className={mode === item ? "mode-tab is-selected" : "mode-tab"} onClick={() => changeMode(item)}>{item}</button>)}
