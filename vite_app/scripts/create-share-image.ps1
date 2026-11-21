@@ -25,8 +25,7 @@ try {
     $graphics.Clear($white)
     $graphics.FillRectangle($paleBrush, 0, 0, 1200, 18)
     $graphics.FillRectangle($goldBrush, 0, 18, 1200, 5)
-    $graphics.DrawString("Run & Train", $titleFont, $inkBrush, 85, 72)
-    $graphics.DrawString("with Deck of Cards", $titleFont, $inkBrush, 85, 143)
+    $graphics.DrawString("Run Companion Deck", $titleFont, $inkBrush, 85, 93)
     $graphics.DrawString("Explore training ideas. Build a connected pathway.", $subtitleFont, $mutedBrush, 90, 248)
 
     $labels = @("MACRO", "MEZZO", "MICRO", "SESSION")
@@ -39,7 +38,7 @@ try {
         $graphics.DrawString(("★" * (4 - $index)), $smallFont, $goldBrush, $x + 25, 457)
     }
 
-    $graphics.DrawString("TRAIL-RUNNING TRAINING CARDS", $smallFont, $mutedBrush, 89, 548)
+    $graphics.DrawString("RUN & TRAIN WITH DECK OF CARDS", $smallFont, $mutedBrush, 89, 548)
     $image.Save($output, [System.Drawing.Imaging.ImageFormat]::Png)
 }
 finally {

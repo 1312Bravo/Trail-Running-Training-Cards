@@ -376,6 +376,7 @@ export default function App() {
     <main className="app-shell">
       <header className="app-header">
         <h1>{APP_TITLE}</h1>
+        <p className="app-subtitle">Run &amp; Train with Deck of Cards</p>
         <div className="app-card-count">{countLine}</div>
         <div className="mode-navigation-row">
           <nav className="mode-navigation" aria-label="App mode">

@@ -54,7 +54,7 @@ export interface WebLibraryData {
   philosophies: Record<string, PhilosophyProfile>;
 }
 
-export const APP_TITLE = "Run & Train with Deck of Cards";
+export const APP_TITLE = "Run Companion Deck";
 export const APP_MODES = [
   "Browse cards",
   "Today session",

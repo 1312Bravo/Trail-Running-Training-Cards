@@ -25,6 +25,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 
 .app-shell, .load-state { width: min(100% - 2rem, 92rem); margin: 0 auto; padding: 3.1rem 0 4rem; }
 .app-header { position: relative; }
+.app-subtitle { margin: 0.2rem 0 0; color: var(--muted-ink); font-size: 0.98rem; text-align: center; }
 h1 { margin: 0; color: var(--ink); font-family: "Source Sans Pro", sans-serif; font-size: clamp(2.1rem, 3.5vw, 2.75rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.2; text-align: center; }
 .app-card-count { margin-top: 0.9rem; color: var(--muted-ink); font-size: 0.9rem; text-align: center; }
 .mode-navigation-row { position: relative; display: flex; align-items: center; justify-content: center; max-width: 980px; margin: 1.9rem auto 2rem; }
