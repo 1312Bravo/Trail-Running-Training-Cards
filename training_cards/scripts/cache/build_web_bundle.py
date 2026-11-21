@@ -12,7 +12,7 @@ from training_cards.json_store import (
     read_json,
 )
 from training_cards.philosophy_profiles import PHILOSOPHY_PROFILES
-from streamlit_app.philosophy_content import (
+from training_cards.philosophy_content import (
     load_app_summary,
     load_detailed_note,
     load_reviewed_source_bullets,

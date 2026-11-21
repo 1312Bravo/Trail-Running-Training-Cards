@@ -19,7 +19,7 @@ Questions to resolve:
 - what tag groups should exist first?
 - should tags stay simple strings or become grouped objects?
 - when should unknown tags move from warnings to errors, if ever?
-- how should the Streamlit app expose tag groups without making the UI heavy?
+- how should the Vite app expose tag groups without making the UI heavy?
 
 ## Future Feature: Today Session Decision Helper
 
@@ -47,7 +47,7 @@ Current direction:
 
 - validation should protect card data before export/upload
 - tests should protect code behavior, especially pathway indexing and validation rules
-- tests should not run inside the Streamlit app
+- code checks should run independently of the Vite app UI
 - a future CI or pre-upload command can run both tests and validation as one project check
 
 Questions to resolve:

@@ -1,6 +1,6 @@
 # Vite Web App
 
-This is the browser-based interface for the training-card library. The Streamlit app remains available during the transition.
+This is the browser-based interface for the training-card library.
 
 The Python package remains responsible for Google Drive sync, JSON validation, card schemas, and library authoring. The web app reads a public static bundle prepared from the validated local cache; no Drive credentials are used by the browser.
 

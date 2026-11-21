@@ -303,7 +303,7 @@ Publish/export flows also run pathway validation automatically:
 
 - cache export and upload tooling validates before writing or publishing card JSON
 - cache upload validates before rebuilding the bundle and uploading to Google Drive
-- the Streamlit app can still read the current cache while we are cleaning pathway issues
+- the Vite data-preparation command can still read the current cache while we are cleaning pathway issues
 
 ## Registry
 
