@@ -18,6 +18,7 @@ This record supports our interpretation in `philosophy.md`. It does not reproduc
 
 ## Interpretation Boundaries
 
+- Pipeline review, 2026-11-22: rechecked the [Foundation's sequence principles](https://www.lydiardfoundation.org/about-us/). The library now distinguishes hill preparation, anaerobic development, and later integration. The new stage is conditional on the goal and recovery, and reuses controlled existing interval work. It does not reproduce a historical anaerobic schedule or claim that the energy systems operate separately.
 - This profile records a general running philosophy. Trail and mountain application is our documented adaptation, not a claim about the original system.
 - Exact phase lengths, mileage, and historical workouts must not be transferred to cards without source review and athlete context.
 - The enduring planning logic should not be confused with a requirement to copy a historical schedule.

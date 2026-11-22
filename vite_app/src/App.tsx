@@ -161,8 +161,8 @@ export default function App() {
   };
   const filtered = (items: TrainingCard[], query: string, andTerms: string[] = [], parentId?: string) =>
     sortCards(data, items.filter((card) =>
-      cardMatchesSearch(data, card, query) &&
-      matchesAllTerms(data, card, andTerms) &&
+      cardMatchesSearch(data, card, query, profiles) &&
+      matchesAllTerms(data, card, andTerms, profiles) &&
       (tags.length === 0 || tags.every((tag) => card.tags?.includes(tag))) &&
       matchesPhilosophies(data, card, profiles, parentId),
     ));
@@ -198,7 +198,7 @@ export default function App() {
           })}
         </nav>
         <div className="toolbar-controls">
-          <input aria-label="Search cards" value={search} onChange={(event) => { setSearch(event.target.value); resetPages(); }} placeholder="Search cards" />
+          <input aria-label="Search cards" value={search} onChange={(event) => { setSearch(event.target.value); resetPages(); }} placeholder="Search cards or training phase" />
           <ProfileFilter data={data} value={profiles} onChange={(next) => { setProfiles(next); resetPages(); }} />
         </div>
         <ActiveFilters tags={tags} onRemoveTag={removeTag} />
@@ -300,7 +300,9 @@ export default function App() {
       }
       const entries = [...merged.values()].filter((entry) => {
         const haystack = [entry.title, entry.description, entry.card_id, entry.level, entry.source, entry.source_profile, entry.source_profile?.replaceAll("_", " ")].join(" ").toLowerCase();
-        return haystack.includes(librarySearch.trim().toLowerCase().replaceAll("_", " "));
+        const card = cardsById.get(entry.card_id);
+        return haystack.includes(librarySearch.trim().toLowerCase().replaceAll("_", " ")) ||
+          Boolean(card && cardMatchesSearch(data, card, librarySearch, [profileId]));
       });
       return [profileId, entries] as const;
     }).filter(([, entries]) => entries.length > 0);

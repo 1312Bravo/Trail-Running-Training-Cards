@@ -22,6 +22,14 @@ This record supports our interpretation in `philosophy.md`. It does not reproduc
 
 ## Interpretation Boundaries
 
+### Session review 2026-11-22
+
+- Re-read [Updated Thinking on Aerobic Assessment](https://evokeendurance.com/resources/our-latest-thinking-on-aerobic-assessment-for-the-mountain-athlete/). The published drift assessment uses a standardised sustained task. The short and broken options in our calibration session practise an existing effort anchor and must not be presented as that threshold assessment.
+- Strength-reserve and uphill muscular-endurance options remain adaptable library examples within the documented capacity sequence. Their sets, rest, and durations are not claimed as official Evoke prescriptions. Uphill muscular work must identify local force demand and should be simplified when breathing, mechanics, or subsequent recovery become limiting.
+
+### Profile boundaries
+
+- Pipeline review, 2026-11-22: the separate Aerobic Threshold Assessment follows the reviewed treadmill task at 2% grade, a settled warm-up, and 60 recorded minutes at unchanged speed and grade. Compare mean heart rate in the two 30-minute halves; the source's approximately 5% drift interpretation is conditional on valid execution and conditions. The full workout includes preparation and cooldown. Calibration practice continues to use an existing anchor; the mainstream benchmark remains observational.
 - The books and public material cover several mountain sports; this profile identifies our running-focused interpretation rather than claiming every example transfers unchanged.
 - Exact threshold relationships, tests, zone definitions, block lengths, and muscular-endurance protocols remain context-specific.
 - Uphill Athlete is shared lineage and source material, not a second card philosophy profile.

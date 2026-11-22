@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "test:discovery": "node scripts/test-discovery.mjs",
     "dev": "vite --host 127.0.0.1",
     "prepare:data": "node scripts/prepare-data.mjs",
     "prebuild": "node scripts/prepare-data.mjs",

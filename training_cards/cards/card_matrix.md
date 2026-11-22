@@ -1452,3 +1452,107 @@ Build status:
 Cloud status: the session layer and updated root metadata have been uploaded to Drive and verified by download/readback validation. The Drive-backed library now contains 365 cards and `micro_session_reuse.json` with 1087 entries.
 
 Next session step: review app pathway behavior with named-philosophy micro cards to confirm reused mainstream sessions and specific session cards appear together correctly.
+
+### Session review 2026-11-22
+
+The review preserves the 46 mainstream concepts and 31 named-philosophy concepts, and adds one shared mainstream session: `session_078`, Repeatable Aerobic Benchmark (`mainstream-repeatable-aerobic-benchmark`). It is an observational easy-effort comparison under repeatable conditions, not a physiological threshold test. It belongs under Aerobic Volume Baseline Week, Aerobic Volume Absorption Week, and Aerobic Maintenance Week. Named base-establishment weeks explicitly reuse it, and inherited mainstream weeks receive the same session through reuse metadata.
+
+All 77 existing sessions now have standalone phase placement and entry requirements, main-option selection cues, and stimulus-specific progression and regression. Demanding concepts have more selective ability labels. Strength examples include movements, sets, recovery, and load cues. Named cards carry an actual selection or execution decision instead of generic provenance prose. Existing cards retain their stable IDs.
+
+The pass corrects repeat wording, conditional warm-up pickups, duplicated stride preparation, and duration envelopes across the session layer. Evoke calibration uses an existing effort anchor and explicitly distinguishes short control practice from a standardised drift assessment. Environmental exposure remains an option inside course-exposure cards, with practical execution and exit choices. No additional environmental session is needed for this release.
+
+Browse and Card library search include adjacent parent hierarchy context within each philosophy. Philosophy filters include explicit inherited and reused cards. A phase match indicates a possible session role, not that every workout option is suitable. Support, alternative, and sequencing links do not create phase ancestry. Mainstream remains the provenance of shared sessions.
+
+Verified release: schema `1.3.0`, library `0.9.0`, 366 total cards, including 78 sessions (47 mainstream and 31 named-philosophy sessions), and 1099 micro-to-session reuse entries. All individual session files and seven root metadata/bundle files match Drive readback. Validation commands: `py -m training_cards.scripts.cache.validate_cache`, `py -m training_cards.scripts.cache.audit_session_content`, and `pnpm test:discovery` in `vite_app` after preparing its data bundle.
+
+### Full pipeline review 2026-11-22
+
+Review baseline: Drive library 0.9.0 after the session review. The findings and proposal below record that baseline; the user approved all implementation on 2026-11-22. The implementation record follows this review.
+
+#### Structural coverage
+
+The 366 cards comprise 33 macro, 78 mezzo, 177 micro, and 78 session cards. Schema and relationship validation report no errors or warnings. Every card in each philosophy's effective library is reachable from one of that philosophy's macro cards. No macro, mezzo, or micro card is a dead end after explicit reuse is included.
+
+| Philosophy | Own macro / mezzo / micro / session | Effective macro / mezzo / micro / session |
+| --- | --- | --- |
+| Mainstream Endurance | 9 / 28 / 64 / 47 | 9 / 28 / 64 / 47 |
+| 80/20 | 5 / 10 / 21 / 5 | 9 / 28 / 59 / 38 |
+| Lydiard | 4 / 7 / 15 / 4 | 9 / 25 / 52 / 41 |
+| CTS | 4 / 9 / 22 / 6 | 9 / 26 / 56 / 41 |
+| Evoke | 3 / 7 / 17 / 4 | 9 / 26 / 56 / 37 |
+| SWAP | 6 / 12 / 27 / 8 | 9 / 24 / 52 / 39 |
+| Sharman Ultra | 2 / 5 / 11 / 4 | 9 / 28 / 62 / 46 |
+
+Effective counts include shared cards, so their columns must not be added to obtain the number of unique cards. Reachability establishes structural completeness only. It does not establish that a child session fulfils its parent week's purpose.
+
+#### Repairs before expansion
+
+- The 177 micro cards contain only two distinct `week_structure` lists: one repeated across the 64 mainstream weeks and another across the 113 named weeks. Their `expected_adaptations` and `progression_rules` have the same two-template pattern. Rewrite actual weekly stress order, easy support, recovery spacing, entry conditions, and the decision to hold, progress, or absorb. Keep these flexible patterns rather than fixed weekday calendars.
+- All 177 micro cards currently use `suitable_levels = all`. Review this alongside actual entry requirements, particularly simulation, muscular-endurance, and concentrated-quality weeks. Broad ability labels alone do not establish readiness.
+- Recovery menus contain development sessions. Clear examples are `micro_075` High-Intensity Absorption -> `session_050` high-intensity work, `micro_111` CTS Muscular-Cost Absorption -> `session_058` strength-endurance work, and `micro_135` / `micro_136` Evoke recovery/absorption -> `session_064` uphill ME work. `micro_147` SWAP Adventure Recovery also offers `session_069` with substantial adventure duration. Remove incompatible hierarchy edges or provide an explicitly appropriate lower-cost choice. A session's development options should not be made available merely because its philosophy matches.
+- Check whether key session roles are actually linked. `micro_005` Strength Reintroduction names an easy run but offers only activation and mobility. `micro_025` Strength Endurance Absorption names easy aerobic running but offers only gentle movement and short hill power. Other automated Easy-family mismatches include legitimate recovery runs or integrated fueling runs and need coaching judgement rather than mechanical repair.
+- Base discovery now works, but some base-role connections remain incomplete. Mainstream base reaches 18 sessions including the benchmark, yet ordinary `session_031` Neuromuscular Strides is absent. The base strength-support pathway offers support work rather than `session_005` General Strength. Trail Skill And Terrain Familiarity explicitly promises hiking and descending, but its two weeks do not link `session_019` Power-Hike Practice or `session_020` Downhill Skill Conditioning. Add conditional existing-card connections where they fulfil the week, rather than duplicating these sessions.
+- Mainstream Capacity Development names long endurance as a possible limiter but offers only threshold, aerobic power, and strength endurance blocks. Review reusing the existing Long Endurance Development Block in that context before proposing another durability block.
+- Every mezzo and micro reference is currently `parent`. The macro layer has sequence and alternative links, but blocks and weeks have no structured `next`, `previous`, or `alternative` references. Add meaningful transitions and easier alternatives with response conditions in the coaching text. These references remain separate from hierarchy and should not impose a compulsory linear schedule.
+- The previous session pass deliberately made Evoke calibration practice an existing intensity anchor. Review `mezzo_058` and `micro_130` through `micro_132` so calibration, aerobic development, and actual threshold assessment are not conflated. The new mainstream benchmark is an observational comparison and cannot replace a standardised threshold assessment.
+
+#### Proposed additions
+
+The recommended authoring shortlist contains six cards. Titles and placement are proposed for approval before full content is written.
+
+| Level | Proposed card | Placement and coaching reason |
+| --- | --- | --- |
+| Macro | Lydiard Anaerobic Development | After Lydiard Hill Resistance Transition and before Race-Specific Preparation when the goal and readiness justify this stage. The existing path moves directly from hill work into integration of supposedly already-built capacities. |
+| Mezzo | Lydiard Anaerobic Development Block | Under the proposed macro. Separate development of the missing capacity from later integration and sharpening, while preserving aerobic support. |
+| Micro | Lydiard Anaerobic Introduction Week | Under the proposed block. Introduce the phase-specific work with restrained density and clear readiness checks. |
+| Micro | Lydiard Anaerobic Development Week | Under the same block. Develop the selected quality after the introductory dose is absorbed. Reuse the existing Lydiard Response-Regulated Absorption Week where its purpose fits instead of creating another generic absorption card. |
+| Session | Evoke Aerobic Threshold Assessment | Under the existing threshold-control/calibration context through an appropriate micro week. Use the reviewed standardised assessment with validity and interpretation limits. Keep `session_062` for execution against an existing anchor. |
+| Micro | Accumulated Endurance Week | Under mainstream Long Endurance Development, with explicit reuse under CTS long-run durability where appropriate. Organise already-tolerated endurance work across more than one consequential day, with recovery and total load managed across the cluster. Reuse existing easy, long, run-hike, and recovery sessions. This is an optional advanced pattern, not a requirement for ultra preparation. |
+
+The Lydiard proposal reopens the earlier decision that substituted hill resistance for generic capacity development. That decision represented the hill bridge but left anaerobic development without its own explicit place before integration. The [Lydiard Foundation's sequence principles](https://www.lydiardfoundation.org/about-us/) and our existing philosophy both distinguish those jobs. Exact workout prescriptions still need source-specific review. Existing interval sessions should be reused only when their intended stimulus fits, not merely because they are hard.
+
+The [official Evoke aerobic assessment description](https://evokeendurance.com/resources/our-latest-thinking-on-aerobic-assessment-for-the-mountain-athlete/) provides the starting point for reviewing a separate assessment card. Our short calibration segments and observational benchmark do not reproduce that standardised task.
+
+[CTS guidance on concentrated training](https://trainright.com/block-training-ultrarunning-ultramarathon/) treats rearranged workload and recovery as the relevant decision and limits this approach to appropriate experienced athletes. It supports reviewing a distinct week pattern without assuming a universal benefit or automatically adding more total work.
+
+#### Conditional topics and reuse decisions
+
+- Downhill tolerance: improve the existing descent session's progression and the weekly dose/recovery instructions in course-demand cards first. A new downhill week is justified only if that review reveals a genuinely different weekly structure.
+- Heat: current environmental options explicitly provide manageable exposure and logistics practice rather than a heat-adaptation plan. A later Heat Preparation Block and associated weeks may be justified for relevant events because repeated exposure changes the surrounding training. Review the [IOC heat consensus](https://stillmed.olympics.com/media/Documents/Athletes/Medical-Scientific/Consensus-Statements/Recommendations-regulations-for-sport-events-in-the-heat-2023.pdf) before prescribing that content. It is not part of the six-card first batch.
+- Low-light movement: existing gear checks mention lights, but do not explicitly teach moving on trails with restricted visibility. First review a low-light option within Trail Familiarity or Course-Demands Exposure. Add a separate session only if movement decisions and learning structure exceed that option's scope.
+- Pole use: add purposeful technique and transition options to existing hiking and execution cards where relevant, rather than creating a parallel pole-card hierarchy.
+- 80/20, CTS, SWAP, and Sharman do not currently need more broad macro categories. Their higher-priority work is recovery selection, meaningful weekly structure, dose, and feedback. Share new mainstream concepts through explicit reuse unless a named philosophy changes the decision materially.
+- Do not add generic base runs, generic recovery cards, philosophy-labelled duplicates, medical rehabilitation phases, or a separate assessment macro. Existing cards or appropriately scoped details cover those roles.
+
+Recommended order: repair semantic connections and weekly structure, review block/week transitions, then author the six proposed additions through the baseline and philosophy-specificity gates.
+
+### Full pipeline implementation 2026-11-22
+
+Library `0.10.0` keeps schema `1.3.0` and contains 375 unique cards: 34 macro, 80 mezzo, 182 micro, and 79 session cards. Existing identities are preserved. There are nine additions:
+
+| IDs | Addition and placement |
+| --- | --- |
+| `macro_039`, `mezzo_079`, `micro_178`, `micro_179` | Conditional Lydiard anaerobic development between absorbed hill preparation and later integration. The existing Response-Regulated Absorption Week also belongs under this block. Existing controlled interval sessions supply the selected quality; the stage does not prescribe historical schedules. |
+| `micro_180` | Optional advanced Accumulated Endurance Week under mainstream Long Endurance Development, explicitly reused under CTS Long-Run Durability. Rearrange familiar load and reserve recovery; do not automatically add volume. |
+| `session_079` | Evoke Aerobic Threshold Assessment under calibration and drift-check weeks. Keep the standardised sustained task distinct from calibration practice and the observational mainstream benchmark. |
+| `mezzo_080`, `micro_181`, `micro_182` | Shared Heat Preparation Block, Heat Familiarity Week, and Heat Preparation Consolidation Week under race preparation. Repeated manageable exposures replace ordinary load and include cooler recovery days, cooling access, and exit decisions. They do not promise physiological acclimation. |
+
+All 182 micro cards now describe their own weekly rhythm, entry condition, intended response, and adjustment decision. Ability labels are narrower for demanding quality, simulation, and accumulated-load patterns. All blocks and weeks have response-led transitions or meaningful alternatives; links are choices rather than a required linear calendar. The Mainstream Capacity phase also offers the existing long-endurance block.
+
+The recovery pass removes the reviewed development-session edges, restores ordinary easy/recovery roles in strength and absorption weeks, and connects base strides, general strength, hiking, and descending where the weekly purpose calls for them. Existing sessions gain low-light familiarity, pole technique and transitions, and controlled descent-tolerance options. These remain selectable options; the week does not require every linked session. Evoke upper-level guidance now separates assessment, practising an existing anchor, and developing easy volume.
+
+Reuse metadata contains 114 macro-to-mezzo, 238 mezzo-to-micro, and 1223 micro-to-session entries. Effective coverage after sharing is:
+
+| Philosophy | Macro / mezzo / micro / session |
+| --- | --- |
+| Mainstream Endurance | 9 / 29 / 67 / 47 |
+| 80/20 | 9 / 29 / 61 / 39 |
+| Lydiard | 10 / 27 / 56 / 44 |
+| CTS | 9 / 27 / 59 / 45 |
+| Evoke | 9 / 27 / 58 / 42 |
+| SWAP | 9 / 25 / 54 / 43 |
+| Sharman Ultra | 9 / 29 / 65 / 47 |
+
+The pipeline audit checks effective per-philosophy reachability, dead ends, weekly guidance, reviewed recovery exclusions, essential session menus, and same-level transitions. Content judgement still requires the coaching review above; graph reachability alone is insufficient. Cache validation, the pipeline audit, all 79 session-content checks, 23 Python tests, eight browser-data discovery checks, TypeScript checking, and the production build pass. Browser preview confirms the new Lydiard week, conditional links, and Evoke assessment detail layout.
+
+Drive publication is complete: all 375 individual card files and seven root files match readback, including the final published bundle. The deployment ZIP contains the same library content and reuse metadata, plus the seven app philosophy profiles. The existing Netlify site still needs the normal manual ZIP deployment to serve this release.

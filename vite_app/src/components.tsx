@@ -227,7 +227,7 @@ export function ProfileFilter({
   }, []);
   return (
     <details className="profile-picker" ref={pickerRef}>
-      <summary title="Filter by coaching philosophy">{label}</summary>
+      <summary title="Filter by coaching philosophy, including its shared cards">{label}</summary>
       <div className="profile-picker-menu">
         {Object.entries(data.philosophies).map(([id, profile]) => (
           <label key={id}>

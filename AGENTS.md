@@ -8,6 +8,8 @@ This repository contains the standalone Training Cards library.
 - Use training_cards/local_cache/ only as a temporary downloaded working copy.
 - Use training_cards/cards/examples/ as Python authoring references only; do not maintain a full duplicate Python seed-card library beside the Drive JSON library.
 - Run validation after editing JSON or syncing with Drive.
+- After session-content reviews, also run `py -m training_cards.scripts.cache.audit_session_content` to check standalone guidance and written workout durations.
+- After pipeline or reuse reviews, run `py -m training_cards.scripts.cache.audit_pipeline` to check effective philosophy reachability, weekly guidance, and reviewed session-menu contracts.
 - Keep routine checks proportional to the change:
   - Avatar-only SVG changes usually need visual preview, not automated tests.
   - CSS or card-layout styling changes usually need app preview; run focused checks only when Python rendering logic changes.

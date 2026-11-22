@@ -2,12 +2,15 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 
-from training_cards.macro_mezzo_reuse import VALID_REUSE_TYPES
+from training_cards.macro_mezzo_reuse import REUSE_MAINSTREAM, VALID_REUSE_TYPES
 from training_cards.philosophy_profiles import MAINSTREAM_ENDURANCE, validate_philosophy_profile_ids
 from training_cards.schemas import BaseTrainingCard, CardRelationship, CardType
 
 
 MEZZO_MICRO_REUSE_VERSION = "1.0.0"
+
+# Explicit shared week choices beneath a philosophy-owned block.
+MEZZO_MICRO_REUSE_BY_MEZZO = {"mezzo_047": ("micro_180",)}
 
 
 @dataclass(frozen=True, slots=True)
@@ -71,6 +74,23 @@ def build_mezzo_micro_reuse_config(
                     reuse_type=reuse_type,
                 )
             )
+
+    for mezzo_id, micro_ids in MEZZO_MICRO_REUSE_BY_MEZZO.items():
+        mezzo = cards_by_id.get(mezzo_id)
+        if mezzo is None or mezzo.card_type != CardType.MEZZO:
+            continue
+        for micro_id in micro_ids:
+            micro = cards_by_id.get(micro_id)
+            if micro is None or micro.card_type != CardType.MICRO or micro.philosophy_profile_ids != [MAINSTREAM_ENDURANCE]:
+                continue
+            for profile in mezzo.philosophy_profile_ids:
+                if profile == MAINSTREAM_ENDURANCE:
+                    continue
+                key = (profile, mezzo.id, micro.id, REUSE_MAINSTREAM)
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+                entries.append(MezzoMicroReuse(profile, mezzo.id, mezzo.title, micro.id, micro.title, REUSE_MAINSTREAM))
 
     entries.sort(
         key=lambda entry: (

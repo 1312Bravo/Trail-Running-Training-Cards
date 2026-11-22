@@ -102,6 +102,12 @@ Create cards step by step.
 
 ## Completion Review
 
+For pipeline reviews, write the actual rhythm of each week: the consequential session, surrounding easy work, spacing, and the response needed before another dose. State a specific entry condition and a useful outcome. Review linked sessions as a selectable menu; recovery weeks must not offer a development workout solely because it belongs to the same philosophy. Add conditional same-level transitions and a genuinely lower-cost alternative. Use explicit mainstream reuse when a shared concept fits a named pathway.
+
+For session reviews, inspect the card as a standalone choice from Browse as well as inside its pathway. Replace generic placement text with the actual phase role and entry requirements. Use broad ability labels only when the options genuinely support them, and give a selection cue for each main option. Keep the distinctive philosophy decision in one useful location rather than repeating it throughout the workout.
+
+Check the full written duration including recoveries, warm-up, and cooldown. Optional preparation must use an optional execution mode. Mechanical repeats describe one round in the parts, with the round count stored on the option. Repeated observations must distinguish a coaching comparison from a standardised physiological assessment.
+
 After finishing any substantial work block, do a coach-led completion review before moving to the next block. Here, "work block" means a meaningful set of decisions or content, such as an accepted type set, philosophy review pass, card batch, storage change, or sync checkpoint. It does not mean only a card hierarchy block.
 
 During the review, check whether the finished block has too much, is missing something important, duplicates nearby concepts, uses the wrong planning level, needs clearer naming, or should be merged, split, deleted, or refactored. Also check that local files, cloud structure, docs, and app-facing assumptions still agree.

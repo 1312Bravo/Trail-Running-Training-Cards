@@ -100,7 +100,8 @@ export const MODE_INFO: Record<AppMode, { intro: string; bullets: string[] }> = 
     intro: "A flexible deck view for exploring cards across every training level or finding a specific idea quickly.",
     bullets: [
       "Filter by card level, coaching philosophy, or tags.",
-      "Search across titles, summaries, purposes, tags, notes, and levels.",
+      "Search card content, workout options, or a parent training phase such as base.",
+      "Philosophy filters include the shared cards explicitly used by that philosophy.",
       "Open a card to inspect the full coaching details.",
     ],
   },

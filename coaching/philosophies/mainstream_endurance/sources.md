@@ -89,6 +89,15 @@ This profile deliberately excludes named coaching systems as primary sources. Do
 
 ## Interpretation Notes
 
+### Session review 2026-11-22
+
+- [CDC, measuring physical activity intensity](https://www.cdc.gov/physical-activity-basics/measuring/) supports relative effort and conversational observations. The Repeatable Aerobic Benchmark is our observational coaching task. Its short fixed-duration examples are not a validated threshold or fitness test.
+- [CDC, adult physical activity examples](https://www.cdc.gov/physical-activity-basics/adding-adults/what-counts.html) supports the general set and repetition vocabulary used in introductory strength options. The library's exercise selections, rest allowances, and deliberately conservative effort are adaptable coaching examples, not a competitive strength protocol derived from health guidelines.
+- [CDC, heat and athletes](https://www.cdc.gov/heat-health/risk-factors/heat-and-athletes.html) supports modifying activity in heat, gradual exposure, access to cooling, and stopping when faint or weak. Environmental options practise manageable conditions and logistics. They do not prescribe heat or altitude acclimation.
+
+### General interpretation
+
+- Pipeline review, 2026-11-22: reviewed the [IOC recommendations for sport in heat](https://stillmed.olympics.com/media/Documents/Athletes/Medical-Scientific/Consensus-Statements/Recommendations-regulations-for-sport-events-in-the-heat-2023.pdf) alongside the CDC athlete guidance. The new Heat Preparation Block and its two weeks distribute manageable exposure and logistics practice while reducing surrounding load. They do not claim that short familiarity exposures reproduce the consensus's formal physiological acclimation protocols. Exposure replaces training load, with cooling, exit choices, and recovery checks.
 - This profile should state mainstream principles, not exact plans.
 - A source supporting health-oriented exercise prescription does not automatically support competitive training prescriptions.
 - A source supporting trained or elite athletes does not automatically apply to beginners.

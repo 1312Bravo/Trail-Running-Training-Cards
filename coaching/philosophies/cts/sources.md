@@ -38,6 +38,7 @@ Use the sources to revisit claims, add page-level notes from books, and distingu
 
 ## Interpretation Notes
 
+- Pipeline review, 2026-11-22: [CTS guidance on block training](https://trainright.com/block-training-ultrarunning-ultramarathon/) supports considering concentrated workload for experienced athletes with suitable recovery. Accumulated Endurance Week remains a shared mainstream concept, explicitly reused under CTS long-run durability. It rearranges familiar total work rather than adding a second long run automatically; its durations and arrangement are our adaptable implementation.
 - The philosophy file paraphrases and combines recurring ideas across sources. It should not be read as a quotation or exact CTS protocol.
 - Numerical RPE ranges, durations, workload targets, and nutrition quantities in CTS source material remain within their original context. Do not transfer them into generic cards without a separate decision and source check.
 - Add sources from the book, CTS podcast episodes, or newer official material here before expanding a CTS-specific claim.

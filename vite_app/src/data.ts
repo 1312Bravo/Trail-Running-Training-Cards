@@ -5,6 +5,7 @@ import {
   type TrainingCard,
   type WebLibraryData,
 } from "./types";
+import { cardSearchContext, normalizeSearch } from "./discovery";
 
 export async function loadLibrary(): Promise<WebLibraryData> {
   const response = await fetch(`${import.meta.env.BASE_URL}data/library.json`);
@@ -26,6 +27,13 @@ export function asText(value: unknown): string {
 export function asList(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return value.map((item) => asText(item)).filter(Boolean);
+}
+
+function searchableText(value: unknown): string {
+  if (typeof value === "string") return value;
+  if (Array.isArray(value)) return value.map(searchableText).join(" ");
+  if (value && typeof value === "object") return Object.values(value).map(searchableText).join(" ");
+  return "";
 }
 
 export function displayText(value: unknown): string {
@@ -79,7 +87,7 @@ export function sortCards(data: WebLibraryData, cards: TrainingCard[]): Training
   });
 }
 
-export function cardMatchesSearch(data: WebLibraryData, card: TrainingCard, query: string): boolean {
+export function cardMatchesSearch(data: WebLibraryData, card: TrainingCard, query: string, profiles: string[] = []): boolean {
   if (!query.trim()) return true;
   const profileIds = card.philosophy_profile_ids ?? [];
   const tags = card.tags ?? [];
@@ -96,15 +104,26 @@ export function cardMatchesSearch(data: WebLibraryData, card: TrainingCard, quer
     tags.map((tag) => tag.replaceAll("_", " ")).join(" "),
     asList(card.suitable_levels).join(" "),
     asText(card.additional_information),
+    asList(card.goal_race_context).join(" "),
+    asList(card.training_profile).join(" "),
+    searchableText(card.workout_blocks),
+    searchableText(card.session_family),
+    cardSearchContext(data, card, profiles),
   ]
     .join(" ")
     .toLowerCase();
-  const lower = query.toLowerCase();
-  return haystack.includes(lower) || haystack.includes(lower.replaceAll("_", " "));
+  const text = normalizeSearch(haystack);
+  const term = normalizeSearch(query);
+  const phaseTerm = data.cards.some((item) => item.card_type === "macro" &&
+    [item.title, ...item.tags].some((label) => normalizeSearch(label) === term));
+  // Phase names must match whole words: "base" must not match "effort-based".
+  return phaseTerm
+    ? new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`).test(text)
+    : text.includes(term);
 }
 
-export function matchesAllTerms(data: WebLibraryData, card: TrainingCard, terms: string[]): boolean {
-  return terms.every((term) => cardMatchesSearch(data, card, term));
+export function matchesAllTerms(data: WebLibraryData, card: TrainingCard, terms: string[], profiles: string[] = []): boolean {
+  return terms.every((term) => cardMatchesSearch(data, card, term, profiles));
 }
 
 export function getChildCards(
@@ -153,7 +172,7 @@ export function reusedCardIds(
   profileIds: string[],
   childType: CardType,
 ): Set<string> {
-  if (!parentId || !profileIds.length) return new Set();
+  if (!profileIds.length) return new Set();
   const reuseConfig =
     childType === "mezzo"
       ? data.macro_mezzo_reuse
@@ -171,7 +190,7 @@ export function reusedCardIds(
   return new Set(
     reuseConfig.entries
       .filter(
-        (entry) => entry[parentField] === parentId && profileIds.includes(String(entry.philosophy_profile_id)),
+        (entry) => (!parentId || entry[parentField] === parentId) && profileIds.includes(String(entry.philosophy_profile_id)),
       )
       .map((entry) => entry[childField])
       .filter((id): id is string => typeof id === "string"),
@@ -187,7 +206,10 @@ export function matchesPhilosophies(
   if (!profileIds.length) return true;
   const childType = CARD_TYPES[Math.min(CARD_TYPES.indexOf(card.card_type), 3)] as CardType;
   const reused = reusedCardIds(data, parentId, profileIds, childType);
-  return reused.has(card.id) || profileIds.some((id) => card.philosophy_profile_ids?.includes(id));
+  return reused.has(card.id) || profileIds.some((id) =>
+    card.philosophy_profile_ids?.includes(id) ||
+    (!parentId && data.card_library_index.levels[card.card_type]?.[id]?.some((entry) => entry.card_id === card.id)),
+  );
 }
 
 export function orderedDetailFields(card: TrainingCard): string[] {

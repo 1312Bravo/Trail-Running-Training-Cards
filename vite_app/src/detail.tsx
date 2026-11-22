@@ -122,8 +122,11 @@ function DetailSection({
           {references.map((reference, index) => {
             const linked = cardsById.get(asText(reference.card_id));
             const label = `${displayLabel(reference.relationship)}: ${linked?.title ?? asText(reference.card_id)}`;
+            const conditions = asList(reference.tags)
+              .filter((tag) => /^(when_|once_|skip_|smaller_)/.test(tag))
+              .map((tag) => tag.replaceAll("_", " "));
             return linked
-              ? <button className="button button-small" type="button" key={`${label}-${index}`} onClick={() => onReference(linked)}>{label}</button>
+              ? <button className="button button-small" title={conditions.length ? `${label}. ${conditions.join(". ")}` : label} type="button" key={`${label}-${index}`} onClick={() => onReference(linked)}>{label}</button>
               : <span className="detail-reference-item" key={`${label}-${index}`}>{label}</span>;
           })}
         </div>

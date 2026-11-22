@@ -63,14 +63,20 @@ Current Drive library contents:
 - `micro_session_reuse.json`: 1 app-facing reuse metadata file
 - `card_library_index.json`: 1 app-facing browse/index metadata file
 - `training_cards_library.json`: 1 bundled app-facing file
-- `cards/macro`: 33 files
-- `cards/mezzo`: 78 files
-- `cards/micro`: 177 files
-- `cards/session`: 77 files
+- `cards/macro`: 34 files
+- `cards/mezzo`: 80 files
+- `cards/micro`: 182 files
+- `cards/session`: 79 files
 
 The current Drive library contains accepted macro cards, accepted mezzo cards, accepted micro cards, accepted session cards, explicit macro-to-reused-mezzo mapping metadata, explicit mezzo-to-reused-micro mapping metadata, explicit micro-to-reused-session mapping metadata, and an app-facing card library index for quick philosophy/block browsing.
 
-Verified Drive/readback status: the library contains 365 cards: 33 macro, 78 mezzo, 177 micro, and 77 session cards. The session cards include 46 mainstream session cards and 31 named-philosophy session cards. The uploaded `micro_session_reuse.json` contains 1087 entries and is included in `training_cards_library.json`.
+Verified Drive/readback status on 2026-11-22: library `0.10.0`, schema `1.3.0`, contains 375 cards: 34 macro, 80 mezzo, 182 micro, and 79 session cards. The session cards include 47 mainstream and 32 named-philosophy sessions. Reuse metadata contains 114 macro-to-mezzo, 238 mezzo-to-micro, and 1223 micro-to-session entries. All 375 individual card files and all seven root JSON files match the validated working copy after upload. The bundle has no pathway errors or warnings, and every effective philosophy pathway is reachable without dead ends.
+
+The session review repaired an empty local micro-card file by restoring the current Drive bundle, revised all 77 existing sessions, and added the shared Repeatable Aerobic Benchmark. Run `py -m training_cards.scripts.cache.audit_session_content` after session authoring to review standalone placement, option-selection guidance, optional preparation, and written duration envelopes. This supplements schema validation. App discovery uses explicit philosophy reuse and parent hierarchy context without changing shared card provenance.
+
+The subsequent full pipeline pass added nine cards and revised 282 existing cards. It replaced generic weekly rhythms, corrected session menus, added conditional sequencing and alternatives, and completed the Lydiard, assessment, accumulated-endurance, and heat-preparation branches. Run `py -m training_cards.scripts.cache.audit_pipeline` after pipeline or reuse changes, alongside cache validation and the session audit when sessions change.
+
+For substantial updates, compare remote content with the downloaded baseline before replacing it, preserve existing Drive file IDs, and verify individual file readback. Publish root metadata after the cards and publish the complete bundle last. Compare the final bundle with the validated working copy and run the pipeline audit on the downloaded result. A prepared browser bundle also contains app philosophy descriptions, so compare its shared library fields rather than requiring its extra app fields to disappear.
 
 ## Python Cloud Reference
 

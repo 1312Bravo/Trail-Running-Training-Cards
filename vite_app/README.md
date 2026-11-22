@@ -27,6 +27,16 @@ pnpm build
 
 The generated `public/data/library.json` is ignored by Git because the accepted card library remains in Google Drive and the local cache remains a working copy.
 
+## Session discovery and checks
+
+Browse searches card text, workout options, session families, and the card's parent phases, blocks, and weeks. For example, select Session and Mainstream Endurance, then search `base` to find ordinary easy aerobic sessions and related base support. Phase labels match whole words so `base` does not match `effort-based`.
+
+Philosophy filters include explicitly inherited and reused cards as well as that philosophy's own cards. Shared cards retain their original coaching provenance. Parent search context stays inside the selected philosophy and follows hierarchy references and reuse metadata. Support and sequencing references do not create phase ancestry. Card library uses the same context inside each philosophy group.
+
+After preparing the current data, run `pnpm test:discovery` for filtering, phase isolation, workout-option search, and pathway reachability checks. From the repository root, run `py -m training_cards.scripts.cache.audit_session_content` to check standalone selection guidance and written workout durations.
+
+Run `py -m training_cards.scripts.cache.audit_pipeline` after hierarchy, weekly content, or reuse changes. It checks every effective philosophy from macro to session, week guidance, reviewed recovery exclusions, and essential session roles. Conditional reference tags appear as tooltips on linked cards in the detail view.
+
 ## Publish updated cards
 
 After cards change in Google Drive, run this from the repository root:

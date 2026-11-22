@@ -84,13 +84,14 @@ MAINSTREAM_MEZZO_NAMES = {
     "mezzo_026": "Quality Touchpoint Block",
     "mezzo_027": "Constraint-Friendly Consistency Block",
     "mezzo_028": "Trail Skill And Terrain Familiarity Block",
+    "mezzo_080": "Heat Preparation Block",
 }
 
 MAINSTREAM_MEZZOS_BY_MACRO = {
     "macro_001": ("mezzo_001", "mezzo_002", "mezzo_003"),
     "macro_002": ("mezzo_004", "mezzo_005", "mezzo_006", "mezzo_028"),
-    "macro_003": ("mezzo_007", "mezzo_008", "mezzo_009"),
-    "macro_004": ("mezzo_010", "mezzo_011", "mezzo_012"),
+    "macro_003": ("mezzo_005", "mezzo_007", "mezzo_008", "mezzo_009"),
+    "macro_004": ("mezzo_010", "mezzo_011", "mezzo_012", "mezzo_080"),
     "macro_005": ("mezzo_013", "mezzo_014", "mezzo_015"),
     "macro_006": ("mezzo_016", "mezzo_017", "mezzo_018"),
     "macro_007": ("mezzo_019", "mezzo_020", "mezzo_021"),
@@ -157,6 +158,12 @@ def _reused(
 
 
 MACRO_MEZZO_REUSE_ENTRIES: tuple[MacroMezzoReuse, ...] = (
+    *_reused(ENDURANCE_80_20, "macro_012", "80/20 Race-Specific Preparation", "mezzo_080"),
+    *_reused(LYDIARD, "macro_018", "Lydiard Race-Specific Preparation", "mezzo_080"),
+    *_reused(CTS, "macro_022", "CTS Race-Specific Preparation", "mezzo_080"),
+    *_reused(EVOKE_ENDURANCE, "macro_026", "Evoke Race-Specific Preparation", "mezzo_080"),
+    *_reused(SWAP, "macro_030", "SWAP Race-Specific Preparation", "mezzo_080"),
+    *_reused(SHARMAN_ULTRA, "macro_037", "Sharman Ultra Race-Specific Preparation", "mezzo_080"),
     *_inherited(ENDURANCE_80_20, "macro_001"),
     *_inherited(ENDURANCE_80_20, "macro_005"),
     *_inherited(ENDURANCE_80_20, "macro_007"),
