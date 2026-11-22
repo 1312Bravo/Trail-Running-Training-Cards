@@ -81,7 +81,9 @@ export function CardPreview({
     "philosophy_profile_ids",
   ].filter((field) => data.display_config.preview_fields.includes(field));
   return (
-    <article className={`preview-card card-${card.card_type} ${compact ? "preview-card-compact" : ""}`}>
+    <div className="preview-card-item">
+      {onSelect && <div className="preview-select-row"><button className="text-action" type="button" onClick={() => onSelect(card)}>{selectLabel ?? "Select"}</button></div>}
+      <article className={`preview-card card-${card.card_type} ${compact ? "preview-card-compact" : ""}`}>
       <div className="preview-card-title">
         <span className="preview-card-title-text">{card.title}</span>
         <CardPips type={card.card_type} />
@@ -91,11 +93,6 @@ export function CardPreview({
           {displayLabel(card.card_type)}
         </div>
         <div className="preview-actions">
-          {onSelect && (
-            <button className="button button-small" type="button" onClick={() => onSelect(card)}>
-              {selectLabel ?? "Select"}
-            </button>
-          )}
           <button className="text-action" type="button" onClick={() => onOpen(card)}>
             {compact ? "Open full card" : "Open card"}
           </button>
@@ -116,7 +113,8 @@ export function CardPreview({
         return text ? <PreviewField key={field} label={fieldLabel(data, field)} value={text} /> : null;
       })}
       <TagLabels tags={card.tags ?? []} selectedTags={selectedTags} onToggle={onToggleTag} footer />
-    </article>
+      </article>
+    </div>
   );
 }
 

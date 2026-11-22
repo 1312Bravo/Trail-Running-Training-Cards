@@ -37,6 +37,20 @@ After preparing the current data, run `pnpm test:discovery` for filtering, phase
 
 Run `py -m training_cards.scripts.cache.audit_pipeline` after hierarchy, weekly content, or reuse changes. It checks every effective philosophy from macro to session, week guidance, reviewed recovery exclusions, and essential session roles. Conditional reference tags appear as tooltips on linked cards in the detail view.
 
+## My Plan
+
+Open My Plan after Build pathway. Use the shared Macro-to-Session selector above the calendar. Selecting a calendar day loads the cards planned for that day into the selector. Choose the next linked card, set its date or date range in the inline editor, and add it to the calendar. Multiple sessions can share a day.
+
+Calendar labels and displayed dates use English. Enter planning dates as YYYY-MM-DD.
+
+Selecting a day loads its planned cards into the shared pathway selector and filters the next choices through the library's existing relationships. Use Show all to browse other cards at that level. Year gives an overview of marked days, and Month shows card titles. Open card shows the existing card details.
+
+Date entry appears inline after choosing a card. Children must stay inside their parent dates, and periods at the same level cannot overlap. To adjust a saved range, select that step again and save the updated dates.
+
+Plans save automatically in localStorage for this site's address, browser profile, and device. Local development addresses and the published site have separate plans. Clearing site data removes the saved plan. Saving failures appear beside the inline date form. Missing library cards retain their dates.
+
+The iteration plan is in `PLAN.md`. Week view, repeated weeks, and moving whole blocks can be added after reviewing this first version.
+
 ## Publish updated cards
 
 After cards change in Google Drive, run this from the repository root:

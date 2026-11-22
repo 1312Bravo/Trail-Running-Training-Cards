@@ -60,6 +60,7 @@ export const APP_MODES = [
   "Today session",
   "Card library",
   "Build pathway",
+  "My Plan",
   "Coaching philosophies",
 ] as const;
 export type AppMode = (typeof APP_MODES)[number];
@@ -96,6 +97,14 @@ export const DETAIL_SECTION_ORDER = [
 ];
 
 export const MODE_INFO: Record<AppMode, { intro: string; bullets: string[] }> = {
+  "My Plan": {
+    intro: "Place training cards on a calendar and explore choices for the selected day.",
+    bullets: [
+      "Start with a macro phase, then add blocks, weeks, and sessions inside it.",
+      "Use year and month views to see your plan at different scales.",
+      "Your plan saves in this browser on this device.",
+    ],
+  },
   "Browse cards": {
     intro: "A flexible deck view for exploring cards across every training level or finding a specific idea quickly.",
     bullets: [

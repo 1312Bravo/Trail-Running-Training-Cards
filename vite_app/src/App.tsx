@@ -9,6 +9,8 @@ import {
   ProfileFilter,
 } from "./components";
 import { CardDetail } from "./detail";
+import { PathwaySelector } from "./PathwaySelector";
+import { MyPlan } from "./plan/MyPlan";
 import {
   APP_MODES,
   APP_TITLE,
@@ -26,7 +28,6 @@ import {
   cardMatchesSearch,
   cardsOfType,
   displayLabel,
-  getChildCards,
   loadLibrary,
   matchesAllTerms,
   matchesPhilosophies,
@@ -42,17 +43,11 @@ type ModalState =
   | null;
 
 const LEVEL_LABELS = ["All", "Macro", "Mezzo", "Micro", "Session"];
-const PATHWAY_LABELS: Record<CardType, string> = {
-  macro: "Macro",
-  mezzo: "Mezzo",
-  micro: "Micro",
-  session: "Session",
-};
-
 export default function App() {
   const [data, setData] = useState<WebLibraryData | null>(null);
   const [loadError, setLoadError] = useState("");
   const [mode, setMode] = useState<AppMode>(APP_MODES[0]);
+  const [planSaveStatus, setPlanSaveStatus] = useState("Saved in this browser");
   const [modal, setModal] = useState<ModalState>(null);
   const [cardHistory, setCardHistory] = useState<string[]>([]);
 
@@ -62,8 +57,6 @@ export default function App() {
   const [tags, setTags] = useState<string[]>([]);
   const [todayTerms, setTodayTerms] = useState<string[]>([]);
   const [todayInput, setTodayInput] = useState("");
-  const [pathwayTerms, setPathwayTerms] = useState<string[]>([]);
-  const [pathwayInput, setPathwayInput] = useState("");
   const [pathway, setPathway] = useState<Record<CardType, string | null>>({
     macro: null,
     mezzo: null,
@@ -129,17 +122,11 @@ export default function App() {
     resetPages();
   };
   const removeTag = (tag: string) => setTags((current) => current.filter((item) => item !== tag));
-  const addSearchTerm = (kind: "today" | "pathway") => {
-    const currentInput = kind === "today" ? todayInput : pathwayInput;
-    const term = currentInput.trim();
+  const addSearchTerm = () => {
+    const term = todayInput.trim();
     if (!term) return;
-    if (kind === "today") {
-      setTodayTerms((current) => current.includes(term) ? current : [...current, term]);
-      setTodayInput("");
-    } else {
-      setPathwayTerms((current) => current.includes(term) ? current : [...current, term]);
-      setPathwayInput("");
-    }
+    setTodayTerms((current) => current.includes(term) ? current : [...current, term]);
+    setTodayInput("");
     resetPages();
   };
 
@@ -212,7 +199,7 @@ export default function App() {
     return <>
       <section className="mode-toolbar">
         <div className="toolbar-controls">
-          <form className="search-with-add" onSubmit={(event) => { event.preventDefault(); addSearchTerm("today"); }}>
+          <form className="search-with-add" onSubmit={(event) => { event.preventDefault(); addSearchTerm(); }}>
             <input aria-label="Search session cards" value={todayInput} onChange={(event) => setTodayInput(event.target.value)} placeholder="Search today's session" />
             <button className="plain-button" type="submit" disabled={!todayInput.trim()}>Add</button>
           </form>
@@ -224,72 +211,17 @@ export default function App() {
     </>;
   };
 
-  const selectedPathway = Object.fromEntries(
-    CARD_TYPES.map((level) => [level, pathway[level] ? cardsById.get(pathway[level]!) ?? null : null]),
-  ) as Record<CardType, TrainingCard | null>;
-  const nextLevel = CARD_TYPES.find((level) => !selectedPathway[level]);
-  const previousLevel = nextLevel ? CARD_TYPES[CARD_TYPES.indexOf(nextLevel) - 1] : null;
-  const parentCardId = previousLevel ? selectedPathway[previousLevel]?.id : undefined;
-
-  const renderPathway = () => {
-    const candidates = nextLevel
-      ? previousLevel && selectedPathway[previousLevel]
-        ? getChildCards(data, data.cards, selectedPathway[previousLevel]!, nextLevel)
-        : cardsOfType(data.cards, nextLevel)
-      : [];
-    const visible = filtered(candidates, "", pathwayTerms, parentCardId);
-    const choosePathwayCard = (card: TrainingCard) => {
-      setPathway((current) => {
-        const next = { ...current, [card.card_type]: card.id };
-        for (const level of CARD_TYPES.slice(CARD_TYPES.indexOf(card.card_type) + 1)) next[level] = null;
-        return next;
-      });
-      setPathwayTerms([]);
-      setPathwayInput("");
-      resetPages();
-    };
-    const clearPathwayFrom = (level: CardType) => setPathway((current) => {
-      const next = { ...current };
-      for (const item of CARD_TYPES.slice(CARD_TYPES.indexOf(level))) next[item] = null;
-      return next;
-    });
-    return <>
-      <section className="pathway-selection">
-        <div className="pathway-steps">
-          {CARD_TYPES.map((level) => {
-            const card = selectedPathway[level];
-            return <div className={`pathway-step pathway-step-${level}`} key={level}>
-              <div className="pathway-level-label">{PATHWAY_LABELS[level]}</div>
-              <div className="pathway-level-rule" />
-              {card ? <>
-                <div className="pathway-selected-title">{card.title}</div>
-                <div className="pathway-step-actions"><button className="text-action" type="button" onClick={() => openCard(card)}>Open card</button><button className="text-action" type="button" onClick={() => clearPathwayFrom(level)}>Remove</button></div>
-              </> : <div className="pathway-empty">Not selected</div>}
-            </div>;
-          })}
-        </div>
-        <div className="pathway-summary-footer-rule" />
-        <button className="plain-button clear-pathway" type="button" disabled={!CARD_TYPES.some((level) => pathway[level])} onClick={() => setPathway({ macro: null, mezzo: null, micro: null, session: null })}>Clear pathway</button>
-      </section>
-      {nextLevel ? <>
-        <section className="mode-toolbar">
-          <div className="toolbar-controls">
-            <form className="search-with-add" onSubmit={(event) => { event.preventDefault(); addSearchTerm("pathway"); }}>
-              <input aria-label="Search current cards" value={pathwayInput} onChange={(event) => setPathwayInput(event.target.value)} placeholder={`Search ${nextLevel} cards`} />
-              <button className="plain-button" type="submit" disabled={!pathwayInput.trim()}>Add</button>
-            </form>
-            <ProfileFilter data={data} value={profiles} onChange={(next) => { setProfiles(next); resetPages(); }} />
-          </div>
-          <ActiveFilters tags={tags} onRemoveTag={removeTag} terms={pathwayTerms} onRemoveTerm={(term) => setPathwayTerms((current) => current.filter((item) => item !== term))} />
-        </section>
-        {visible.length ? renderCards(visible, `pathway_${nextLevel}`, choosePathwayCard, "Select") : <p className="empty-state">No {nextLevel} cards match the current pathway search.</p>}
-      </> : <>
-        <p className="pathway-complete">Pathway complete. Open any selected card to inspect details, or remove a step to revise the pathway.</p>
-        <h2 className="card-group-title">Chosen pathway cards</h2>
-        {renderCards(CARD_TYPES.map((level) => selectedPathway[level]!).filter(Boolean), "completed_pathway")}
-      </>}
-    </>;
-  };
+  const renderPathway = () => <PathwaySelector
+    data={data}
+    cardsById={cardsById}
+    value={pathway}
+    onChange={setPathway}
+    onOpen={openCard}
+    selectedTags={tags}
+    onToggleTag={toggleTag}
+    profiles={profiles}
+    onProfilesChange={(next) => { setProfiles(next); resetPages(); }}
+  />;
 
   const renderLibrary = () => {
     const levels = libraryLevel === "All" ? CARD_TYPES : [libraryLevel.toLowerCase() as CardType];
@@ -372,6 +304,7 @@ export default function App() {
   };
 
   const renderMode = () => {
+    if (mode === "My Plan") return <MyPlan data={data} onOpen={openCard} selectedTags={tags} onToggleTag={toggleTag} profiles={profiles} onProfilesChange={setProfiles} onSaveStatusChange={setPlanSaveStatus} />;
     if (mode === "Browse cards") return renderBrowse();
     if (mode === "Today session") return renderToday();
     if (mode === "Card library") return renderLibrary();
@@ -399,7 +332,7 @@ export default function App() {
           </nav>
           <details className="mode-info" ref={modeInfoRef}>
             <summary aria-label={`About ${mode}`} title={`About ${mode}`}>ⓘ</summary>
-            <div className="mode-info-copy"><strong>{mode}</strong><p>{MODE_INFO[mode].intro}</p><ul>{MODE_INFO[mode].bullets.map((line) => <li key={line}>{line}</li>)}</ul></div>
+            <div className="mode-info-copy"><strong>{mode}</strong><p>{MODE_INFO[mode].intro}</p><ul>{MODE_INFO[mode].bullets.map((line) => <li key={line}>{line}</li>)}</ul>{mode === "My Plan" && <p className="mode-info-status" role="status">{planSaveStatus} · This device</p>}</div>
           </details>
         </div>
       </header>
