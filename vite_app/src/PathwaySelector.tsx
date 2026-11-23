@@ -7,7 +7,7 @@ export type PathwayValue = Record<CardType, string | null>;
 
 export function PathwaySelector({
   data, cardsById, value, onChange, onOpen, selectedTags, onToggleTag, profiles, onProfilesChange,
-  selectLabel = "Select", onSelectCard, onResetFrom, showCompletedCards = true,
+  selectLabel = "Select", onSelectCard, onResetFrom, showCompletedCards = true, selectionLocked = false,
 }: {
   data: WebLibraryData;
   cardsById: Map<string, TrainingCard>;
@@ -22,6 +22,7 @@ export function PathwaySelector({
   onSelectCard?: (card: TrainingCard) => void;
   onResetFrom?: (level: CardType) => void;
   showCompletedCards?: boolean;
+  selectionLocked?: boolean;
 }) {
   const [terms, setTerms] = useState<string[]>([]);
   const [input, setInput] = useState("");
@@ -73,7 +74,7 @@ export function PathwaySelector({
       <div className="pathway-summary-footer-rule" />
       <button className="plain-button clear-pathway" type="button" disabled={!CARD_TYPES.some((level) => value[level])} onClick={() => onResetFrom ? onResetFrom("macro") : onChange({ macro: null, mezzo: null, micro: null, session: null })}>Reset pathway</button>
     </section>
-    {nextLevel ? <>
+    {nextLevel && !selectionLocked ? <>
       <section className="mode-toolbar">
         <div className="toolbar-controls">
           <form className="search-with-add" onSubmit={(event) => { event.preventDefault(); addTerm(); }}><input aria-label={`Search ${nextLevel} cards`} value={input} onChange={(event) => setInput(event.target.value)} placeholder={`Search ${nextLevel} cards`} /><button className="plain-button" type="submit" disabled={!input.trim()}>Add</button></form>
@@ -82,6 +83,6 @@ export function PathwaySelector({
         <ActiveFilters tags={selectedTags} onRemoveTag={(tag) => onToggleTag(tag)} terms={terms} onRemoveTerm={(term) => { setTerms((current) => current.filter((item) => item !== term)); setPages({}); }} />
       </section>
       {items.length ? <div className="paginated-cards" data-page-start><CardsGrid cards={items} data={data} onOpen={onOpen} onSelect={choose} selectLabel={selectLabel} selectedTags={selectedTags} onToggleTag={onToggleTag} /><Pagination total={visible.length} pageSize={PAGE_SIZE} page={page} onChange={(next) => setPages((current) => ({ ...current, [nextLevel]: next }))} /></div> : <p className="empty-state">No {nextLevel} cards match the current pathway filters.</p>}
-    </> : showCompletedCards ? <><p className="pathway-complete">Pathway complete. Open a card to inspect details, or remove a step to revise it.</p><h2 className="card-group-title">Chosen pathway cards</h2><CardsGrid cards={CARD_TYPES.map((level) => selected[level]!).filter(Boolean)} data={data} onOpen={onOpen} selectedTags={selectedTags} onToggleTag={onToggleTag} /></> : <p className="pathway-complete">Pathway selection complete.</p>}
+    </> : selectionLocked ? null : showCompletedCards ? <><p className="pathway-complete">Pathway complete. Open a card to inspect details, or remove a step to revise it.</p><h2 className="card-group-title">Chosen pathway cards</h2><CardsGrid cards={CARD_TYPES.map((level) => selected[level]!).filter(Boolean)} data={data} onOpen={onOpen} selectedTags={selectedTags} onToggleTag={onToggleTag} /></> : <p className="pathway-complete">Pathway selection complete.</p>}
   </>;
 }

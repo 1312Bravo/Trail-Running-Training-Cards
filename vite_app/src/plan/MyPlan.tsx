@@ -1,12 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { CARD_TYPES, type CardType, type TrainingCard, type WebLibraryData } from "../types";
 import { PathwaySelector, type PathwayValue } from "../PathwaySelector";
-import { covers, dateKey, decodeDrafts, decodePlan, descendantIds, DRAFTS_STORAGE_KEY, LEVEL_NAMES, parseDay, STORAGE_KEY, type Placement, type PlanDrafts } from "./model";
+import { CardPreview } from "../components";
+import { BlockScheduleForm } from "./BlockScheduleForm";
+import { covers, dateKey, decodeDrafts, decodePlan, decodeSchedules, descendantIds, DRAFTS_STORAGE_KEY, LEVEL_NAMES, parseDay, placementError, SCHEDULES_STORAGE_KEY, STORAGE_KEY, type BlockLevel, type BlockSchedule, type Placement, type PlanDrafts, type PlanSchedules } from "./model";
 import "./plan.css";
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const monthName = (date: Date) => date.toLocaleDateString("en-GB", { month: "long" });
 const readableDay = (day: string) => parseDay(day).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
+function scheduleFor(entries: Placement[], schedules: PlanSchedules, day: string, level: BlockLevel, cardId: string | null): BlockSchedule | undefined {
+  if (!cardId) return undefined;
+  const placement = entries.find((item) => item.level === level && item.cardId === cardId && covers(item, day));
+  if (!placement) return undefined;
+  const stored = schedules[day]?.[level];
+  if (stored?.cardId === cardId && stored.start === placement.start && stored.end === placement.end) return stored;
+  return { cardId, start: placement.start, end: placement.end, unit: level === "micro" ? "days" : "weeks", duration: null, customEnd: true };
+}
 
 export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onProfilesChange, onSaveStatusChange }: {
   data: WebLibraryData;
@@ -17,12 +28,13 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
   onProfilesChange: (profiles: string[]) => void;
   onSaveStatusChange: (status: string) => void;
 }) {
-  const [initial] = useState<{ entries: Placement[]; drafts: PlanDrafts; error: string }>(() => {
-    try { return { entries: decodePlan(localStorage.getItem(STORAGE_KEY)), drafts: decodeDrafts(localStorage.getItem(DRAFTS_STORAGE_KEY)), error: "" }; }
-    catch { return { entries: [], drafts: {}, error: "Your saved plan or selections could not be read. Reload to try again. Saving is paused to protect them." }; }
+  const [initial] = useState<{ entries: Placement[]; drafts: PlanDrafts; schedules: PlanSchedules; error: string }>(() => {
+    try { return { entries: decodePlan(localStorage.getItem(STORAGE_KEY)), drafts: decodeDrafts(localStorage.getItem(DRAFTS_STORAGE_KEY)), schedules: decodeSchedules(localStorage.getItem(SCHEDULES_STORAGE_KEY)), error: "" }; }
+    catch { return { entries: [], drafts: {}, schedules: {}, error: "Your saved plan or selections could not be read. Reload to try again. Saving is paused to protect them." }; }
   });
   const [entries, setEntries] = useState(initial.entries);
   const [drafts, setDrafts] = useState(initial.drafts);
+  const [schedules, setSchedules] = useState(initial.schedules);
   const [storageError, setStorageError] = useState(initial.error);
   const [saveStatus, setSaveStatus] = useState("Saved in this browser");
   const [day, setDay] = useState(() => dateKey(new Date()));
@@ -32,6 +44,9 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
   const [pathway, setPathway] = useState<PathwayValue>(() => initial.drafts[day] ?? Object.fromEntries(CARD_TYPES.map((type) => [type, initial.entries.find((entry) => entry.level === type && covers(entry, day))?.cardId ?? null])) as PathwayValue);
   const cards = useMemo(() => new Map(data.cards.map((card) => [card.id, card])), [data]);
   const unavailable = entries.filter((item) => !cards.has(item.cardId)).length;
+  const scheduleStep = (["macro", "mezzo", "micro"] as const).map((level) => ({ level, card: cards.get(pathway[level] ?? "") })).find(({ level, card }) => card && !scheduleFor(entries, schedules, day, level, card.id));
+  const parentLevel = scheduleStep ? CARD_TYPES[CARD_TYPES.indexOf(scheduleStep.level) - 1] as BlockLevel | undefined : undefined;
+  const parentSchedule = parentLevel ? scheduleFor(entries, schedules, day, parentLevel, pathway[parentLevel]) : undefined;
 
   useEffect(() => {
     onSaveStatusChange(storageError ? "Saving paused" : saveStatus);
@@ -40,15 +55,17 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
   // Accept updates from another tab without writing them back in a storage loop.
   useEffect(() => {
     const receive = (event: StorageEvent) => {
-      if (event.key !== STORAGE_KEY && event.key !== DRAFTS_STORAGE_KEY && event.key !== null) return;
+      if (event.key !== STORAGE_KEY && event.key !== DRAFTS_STORAGE_KEY && event.key !== SCHEDULES_STORAGE_KEY && event.key !== null) return;
       try {
         if (event.key === null) {
-          setEntries([]); setDrafts({});
+          setEntries([]); setDrafts({}); setSchedules({});
           setPathway(Object.fromEntries(CARD_TYPES.map((type) => [type, null])) as PathwayValue);
         } else if (event.key === DRAFTS_STORAGE_KEY) {
           const next = decodeDrafts(event.newValue);
           setDrafts(next);
           setPathway(next[day] ?? Object.fromEntries(CARD_TYPES.map((type) => [type, entries.find((item) => item.level === type && covers(item, day))?.cardId ?? null])) as PathwayValue);
+        } else if (event.key === SCHEDULES_STORAGE_KEY) {
+          setSchedules(decodeSchedules(event.newValue));
         } else {
           const next = decodePlan(event.newValue);
           setEntries(next);
@@ -59,7 +76,7 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
     };
     window.addEventListener("storage", receive);
     return () => window.removeEventListener("storage", receive);
-  }, [day, drafts, entries]);
+  }, [day, drafts, entries, schedules]);
 
   function commit(next: Placement[]) {
     if (storageError) return false;
@@ -81,6 +98,37 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
     }
   }
 
+  function saveBlockSchedule(level: BlockLevel, schedule: BlockSchedule) {
+    if (storageError) return;
+    const parentLevel = CARD_TYPES[CARD_TYPES.indexOf(level) - 1];
+    const parent = parentLevel ? entries.find((item) => item.level === parentLevel && item.cardId === pathway[parentLevel] && covers(item, day)) : undefined;
+    const existing = entries.find((item) => item.level === level && item.cardId === schedule.cardId && covers(item, day));
+    const placement: Placement = {
+      id: existing?.id ?? crypto.randomUUID(),
+      cardId: schedule.cardId,
+      level,
+      start: schedule.start,
+      end: schedule.end,
+      parentId: parent?.id ?? null,
+    };
+    const nextEntries = existing
+      ? entries.map((item) => item.id === existing.id ? placement : item)
+      : [...entries, placement];
+    const invalid = placementError(placement, nextEntries);
+    if (invalid) {
+      setError(invalid);
+      return;
+    }
+    const nextSchedules = { ...schedules, [day]: { ...schedules[day], [level]: schedule } };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: 1, placements: nextEntries }));
+      localStorage.setItem(SCHEDULES_STORAGE_KEY, JSON.stringify({ version: 1, schedules: nextSchedules }));
+      setEntries(nextEntries); setSchedules(nextSchedules); setSaveStatus("Saved in this browser"); setError("");
+    } catch {
+      setSaveStatus("Could not save"); setError("This browser could not save the block dates. Free up browser storage or allow site storage, then try again.");
+    }
+  }
+
   function selectDay(next: string) {
     setDay(next); setCursor(parseDay(next));
     setPathway(drafts[next] ?? Object.fromEntries(CARD_TYPES.map((type) => [type, entries.find((entry) => entry.level === type && covers(entry, next))?.cardId ?? null])) as PathwayValue);
@@ -96,9 +144,15 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
     const nextPathway = { ...pathway };
     for (const type of CARD_TYPES.slice(CARD_TYPES.indexOf(resetLevel))) nextPathway[type] = null;
     const nextDrafts = { ...drafts, [day]: nextPathway };
+    const nextDaySchedules = { ...schedules[day] };
+    for (const level of ["macro", "mezzo", "micro"] as const) {
+      if (CARD_TYPES.indexOf(level) >= CARD_TYPES.indexOf(resetLevel)) delete nextDaySchedules[level];
+    }
+    const nextSchedules = { ...schedules, [day]: nextDaySchedules };
     try {
       localStorage.setItem(DRAFTS_STORAGE_KEY, JSON.stringify({ version: 1, drafts: nextDrafts }));
-      setDrafts(nextDrafts); setPathway(nextPathway); setSaveStatus("Saved in this browser");
+      localStorage.setItem(SCHEDULES_STORAGE_KEY, JSON.stringify({ version: 1, schedules: nextSchedules }));
+      setDrafts(nextDrafts); setSchedules(nextSchedules); setPathway(nextPathway); setSaveStatus("Saved in this browser");
     } catch {
       setSaveStatus("Could not save"); setError("This browser could not save your reset. Free up browser storage or allow site storage, then try again."); return;
     }
@@ -139,7 +193,15 @@ export function MyPlan({ data, onOpen, selectedTags, onToggleTag, profiles, onPr
     {unavailable > 0 && <p className="plan-notice">{unavailable} planned card(s) are unavailable in this library. Their dates are kept.</p>}
     <PathwaySelector data={data} cardsById={cards} value={pathway} onChange={updatePathway} onOpen={onOpen}
       selectedTags={selectedTags} onToggleTag={onToggleTag} profiles={profiles} onProfilesChange={onProfilesChange}
-      onResetFrom={resetFrom} showCompletedCards={false} />
+      onResetFrom={resetFrom} showCompletedCards={false} selectionLocked={Boolean(scheduleStep)} />
+    {scheduleStep?.card && <div className="plan-schedule-layout">
+      <section className="plan-active-card" aria-label="Card being scheduled">
+        <CardPreview card={scheduleStep.card} data={data} onOpen={onOpen} selectedTags={selectedTags} onToggleTag={onToggleTag} compact />
+      </section>
+      <BlockScheduleForm key={`${day}-${scheduleStep.level}-${scheduleStep.card.id}`} card={scheduleStep.card} level={scheduleStep.level}
+        defaultStart={parentSchedule?.start ?? day} saved={scheduleFor(entries, schedules, day, scheduleStep.level, scheduleStep.card.id)} minDate={parentSchedule?.start} maxDate={parentSchedule?.end}
+        disabled={Boolean(storageError)} onSave={(schedule) => saveBlockSchedule(scheduleStep.level, schedule)} />
+    </div>}
     {error && <p className="plan-error" role="alert">{error}</p>}
     <div className="plan-calendar">
       <div className="plan-calendar-toolbar">

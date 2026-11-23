@@ -8,7 +8,7 @@
 .plan-view-switch .button { min-height: 2rem; padding: .28rem .2rem .34rem; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; box-shadow: none; color: #62645f; font-size: .86rem; }
 .plan-view-switch .button:hover { border-bottom-color: #b8bab3; background: transparent; }
 .plan-view-switch [aria-pressed="true"] { border-bottom-color: var(--card-gold); color: #20221f; font-weight: 600; }
-.plan-period-nav .button { padding: .12rem .3rem; border: 0; border-bottom: 1px solid transparent; border-radius: 0; background: transparent; box-shadow: none; color: #5c5133; }
+.plan-period-nav .button { padding: .12rem .3rem; border: 0; border-bottom: 1px solid transparent; border-radius: 0; background: transparent; box-shadow: none; color: #252525; }
 .plan-period-nav .button:hover { border-bottom-color: var(--card-gold); background: transparent; }
 .plan-legend { display: flex; flex-wrap: wrap; gap: .45rem 1rem; margin-bottom: 1rem; color: #64665f; font-size: .78rem; }
 .plan-legend > span { display: inline-flex; align-items: center; gap: .35rem; }
@@ -41,7 +41,32 @@
 .plan-dots i { width: 4px; height: 4px; }
 .plan-error { color: #8a332b; background: #fff2ef; padding: .7rem; font-size: .85rem; }
 .plan-notice { background: #f6f1df; padding: .7rem; font-size: .85rem; }
+.plan-schedule-layout { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1.75rem; max-width: 1120px; margin: 1.25rem auto 1.75rem; }
+.plan-schedule-layout::before { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: #dedfd9; content: ""; transform: translateX(-.5px); pointer-events: none; }
+.plan-active-card { min-width: 0; }
+.plan-active-card .preview-card-item { margin: 0; }
+.plan-active-card .preview-card { box-shadow: 0 2px 8px rgb(40 41 35 / 7%); }
+.plan-schedule-form { display: grid; gap: .95rem 1.1rem; grid-template-columns: minmax(0, 1fr) auto; align-items: end; min-width: 0; margin: 0; padding: 1.1rem 1.25rem; border: 1px solid #dedfd9; border-left: 3px solid var(--card-gold); border-radius: 10px; background: linear-gradient(145deg, #fff 0%, #fbfaf6 100%); box-shadow: 0 2px 8px rgb(40 41 35 / 5%); }
+.plan-schedule-heading { grid-column: 1 / -1; }
+.plan-schedule-heading > span { color: #73756e; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.plan-schedule-heading h3 { margin: .1rem 0 0; font-size: 1.12rem; font-weight: 600; }
+.plan-schedule-recommendation { grid-column: 1 / -1; margin: -.35rem 0 0; padding: .55rem .7rem; border-left: 2px solid #d7d8d2; background: #f7f7f4; color: #555752; font-size: .86rem; }
+.plan-schedule-recommendation strong { color: #252525; font-weight: 600; }
+.plan-schedule-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem 1rem; grid-column: 1 / -1; }
+.plan-schedule-fields label { display: grid; gap: .3rem; color: #53564f; font-size: .8rem; }
+.plan-schedule-fields input { width: 100%; min-height: 2.5rem; padding: .4rem .6rem; border: 1px solid #c9cac4; border-radius: 6px; background: #fff; color: #252525; }
+.plan-schedule-fields input:focus { border-color: var(--card-gold); }
+.plan-schedule-method { display: flex; gap: .85rem; align-items: center; grid-column: 1 / -1; border-bottom: 1px solid #e1e2dd; }
+.plan-schedule-method .text-action { border-bottom: 2px solid transparent; color: #252525; text-decoration: none; }
+.plan-schedule-method .text-action[aria-pressed="true"] { border-bottom-color: var(--card-gold); color: #252525; }
+.plan-schedule-preview { display: grid; gap: .15rem; align-self: center; padding: .55rem .7rem; border-left: 2px solid #d7d8d2; background: #f7f7f4; color: #62645f; font-size: .75rem; }
+.plan-schedule-preview strong { color: #252525; font-size: .92rem; font-weight: 600; }
+.plan-schedule-preview small { color: #777970; font-size: .72rem; }
+.plan-schedule-save { grid-column: 2; grid-row: 5; min-height: 2.2rem; padding: .4rem .75rem; }
 @media (max-width: 1100px) { .plan-year { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 800px) { .plan-year { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 540px) { .plan-year { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } .plan-day, .plan-blank { min-height: 86px; } .plan-band { font-size: .6rem; padding-left: .1rem; } .plan-calendar-toolbar { gap: .75rem; } }
 @media (max-width: 700px) {  }
+@media (max-width: 760px) { .plan-schedule-layout { grid-template-columns: minmax(0, 1fr); gap: .85rem; margin-top: .9rem; } .plan-schedule-layout::before { display: none; } .plan-active-card .preview-card { padding: .65rem; } .plan-active-card .preview-field, .plan-active-card .preview-footer-tags { display: none; } .plan-active-card .preview-summary { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; margin: .45rem 0; } .plan-schedule-form { padding: .85rem; } }
+@media (max-width: 600px) { .plan-schedule-form { grid-template-columns: 1fr; } .plan-schedule-preview, .plan-schedule-save { grid-column: 1; grid-row: auto; justify-self: start; } }
+@media (max-width: 440px) { .plan-schedule-fields { grid-template-columns: 1fr; } }

@@ -11,8 +11,19 @@ export interface Placement {
 
 export const STORAGE_KEY = "run-companion-deck.plan.v1";
 export const DRAFTS_STORAGE_KEY = "run-companion-deck.plan-drafts.v1";
+export const SCHEDULES_STORAGE_KEY = "run-companion-deck.plan-schedules.v1";
 export type SavedPathway = Record<CardType, string | null>;
 export type PlanDrafts = Record<string, SavedPathway>;
+export type BlockLevel = Exclude<CardType, "session">;
+export interface BlockSchedule {
+  cardId: string;
+  start: string;
+  end: string;
+  unit: "weeks" | "days";
+  duration: number | null;
+  customEnd: boolean;
+}
+export type PlanSchedules = Record<string, Partial<Record<BlockLevel, BlockSchedule>>>;
 export const LEVEL_NAMES: Record<CardType, string> = {
   macro: "Macro phase", mezzo: "Mezzo block", micro: "Micro week", session: "Session",
 };
@@ -96,4 +107,23 @@ export function decodeDrafts(raw: string | null): PlanDrafts {
     })) as SavedPathway;
   }
   return drafts;
+}
+
+export function decodeSchedules(raw: string | null): PlanSchedules {
+  if (!raw) return {};
+  const saved: unknown = JSON.parse(raw);
+  if (!saved || typeof saved !== "object" || !("version" in saved) || saved.version !== 1 || !("schedules" in saved) || !saved.schedules || typeof saved.schedules !== "object" || Array.isArray(saved.schedules)) throw new Error("Unsupported block schedules.");
+  const schedules: PlanSchedules = {};
+  for (const [day, value] of Object.entries(saved.schedules)) {
+    if (!validDay(day) || !value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid block schedule.");
+    const daySchedules: Partial<Record<BlockLevel, BlockSchedule>> = {};
+    for (const level of ["macro", "mezzo", "micro"] as const) {
+      const item = (value as Partial<Record<BlockLevel, BlockSchedule>>)[level];
+      if (item === undefined) continue;
+      if (!item || typeof item.cardId !== "string" || !item.cardId || !validDay(item.start) || !validDay(item.end) || item.start > item.end || !["weeks", "days"].includes(item.unit) || !(item.duration === null || (typeof item.duration === "number" && Number.isInteger(item.duration) && item.duration > 0)) || typeof item.customEnd !== "boolean") throw new Error("Invalid block schedule.");
+      daySchedules[level] = item;
+    }
+    schedules[day] = daySchedules;
+  }
+  return schedules;
 }
